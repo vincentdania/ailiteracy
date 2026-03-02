@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} | Blog{% endblock title %}
+
+{% block content %}
+<article class="max-w-4xl mx-auto px-4 py-10">
+    <div class="rounded-2xl bg-white border border-slate-200 p-8 shadow-sm">
+        <p class="text-xs font-black uppercase tracking-wider text-slate-400">{{ post.published_at|date:"M d, Y" }}</p>
+        <h1 class="text-4xl md:text-5xl font-black mt-3 text-deep-blue leading-tight">{{ post.title }}</h1>
+        <div class="prose max-w-none mt-8 text-slate-700 leading-relaxed">
+            {{ post.content|linebreaks }}
+        </div>
+    </div>
+</article>
+{% endblock content %}

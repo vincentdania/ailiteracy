@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Library | AILiteracy.ng{% endblock title %}
+
+{% block content %}
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="text-4xl font-black tracking-tight text-deep-blue">My Library</h1>
+            <p class="text-slate-600 mt-1">All purchased products and downloadable resources in one place.</p>
+        </div>
+        <a href="{% url 'dashboard' %}" class="inline-flex rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-black hover:border-primary">Back to Dashboard</a>
+    </div>
+
+    <div class="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {% for grant in grants %}
+            <article class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all">
+                <div class="inline-flex items-center gap-2 rounded-full bg-primary/15 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-accent-dark">
+                    <span class="material-symbols-outlined text-sm">verified</span>
+                    Purchased Access
+                </div>
+                <h2 class="text-lg font-black mt-4 text-slate-900">{{ grant.product.title }}</h2>
+                <p class="text-xs text-slate-500 mt-1">Granted on {{ grant.granted_at|date:"M d, Y" }}</p>
+                <div class="mt-5">
+                    {% if grant.product.digital_file %}
+                        <a href="{{ grant.product.digital_file.url }}" class="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-black text-accent-dark hover:brightness-110 transition-all">
+                            <span class="material-symbols-outlined text-base">download</span>
+                            Download File
+                        </a>
+                    {% elif grant.product.download_url %}
+                        <a href="{{ grant.product.download_url }}" class="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-black text-accent-dark hover:brightness-110 transition-all" target="_blank" rel="noopener">
+                            <span class="material-symbols-outlined text-base">open_in_new</span>
+                            Open Download Link
+                        </a>
+                    {% else %}
+                        <p class="text-sm text-slate-500">No file attached yet.</p>
+                    {% endif %}
+                </div>
+            </article>
+        {% empty %}
+            <div class="md:col-span-2 lg:col-span-3 rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
+                <p class="text-slate-600">Your library is empty for now.</p>
+                <a href="{% url 'catalog:course_list' %}" class="inline-flex mt-4 rounded-lg bg-primary px-4 py-2 text-sm font-black text-accent-dark">Browse Courses</a>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock content %}

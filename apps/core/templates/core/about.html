@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}About Us | AILiteracy.ng{% endblock title %}
+
+{% block content %}
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="grid gap-10 lg:grid-cols-2 items-start">
+        <div>
+            <p class="text-xs font-black uppercase tracking-widest text-emerald-700">Our Mission</p>
+            <h1 class="text-5xl font-black text-deep-blue mt-2 tracking-tight">Empowering Nigerians with Practical AI Skills</h1>
+            <p class="mt-5 text-slate-700 leading-relaxed">
+                AILiteracy.ng exists to make AI education practical, accessible, and outcome-driven. We focus on real workflows, local use-cases, and collaborative learning communities.
+            </p>
+            <a href="{% url 'core:community_forum' %}" class="inline-flex mt-6 rounded-xl bg-primary px-6 py-3 text-sm font-black text-accent-dark">Join the community</a>
+        </div>
+        <div class="rounded-2xl bg-white border border-slate-200 p-8 shadow-sm">
+            <h2 class="text-2xl font-black text-deep-blue">Impact Snapshot</h2>
+            <div class="mt-6 grid grid-cols-3 gap-4 text-center">
+                <div class="rounded-xl bg-background-light border border-slate-100 p-4">
+                    <p class="text-2xl font-black text-emerald-700">{{ stats.learners }}</p>
+                    <p class="text-xs text-slate-500">Learners</p>
+                </div>
+                <div class="rounded-xl bg-background-light border border-slate-100 p-4">
+                    <p class="text-2xl font-black text-emerald-700">{{ stats.courses }}</p>
+                    <p class="text-xs text-slate-500">Courses</p>
+                </div>
+                <div class="rounded-xl bg-background-light border border-slate-100 p-4">
+                    <p class="text-2xl font-black text-emerald-700">{{ stats.projects }}</p>
+                    <p class="text-xs text-slate-500">Projects</p>
+                </div>
+            </div>
+            <p class="mt-6 text-sm text-slate-600">From Lagos to Kano, we are building a new generation of AI-confident professionals.</p>
+        </div>
+    </div>
+</section>
+{% endblock content %}

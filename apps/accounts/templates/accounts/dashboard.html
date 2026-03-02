@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | AILiteracy.ng{% endblock title %}
+
+{% block content %}
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+            <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Welcome back, {{ request.user.first_name|default:request.user.email }} 👋</h1>
+            <p class="text-slate-500 mt-1">Track your progress, continue lessons, and access your purchases.</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center gap-4 min-w-[280px]">
+            <div class="flex-1">
+                <div class="flex justify-between mb-1">
+                    <span class="text-xs font-black text-slate-500">OVERALL PROGRESS</span>
+                    <span class="text-xs font-black text-emerald-700">{{ overall_progress }}%</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-2">
+                    <div class="bg-primary h-2 rounded-full" style="width: {{ overall_progress }}%"></div>
+                </div>
+            </div>
+            <div class="flex items-center justify-center size-10 rounded-lg bg-primary/10 text-emerald-700">
+                <span class="material-symbols-outlined">trending_up</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 flex flex-col gap-8">
+            <section>
+                <h2 class="text-xl font-black text-slate-900 mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-emerald-700">play_circle</span>
+                    Continue Learning
+                </h2>
+                {% if next_enrollment %}
+                    <div class="group relative overflow-hidden rounded-xl bg-background-dark p-1 shadow-lg">
+                        <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent pointer-events-none"></div>
+                        <div class="relative bg-background-dark rounded-lg p-6 flex flex-col md:flex-row gap-6 items-center">
+                            <div class="w-full md:w-48 h-32 rounded-lg bg-gradient-to-br from-deep-blue to-slate-800 shrink-0 shadow-inner overflow-hidden flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-5xl">psychology</span>
+                            </div>
+                            <div class="flex-1 space-y-3">
+                                <div>
+                                    <span class="text-[10px] font-black tracking-widest text-primary uppercase">Current Course</span>
+                                    <h3 class="text-white text-xl font-black">{{ next_enrollment.enrollment.course.title }}</h3>
+                                    <p class="text-slate-400 text-sm">{{ next_enrollment.completed_lessons }}/{{ next_enrollment.total_lessons }} lessons completed</p>
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="flex justify-between text-xs text-slate-400">
+                                        <span>Progress</span>
+                                        <span>{{ next_enrollment.progress }}%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-700 rounded-full h-1.5">
+                                        <div class="bg-primary h-1.5 rounded-full" style="width: {{ next_enrollment.progress }}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{% url 'catalog:course_detail' slug=next_enrollment.enrollment.course.slug %}" class="w-full md:w-auto flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-accent-dark font-black px-8 py-3 rounded-lg transition-all shadow-[0_4px_14px_0_rgba(102,255,204,0.3)]">
+                                <span class="material-symbols-outlined">play_arrow</span>
+                                Resume
+                            </a>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="bg-white border border-slate-100 rounded-xl p-6">
+                        <p class="text-slate-600">No active enrollment yet. Start a course to begin tracking progress.</p>
+                        <a href="{% url 'catalog:course_list' %}" class="inline-flex mt-4 rounded-lg bg-primary px-4 py-2 font-black text-accent-dark">Browse Courses</a>
+                    </div>
+                {% endif %}
+            </section>
+
+            <section>
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-black text-slate-900">Enrolled Courses</h2>
+                    <a href="{% url 'catalog:course_list' %}" class="text-sm font-black text-emerald-700 hover:underline">Explore more</a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for row in enrollment_rows %}
+                        <article class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex gap-4">
+                                <div class="size-16 rounded-lg bg-slate-100 flex items-center justify-center shrink-0 text-slate-500">
+                                    <span class="material-symbols-outlined text-3xl">terminal</span>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-black text-slate-900 leading-tight">{{ row.enrollment.course.title }}</h3>
+                                    <p class="text-xs text-slate-500 mt-1">{{ row.completed_lessons }}/{{ row.total_lessons }} lessons</p>
+                                    <div class="mt-3 flex items-center gap-2">
+                                        <div class="flex-1 bg-slate-100 h-1.5 rounded-full">
+                                            <div class="bg-primary h-1.5 rounded-full" style="width: {{ row.progress }}%"></div>
+                                        </div>
+                                        <span class="text-[10px] font-black text-slate-500 uppercase">{{ row.progress }}%</span>
+                                    </div>
+                                    <a href="{% url 'catalog:course_detail' slug=row.enrollment.course.slug %}" class="inline-block mt-3 text-xs font-black text-emerald-700">Continue</a>
+                                </div>
+                            </div>
+                        </article>
+                    {% empty %}
+                        <p class="text-sm text-slate-500">No enrollments yet.</p>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+
+        <div class="flex flex-col gap-6">
+            <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
+                <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-slate-500">library_books</span>
+                    Quick Access
+                </h3>
+                <div class="space-y-3">
+                    <a href="{% url 'library' %}" class="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-3 text-sm font-semibold hover:bg-primary/20 transition-colors">
+                        <span>My Library</span>
+                        <span class="material-symbols-outlined text-base">arrow_forward</span>
+                    </a>
+                    <a href="{% url 'orders:cart' %}" class="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-3 text-sm font-semibold hover:bg-primary/20 transition-colors">
+                        <span>Cart</span>
+                        <span class="material-symbols-outlined text-base">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-background-dark rounded-xl p-6 text-white">
+                <h3 class="font-black mb-4 text-primary">Recent Purchases</h3>
+                <div class="space-y-3 text-sm">
+                    {% for order in orders|slice:":5" %}
+                        <article class="rounded-lg bg-white/10 border border-white/10 px-4 py-3">
+                            <p class="text-xs text-slate-300">Order #{{ order.id }} · {{ order.created_at|date:"M d, Y" }}</p>
+                            <ul class="mt-2 space-y-1 text-slate-100">
+                                {% for item in order.items.all|slice:":2" %}
+                                    <li>{{ item.title }} × {{ item.quantity }}</li>
+                                {% endfor %}
+                            </ul>
+                        </article>
+                    {% empty %}
+                        <p class="text-slate-300">No paid orders yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Cart | AILiteracy.ng{% endblock title %}
+
+{% block content %}
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-4xl font-black text-deep-blue">Your Cart</h1>
+        <a href="{% url 'catalog:course_list' %}" class="text-sm font-black text-emerald-700 hover:underline">Add more courses</a>
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-3">
+        <div class="lg:col-span-2 space-y-4">
+            {% for item in cart.items.all %}
+                <article class="bg-white border border-slate-200 rounded-2xl p-5 flex items-center justify-between gap-4 shadow-sm">
+                    <div class="flex items-center gap-4">
+                        <div class="size-14 rounded-lg bg-gradient-to-br from-deep-blue to-slate-800 flex items-center justify-center text-primary">
+                            <span class="material-symbols-outlined">school</span>
+                        </div>
+                        <div>
+                            <h2 class="font-black text-slate-900">{{ item.product.title }}</h2>
+                            <p class="text-sm text-slate-600">₦{{ item.product.price }} × {{ item.quantity }}</p>
+                        </div>
+                    </div>
+                    <form method="post" action="{% url 'orders:remove_from_cart' item.id %}">
+                        {% csrf_token %}
+                        <button class="inline-flex items-center gap-1 text-sm font-black text-rose-600 hover:text-rose-700">
+                            <span class="material-symbols-outlined text-base">delete</span>
+                            Remove
+                        </button>
+                    </form>
+                </article>
+            {% empty %}
+                <div class="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
+                    <p class="text-slate-500">Your cart is empty.</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <aside class="bg-white border border-slate-200 rounded-2xl p-6 h-fit shadow-sm">
+            <h2 class="font-black text-xl">Summary</h2>
+            <div class="mt-5 space-y-3 text-sm">
+                <div class="flex items-center justify-between">
+                    <span class="text-slate-500">Items</span>
+                    <span class="font-bold">{{ cart_item_count }}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-slate-500">Total</span>
+                    <span class="text-2xl font-black text-deep-blue">₦{{ cart.total_amount }}</span>
+                </div>
+            </div>
+            <a href="{% url 'orders:checkout' %}" class="inline-flex mt-6 w-full justify-center rounded-xl bg-primary px-5 py-3 text-sm font-black text-accent-dark hover:brightness-110 transition-all">
+                Proceed to Checkout
+            </a>
+        </aside>
+    </div>
+</section>
+{% endblock content %}

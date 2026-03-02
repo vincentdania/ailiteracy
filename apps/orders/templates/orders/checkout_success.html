@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Enrollment Success | AILiteracy.ng{% endblock title %}
+
+{% block content %}
+<section class="flex justify-center py-12 px-6">
+    <div class="flex flex-col max-w-[860px] flex-1">
+        <div class="flex flex-col items-center text-center mb-12">
+            <div class="relative mb-8">
+                <div class="absolute inset-0 bg-primary blur-3xl opacity-20 animate-pulse"></div>
+                <div class="relative flex items-center justify-center size-24 md:size-32 rounded-full bg-primary/10 border-4 border-primary text-emerald-700">
+                    <span class="material-symbols-outlined text-5xl md:text-6xl">celebration</span>
+                </div>
+            </div>
+            <h1 class="text-slate-900 text-4xl md:text-5xl font-black leading-tight tracking-tight mb-4">Payment successful!</h1>
+            <p class="text-slate-600 text-lg md:text-xl max-w-2xl">Your order has been confirmed and access has been granted. Continue from your dashboard or open your library for downloads.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 md:p-10 border border-slate-200 shadow-xl shadow-primary/5">
+            <h2 class="text-slate-900 text-2xl font-black leading-tight mb-8">Next Steps</h2>
+            <div class="space-y-0">
+                <div class="flex gap-6 group">
+                    <div class="flex flex-col items-center">
+                        <div class="size-12 rounded-full bg-primary flex items-center justify-center text-accent-dark shrink-0 shadow-lg shadow-primary/30">
+                            <span class="material-symbols-outlined">dashboard</span>
+                        </div>
+                        <div class="w-1 bg-slate-200 h-16 my-1"></div>
+                    </div>
+                    <div class="pt-1">
+                        <h3 class="text-slate-900 text-lg font-black">Access your dashboard</h3>
+                        <p class="text-slate-500">Resume your courses, track progress, and monitor new purchases.</p>
+                    </div>
+                </div>
+                <div class="flex gap-6 group">
+                    <div class="flex flex-col items-center">
+                        <div class="size-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 shrink-0 border border-slate-200">
+                            <span class="material-symbols-outlined">library_books</span>
+                        </div>
+                        <div class="w-1 bg-slate-200 h-16 my-1"></div>
+                    </div>
+                    <div class="pt-1">
+                        <h3 class="text-slate-900 text-lg font-black">Open your library</h3>
+                        <p class="text-slate-500">Download digital files and access purchased resources instantly.</p>
+                    </div>
+                </div>
+                <div class="flex gap-6 group">
+                    <div class="flex flex-col items-center">
+                        <div class="size-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 shrink-0 border border-slate-200">
+                            <span class="material-symbols-outlined">mail</span>
+                        </div>
+                    </div>
+                    <div class="pt-1">
+                        <h3 class="text-slate-900 text-lg font-black">Check your email</h3>
+                        <p class="text-slate-500">We have sent your receipt and available download links.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 flex flex-col sm:flex-row gap-4">
+                <a href="{% url 'dashboard' %}" class="flex-1 flex items-center justify-center gap-2 h-14 bg-primary text-accent-dark rounded-xl font-black text-lg hover:brightness-110 transition-all shadow-lg shadow-primary/20">
+                    <span class="material-symbols-outlined">space_dashboard</span>
+                    Go to Dashboard
+                </a>
+                <a href="{% url 'library' %}" class="flex-1 flex items-center justify-center gap-2 h-14 bg-slate-100 text-slate-900 rounded-xl font-black text-lg hover:bg-slate-200 transition-all border border-slate-200">
+                    <span class="material-symbols-outlined">library_books</span>
+                    Open Library
+                </a>
+            </div>
+        </div>
+
+        {% if paid_orders %}
+            <div class="mt-8 rounded-2xl border border-slate-200 bg-white p-6">
+                <h3 class="text-lg font-black text-deep-blue mb-4">Recent paid orders</h3>
+                <div class="space-y-4">
+                    {% for order in paid_orders %}
+                        <article class="rounded-xl border border-slate-100 p-4">
+                            <p class="text-xs font-bold text-slate-500">Order #{{ order.id }} · {{ order.created_at|date:"M d, Y" }}</p>
+                            <ul class="mt-2 text-sm text-slate-700 space-y-1">
+                                {% for item in order.items.all %}
+                                    <li>{{ item.title }} × {{ item.quantity }}</li>
+                                {% endfor %}
+                            </ul>
+                        </article>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock content %}

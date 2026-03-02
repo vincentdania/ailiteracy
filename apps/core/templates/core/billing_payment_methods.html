@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Payment Methods | AILiteracy.ng{% endblock title %}
+
+{% block content %}
+<section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <h1 class="text-4xl font-black text-deep-blue">Billing Payment Methods</h1>
+    <p class="text-slate-600 mt-2">Manage cards used for subscriptions and checkout.</p>
+
+    <div class="mt-8 space-y-4">
+        {% for method in methods %}
+            <article class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm flex items-center justify-between gap-3">
+                <div>
+                    <p class="font-black text-slate-900">{{ method.label }}</p>
+                    <p class="text-sm text-slate-500">Expires {{ method.expires }}</p>
+                </div>
+                {% if method.primary %}
+                    <span class="rounded-full bg-primary/20 px-3 py-1 text-xs font-black">Primary</span>
+                {% else %}
+                    <button class="rounded-lg border border-slate-200 px-3 py-1 text-xs font-black">Set primary</button>
+                {% endif %}
+            </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock content %}

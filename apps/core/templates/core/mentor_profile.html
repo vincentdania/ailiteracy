@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}{{ mentor.name }} | Mentor Profile{% endblock title %}
+
+{% block content %}
+<section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-sm">
+        <div class="h-44 bg-gradient-to-r from-deep-blue via-slate-900 to-emerald-700"></div>
+        <div class="px-8 pb-8 -mt-16">
+            {% if mentor.avatar_url %}
+                <img src="{{ mentor.avatar_url }}" alt="{{ mentor.name }}" class="size-28 rounded-2xl bg-white border border-slate-200 shadow-sm object-cover" />
+            {% else %}
+                <div class="size-28 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center text-emerald-700">
+                    <span class="material-symbols-outlined text-5xl">person</span>
+                </div>
+            {% endif %}
+            <p class="mt-6 text-xs font-black uppercase tracking-widest text-emerald-700">{{ mentor.title }}</p>
+            <h1 class="text-4xl font-black text-deep-blue mt-2">{{ mentor.name }}</h1>
+            <p class="mt-4 text-slate-700 leading-relaxed">{{ mentor.bio }}</p>
+            <blockquote class="mt-6 rounded-xl bg-background-light border border-slate-100 p-5 text-slate-700 italic">"{{ mentor.quote }}"</blockquote>
+
+            <h2 class="mt-8 text-xl font-black text-slate-900">Core Expertise</h2>
+            <ul class="mt-3 grid gap-2 md:grid-cols-3">
+                {% for item in mentor.expertise_items %}
+                    <li class="rounded-lg bg-white border border-slate-200 px-4 py-2 text-sm font-semibold">{{ item }}</li>
+                {% empty %}
+                    <li class="rounded-lg bg-white border border-slate-200 px-4 py-2 text-sm text-slate-500 md:col-span-3">No expertise items added yet.</li>
+                {% endfor %}
+            </ul>
+
+            <a href="{% url 'core:mentorship_book' %}" class="inline-flex mt-8 rounded-xl bg-primary px-6 py-3 text-sm font-black text-accent-dark">Book a session</a>
+        </div>
+    </div>
+</section>
+{% endblock content %}

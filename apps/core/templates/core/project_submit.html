@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Submit Your Project | AILiteracy.ng{% endblock title %}
+
+{% block content %}
+<section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-8">
+        <h1 class="text-4xl font-black text-deep-blue">Submit Your Project</h1>
+        <p class="text-slate-600 mt-2">Share what you built and get featured in the showcase.</p>
+    </div>
+
+    <div class="rounded-2xl bg-white border border-slate-200 p-8 shadow-sm">
+        <form method="post" class="space-y-5">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% for field in form %}
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <p class="mt-1 text-xs text-rose-600">{{ field.errors|striptags }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button class="rounded-xl bg-primary px-6 py-3 text-sm font-black text-accent-dark hover:brightness-110 transition-all">Submit Project</button>
+        </form>
+    </div>
+</section>
+{% endblock content %}

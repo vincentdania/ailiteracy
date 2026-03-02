@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Login | AILiteracy.ng{% endblock title %}
+
+{% block content %}
+<section class="max-w-md mx-auto px-4 py-12">
+    <div class="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm">
+        <h1 class="text-3xl font-black text-deep-blue">Login</h1>
+        <p class="text-sm text-slate-500 mt-1">Continue your AI learning journey.</p>
+        <form method="post" class="auth-form space-y-4 mt-6">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="w-full inline-flex justify-center rounded-xl bg-primary px-5 py-3 text-sm font-black text-accent-dark hover:brightness-110 transition-all">Sign in</button>
+        </form>
+        <p class="mt-5 text-sm">No account yet? <a href="{% url 'account_signup' %}" class="font-black text-emerald-700">Sign up</a></p>
+    </div>
+</section>
+{% endblock content %}

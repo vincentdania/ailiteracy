@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout Overview | AILiteracy.ng{% endblock title %}
+
+{% block content %}
+<section class="max-w-5xl mx-auto px-4 py-12">
+    <div class="mb-10">
+        <h1 class="text-3xl font-black text-deep-blue mb-2">Checkout Overview</h1>
+        <p class="text-slate-500">Review your order and complete your secure payment.</p>
+        <div class="mt-8 flex items-center gap-4">
+            <div class="flex flex-col flex-1 gap-2">
+                <div class="flex justify-between items-end">
+                    <span class="text-xs font-black uppercase tracking-wider text-emerald-700">Step 1: Checkout</span>
+                    <span class="text-xs font-medium text-slate-400">50% Complete</span>
+                </div>
+                <div class="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-primary w-1/2"></div>
+                </div>
+            </div>
+            <div class="flex flex-col flex-1 gap-2 opacity-40">
+                <div class="flex justify-between items-end">
+                    <span class="text-xs font-black uppercase tracking-wider text-slate-500">Step 2: Confirmation</span>
+                </div>
+                <div class="h-2 w-full bg-slate-200 rounded-full"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div class="lg:col-span-7 space-y-10">
+            <section>
+                <div class="flex items-center gap-2 mb-6">
+                    <span class="material-symbols-outlined text-emerald-700">person</span>
+                    <h2 class="text-xl font-black">Billing Information</h2>
+                </div>
+                <form method="post" class="grid grid-cols-1 gap-6">
+                    {% csrf_token %}
+                    <div class="flex flex-col gap-2">
+                        <label class="text-sm font-medium text-slate-600">Email Address</label>
+                        {{ form.email }}
+                    </div>
+                    <section>
+                        <div class="flex items-center gap-2 mb-6">
+                            <span class="material-symbols-outlined text-emerald-700">account_balance_wallet</span>
+                            <h2 class="text-xl font-black">Payment Method</h2>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <label class="relative flex flex-col items-center justify-center gap-3 p-6 rounded-xl border-2 border-primary bg-primary/5 cursor-pointer hover:bg-primary/10 transition-all group">
+                                <input checked class="absolute top-3 right-3 text-primary focus:ring-primary h-4 w-4" name="payment" type="radio" />
+                                <span class="material-symbols-outlined text-3xl text-emerald-700">credit_card</span>
+                                <span class="text-sm font-semibold">Card</span>
+                            </label>
+                            <label class="relative flex flex-col items-center justify-center gap-3 p-6 rounded-xl border-2 border-slate-200 bg-white cursor-pointer hover:border-primary/50 transition-all group">
+                                <input class="absolute top-3 right-3 text-primary focus:ring-primary h-4 w-4" name="payment" type="radio" disabled />
+                                <span class="material-symbols-outlined text-3xl text-slate-400">account_balance</span>
+                                <span class="text-sm font-semibold">Transfer</span>
+                            </label>
+                            <label class="relative flex flex-col items-center justify-center gap-3 p-6 rounded-xl border-2 border-slate-200 bg-white cursor-pointer hover:border-primary/50 transition-all group">
+                                <input class="absolute top-3 right-3 text-primary focus:ring-primary h-4 w-4" name="payment" type="radio" disabled />
+                                <span class="material-symbols-outlined text-3xl text-slate-400">dialpad</span>
+                                <span class="text-sm font-semibold">USSD</span>
+                            </label>
+                        </div>
+                    </section>
+                    <button class="w-full py-4 px-6 rounded-xl bg-primary text-deep-blue font-black text-lg hover:scale-[1.01] active:scale-[0.99] transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
+                        <span>Pay with Paystack</span>
+                        <span class="material-symbols-outlined">lock</span>
+                    </button>
+                </form>
+            </section>
+        </div>
+
+        <div class="lg:col-span-5">
+            <div class="sticky top-24 rounded-2xl border border-slate-200 bg-white shadow-xl shadow-primary/5 overflow-hidden">
+                <div class="p-6 border-b border-slate-200 bg-slate-50/50">
+                    <h2 class="text-xl font-black">Order Summary</h2>
+                </div>
+                <div class="p-6 space-y-6">
+                    {% for item in cart.items.all %}
+                        <div class="flex gap-4 p-4 rounded-xl bg-slate-50">
+                            <div class="w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-gradient-to-br from-deep-blue to-slate-800 flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined">school</span>
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <h3 class="font-black text-deep-blue leading-snug">{{ item.product.title }}</h3>
+                                <p class="text-xs text-slate-500 mt-1">Qty: {{ item.quantity }}</p>
+                                <p class="text-emerald-700 font-black mt-2">₦{{ item.subtotal }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Subtotal</span>
+                            <span class="font-medium">₦{{ cart.total_amount }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Processing Fee</span>
+                            <span class="font-medium">₦0.00</span>
+                        </div>
+                        <div class="pt-4 border-t border-slate-200 flex justify-between items-center">
+                            <span class="text-lg font-black">Total</span>
+                            <span class="text-2xl font-black text-deep-blue">₦{{ cart.total_amount }}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-center gap-2 text-xs text-slate-400 font-medium">
+                        <span class="material-symbols-outlined text-sm">verified_user</span>
+                        Secure encrypted transaction
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

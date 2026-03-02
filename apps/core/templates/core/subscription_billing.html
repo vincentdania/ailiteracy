@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Subscription Billing | AILiteracy.ng{% endblock title %}
+
+{% block content %}
+<section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-8">
+        <h1 class="text-4xl font-black text-deep-blue">Subscription Billing</h1>
+        <p class="text-slate-600 mt-2">Manage your current plan and billing timeline.</p>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-3">
+        <div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm">
+            <p class="text-xs font-black uppercase text-slate-500">Current Plan</p>
+            <p class="mt-2 text-2xl font-black text-emerald-700">{{ current_plan }}</p>
+        </div>
+        <div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm">
+            <p class="text-xs font-black uppercase text-slate-500">Next Renewal</p>
+            <p class="mt-2 text-2xl font-black text-emerald-700">{{ next_renewal }}</p>
+        </div>
+        <div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm">
+            <p class="text-xs font-black uppercase text-slate-500">Paid Orders</p>
+            <p class="mt-2 text-2xl font-black text-emerald-700">{{ paid_orders_count }}</p>
+        </div>
+    </div>
+
+    <div class="mt-8 flex gap-3">
+        <a href="{% url 'core:change_subscription_plan' %}" class="rounded-xl bg-primary px-6 py-3 text-sm font-black text-accent-dark">Change plan</a>
+        <a href="{% url 'core:billing_history' %}" class="rounded-xl border border-slate-200 px-6 py-3 text-sm font-black">View billing history</a>
+    </div>
+</section>
+{% endblock content %}

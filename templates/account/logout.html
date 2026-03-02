@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Logout | AILiteracy.ng{% endblock title %}
+
+{% block content %}
+<section class="max-w-md mx-auto px-4 py-12">
+    <div class="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm">
+        <h1 class="text-3xl font-black text-deep-blue">Logout</h1>
+        <p class="mt-3 text-sm text-slate-600">Are you sure you want to logout?</p>
+        <form method="post" class="mt-6">
+            {% csrf_token %}
+            <button class="w-full inline-flex justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-black text-white">Logout</button>
+        </form>
+    </div>
+</section>
+{% endblock content %}

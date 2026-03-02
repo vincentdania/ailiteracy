@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Referral Status Dashboard | AILiteracy.ng{% endblock title %}
+
+{% block content %}
+<section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-8">
+        <h1 class="text-4xl font-black text-deep-blue">Referral Status Dashboard</h1>
+        <p class="text-slate-600 mt-2">Track your application and activation progress.</p>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-3">
+        {% for item in statuses %}
+            <article class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm">
+                <p class="text-xs font-black uppercase text-slate-500">Step {{ forloop.counter }}</p>
+                <h2 class="mt-2 text-lg font-black text-slate-900">{{ item.step }}</h2>
+                <p class="mt-3 text-sm font-semibold {% if item.status == 'Completed' %}text-emerald-700{% elif item.status == 'In Progress' %}text-amber-600{% else %}text-slate-500{% endif %}">{{ item.status }}</p>
+            </article>
+        {% endfor %}
+    </div>
+
+    {% if application %}
+        <div class="mt-6 rounded-xl bg-background-light border border-slate-100 p-5">
+            <p class="text-sm"><strong>Application:</strong> {{ application.full_name }} ({{ application.email }})</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock content %}
