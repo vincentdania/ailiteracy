@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}My Certificates | AILiteracy.ng{% endblock title %}
+
+{% block content %}
+<section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="flex items-end justify-between mb-8">
+        <div>
+            <p class="text-xs uppercase tracking-widest font-black text-emerald-700">Learning Records</p>
+            <h1 class="text-3xl font-black text-deep-blue">My Certificates</h1>
+        </div>
+    </div>
+
+    <div class="space-y-4">
+        {% for certificate in certificates %}
+            <article class="bg-white border border-slate-100 rounded-xl p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div>
+                    <h2 class="font-black text-deep-blue">{{ certificate.course.title }}</h2>
+                    <p class="text-xs text-slate-500 mt-1">
+                        Issued {{ certificate.issued_at|date:"M d, Y" }} · ID {{ certificate.certificate_id }}
+                    </p>
+                </div>
+                <a href="{% url 'certificates:download' certificate_id=certificate.certificate_id %}" class="inline-flex rounded-lg bg-primary px-4 py-2 text-sm font-black text-accent-dark">
+                    Download PDF
+                </a>
+            </article>
+        {% empty %}
+            <p class="text-slate-500">No certificates yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock content %}

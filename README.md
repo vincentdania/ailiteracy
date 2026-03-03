@@ -20,6 +20,9 @@ Django project for [ailiteracy.ng](https://ailiteracy.ng) using Django Templates
 - `apps.learning`
 - `apps.content`
 - `apps.marketing`
+- `apps.quiz`
+- `apps.bootcamp`
+- `apps.certificates`
 
 ## Local setup
 1. Create and activate a virtual env.
@@ -59,6 +62,46 @@ celery -A config worker -l info
 ```bash
 python manage.py test
 ```
+
+## New Feature Modules (Quiz + Bootcamp + Micro-course)
+
+Run setup:
+
+```bash
+python manage.py migrate
+python manage.py seed_ai_literacy_quiz
+python manage.py seed_ai_fluency_microcourse
+```
+
+Main routes:
+
+- `/quiz/` (difficult timed AI literacy quiz)
+- `/bootcamp/interest/` (bootcamp interest form)
+- `/course/ai-fluency/` (15-minute micro-course)
+- `/certificates/my/` (logged-in certificate list)
+
+Quiz behavior summary:
+
+- 10 questions total
+- Q1–Q8 single-select (choose one)
+- Q9–Q10 multi-select (choose exactly two; strict scoring)
+- 8-minute time limit with countdown and auto-submit
+- Questions and options are shuffled per attempt
+- Score is out of 10 (percent = score * 10), no score cap
+
+URL integration points:
+
+- Added in `config/urls.py`:
+  - `path("quiz/", include(("apps.quiz.urls", "quiz"), namespace="quiz"))`
+  - `path("bootcamp/", include(("apps.bootcamp.urls", "bootcamp"), namespace="bootcamp"))`
+  - `path("certificates/", include(("apps.certificates.urls", "certificates"), namespace="certificates"))`
+  - Micro-course routes are integrated in `apps.learning.urls` under `/course/...`
+
+Template integration point:
+
+- Homepage prompt include added in `apps/core/templates/core/home.html`:
+  - `{% include "quiz/_prompt_banner.html" %}`
+  - You can move this include into `templates/base.html` if you want site-wide quiz CTA instead of homepage-only.
 
 ## Notes
 - Configure Paystack keys in `.env` before using checkout.

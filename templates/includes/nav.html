@@ -14,6 +14,8 @@
                 <a href="{% url 'core:projects_showcase' %}" class="hover:text-primary transition-colors">Projects</a>
                 <a href="{% url 'catalog:book_landing' slug='ai-confidence-in-21-days' %}" class="hover:text-primary transition-colors">Book</a>
                 <a href="{% url 'content:resource_list' %}" class="hover:text-primary transition-colors">Resources</a>
+                <a href="{% url 'quiz:home' %}" class="hover:text-primary transition-colors">AI Quiz</a>
+                <a href="{% url 'learning:microcourse_overview' course_slug='ai-fluency' %}" class="hover:text-primary transition-colors">Micro-course</a>
                 <a href="{% url 'content:blog_list' %}" class="hover:text-primary transition-colors">Blog</a>
                 <a href="{% url 'core:about' %}" class="hover:text-primary transition-colors">About</a>
                 <a href="{% url 'orders:cart' %}" class="hover:text-primary transition-colors">Cart ({{ cart_item_count }})</a>
@@ -46,6 +48,8 @@
             <a href="{% url 'core:projects_showcase' %}" class="block rounded-lg bg-white px-3 py-2 font-semibold">Projects</a>
             <a href="{% url 'catalog:book_landing' slug='ai-confidence-in-21-days' %}" class="block rounded-lg bg-white px-3 py-2 font-semibold">Book</a>
             <a href="{% url 'content:resource_list' %}" class="block rounded-lg bg-white px-3 py-2 font-semibold">Resources</a>
+            <a href="{% url 'quiz:home' %}" class="block rounded-lg bg-white px-3 py-2 font-semibold">AI Quiz</a>
+            <a href="{% url 'learning:microcourse_overview' course_slug='ai-fluency' %}" class="block rounded-lg bg-white px-3 py-2 font-semibold">Micro-course</a>
             <a href="{% url 'content:blog_list' %}" class="block rounded-lg bg-white px-3 py-2 font-semibold">Blog</a>
             <a href="{% url 'core:about' %}" class="block rounded-lg bg-white px-3 py-2 font-semibold">About</a>
             <a href="{% url 'orders:cart' %}" class="block rounded-lg bg-white px-3 py-2 font-semibold">Cart ({{ cart_item_count }})</a>

@@ -1,0 +1,16 @@
+Hi {{ interest.name }},
+
+Thanks for registering interest in the AIliteracy Bootcamp.
+
+Your details:
+- Attendance: {{ interest.get_attendance_type_display }}
+{% if interest.location %}
+- Location: {{ interest.location }}
+{% endif %}
+- AI level: {{ interest.ai_level }}
+- Quiz score: {{ interest.quiz_score }}%
+
+We will communicate date and time shortly.
+
+Regards,
+AIliteracy.ng Team

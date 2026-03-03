@@ -31,6 +31,9 @@ INSTALLED_APPS = [
     "apps.learning",
     "apps.content",
     "apps.marketing",
+    "apps.quiz",
+    "apps.bootcamp",
+    "apps.certificates",
 ]
 
 MIDDLEWARE = [
@@ -58,6 +61,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "apps.core.context_processors.layout",
+                "apps.quiz.context_processors.quiz_prompt",
             ]
         },
     }

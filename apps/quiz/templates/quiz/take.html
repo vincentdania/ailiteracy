@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Difficult AI Literacy Quiz | AILiteracy.ng{% endblock title %}
+
+{% block content %}
+<section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10" x-data="quizTimer({{ remaining_seconds }})">
+    <article class="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+            <div>
+                <p class="text-xs uppercase font-black tracking-widest text-emerald-700">AI Literacy Assessment</p>
+                <h1 class="text-2xl sm:text-3xl font-black text-deep-blue">Nigeria Edition</h1>
+            </div>
+            <div class="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3">
+                <p class="text-xs uppercase font-black text-rose-700 tracking-widest">Time Remaining</p>
+                <p class="text-2xl font-black text-rose-700" x-text="formatted"></p>
+            </div>
+        </div>
+
+        <form method="post" id="quiz-form" class="space-y-6" @submit="submitted = true">
+            {% csrf_token %}
+            <input type="hidden" name="auto_submit" id="auto-submit-flag" value="0" />
+
+            {% for item in ordered_questions %}
+                <section class="rounded-xl border border-slate-100 p-5">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+                        <p class="text-sm font-black text-deep-blue">Q{{ item.position }} of {{ total_questions }}</p>
+                        {% if item.question.kind == "MULTI" %}
+                            <span class="text-xs font-black uppercase tracking-widest text-amber-700">Choose exactly TWO</span>
+                        {% else %}
+                            <span class="text-xs font-black uppercase tracking-widest text-emerald-700">Choose ONE</span>
+                        {% endif %}
+                    </div>
+                    <h2 class="text-base sm:text-lg font-bold text-slate-800 mb-4 leading-relaxed">{{ item.question.text }}</h2>
+
+                    <div class="space-y-2">
+                        {% for option in item.options %}
+                            <label class="block rounded-lg border border-slate-200 px-4 py-3 hover:border-emerald-300 cursor-pointer transition-colors">
+                                <input
+                                    {% if item.question.kind == "MULTI" %}type="checkbox"{% else %}type="radio"{% endif %}
+                                    name="question_{{ item.question.id }}"
+                                    value="{{ option.id }}"
+                                    class="mr-2 text-emerald-600 focus:ring-emerald-500"
+                                    {% if option.id in item.selected_ids %}checked{% endif %}
+                                    {% if item.question.kind == "MULTI" %}@change="limitMulti($event, 'question_{{ item.question.id }}', {{ item.question.multi_select_count }})"{% endif %}
+                                />
+                                <span class="text-sm font-medium text-slate-700">{{ option.text }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </section>
+            {% endfor %}
+
+            <div class="pt-2 flex flex-wrap items-center gap-3">
+                <button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-black text-accent-dark hover:brightness-110 transition-all">
+                    Submit Quiz
+                    <span class="material-symbols-outlined text-base">check</span>
+                </button>
+                <a href="{% url 'core:home' %}" class="inline-flex rounded-lg border border-slate-200 px-6 py-3 text-sm font-bold text-slate-600">Exit Quiz</a>
+            </div>
+        </form>
+    </article>
+</section>
+
+<script>
+    function quizTimer(initialSeconds) {
+        return {
+            remaining: initialSeconds,
+            submitted: false,
+            get formatted() {
+                const mins = Math.floor(this.remaining / 60).toString().padStart(2, "0");
+                const secs = (this.remaining % 60).toString().padStart(2, "0");
+                return `${mins}:${secs}`;
+            },
+            init() {
+                if (this.remaining <= 0) {
+                    this.autoSubmit();
+                    return;
+                }
+                const interval = setInterval(() => {
+                    if (this.submitted) {
+                        clearInterval(interval);
+                        return;
+                    }
+                    this.remaining -= 1;
+                    if (this.remaining <= 0) {
+                        clearInterval(interval);
+                        this.autoSubmit();
+                    }
+                }, 1000);
+            },
+            autoSubmit() {
+                if (this.submitted) return;
+                this.submitted = true;
+                const flag = document.getElementById("auto-submit-flag");
+                if (flag) flag.value = "1";
+                const form = document.getElementById("quiz-form");
+                if (form) form.submit();
+            },
+            limitMulti(event, name, limit) {
+                const checked = document.querySelectorAll(`input[name="${name}"]:checked`);
+                if (checked.length > limit) {
+                    event.target.checked = false;
+                }
+            }
+        }
+    }
+</script>
+{% endblock content %}

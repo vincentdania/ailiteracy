@@ -1,0 +1,11 @@
+New bootcamp interest submission:
+
+Name: {{ interest.name }}
+Email: {{ interest.email }}
+Phone: {{ interest.phone }}
+Attendance: {{ interest.attendance_type }}
+Location: {{ interest.location|default:"-" }}
+AI Level: {{ interest.ai_level }}
+Quiz Score: {{ interest.quiz_score }}%
+Occupation: {{ interest.occupation|default:"-" }}
+Created: {{ interest.created_at }}

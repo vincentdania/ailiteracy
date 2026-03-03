@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}AI Literacy Quiz | AILiteracy.ng{% endblock title %}
+
+{% block content %}
+<section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <div class="bg-white border border-slate-100 rounded-2xl p-8 sm:p-10 shadow-sm">
+        <p class="text-xs uppercase tracking-widest font-black text-emerald-700">Quick Assessment</p>
+        <h1 class="text-3xl sm:text-4xl font-black text-deep-blue mt-3 mb-4">AI Literacy Quiz</h1>
+        <p class="text-slate-600 leading-relaxed">
+            10 tough but fun questions built for the Nigerian context. You have 8 minutes total. Top users can still hit 10/10.
+        </p>
+        {% if quiz %}
+            <ul class="mt-6 space-y-2 text-sm text-slate-600">
+                <li>• 8 single-select + 2 strict multi-select questions</li>
+                <li>• Shuffled questions and options per attempt</li>
+                <li>• 8-minute countdown with auto-submit on timeout</li>
+                <li>• Instant score and level</li>
+                <li>• Bootcamp CTA on result</li>
+            </ul>
+            <div class="mt-8 flex flex-wrap gap-3">
+                <form method="post" action="{% url 'quiz:start' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-black text-accent-dark hover:brightness-110 transition-all">
+                        Start Quiz
+                        <span class="material-symbols-outlined text-base">arrow_forward</span>
+                    </button>
+                </form>
+                <a href="{% url 'core:home' %}" class="inline-flex rounded-lg border border-slate-200 px-6 py-3 text-sm font-bold text-slate-600">Back to Home</a>
+            </div>
+        {% else %}
+            <p class="mt-6 text-sm text-amber-700 font-semibold">Quiz is not active yet. Please check back later.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock content %}

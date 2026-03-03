@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}{{ course.title }} | AILiteracy.ng{% endblock title %}
+
+{% block content %}
+<section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <article class="bg-white border border-slate-100 rounded-2xl p-8 shadow-sm">
+            <p class="text-xs uppercase tracking-widest font-black text-emerald-700">15-Min Micro-course</p>
+            <h1 class="text-3xl font-black text-deep-blue mt-3">{{ course.title }}</h1>
+            <p class="text-slate-600 mt-4">{{ course.description|default:course.summary }}</p>
+            <ul class="mt-6 space-y-2 text-sm text-slate-600">
+                <li>• 4 short modules (~15 minutes total)</li>
+                <li>• Final quiz (5 questions)</li>
+                <li>• Pass mark: 80% for certificate issuance</li>
+            </ul>
+            {% if current_attempt %}
+                <div class="mt-6 rounded-xl border border-emerald-100 bg-emerald-50 p-4 text-sm">
+                    Current progress: <strong>{{ current_attempt.progress_percentage }}%</strong>
+                    {% if current_attempt.completed_at %}
+                        · Last score: <strong>{{ current_attempt.score }}%</strong>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </article>
+
+        <article class="bg-white border border-slate-100 rounded-2xl p-8 shadow-sm">
+            <h2 class="text-xl font-black text-deep-blue mb-4">Start Course</h2>
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                {% if not request.user.is_authenticated %}
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" for="{{ start_form.name.id_for_label }}">Name</label>
+                        {{ start_form.name }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" for="{{ start_form.email.id_for_label }}">Email</label>
+                        {{ start_form.email }}
+                    </div>
+                {% else %}
+                    <p class="text-sm text-slate-600">You are signed in as {{ request.user.email }}.</p>
+                {% endif %}
+                <button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-black text-accent-dark hover:brightness-110 transition-all">
+                    {% if current_attempt and not current_attempt.completed_at %}Resume Course{% else %}Start Course{% endif %}
+                    <span class="material-symbols-outlined text-base">arrow_forward</span>
+                </button>
+            </form>
+        </article>
+    </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Final Quiz | {{ course.title }}{% endblock title %}
+
+{% block content %}
+<section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <article class="bg-white border border-slate-100 rounded-2xl p-8 shadow-sm">
+        <p class="text-xs uppercase tracking-widest font-black text-emerald-700">Final Quiz</p>
+        <h1 class="text-3xl font-black text-deep-blue mt-2 mb-2">{{ course.title }}</h1>
+        <p class="text-sm text-slate-600 mb-6">Answer all 5 questions. Passing score is 80%.</p>
+
+        <form method="post" class="space-y-7">
+            {% csrf_token %}
+            {% for question in questions %}
+                <div class="rounded-xl border border-slate-100 p-5">
+                    <p class="text-sm font-black text-deep-blue mb-3">Q{{ forloop.counter }}. {{ question.text }}</p>
+                    <div class="space-y-2">
+                        {% for option in question.options.all %}
+                            <label class="block rounded-lg border border-slate-200 px-4 py-3 cursor-pointer hover:border-emerald-300 transition-colors">
+                                <input
+                                    type="radio"
+                                    name="question_{{ question.id }}"
+                                    value="{{ option.id }}"
+                                    class="mr-2 text-emerald-600 focus:ring-emerald-500"
+                                />
+                                <span class="text-sm text-slate-700 font-medium">{{ option.text }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-black text-accent-dark hover:brightness-110 transition-all">
+                Submit Final Quiz
+                <span class="material-symbols-outlined text-base">check</span>
+            </button>
+        </form>
+    </article>
+</section>
+{% endblock content %}
