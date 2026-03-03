@@ -1,19 +1,27 @@
 {% if show_quiz_prompt and active_quiz %}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-    <div class="rounded-2xl border border-primary/40 bg-gradient-to-r from-white via-white to-primary/10 p-4 sm:p-6 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-            <p class="text-xs uppercase font-black tracking-widest text-emerald-700">8-minute challenge</p>
-            <h3 class="text-lg sm:text-xl font-black text-deep-blue">Are you AI literate?</h3>
-            <p class="text-sm sm:text-base text-slate-600">Take this 8-minute quiz to test your level of AI fluency.</p>
-        </div>
-        <div class="flex flex-wrap items-center gap-2 sm:justify-end">
-            <form method="post" action="{% url 'quiz:start' %}">
-                {% csrf_token %}
-                <button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-black text-accent-dark hover:brightness-110 transition-all">
-                    Start Quiz
-                    <span class="material-symbols-outlined text-base">arrow_forward</span>
-                </button>
-            </form>
+    <div class="relative overflow-hidden rounded-3xl border border-primary/40 bg-gradient-to-br from-deep-blue via-slate-900 to-emerald-800 px-5 py-6 sm:px-8 sm:py-8 shadow-2xl shadow-deep-blue/20">
+        <div class="pointer-events-none absolute -top-14 -right-10 h-40 w-40 rounded-full bg-primary/20 blur-3xl"></div>
+        <div class="pointer-events-none absolute -bottom-16 -left-10 h-44 w-44 rounded-full bg-white/10 blur-3xl"></div>
+
+        <div class="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+            <div class="max-w-2xl">
+                <p class="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-white/10 px-3 py-1 text-[11px] uppercase font-black tracking-[0.2em] text-primary">
+                    <span class="material-symbols-outlined text-sm">timer</span>
+                    8-minute challenge
+                </p>
+                <h3 class="mt-4 text-2xl sm:text-4xl font-black leading-tight text-white">Are you AI literate?</h3>
+                <p class="mt-2 text-sm sm:text-lg text-slate-200">Take this 8-minute quiz to test your level of AI fluency.</p>
+            </div>
+            <div class="shrink-0">
+                <form method="post" action="{% url 'quiz:start' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-base font-black text-accent-dark hover:brightness-110 hover:-translate-y-0.5 transition-all">
+                        Start Quiz
+                        <span class="material-symbols-outlined text-base">arrow_forward</span>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
