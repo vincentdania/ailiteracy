@@ -85,7 +85,7 @@ Quiz behavior summary:
 - 10 questions total
 - Q1–Q8 single-select (choose one)
 - Q9–Q10 multi-select (choose exactly two; strict scoring)
-- 8-minute time limit with countdown and auto-submit
+- 30-minute time limit with countdown and auto-submit
 - Questions and options are shuffled per attempt
 - Score is out of 10 (percent = score * 10), no score cap
 

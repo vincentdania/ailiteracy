@@ -6,123 +6,123 @@ from apps.quiz.models import Option, Question, Quiz
 
 QUIZ_QUESTIONS = [
     {
-        "text": "A civil servant uses ChatGPT to draft a confidential memo containing internal budget allocations. What is the MOST responsible approach?",
+        "text": "An Abuja procurement officer wants AI to compare vendor bids for office equipment. What is the MOST responsible workflow?",
         "kind": Question.Kind.SINGLE,
         "options": [
-            ("Paste the full memo and ask ChatGPT to improve clarity.", False),
-            ("Remove all sensitive figures and identifiers before using AI.", True),
-            ("Use ChatGPT normally because it does not store data permanently.", False),
-            ("Convert the memo into bullet points and paste it anyway.", False),
+            ("Upload full bid documents with vendor names, account details, and rates so AI can rank suppliers faster.", False),
+            ("Redact confidential fields, ask AI for an evaluation rubric, then apply that rubric manually to original bids.", True),
+            ("Ask AI to choose the winning vendor directly and send that recommendation to management.", False),
+            ("Break each bid into smaller chunks and upload all details in parts to reduce risk.", False),
         ],
     },
     {
-        "text": "A Nigerian SME owner uses AI to generate Facebook ad copy. The ads get high clicks but very low sales. What is the most likely issue?",
+        "text": "A Wuse boutique uses AI-generated Instagram ads. Clicks are high but purchases are poor. What is the most likely issue?",
         "kind": Question.Kind.SINGLE,
         "options": [
-            ("AI content is always generic and cannot convert.", False),
-            ("The prompt likely optimized for engagement instead of buyer intent.", True),
-            ("Nigerians do not trust AI-written ads.", False),
-            ("Facebook penalizes AI-generated content automatically.", False),
+            ("The prompt optimized for attention metrics, not buyer intent and offer clarity.", True),
+            ("Abuja customers can always detect AI copy, so conversion drops by default.", False),
+            ("Instagram automatically suppresses AI-generated captions during ad delivery.", False),
+            ("The only fix is to remove all AI from marketing workflow immediately.", False),
         ],
     },
     {
-        "text": "A student uses AI to summarize lecture notes but later discovers inaccuracies. What is the best corrective workflow?",
+        "text": "A Garki hospital operations lead uses AI to summarize patient handover notes for doctors. What is the safest operational practice?",
         "kind": Question.Kind.SINGLE,
         "options": [
-            ("Stop using AI for academic work entirely.", False),
-            ("Cross-check AI summaries against original material before relying on them.", True),
-            ("Use a different AI tool instead.", False),
-            ("Ask AI to confirm its own summary is accurate.", False),
+            ("Use AI summaries directly during rounds to save time, then update records later if needed.", False),
+            ("Require clinician verification against full records before any clinical decision is made.", True),
+            ("Ask AI to provide a confidence score and trust outputs above 90 percent confidence.", False),
+            ("Only use AI when the hospital internet is very stable.", False),
         ],
     },
     {
-        "text": "A fintech startup in Lagos wants to use AI to assess loan applications. What is the biggest ethical risk?",
+        "text": "A secondary school in Kubwa uses AI to support essay grading. What is the biggest fairness risk?",
         "kind": Question.Kind.SINGLE,
         "options": [
-            ("AI will reject too many applicants.", False),
-            ("AI may reinforce historical bias present in past lending data.", True),
-            ("AI is too expensive to scale.", False),
-            ("Customers prefer human decision-makers.", False),
+            ("AI can penalize local writing styles or context if rubric calibration is weak.", True),
+            ("Students may submit essays too quickly because AI makes grading faster.", False),
+            ("Teachers might prefer manual marking because of tradition.", False),
+            ("The school may spend more on electricity when using AI tools.", False),
         ],
     },
     {
-        "text": "Which prompt is MOST likely to produce a high-quality business strategy output?",
+        "text": "Which prompt is MOST likely to produce a high-quality crisis statement after a major water outage in Abuja?",
         "kind": Question.Kind.SINGLE,
         "options": [
-            ("Write a business plan for my startup.", False),
-            ("Act like a McKinsey consultant and write a detailed strategy.", False),
-            ("Create a 6-month growth strategy for a Lagos-based logistics startup targeting SMEs. Include cost estimates in naira and key risks.", True),
-            ("Give me ideas for business.", False),
+            ("Write a statement about the water outage in Abuja.", False),
+            ("As a PR expert, draft a clear public statement.", False),
+            ("Draft a 180-word public update for FCT residents: acknowledge impact, list 3 immediate actions, include hotline and update frequency, avoid unverified causes.", True),
+            ("Write an emotional apology and promise instant full compensation to everyone.", False),
         ],
     },
     {
-        "text": "A WhatsApp message claims AI predicted the next Nigerian election outcome with 100% certainty. What is the most accurate assessment?",
+        "text": "A Gwarinpa startup wants AI to screen internship CVs at scale. Which control is most important for responsible use?",
         "kind": Question.Kind.SINGLE,
         "options": [
-            ("AI can predict elections with enough data.", False),
-            ("AI may simulate analysis, but cannot guarantee political certainty.", True),
-            ("If it used machine learning, it must be accurate.", False),
-            ("AI predictions are always manipulated.", False),
+            ("Hide AI usage from candidates so results look fully human-reviewed.", False),
+            ("Run periodic bias checks and keep a human override with reasons logged.", True),
+            ("Auto-reject all candidates without prior AI tool experience.", False),
+            ("Keep screening criteria secret to avoid candidate gaming.", False),
         ],
     },
     {
-        "text": "A hospital administrator wants to use AI to automate patient record summaries. What is the PRIMARY compliance concern?",
+        "text": "An NGO in Nyanya uses AI to translate beneficiary feedback before sentiment analysis. What is the best quality-control step?",
         "kind": Question.Kind.SINGLE,
         "options": [
-            ("AI may summarize too slowly.", False),
-            ("Patient data privacy and consent requirements.", True),
-            ("Doctors may resist technology.", False),
-            ("AI summaries may use medical jargon.", False),
+            ("Use only AI translation outputs because manual checks are too expensive.", False),
+            ("Spot-check samples with a bilingual reviewer against the original responses.", True),
+            ("Keep only positive comments to avoid bias from negative sentiment.", False),
+            ("Run two AI tools and average the sentiment scores without manual review.", False),
         ],
     },
     {
-        "text": "A founder asks AI to analyze the Nigerian market for electric vehicles and receives confident statistics without citations. What is the safest next step?",
+        "text": "A Jabi real-estate founder receives confident AI market statistics without citations. What is the safest next step?",
         "kind": Question.Kind.SINGLE,
         "options": [
-            ("Assume the data is correct because it sounds detailed.", False),
-            ("Publish the report but add a disclaimer.", False),
-            ("Verify statistics using independent credible sources.", True),
-            ("Ask the AI if it is sure.", False),
+            ("Proceed if the figures align with business intuition and recent market gossip.", False),
+            ("Publish quickly and add a disclaimer that figures came from AI analysis.", False),
+            ("Verify each critical statistic against independent credible sources before decisions.", True),
+            ("Ask AI to confirm the same figures in a second response and treat that as validation.", False),
         ],
     },
     {
-        "text": "Which TWO actions best reduce the risk of AI “hallucinations” causing harm in a Nigerian workplace?",
+        "text": "You are preparing a donor brief for an Abuja youth skills project. Which TWO actions best reduce hallucination risk before submission?",
         "kind": Question.Kind.MULTI,
         "multi_select_count": 2,
         "options": [
-            ("Ask the AI to “double-check itself” before responding.", False),
-            ("Require a human to verify critical claims against trusted sources.", True),
-            ("Use AI only when internet access is available.", False),
-            ("Ask for citations and then validate those citations independently.", True),
+            ("Force the model to provide a definite answer even when evidence is weak.", False),
+            ("Ask AI to state assumptions and explicitly mark unknowns in the output.", True),
+            ("Require critical claims to be checked against official or trusted source documents.", True),
+            ("Use the newest model version and skip human fact-checking to save time.", False),
         ],
     },
     {
-        "text": "You want to use AI to help draft a proposal for a Nigerian donor-funded project. Which TWO inputs are safest and most useful to share with the AI?",
+        "text": "You want AI help for a partnership pitch to an Abuja institution. Which TWO inputs are safest and most useful to share?",
         "kind": Question.Kind.MULTI,
         "multi_select_count": 2,
         "options": [
-            ("Full proposal from another organization you copied (including their budget).", False),
-            ("Your project goals, target communities, and non-sensitive context.", True),
-            ("Personal data of beneficiaries (names, phone numbers, addresses).", False),
-            ("A redacted budget summary (no bank details; no personal data; no confidential rates if restricted).", True),
+            ("Anonymized audience personas plus non-sensitive project goals and outcomes.", True),
+            ("A raw export of participant names, phone numbers, and addresses.", False),
+            ("A redacted budget range with no bank details or restricted contract rates.", True),
+            ("A competitor proposal with proprietary pricing copied in full.", False),
         ],
     },
 ]
 
 
 class Command(BaseCommand):
-    help = "Seed the difficult 10-question AI Literacy quiz (Nigeria Edition)."
+    help = "Seed the difficult 10-question AI Literacy quiz (Abuja Applied Edition)."
 
     @transaction.atomic
     def handle(self, *args, **options):
         quiz, _ = Quiz.objects.get_or_create(
             slug="ai-literacy-nigeria",
             defaults={
-                "title": "AI Literacy Assessment – Nigeria Edition",
+                "title": "AI Literacy Assessment - Abuja Applied Edition",
                 "is_active": True,
             },
         )
-        quiz.title = "AI Literacy Assessment – Nigeria Edition"
+        quiz.title = "AI Literacy Assessment - Abuja Applied Edition"
         quiz.is_active = True
         quiz.save(update_fields=["title", "is_active"])
         Quiz.objects.exclude(pk=quiz.pk).update(is_active=False)

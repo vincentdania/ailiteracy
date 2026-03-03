@@ -38,7 +38,6 @@ def start(request):
         quiz=quiz,
         user=request.user if request.user.is_authenticated else None,
         session_key=session_key,
-        time_limit_seconds=480,
     )
     return redirect("quiz:take", attempt_id=attempt.id)
 

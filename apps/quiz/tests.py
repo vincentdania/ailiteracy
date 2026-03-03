@@ -79,6 +79,14 @@ class QuizEngineTests(TestCase):
         self.assertIsNotNone(attempt.completed_at)
         self.assertTrue(hasattr(attempt, "result"))
 
+    def test_start_view_uses_thirty_minute_time_limit(self):
+        call_command("seed_ai_literacy_quiz")
+        response = self.client.post(reverse("quiz:start"))
+        self.assertEqual(response.status_code, 302)
+
+        attempt = Attempt.objects.latest("id")
+        self.assertEqual(attempt.time_limit_seconds, 1800)
+
 
 class QuizAdminValidationTests(TestCase):
     def setUp(self):

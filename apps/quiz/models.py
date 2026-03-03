@@ -77,7 +77,7 @@ class Attempt(models.Model):
     session_key = models.CharField(max_length=40, blank=True, db_index=True)
     started_at = models.DateTimeField(auto_now_add=True)
     completed_at = models.DateTimeField(null=True, blank=True)
-    time_limit_seconds = models.PositiveIntegerField(default=480)
+    time_limit_seconds = models.PositiveIntegerField(default=1800)
     is_timed_out = models.BooleanField(default=False)
 
     class Meta:
