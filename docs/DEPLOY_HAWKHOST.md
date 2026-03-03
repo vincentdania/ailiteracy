@@ -29,7 +29,7 @@ In cPanel:
 1. Open **Setup Python App**.
 2. Click **Create Application**.
 3. Use:
-   - Python version: `3.11` (or newest available supported by your server)
+   - Python version: `3.9` (this repo is pinned for HawkHost shared Python 3.9)
    - Application root: `ailiteracy` (under `/home/<cpanel_user>/ailiteracy`)
    - Application URL: select your domain root or subdomain
    - Application startup file: `passenger_wsgi.py`

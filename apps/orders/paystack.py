@@ -1,7 +1,7 @@
 import hashlib
 import hmac
 from decimal import Decimal
-from typing import Any
+from typing import Any, Dict, Optional
 from uuid import uuid4
 
 import requests
@@ -21,7 +21,9 @@ def _headers() -> dict[str, str]:
     }
 
 
-def initialize_transaction(order, email: str, callback_url: str | None = None) -> dict[str, Any]:
+def initialize_transaction(
+    order, email: str, callback_url: Optional[str] = None
+) -> Dict[str, Any]:
     if not settings.PAYSTACK_SECRET_KEY:
         raise PaystackError("Paystack secret key is not configured.")
 
@@ -48,7 +50,7 @@ def initialize_transaction(order, email: str, callback_url: str | None = None) -
     return response.json()
 
 
-def verify_transaction(reference: str) -> dict[str, Any]:
+def verify_transaction(reference: str) -> Dict[str, Any]:
     if not settings.PAYSTACK_SECRET_KEY:
         raise PaystackError("Paystack secret key is not configured.")
 
@@ -61,7 +63,7 @@ def verify_transaction(reference: str) -> dict[str, Any]:
     return response.json()
 
 
-def verify_webhook_signature(payload: bytes, signature: str | None) -> bool:
+def verify_webhook_signature(payload: bytes, signature: Optional[str]) -> bool:
     if not signature:
         return False
 

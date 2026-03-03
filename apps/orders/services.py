@@ -1,4 +1,5 @@
 from decimal import Decimal
+from typing import Any, Dict, Optional, Set, Tuple
 
 from django.db import transaction
 from django.utils import timezone
@@ -8,7 +9,7 @@ from apps.learning.models import Enrollment
 from .models import AccessGrant, Cart, Order, OrderItem, PaymentTransaction
 
 
-def create_order_from_cart(user, email: str | None = None) -> Order:
+def create_order_from_cart(user, email: Optional[str] = None) -> Order:
     cart = Cart.objects.filter(user=user).prefetch_related("items__product").first()
     if not cart or not cart.items.exists():
         raise ValueError("Cart is empty.")
@@ -40,7 +41,13 @@ def create_order_from_cart(user, email: str | None = None) -> Order:
     return order
 
 
-def grant_product_access(user, product, order, source_product=None, visited: set[int] | None = None) -> None:
+def grant_product_access(
+    user,
+    product,
+    order,
+    source_product=None,
+    visited: Optional[Set[int]] = None,
+) -> None:
     visited = visited or set()
     if product.id in visited:
         return
@@ -67,7 +74,11 @@ def grant_product_access(user, product, order, source_product=None, visited: set
             )
 
 
-def fulfill_paid_order(order: Order, reference: str | None = None, payload: dict | None = None) -> bool:
+def fulfill_paid_order(
+    order: Order,
+    reference: Optional[str] = None,
+    payload: Optional[Dict[str, Any]] = None,
+) -> bool:
     with transaction.atomic():
         locked_order = Order.objects.select_for_update().get(pk=order.pk)
         if locked_order.status == Order.Status.PAID:
@@ -95,7 +106,9 @@ def fulfill_paid_order(order: Order, reference: str | None = None, payload: dict
     return True
 
 
-def process_paystack_verification(reference: str, payload: dict) -> tuple[bool, Order | None]:
+def process_paystack_verification(
+    reference: str, payload: Dict[str, Any]
+) -> Tuple[bool, Optional[Order]]:
     transaction_obj = PaymentTransaction.objects.select_related("order").filter(reference=reference).first()
     order = transaction_obj.order if transaction_obj else Order.objects.filter(paystack_reference=reference).first()
 
@@ -133,7 +146,7 @@ def process_paystack_verification(reference: str, payload: dict) -> tuple[bool, 
     return is_success, order
 
 
-def handle_paystack_webhook_payload(payload: dict) -> bool:
+def handle_paystack_webhook_payload(payload: Dict[str, Any]) -> bool:
     event = payload.get("event")
     data = payload.get("data", {})
     reference = data.get("reference")

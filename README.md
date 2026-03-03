@@ -1,9 +1,9 @@
 # AIliteracy Django MVP
 
-Django 5 project for [ailiteracy.ng](https://ailiteracy.ng) using Django Templates + HTMX + Alpine.js.
+Django project for [ailiteracy.ng](https://ailiteracy.ng) using Django Templates + HTMX + Alpine.js.
 
 ## Stack
-- Django 5
+- Django 4.2 LTS (Python 3.9 compatible)
 - PostgreSQL (SQLite fallback for local quick start)
 - Django REST Framework (internal APIs)
 - django-allauth (email auth)
