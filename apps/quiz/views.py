@@ -93,14 +93,10 @@ def take(request, attempt_id):
                     "Answer every question with the exact selection count (1 for single-select, 2 for multi-select).",
                 )
             else:
-                result = finalize_attempt(attempt)
-                request.session["quiz_prompt_skipped"] = True
-                request.session["quiz_latest_result_id"] = result.id
+                finalize_attempt(attempt)
                 return redirect("quiz:result", attempt_id=attempt.id)
         else:
-            result = finalize_attempt(attempt)
-            request.session["quiz_prompt_skipped"] = True
-            request.session["quiz_latest_result_id"] = result.id
+            finalize_attempt(attempt)
             if attempt.is_timed_out:
                 messages.info(request, "Time is up. Your quiz was auto-submitted.")
             return redirect("quiz:result", attempt_id=attempt.id)
@@ -108,9 +104,7 @@ def take(request, attempt_id):
     if has_timed_out(attempt):
         attempt.is_timed_out = True
         attempt.save(update_fields=["is_timed_out"])
-        result = finalize_attempt(attempt)
-        request.session["quiz_prompt_skipped"] = True
-        request.session["quiz_latest_result_id"] = result.id
+        finalize_attempt(attempt)
         messages.info(request, "Time is up. Your quiz was auto-submitted.")
         return redirect("quiz:result", attempt_id=attempt.id)
 
@@ -174,7 +168,6 @@ def result(request, attempt_id):
 
 @require_http_methods(["POST"])
 def skip_prompt(request):
-    request.session["quiz_prompt_skipped"] = True
     next_url = request.POST.get("next") or reverse("core:home")
     if not url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}):
         next_url = reverse("core:home")

@@ -4,8 +4,6 @@ from .models import Quiz, Result
 def quiz_prompt(request):
     if request.path.startswith("/quiz/"):
         return {"show_quiz_prompt": False}
-    if request.session.get("quiz_prompt_skipped"):
-        return {"show_quiz_prompt": False}
 
     quiz = Quiz.objects.filter(is_active=True).order_by("-id").first()
     if not quiz:
