@@ -12,10 +12,16 @@ from .services import finalize_attempt
 
 
 class QuizEngineTests(TestCase):
+    def _perfect_payload(self, quiz):
+        payload = {}
+        for question in quiz.questions.prefetch_related("options").all():
+            payload["question_%s" % question.id] = list(question.options.filter(is_correct=True).values_list("id", flat=True))
+        return payload
+
     def test_perfect_attempt_scores_ten_over_ten(self):
         call_command("seed_ai_literacy_quiz")
-        quiz = Quiz.objects.get(slug="ai-literacy-nigeria")
-        attempt = Attempt.objects.create(quiz=quiz, session_key="sess-1", time_limit_seconds=480)
+        quiz = Quiz.objects.get(slug="ai-literacy-africa")
+        attempt = Attempt.objects.create(quiz=quiz, session_key="sess-1", time_limit_seconds=1200)
 
         for question in quiz.questions.prefetch_related("options").all():
             answer = AttemptAnswer.objects.create(attempt=attempt, question=question)
@@ -24,7 +30,7 @@ class QuizEngineTests(TestCase):
         result = finalize_attempt(attempt)
         self.assertEqual(result.score, 10)
         self.assertEqual(result.percent, 100)
-        self.assertEqual(result.level, "Advanced")
+        self.assertEqual(result.level, "Elite")
 
     def test_multi_select_strict_scoring_requires_exact_two_correct(self):
         quiz = Quiz.objects.create(title="Strict Multi Quiz", slug="strict-multi", is_active=True)
@@ -40,7 +46,7 @@ class QuizEngineTests(TestCase):
         c = Option.objects.create(question=multi, text="C", is_correct=False)
         Option.objects.create(question=multi, text="D", is_correct=False)
 
-        attempt = Attempt.objects.create(quiz=quiz, session_key="sess-2", time_limit_seconds=480)
+        attempt = Attempt.objects.create(quiz=quiz, session_key="sess-2", time_limit_seconds=1200)
         answer = AttemptAnswer.objects.create(attempt=attempt, question=multi)
         answer.selected_options.set([a, c])  # Not exact correct pair => zero credit
 
@@ -49,14 +55,14 @@ class QuizEngineTests(TestCase):
         self.assertEqual(result.percent, 0)
         self.assertEqual(result.level, "Beginner")
 
-        attempt_2 = Attempt.objects.create(quiz=quiz, session_key="sess-3", time_limit_seconds=480)
+        attempt_2 = Attempt.objects.create(quiz=quiz, session_key="sess-3", time_limit_seconds=1200)
         answer_2 = AttemptAnswer.objects.create(attempt=attempt_2, question=multi)
         answer_2.selected_options.set([a, b])
         result_2 = finalize_attempt(attempt_2)
         self.assertEqual(result_2.score, 1)
         self.assertEqual(result_2.percent, 10)
 
-    def test_time_limit_auto_submit_behavior(self):
+    def test_twenty_minute_timeout_auto_submit_behavior(self):
         quiz = Quiz.objects.create(title="Timed Quiz", slug="timed-quiz", is_active=True)
         question = Question.objects.create(quiz=quiz, text="Q1", order=1, kind=Question.Kind.SINGLE)
         Option.objects.create(question=question, text="Yes", is_correct=True)
@@ -66,8 +72,8 @@ class QuizEngineTests(TestCase):
         session.save()
         session_key = session.session_key
 
-        attempt = Attempt.objects.create(quiz=quiz, session_key=session_key, time_limit_seconds=10)
-        Attempt.objects.filter(pk=attempt.pk).update(started_at=timezone.now() - timedelta(minutes=9))
+        attempt = Attempt.objects.create(quiz=quiz, session_key=session_key, time_limit_seconds=1200)
+        Attempt.objects.filter(pk=attempt.pk).update(started_at=timezone.now() - timedelta(minutes=21))
         attempt.refresh_from_db()
 
         response = self.client.get(reverse("quiz:take", kwargs={"attempt_id": attempt.id}))
@@ -78,14 +84,51 @@ class QuizEngineTests(TestCase):
         self.assertTrue(attempt.is_timed_out)
         self.assertIsNotNone(attempt.completed_at)
         self.assertTrue(hasattr(attempt, "result"))
+        self.assertEqual(attempt.time_taken_seconds, 1200)
 
-    def test_start_view_uses_thirty_minute_time_limit(self):
+    def test_randomization_does_not_change_correctness(self):
+        call_command("seed_ai_literacy_quiz")
+        quiz = Quiz.objects.get(slug="ai-literacy-africa")
+
+        session = self.client.session
+        session.save()
+        session_key = session.session_key
+
+        attempt_one = Attempt.objects.create(quiz=quiz, session_key=session_key, time_limit_seconds=1200)
+        attempt_two = Attempt.objects.create(quiz=quiz, session_key=session_key, time_limit_seconds=1200)
+
+        self.client.get(reverse("quiz:take", kwargs={"attempt_id": attempt_one.id}))
+        session = self.client.session
+        random_orders = session.get("quiz_random_orders", {})
+
+        question_ids = list(quiz.questions.values_list("id", flat=True))
+        option_orders = {}
+        for question in quiz.questions.prefetch_related("options").all():
+            option_ids = list(question.options.values_list("id", flat=True))
+            option_orders[str(question.id)] = list(reversed(option_ids))
+        random_orders[str(attempt_two.id)] = {
+            "question_ids": list(reversed(question_ids)),
+            "option_orders": option_orders,
+        }
+        session["quiz_random_orders"] = random_orders
+        session.save()
+
+        perfect = self._perfect_payload(quiz)
+        self.client.post(reverse("quiz:take", kwargs={"attempt_id": attempt_one.id}), data=perfect)
+        self.client.post(reverse("quiz:take", kwargs={"attempt_id": attempt_two.id}), data=perfect)
+
+        attempt_one.refresh_from_db()
+        attempt_two.refresh_from_db()
+        self.assertEqual(attempt_one.result.score, 10)
+        self.assertEqual(attempt_two.result.score, 10)
+
+    def test_start_view_uses_twenty_minute_time_limit(self):
         call_command("seed_ai_literacy_quiz")
         response = self.client.post(reverse("quiz:start"))
         self.assertEqual(response.status_code, 302)
 
         attempt = Attempt.objects.latest("id")
-        self.assertEqual(attempt.time_limit_seconds, 1800)
+        self.assertEqual(attempt.time_limit_seconds, 1200)
 
 
 class QuizAdminValidationTests(TestCase):

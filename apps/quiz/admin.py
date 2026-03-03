@@ -44,7 +44,7 @@ class QuizAdmin(admin.ModelAdmin):
 
 @admin.register(Attempt)
 class AttemptAdmin(admin.ModelAdmin):
-    list_display = ("id", "quiz", "user", "started_at", "completed_at", "time_limit_seconds", "is_timed_out")
+    list_display = ("id", "quiz", "user", "started_at", "completed_at", "time_taken_seconds", "time_limit_seconds", "is_timed_out")
     list_filter = ("quiz", "is_timed_out", "started_at", "completed_at")
     search_fields = ("session_key", "user__email")
 

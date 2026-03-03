@@ -7,45 +7,42 @@ from django.utils import timezone
 from .models import AttemptAnswer, Result
 
 
-def level_from_percent(percent):
-    if percent <= 30:
+def level_from_score(score):
+    if score <= 3:
         return Result.Level.BEGINNER
-    if percent <= 60:
+    if score <= 6:
         return Result.Level.INTERMEDIATE
-    if percent <= 80:
+    if score <= 8:
         return Result.Level.PROFICIENT
-    return Result.Level.ADVANCED
+    if score == 9:
+        return Result.Level.ADVANCED
+    return Result.Level.ELITE
 
 
 def rank_for_score(score):
-    if score <= 2:
+    if score <= 3:
         return (
-            "AI JJC",
-            "No shakes. You’re just getting started. Give us 21 days and you’ll shock yourself.",
-        )
-    if score <= 4:
-        return (
-            "Curious Explorer",
-            "You’ve seen AI around. Now let’s move from vibes to skills.",
+            "Explorer",
+            "Strong start. Join the AI Literacy Bootcamp to build world-class execution depth for Africa’s AI future.",
         )
     if score <= 6:
         return (
-            "Street Smart",
-            "You sabi the basics. With structure, you’ll start using AI for real outcomes.",
+            "Emerging Practitioner",
+            "You are building momentum. The Bootcamp helps you convert promising judgment into high-impact outcomes across African markets.",
         )
     if score <= 8:
         return (
-            "Pro Builder",
-            "You’re already applying AI. Let’s sharpen your workflow and judgment.",
+            "AI Fluent",
+            "You demonstrate strong fluency. Join the Bootcamp to sharpen governance, strategy, and execution for scale.",
         )
     if score == 9:
         return (
-            "AI OG",
-            "You’re cooking 🔥. You have strong AI fluency—now let’s make it consistent and responsible.",
+            "Advanced Strategist",
+            "Excellent strategic command. The Bootcamp can help you operationalize this level into durable AI leadership in Africa.",
         )
     return (
-        "Legend",
-        "Mad o! You’re in rare air. Now help others level up—teach what you know.",
+        "Elite AI Thinker",
+        "Exceptional performance. Join the Bootcamp to drive frontier-grade, responsible AI systems for African institutions.",
     )
 
 
@@ -134,11 +131,13 @@ def finalize_attempt(attempt):
 
     score = calculate_score(attempt)
     percent = score * 10
-    level = level_from_percent(percent)
+    level = level_from_score(score)
     attempt.completed_at = timezone.now()
+    elapsed = int((attempt.completed_at - attempt.started_at).total_seconds())
+    attempt.time_taken_seconds = max(0, min(elapsed, attempt.time_limit_seconds))
     if has_timed_out(attempt):
         attempt.is_timed_out = True
-    attempt.save(update_fields=["completed_at", "is_timed_out"])
+    attempt.save(update_fields=["completed_at", "time_taken_seconds", "is_timed_out"])
     result, _ = Result.objects.update_or_create(
         attempt=attempt,
         defaults={

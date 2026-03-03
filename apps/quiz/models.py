@@ -77,7 +77,8 @@ class Attempt(models.Model):
     session_key = models.CharField(max_length=40, blank=True, db_index=True)
     started_at = models.DateTimeField(auto_now_add=True)
     completed_at = models.DateTimeField(null=True, blank=True)
-    time_limit_seconds = models.PositiveIntegerField(default=1800)
+    time_limit_seconds = models.PositiveIntegerField(default=1200)
+    time_taken_seconds = models.PositiveIntegerField(default=0)
     is_timed_out = models.BooleanField(default=False)
 
     class Meta:
@@ -115,6 +116,7 @@ class Result(models.Model):
         INTERMEDIATE = "Intermediate", "Intermediate"
         PROFICIENT = "Proficient", "Proficient"
         ADVANCED = "Advanced", "Advanced"
+        ELITE = "Elite", "Elite"
 
     attempt = models.OneToOneField(Attempt, on_delete=models.CASCADE, related_name="result")
     score = models.PositiveSmallIntegerField(default=0)
