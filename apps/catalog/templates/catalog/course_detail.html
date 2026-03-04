@@ -18,6 +18,9 @@
                     <a href="{{ product.partner_purchase_url }}" class="bg-primary text-accent-dark px-8 py-4 rounded-xl text-lg font-black hover:shadow-lg hover:shadow-primary/20 transition-all inline-flex items-center gap-2">
                         Buy on {{ ecommerce_partner_name }} <span class="material-symbols-outlined">open_in_new</span>
                     </a>
+                    <div class="basis-full">
+                        {% include "includes/powered_by_hyrax_badge.html" %}
+                    </div>
                 {% elif enrollment %}
                     <a href="{% url 'dashboard' %}" class="bg-primary text-accent-dark px-8 py-4 rounded-xl text-lg font-black hover:brightness-110 transition-all inline-flex items-center gap-2">
                         Continue Learning <span class="material-symbols-outlined">arrow_forward</span>
@@ -97,6 +100,9 @@
                         <a href="{{ product.partner_purchase_url }}" class="w-full inline-flex justify-center rounded-xl bg-primary text-accent-dark py-3 font-black hover:brightness-110 transition-all">
                             Buy on {{ ecommerce_partner_name }}
                         </a>
+                        <div class="mt-3 text-center">
+                            {% include "includes/powered_by_hyrax_badge.html" %}
+                        </div>
                     {% elif enrollment %}
                         <a href="{% url 'dashboard' %}" class="w-full inline-flex justify-center rounded-xl bg-primary text-accent-dark py-3 font-black hover:brightness-110 transition-all">Go to Dashboard</a>
                     {% else %}

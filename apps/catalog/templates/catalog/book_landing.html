@@ -20,6 +20,9 @@
                     <a href="{{ product.partner_purchase_url }}" class="mt-7 inline-flex items-center gap-2 rounded-xl bg-primary text-accent-dark px-7 py-3 font-black text-lg hover:brightness-110 transition-all">
                         Buy on {{ ecommerce_partner_name }} <span class="material-symbols-outlined">open_in_new</span>
                     </a>
+                    <div class="mt-3">
+                        {% include "includes/powered_by_hyrax_badge.html" %}
+                    </div>
                 {% else %}
                     <p class="mt-7 text-sm text-slate-500">Book product setup is pending in admin.</p>
                 {% endif %}
