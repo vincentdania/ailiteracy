@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "apps.quiz",
     "apps.bootcamp",
     "apps.certificates",
+    "apps.ai_index",
 ]
 
 MIDDLEWARE = [

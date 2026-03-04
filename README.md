@@ -23,6 +23,7 @@ Django project for [ailiteracy.ng](https://ailiteracy.ng) using Django Templates
 - `apps.quiz`
 - `apps.bootcamp`
 - `apps.certificates`
+- `apps.ai_index`
 
 ## Local setup
 1. Create and activate a virtual env.
@@ -79,6 +80,7 @@ Main routes:
 - `/bootcamp/interest/` (bootcamp interest form)
 - `/course/ai-fluency/` (Introduction to AI Literacy course)
 - `/certificates/my/` (logged-in certificate list)
+- `/ai-literacy-index/insights/` (public AI Literacy Index insights)
 
 Quiz behavior summary:
 
@@ -95,7 +97,17 @@ URL integration points:
   - `path("quiz/", include(("apps.quiz.urls", "quiz"), namespace="quiz"))`
   - `path("bootcamp/", include(("apps.bootcamp.urls", "bootcamp"), namespace="bootcamp"))`
   - `path("certificates/", include(("apps.certificates.urls", "certificates"), namespace="certificates"))`
+  - `path("ai-literacy-index/", include(("apps.ai_index.urls", "ai_index"), namespace="ai_index"))`
   - Micro-course routes are integrated in `apps.learning.urls` under `/course/...`
+
+AI Literacy Funnel integration notes:
+
+- Deep-quiz result hook:
+  - `apps/quiz/views.py` now computes/loads ALI on `quiz:result`.
+  - `apps/quiz/templates/quiz/result.html` renders ALI score, percentile, and share links (WhatsApp/LinkedIn/X).
+- ALI model/admin:
+  - `apps/ai_index/models.py` stores weighted ALI history (one record per deep-quiz completion).
+  - `apps/ai_index/admin.py` provides filters and CSV export action.
 
 Template integration point:
 

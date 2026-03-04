@@ -5,6 +5,13 @@ from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_http_methods
 
+from apps.ai_index.forms import AILiteracyIdentityForm
+from apps.ai_index.services import (
+    create_or_update_ali_from_deep_result,
+    percentile_higher_than,
+    share_links_for_score,
+)
+
 from .models import Attempt, Quiz
 from .services import (
     can_access_attempt,
@@ -152,6 +159,58 @@ def result(request, attempt_id):
     if not hasattr(attempt, "result"):
         return redirect("quiz:take", attempt_id=attempt.id)
 
+    result_obj = attempt.result
+    ali_entry = getattr(result_obj, "ali_score", None)
+    identity_form = None
+
+    if request.method == "POST" and request.POST.get("action") == "compute_ali":
+        if request.user.is_authenticated and request.user.email:
+            entry = create_or_update_ali_from_deep_result(
+                deep_result=result_obj,
+                name=request.user.get_full_name() or request.user.email,
+                email=request.user.email,
+                user=request.user,
+                session_key=attempt.session_key,
+            )
+            messages.success(request, "Your AI Literacy Index has been generated.")
+            return redirect("quiz:result", attempt_id=attempt.id)
+
+        identity_form = AILiteracyIdentityForm(request.POST)
+        if identity_form.is_valid():
+            entry = create_or_update_ali_from_deep_result(
+                deep_result=result_obj,
+                name=identity_form.cleaned_data["name"],
+                email=identity_form.cleaned_data["email"],
+                user=request.user if request.user.is_authenticated else None,
+                session_key=attempt.session_key,
+            )
+            messages.success(request, "Your AI Literacy Index has been generated.")
+            return redirect("quiz:result", attempt_id=attempt.id)
+        messages.error(request, "Please provide your name and a valid email to compute your AI Literacy Index.")
+
+    if not ali_entry and request.user.is_authenticated and request.user.email:
+        ali_entry = create_or_update_ali_from_deep_result(
+            deep_result=result_obj,
+            name=request.user.get_full_name() or request.user.email,
+            email=request.user.email,
+            user=request.user,
+            session_key=attempt.session_key,
+        )
+
+    if identity_form is None:
+        if request.user.is_authenticated and request.user.email:
+            identity_form = AILiteracyIdentityForm(
+                initial={
+                    "name": request.user.get_full_name() or request.user.email,
+                    "email": request.user.email,
+                }
+            )
+        else:
+            identity_form = AILiteracyIdentityForm()
+
+    percentile = percentile_higher_than(ali_entry.ali_score) if ali_entry else None
+    share_links = share_links_for_score(ali_entry.ali_score) if ali_entry else {}
+
     rank, playful_message = rank_for_score(attempt.result.score)
     return render(
         request,
@@ -161,6 +220,10 @@ def result(request, attempt_id):
             "result": attempt.result,
             "rank": rank,
             "playful_message": playful_message,
+            "ali_entry": ali_entry,
+            "ali_identity_form": identity_form,
+            "ali_percentile": percentile,
+            "share_links": share_links,
         },
     )
 

@@ -15,6 +15,7 @@ urlpatterns = [
     path("quiz/", include(("apps.quiz.urls", "quiz"), namespace="quiz")),
     path("bootcamp/", include(("apps.bootcamp.urls", "bootcamp"), namespace="bootcamp")),
     path("certificates/", include(("apps.certificates.urls", "certificates"), namespace="certificates")),
+    path("ai-literacy-index/", include(("apps.ai_index.urls", "ai_index"), namespace="ai_index")),
     path("", include(("apps.core.urls", "core"), namespace="core")),
     path("", include(("apps.catalog.urls", "catalog"), namespace="catalog")),
     path("", include(("apps.content.urls", "content"), namespace="content")),
