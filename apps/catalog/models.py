@@ -1,3 +1,6 @@
+from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
+
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
@@ -42,3 +45,17 @@ class Product(models.Model):
         if self.product_type == self.ProductType.COURSE and self.course:
             return reverse("catalog:course_detail", kwargs={"slug": self.course.slug})
         return reverse("catalog:product_detail", kwargs={"slug": self.slug})
+
+    @property
+    def partner_purchase_url(self):
+        parsed = urlparse(settings.ECOMMERCE_PARTNER_URL)
+        query = dict(parse_qsl(parsed.query, keep_blank_values=True))
+        query.update(
+            {
+                "utm_source": "ailiteracy.ng",
+                "utm_medium": "referral",
+                "utm_campaign": "ecommerce_partner",
+                "product": self.slug,
+            }
+        )
+        return urlunparse(parsed._replace(query=urlencode(query)))

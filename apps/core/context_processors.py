@@ -1,3 +1,6 @@
+from django.conf import settings
+
+
 def layout(request):
     from apps.marketing.forms import SubscriberForm
 
@@ -10,4 +13,6 @@ def layout(request):
     return {
         "newsletter_form": SubscriberForm(),
         "cart_item_count": cart_item_count,
+        "ecommerce_partner_url": settings.ECOMMERCE_PARTNER_URL,
+        "ecommerce_partner_name": settings.ECOMMERCE_PARTNER_NAME,
     }

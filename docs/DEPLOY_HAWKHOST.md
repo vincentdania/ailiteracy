@@ -85,6 +85,10 @@ PAYSTACK_WEBHOOK_SECRET=sk_live_xxx
 PAYSTACK_CALLBACK_URL=https://ailiteracy.ng/orders/paystack/callback/
 PAYSTACK_ALLOW_LOCAL_FALLBACK=False
 
+# Route all commerce to partner site
+ECOMMERCE_PARTNER_URL=https://hyrax.ng/
+ECOMMERCE_PARTNER_NAME=Hyrax.ng
+
 # Use SMTP in production (example values)
 EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
 EMAIL_HOST=mail.ailiteracy.ng
@@ -136,6 +140,8 @@ In Paystack dashboard, set webhook URL:
 `https://ailiteracy.ng/orders/paystack/webhook/`
 
 Then test a payment on live mode.
+
+If you are running partner-commerce mode (all purchases redirected to Hyrax), you can skip local Paystack webhook usage on this app.
 
 ## 11) Update deployment workflow (future changes)
 
