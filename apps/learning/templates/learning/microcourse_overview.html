@@ -10,15 +10,15 @@
             <h1 class="text-3xl font-black text-deep-blue mt-3">{{ course.title }}</h1>
             <p class="text-slate-600 mt-4">{{ course.description|default:course.summary }}</p>
             <ul class="mt-6 space-y-2 text-sm text-slate-600">
-                <li>• {{ course.modules.count }} in-depth modules (~50+ minutes total)</li>
+                <li>• {{ course.modules.count }} short lessons (~15 minutes total)</li>
                 <li>• Final quiz ({{ course.final_quiz_questions.count }} questions)</li>
                 <li>• Pass mark: 80% for certificate issuance</li>
             </ul>
             <div class="mt-6 rounded-xl border border-slate-100 bg-background-light p-4">
                 <p class="text-xs uppercase tracking-widest font-black text-slate-500">You will learn</p>
                 <p class="text-sm text-slate-700 mt-2 leading-relaxed">
-                    AI literacy fundamentals, narrow and wide AI, agentic and embodied systems, AGI and ASI concepts,
-                    model limitations, hallucination controls, fairness and governance, privacy, and AI economics in African contexts.
+                    What AI is, how it differs from machine learning and generative AI, where you already interact with AI,
+                    what it means to be AI literate, and why AI literacy matters for people and economies across Africa.
                 </p>
             </div>
             {% if current_attempt %}

@@ -5,169 +5,91 @@ from apps.learning.models import Course, FinalQuizOption, FinalQuizQuestion, Les
 
 
 class Command(BaseCommand):
-    help = "Seed the Introduction to AI Literacy course content and final quiz."
+    help = "Seed the intro AI literacy micro-course content and final quiz."
 
     @transaction.atomic
     def handle(self, *args, **options):
         course, _ = Course.objects.get_or_create(
             slug="ai-fluency",
             defaults={
-                "title": "Introduction to AI Literacy: Foundations for Africa",
-                "summary": "A practical foundation course on AI concepts, safe use, and economic impact in Africa.",
+                "title": "Introduction to AI Literacy: What is AI and Who Is Considered AI Literate?",
+                "summary": "A 15-minute introduction to what AI is and what AI literacy means.",
                 "description": (
-                    "A structured introduction to AI literacy covering model behavior, "
-                    "prompting, risk management, governance, and AI economics in African contexts."
+                    "A short, practical course explaining what AI is, where you already use it, "
+                    "what it means to be AI literate, and why AI literacy matters for African societies."
                 ),
                 "is_featured": True,
             },
         )
-        course.title = "Introduction to AI Literacy: Foundations for Africa"
-        course.summary = "A practical foundation course on AI concepts, safe use, and economic impact in Africa."
+        course.title = "Introduction to AI Literacy: What is AI and Who Is Considered AI Literate?"
+        course.summary = "A 15-minute introduction to what AI is and what AI literacy means."
         course.description = (
-            "A structured introduction to AI literacy covering model behavior, "
-            "prompting, risk management, governance, and AI economics in African contexts."
+            "A short, practical course explaining what AI is, where you already use it, "
+            "what it means to be AI literate, and why AI literacy matters for African societies."
         )
         course.is_featured = True
         course.save(update_fields=["title", "summary", "description", "is_featured"])
 
         lesson_payload = [
             {
-                "module_title": "Module 1: What AI Literacy Means (6 mins)",
-                "lesson_title": "Foundations of AI Literacy",
-                "lesson_slug": "foundations-of-ai-literacy",
+                "module_title": "Lesson 1: What is Artificial Intelligence?",
+                "lesson_title": "AI, Machine Learning, and Generative AI",
+                "lesson_slug": "what-is-artificial-intelligence",
                 "content": (
-                    "AI literacy is the ability to understand, evaluate, and apply AI systems responsibly.\n\n"
-                    "In practice, AI literacy combines five capabilities:\n"
-                    "1) Conceptual understanding: what AI can and cannot do.\n"
-                    "2) Practical use: writing prompts and structuring workflows.\n"
-                    "3) Critical evaluation: spotting errors, hallucinations, and weak evidence.\n"
-                    "4) Governance awareness: privacy, safety, and accountability controls.\n"
-                    "5) Economic judgment: how AI changes tasks, value chains, and workforce skills.\n\n"
-                    "This course uses applied African examples so learners can move from curiosity to execution."
+                    "Artificial Intelligence (AI) means computer systems performing tasks that usually require human intelligence, "
+                    "such as pattern recognition, prediction, language understanding, and decision support.\n\n"
+                    "Machine Learning (ML) is a part of AI. In ML, systems learn patterns from data instead of being manually programmed for every rule.\n\n"
+                    "Generative AI is a type of AI that creates new content such as text, images, code, audio, or summaries.\n\n"
+                    "Relatable examples in Nigerian and African contexts:\n"
+                    "- AI writing tools for emails, proposals, and class notes\n"
+                    "- Fraud detection systems in Nigerian banks\n"
+                    "- Agriculture monitoring using drones and satellite data\n"
+                    "- Customer service chatbots for telecom, fintech, and e-commerce"
                 ),
             },
             {
-                "module_title": "Module 2: AI System Types and Capability Ladder (8 mins)",
-                "lesson_title": "Narrow AI, Wide AI, Agentic, Embodied, AGI, and ASI",
-                "lesson_slug": "ai-fluency-framework",
+                "module_title": "Lesson 2: Where You Already Encounter AI",
+                "lesson_title": "Everyday AI in Daily Life",
+                "lesson_slug": "where-you-already-encounter-ai",
                 "content": (
-                    "Narrow AI:\n"
-                    "- Built for specific tasks (classification, translation, recommendations).\n"
-                    "- High performance inside defined boundaries.\n\n"
-                    "Wide AI (broad-domain AI):\n"
-                    "- Handles a wider set of related tasks across domains, but remains bounded.\n"
-                    "- More adaptable than narrow systems, not fully general.\n\n"
-                    "Agentic AI:\n"
-                    "- Plans and executes multi-step goals with tools, memory, and feedback loops.\n"
-                    "- Useful for operations, research, and orchestration tasks.\n\n"
-                    "Embodied AI:\n"
-                    "- AI connected to physical systems (robots, drones, vehicles, sensors).\n"
-                    "- Must reason under real-world uncertainty and constraints.\n\n"
-                    "AGI:\n"
-                    "- Hypothetical human-level general intelligence across diverse tasks.\n\n"
-                    "ASI:\n"
-                    "- Hypothetical intelligence far beyond human cognitive capability.\n\n"
-                    "Literacy goal: match system type to real use-cases without hype."
+                    "You already use AI more often than you might think.\n\n"
+                    "Common examples:\n"
+                    "- Google Search ranking and suggestions\n"
+                    "- Netflix and YouTube recommendations\n"
+                    "- Fraud detection alerts in Nigerian banking apps\n"
+                    "- Ride-hailing route and pricing optimization\n"
+                    "- AI writing assistants in school and work\n\n"
+                    "AI is not only for engineers. It now appears in everyday tools used by students, workers, and business owners."
                 ),
             },
             {
-                "module_title": "Module 3: How Modern AI Models Work (8 mins)",
-                "lesson_title": "Prediction, Context Windows, and Model Limitations",
-                "lesson_slug": "prompting-basics-practice",
+                "module_title": "Lesson 3: What Does It Mean To Be AI Literate?",
+                "lesson_title": "Core Skills of an AI-Literate Person",
+                "lesson_slug": "what-it-means-to-be-ai-literate",
                 "content": (
-                    "Most language models predict likely next tokens from patterns in training data.\n\n"
-                    "What this enables:\n"
-                    "- Drafting, summarization, coding assistance, ideation, synthesis.\n\n"
-                    "What this does not guarantee:\n"
-                    "- Ground-truth accuracy.\n"
-                    "- Reliable citation quality.\n"
-                    "- Human-level understanding or intent.\n\n"
-                    "Key limitations:\n"
-                    "- Hallucinations: fluent but incorrect outputs.\n"
-                    "- Context limits: long documents may lose important details.\n"
-                    "- Distribution shifts: poor reliability in unfamiliar contexts.\n\n"
-                    "Operational habit: trust workflow, not confidence tone."
+                    "AI literacy is the ability to understand, use, and evaluate AI responsibly.\n\n"
+                    "An AI-literate person can:\n"
+                    "- Understand what AI can and cannot do\n"
+                    "- Use AI tools effectively for practical outcomes\n"
+                    "- Ask better prompts with clear context\n"
+                    "- Verify AI outputs before relying on them\n"
+                    "- Understand major risks such as hallucinations and bias\n\n"
+                    "Being AI literate is less about hype and more about informed judgment."
                 ),
             },
             {
-                "module_title": "Module 4: Prompt Engineering for Real Work (8 mins)",
-                "lesson_title": "Prompt Design for Reliable Outputs",
-                "lesson_slug": "risks-ethics-responsible-use",
+                "module_title": "Lesson 4: Why AI Literacy Matters",
+                "lesson_title": "AI Literacy and the Future of Africa",
+                "lesson_slug": "why-ai-literacy-matters",
                 "content": (
-                    "High-performance prompt pattern:\n"
-                    "- Objective: what exact outcome do you need?\n"
-                    "- Context: business, audience, geography, constraints.\n"
-                    "- Criteria: quality bar, risk constraints, tone, format.\n"
-                    "- Verification: request assumptions, unknowns, and citations.\n\n"
-                    "Example for African policy work:\n"
-                    "- Ask for a policy memo in sections with quantified assumptions, risks, and implementation steps.\n"
-                    "- Require source placeholders and manual validation checklist.\n\n"
-                    "Prompting rule:\n"
-                    "- Better context plus better constraints equals better output quality."
-                ),
-            },
-            {
-                "module_title": "Module 5: Hallucinations, Bias, and Fairness (8 mins)",
-                "lesson_title": "Risk Detection and Mitigation",
-                "lesson_slug": "hallucination-bias-fairness",
-                "content": (
-                    "Hallucination controls:\n"
-                    "- Ask for uncertainty markers and missing data notices.\n"
-                    "- Validate critical claims against trusted sources.\n"
-                    "- Use human review for high-stakes outputs.\n\n"
-                    "Bias and fairness controls:\n"
-                    "- Audit training and proxy features.\n"
-                    "- Test subgroup performance before deployment.\n"
-                    "- Track false-positive/false-negative disparities.\n"
-                    "- Provide appeal and override pathways.\n\n"
-                    "Applied principle:\n"
-                    "- Performance without fairness and accountability is not responsible AI."
-                ),
-            },
-            {
-                "module_title": "Module 6: Governance, Privacy, and Safety (8 mins)",
-                "lesson_title": "Policy, Compliance, and Human Oversight",
-                "lesson_slug": "governance-privacy-safety",
-                "content": (
-                    "Core governance controls for organizations:\n"
-                    "- Data classification before AI use (public, internal, restricted).\n"
-                    "- Privacy-by-design for personal and sensitive records.\n"
-                    "- Human-in-the-loop checks for critical decisions.\n"
-                    "- Logging, audit trails, and incident response processes.\n"
-                    "- Vendor risk review and model usage policies.\n\n"
-                    "For sectors like health, education, public services, and finance:\n"
-                    "- Require explicit accountability for final decisions.\n"
-                    "- Keep traceability from input to action."
-                ),
-            },
-            {
-                "module_title": "Module 7: AI Economics and Jobs in Africa (7 mins)",
-                "lesson_title": "Productivity, Skills, and Economic Transition",
-                "lesson_slug": "ai-economics-africa",
-                "content": (
-                    "AI primarily transforms tasks, then roles, then markets.\n\n"
-                    "Economic effects in African contexts:\n"
-                    "- Task automation in documentation, support, and analysis.\n"
-                    "- New demand for verification, operations, and AI governance skills.\n"
-                    "- Faster entrepreneurship through lower production and research costs.\n"
-                    "- Uneven gains without deliberate upskilling and inclusion policies.\n\n"
-                    "AI literacy is now a labor-market advantage, not optional knowledge."
-                ),
-            },
-            {
-                "module_title": "Module 8: Adoption Playbook and Next Steps (6 mins)",
-                "lesson_title": "From Learning to Responsible Deployment",
-                "lesson_slug": "adoption-playbook-next-steps",
-                "content": (
-                    "90-day AI literacy adoption plan:\n"
-                    "1) Identify three high-impact workflows.\n"
-                    "2) Define measurable success metrics.\n"
-                    "3) Pilot with strong human review.\n"
-                    "4) Document prompt patterns and quality controls.\n"
-                    "5) Train teams on safety, privacy, and escalation rules.\n"
-                    "6) Review outcomes monthly and improve.\n\n"
-                    "Outcome of this course:\n"
-                    "- You should be able to evaluate AI systems, use them responsibly, and lead practical adoption with clear governance."
+                    "AI literacy matters because AI is changing education, work, business, and public services.\n\n"
+                    "Why it matters for different groups:\n"
+                    "- Students: learn faster and prepare for modern careers\n"
+                    "- Workers: improve productivity and remain competitive\n"
+                    "- Entrepreneurs: build better products and reduce operating costs\n"
+                    "- Governments: design smarter, fairer public systems\n"
+                    "- African economies: increase innovation capacity and digital competitiveness\n\n"
+                    "AI literacy helps people use AI as a tool for growth, not a source of confusion."
                 ),
             },
         ]
@@ -197,93 +119,48 @@ class Command(BaseCommand):
 
         quiz_payload = [
             {
-                "text": "What best describes AI literacy?",
+                "text": "Which statement best defines Artificial Intelligence?",
                 "options": [
-                    ("Using AI tools without supervision.", False),
-                    ("Understanding, evaluating, and applying AI responsibly.", True),
-                    ("Only knowing the names of popular models.", False),
-                    ("Writing prompts faster than colleagues.", False),
+                    ("AI is any software that runs on a computer.", False),
+                    ("AI is a system that can perform tasks that usually require human intelligence.", True),
+                    ("AI always makes perfect decisions.", False),
+                    ("AI is only used by large tech companies.", False),
                 ],
             },
             {
-                "text": "Which option is a clear example of narrow AI?",
+                "text": "What is the relationship between AI, machine learning, and generative AI?",
                 "options": [
-                    ("A model specialized for invoice fraud detection.", True),
-                    ("A system that performs all human cognitive tasks.", False),
-                    ("A physical robot with self-awareness.", False),
-                    ("A universal model that never requires adaptation.", False),
+                    ("Machine learning and generative AI are unrelated to AI.", False),
+                    ("Machine learning is part of AI, and generative AI is one AI approach for creating content.", True),
+                    ("Generative AI is the same as all AI.", False),
+                    ("AI is a subset of machine learning.", False),
                 ],
             },
             {
-                "text": "Agentic AI is best defined as:",
+                "text": "Which option is a practical example of AI in an African context?",
                 "options": [
-                    ("A static model returning one-off predictions only.", False),
-                    ("A system that plans and executes multi-step tasks with feedback.", True),
-                    ("A chatbot that cannot use tools.", False),
-                    ("Any model deployed in a mobile app.", False),
+                    ("Bank fraud detection that flags suspicious transactions.", True),
+                    ("A paper notebook used for bookkeeping.", False),
+                    ("A calculator adding two numbers.", False),
+                    ("A static poster for a business.", False),
                 ],
             },
             {
-                "text": "Which scenario is the strongest example of embodied AI?",
+                "text": "A person is AI literate when they can:",
                 "options": [
-                    ("A report generator for quarterly finance updates.", False),
-                    ("A drone that maps farms and adjusts path in real time.", True),
-                    ("A social media caption tool.", False),
-                    ("A grammar correction widget.", False),
+                    ("Use AI outputs without checking.", False),
+                    ("Understand AI limits, write better prompts, and verify outputs.", True),
+                    ("Memorize AI brand names only.", False),
+                    ("Avoid AI entirely to stay safe.", False),
                 ],
             },
             {
-                "text": "What is the most reliable way to reduce hallucination risk?",
+                "text": "Why does AI literacy matter for African economies?",
                 "options": [
-                    ("Ask the model to be confident.", False),
-                    ("Validate critical claims against trusted external sources.", True),
-                    ("Use longer prompts only.", False),
-                    ("Avoid all use of citations.", False),
-                ],
-            },
-            {
-                "text": "Which is a core fairness control in AI deployment?",
-                "options": [
-                    ("Ignore subgroup outcomes if total accuracy is high.", False),
-                    ("Audit outcomes across demographic and contextual subgroups.", True),
-                    ("Hide model behavior from end users.", False),
-                    ("Remove all human review for consistency.", False),
-                ],
-            },
-            {
-                "text": "Before using sensitive records with AI, what should organizations do first?",
-                "options": [
-                    ("Share full data to improve model context.", False),
-                    ("Classify data and redact restricted personal information.", True),
-                    ("Assume vendors automatically handle all compliance duties.", False),
-                    ("Use screenshots to avoid privacy obligations.", False),
-                ],
-            },
-            {
-                "text": "What is a realistic statement about AI and employment in Africa?",
-                "options": [
-                    ("AI removes every job permanently.", False),
-                    ("AI reshapes task demand, creating pressure for reskilling.", True),
-                    ("AI affects only large foreign firms.", False),
-                    ("AI adoption has no influence on productivity.", False),
-                ],
-            },
-            {
-                "text": "A strong prompt for high-stakes analysis should include:",
-                "options": [
-                    ("Only a broad objective and no constraints.", False),
-                    ("Objective, context, constraints, output format, and validation instructions.", True),
-                    ("As many adjectives as possible.", False),
-                    ("A request for persuasive language above all else.", False),
-                ],
-            },
-            {
-                "text": "Why is human oversight still required in many AI workflows?",
-                "options": [
-                    ("Because AI cannot produce any useful output.", False),
-                    ("Because accountability, safety, and contextual judgment remain human responsibilities.", True),
-                    ("Because oversight improves internet speed.", False),
-                    ("Because governance applies only to robotics.", False),
+                    ("It helps countries ignore digital change.", False),
+                    ("It supports productivity, innovation, and better policy decisions.", True),
+                    ("It removes the need for human skills.", False),
+                    ("It only benefits foreign companies.", False),
                 ],
             },
         ]

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}{{ course.title }} | AILiteracy.ng{% endblock title %}
 
@@ -34,12 +35,13 @@
         </div>
 
         <div>
-            <div class="aspect-video rounded-2xl bg-slate-200 overflow-hidden shadow-2xl relative bg-gradient-to-br from-deep-blue via-slate-900 to-emerald-700">
-                <div class="absolute inset-0 bg-gradient-to-t from-accent-dark/70 to-transparent flex items-center justify-center">
-                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-accent-dark">
-                        <span class="material-symbols-outlined text-4xl">play_arrow</span>
-                    </div>
-                </div>
+            <div class="aspect-video rounded-2xl bg-slate-200 overflow-hidden shadow-2xl relative">
+                <img
+                    src="{% static 'images/ai-literacy-learning.jpg' %}"
+                    alt="Nigerian learning AI literacy on a laptop"
+                    class="h-full w-full object-cover"
+                    loading="lazy"
+                />
             </div>
         </div>
     </div>
