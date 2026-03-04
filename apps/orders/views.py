@@ -85,7 +85,8 @@ def checkout(request):
             request.user.save(update_fields=["email"])
 
         try:
-            gateway_payload = initialize_transaction(order, order.email)
+            callback_url = request.build_absolute_uri(reverse("orders:paystack_callback"))
+            gateway_payload = initialize_transaction(order, order.email, callback_url=callback_url)
             if not gateway_payload.get("status"):
                 order.status = Order.Status.FAILED
                 order.save(update_fields=["status"])
