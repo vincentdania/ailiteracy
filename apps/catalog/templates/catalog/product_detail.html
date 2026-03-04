@@ -12,7 +12,7 @@
         <h1 class="text-4xl font-black text-deep-blue mt-4">{{ product.title }}</h1>
         <p class="mt-4 text-slate-600 leading-relaxed">{{ product.description|default:product.short_description }}</p>
         <p class="mt-8 text-4xl font-black text-deep-blue">₦{{ product.price }}</p>
-        <a href="{{ product.partner_purchase_url }}" class="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary text-accent-dark px-6 py-3 font-black hover:brightness-110 transition-all">
+        <a href="{{ product.partner_purchase_url }}" target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary text-accent-dark px-6 py-3 font-black hover:brightness-110 transition-all">
             Buy on {{ ecommerce_partner_name }}
             <span class="material-symbols-outlined text-base">open_in_new</span>
         </a>

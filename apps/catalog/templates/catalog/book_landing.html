@@ -17,7 +17,7 @@
                         <p class="text-4xl font-black text-deep-blue">₦{{ product.price }}</p>
                         <span class="px-3 py-1 rounded-full bg-primary/20 text-accent-dark text-xs font-black uppercase">Digital Download</span>
                     </div>
-                    <a href="{{ product.partner_purchase_url }}" class="mt-7 inline-flex items-center gap-2 rounded-xl bg-primary text-accent-dark px-7 py-3 font-black text-lg hover:brightness-110 transition-all">
+                    <a href="{{ product.partner_purchase_url }}" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 rounded-xl bg-primary text-accent-dark px-7 py-3 font-black text-lg hover:brightness-110 transition-all">
                         Buy on {{ ecommerce_partner_name }} <span class="material-symbols-outlined">open_in_new</span>
                     </a>
                     <div class="mt-3">
@@ -25,7 +25,7 @@
                     </div>
                 {% else %}
                     <div class="mt-7">
-                        <a href="{{ partner_book_url }}" class="inline-flex items-center gap-2 rounded-xl bg-primary text-accent-dark px-7 py-3 font-black text-lg hover:brightness-110 transition-all">
+                        <a href="{{ partner_book_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-xl bg-primary text-accent-dark px-7 py-3 font-black text-lg hover:brightness-110 transition-all">
                             Buy the Book on {{ ecommerce_partner_name }} <span class="material-symbols-outlined">open_in_new</span>
                         </a>
                         <div class="mt-3">

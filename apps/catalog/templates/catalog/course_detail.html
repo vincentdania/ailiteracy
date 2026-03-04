@@ -15,7 +15,7 @@
             <p class="text-accent-dark/70 text-lg leading-relaxed mb-8">{{ course.description|default:course.summary }}</p>
             <div class="flex flex-wrap gap-4">
                 {% if product and not enrollment %}
-                    <a href="{{ product.partner_purchase_url }}" class="bg-primary text-accent-dark px-8 py-4 rounded-xl text-lg font-black hover:shadow-lg hover:shadow-primary/20 transition-all inline-flex items-center gap-2">
+                    <a href="{{ product.partner_purchase_url }}" target="_blank" rel="noopener noreferrer" class="bg-primary text-accent-dark px-8 py-4 rounded-xl text-lg font-black hover:shadow-lg hover:shadow-primary/20 transition-all inline-flex items-center gap-2">
                         Buy on {{ ecommerce_partner_name }} <span class="material-symbols-outlined">open_in_new</span>
                     </a>
                     <div class="basis-full">
@@ -97,7 +97,7 @@
                         <div class="flex items-center gap-3 text-sm font-medium"><span class="material-symbols-outlined text-emerald-600">workspace_premium</span>Completion certificate</div>
                     </div>
                     {% if product and not enrollment %}
-                        <a href="{{ product.partner_purchase_url }}" class="w-full inline-flex justify-center rounded-xl bg-primary text-accent-dark py-3 font-black hover:brightness-110 transition-all">
+                        <a href="{{ product.partner_purchase_url }}" target="_blank" rel="noopener noreferrer" class="w-full inline-flex justify-center rounded-xl bg-primary text-accent-dark py-3 font-black hover:brightness-110 transition-all">
                             Buy on {{ ecommerce_partner_name }}
                         </a>
                         <div class="mt-3 text-center">
