@@ -77,7 +77,7 @@ Main routes:
 
 - `/quiz/` (difficult timed AI literacy quiz)
 - `/bootcamp/interest/` (bootcamp interest form)
-- `/course/ai-fluency/` (15-minute micro-course)
+- `/course/ai-fluency/` (Introduction to AI Literacy course)
 - `/certificates/my/` (logged-in certificate list)
 
 Quiz behavior summary:

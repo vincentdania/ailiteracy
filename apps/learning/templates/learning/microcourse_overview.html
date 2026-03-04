@@ -6,14 +6,21 @@
 <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <article class="bg-white border border-slate-100 rounded-2xl p-8 shadow-sm">
-            <p class="text-xs uppercase tracking-widest font-black text-emerald-700">15-Min Micro-course</p>
+            <p class="text-xs uppercase tracking-widest font-black text-emerald-700">Introduction Course</p>
             <h1 class="text-3xl font-black text-deep-blue mt-3">{{ course.title }}</h1>
             <p class="text-slate-600 mt-4">{{ course.description|default:course.summary }}</p>
             <ul class="mt-6 space-y-2 text-sm text-slate-600">
-                <li>• 4 short modules (~15 minutes total)</li>
-                <li>• Final quiz (5 questions)</li>
+                <li>• {{ course.modules.count }} in-depth modules (~50+ minutes total)</li>
+                <li>• Final quiz ({{ course.final_quiz_questions.count }} questions)</li>
                 <li>• Pass mark: 80% for certificate issuance</li>
             </ul>
+            <div class="mt-6 rounded-xl border border-slate-100 bg-background-light p-4">
+                <p class="text-xs uppercase tracking-widest font-black text-slate-500">You will learn</p>
+                <p class="text-sm text-slate-700 mt-2 leading-relaxed">
+                    AI literacy fundamentals, narrow and wide AI, agentic and embodied systems, AGI and ASI concepts,
+                    model limitations, hallucination controls, fairness and governance, privacy, and AI economics in African contexts.
+                </p>
+            </div>
             {% if current_attempt %}
                 <div class="mt-6 rounded-xl border border-emerald-100 bg-emerald-50 p-4 text-sm">
                     Current progress: <strong>{{ current_attempt.progress_percentage }}%</strong>

@@ -7,7 +7,7 @@
     <article class="bg-white border border-slate-100 rounded-2xl p-8 shadow-sm">
         <p class="text-xs uppercase tracking-widest font-black text-emerald-700">Final Quiz</p>
         <h1 class="text-3xl font-black text-deep-blue mt-2 mb-2">{{ course.title }}</h1>
-        <p class="text-sm text-slate-600 mb-6">Answer all 5 questions. Passing score is 80%.</p>
+        <p class="text-sm text-slate-600 mb-6">Answer all {{ questions|length }} questions. Passing score is 80%.</p>
 
         <form method="post" class="space-y-7">
             {% csrf_token %}
