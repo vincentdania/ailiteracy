@@ -18,12 +18,7 @@ class AILiteracyComputationTests(TestCase):
             email="ali@example.com",
             password="StrongPass123!",
         )
-        course = Course.objects.create(
-            title="Intro AI Literacy",
-            slug="ai-fluency",
-            summary="summary",
-            description="desc",
-        )
+        course = Course.objects.get(slug="ai-fluency")
         CourseAttempt.objects.create(
             course=course,
             user=user,

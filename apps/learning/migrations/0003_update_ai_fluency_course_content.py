@@ -1,7 +1,4 @@
-from django.core.management.base import BaseCommand
-from django.db import transaction
-
-from apps.learning.models import Course, FinalQuizOption, FinalQuizQuestion, Lesson, Module
+from django.db import migrations
 
 
 COURSE_TITLE = "Introduction to AI Literacy: What is AI and Who Is Considered AI Literate?"
@@ -151,82 +148,94 @@ QUIZ_PAYLOAD = [
 ]
 
 
-class Command(BaseCommand):
-    help = "Seed the intro AI literacy micro-course content and final quiz."
+def forwards(apps, schema_editor):
+    Course = apps.get_model("learning", "Course")
+    Module = apps.get_model("learning", "Module")
+    Lesson = apps.get_model("learning", "Lesson")
+    FinalQuizQuestion = apps.get_model("learning", "FinalQuizQuestion")
+    FinalQuizOption = apps.get_model("learning", "FinalQuizOption")
 
-    @transaction.atomic
-    def handle(self, *args, **options):
-        course, _ = Course.objects.get_or_create(
-            slug="ai-fluency",
+    course, _ = Course.objects.get_or_create(
+        slug="ai-fluency",
+        defaults={
+            "title": COURSE_TITLE,
+            "summary": COURSE_SUMMARY,
+            "description": COURSE_DESCRIPTION,
+            "is_featured": True,
+        },
+    )
+
+    course.title = COURSE_TITLE
+    course.summary = COURSE_SUMMARY
+    course.description = COURSE_DESCRIPTION
+    course.is_featured = True
+    course.save(update_fields=["title", "summary", "description", "is_featured"])
+
+    valid_module_orders = set()
+    for module_order, payload in enumerate(LESSON_PAYLOAD, start=1):
+        valid_module_orders.add(module_order)
+        module, _ = Module.objects.get_or_create(
+            course=course,
+            order=module_order,
+            defaults={"title": payload["module_title"]},
+        )
+        module.title = payload["module_title"]
+        module.save(update_fields=["title"])
+
+        lesson, _ = Lesson.objects.get_or_create(
+            module=module,
+            order=1,
             defaults={
-                "title": COURSE_TITLE,
-                "summary": COURSE_SUMMARY,
-                "description": COURSE_DESCRIPTION,
-                "is_featured": True,
+                "title": payload["lesson_title"],
+                "slug": payload["lesson_slug"],
+                "content": payload["content"],
+                "is_preview": True,
             },
         )
-        course.title = COURSE_TITLE
-        course.summary = COURSE_SUMMARY
-        course.description = COURSE_DESCRIPTION
-        course.is_featured = True
-        course.save(update_fields=["title", "summary", "description", "is_featured"])
+        lesson.title = payload["lesson_title"]
+        lesson.slug = payload["lesson_slug"]
+        lesson.content = payload["content"]
+        lesson.is_preview = True
+        lesson.save(update_fields=["title", "slug", "content", "is_preview"])
 
-        valid_module_orders = set()
-        for module_order, payload in enumerate(LESSON_PAYLOAD, start=1):
-            valid_module_orders.add(module_order)
-            module, _ = Module.objects.get_or_create(
-                course=course,
-                order=module_order,
-                defaults={"title": payload["module_title"]},
+        Lesson.objects.filter(module=module).exclude(order=1).delete()
+
+    Module.objects.filter(course=course).exclude(order__in=valid_module_orders).delete()
+
+    valid_question_orders = set()
+    for question_order, payload in enumerate(QUIZ_PAYLOAD, start=1):
+        valid_question_orders.add(question_order)
+        question, _ = FinalQuizQuestion.objects.get_or_create(
+            course=course,
+            order=question_order,
+            defaults={"text": payload["text"]},
+        )
+        question.text = payload["text"]
+        question.save(update_fields=["text"])
+
+        valid_option_orders = set()
+        for option_order, (option_text, is_correct) in enumerate(payload["options"], start=1):
+            valid_option_orders.add(option_order)
+            option, _ = FinalQuizOption.objects.get_or_create(
+                question=question,
+                order=option_order,
+                defaults={"text": option_text, "is_correct": is_correct},
             )
-            module.title = payload["module_title"]
-            module.save(update_fields=["title"])
+            option.text = option_text
+            option.is_correct = is_correct
+            option.save(update_fields=["text", "is_correct"])
 
-            lesson, _ = Lesson.objects.get_or_create(
-                module=module,
-                order=1,
-                defaults={
-                    "title": payload["lesson_title"],
-                    "slug": payload["lesson_slug"],
-                    "content": payload["content"],
-                    "is_preview": True,
-                },
-            )
-            lesson.title = payload["lesson_title"]
-            lesson.slug = payload["lesson_slug"]
-            lesson.content = payload["content"]
-            lesson.is_preview = True
-            lesson.save(update_fields=["title", "slug", "content", "is_preview"])
+        FinalQuizOption.objects.filter(question=question).exclude(order__in=valid_option_orders).delete()
 
-            Lesson.objects.filter(module=module).exclude(order=1).delete()
+    FinalQuizQuestion.objects.filter(course=course).exclude(order__in=valid_question_orders).delete()
 
-        Module.objects.filter(course=course).exclude(order__in=valid_module_orders).delete()
 
-        valid_question_orders = set()
-        for question_order, payload in enumerate(QUIZ_PAYLOAD, start=1):
-            valid_question_orders.add(question_order)
-            question, _ = FinalQuizQuestion.objects.get_or_create(
-                course=course,
-                order=question_order,
-                defaults={"text": payload["text"]},
-            )
-            question.text = payload["text"]
-            question.save(update_fields=["text"])
+class Migration(migrations.Migration):
 
-            valid_option_orders = set()
-            for option_order, (option_text, is_correct) in enumerate(payload["options"], start=1):
-                valid_option_orders.add(option_order)
-                option, _ = FinalQuizOption.objects.get_or_create(
-                    question=question,
-                    order=option_order,
-                    defaults={"text": option_text, "is_correct": is_correct},
-                )
-                option.text = option_text
-                option.is_correct = is_correct
-                option.save(update_fields=["text", "is_correct"])
+    dependencies = [
+        ("learning", "0002_courseattempt_finalquizquestion_finalquizoption_and_more"),
+    ]
 
-            FinalQuizOption.objects.filter(question=question).exclude(order__in=valid_option_orders).delete()
-
-        FinalQuizQuestion.objects.filter(course=course).exclude(order__in=valid_question_orders).delete()
-
-        self.stdout.write(self.style.SUCCESS("AI Fluency micro-course seeded successfully."))
+    operations = [
+        migrations.RunPython(forwards, migrations.RunPython.noop),
+    ]
