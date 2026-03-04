@@ -24,7 +24,14 @@
                         {% include "includes/powered_by_hyrax_badge.html" %}
                     </div>
                 {% else %}
-                    <p class="mt-7 text-sm text-slate-500">Book product setup is pending in admin.</p>
+                    <div class="mt-7">
+                        <a href="{{ partner_book_url }}" class="inline-flex items-center gap-2 rounded-xl bg-primary text-accent-dark px-7 py-3 font-black text-lg hover:brightness-110 transition-all">
+                            Buy the Book on {{ ecommerce_partner_name }} <span class="material-symbols-outlined">open_in_new</span>
+                        </a>
+                        <div class="mt-3">
+                            {% include "includes/powered_by_hyrax_badge.html" %}
+                        </div>
+                    </div>
                 {% endif %}
             </div>
 

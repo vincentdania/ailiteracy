@@ -1,3 +1,6 @@
+from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
+
+from django.conf import settings
 from django.shortcuts import get_object_or_404, render
 
 from apps.learning.models import Course, Enrollment
@@ -11,7 +14,25 @@ def book_landing(request, slug: str):
         product_type=Product.ProductType.BOOK,
         is_active=True,
     ).first()
-    return render(request, "catalog/book_landing.html", {"product": product})
+    parsed = urlparse(settings.ECOMMERCE_PARTNER_URL)
+    query = dict(parse_qsl(parsed.query, keep_blank_values=True))
+    query.update(
+        {
+            "utm_source": "ailiteracy.ng",
+            "utm_medium": "referral",
+            "utm_campaign": "ecommerce_partner",
+            "product": slug,
+        }
+    )
+    partner_book_url = urlunparse(parsed._replace(query=urlencode(query)))
+    return render(
+        request,
+        "catalog/book_landing.html",
+        {
+            "product": product,
+            "partner_book_url": partner_book_url,
+        },
+    )
 
 
 def course_list(request):
