@@ -83,6 +83,7 @@ PAYSTACK_PUBLIC_KEY=pk_live_xxx
 PAYSTACK_SECRET_KEY=sk_live_xxx
 PAYSTACK_WEBHOOK_SECRET=sk_live_xxx
 PAYSTACK_CALLBACK_URL=https://ailiteracy.ng/orders/paystack/callback/
+PAYSTACK_ALLOW_LOCAL_FALLBACK=False
 
 # Use SMTP in production (example values)
 EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend

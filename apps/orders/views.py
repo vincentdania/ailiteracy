@@ -1,5 +1,6 @@
 import json
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest, JsonResponse
@@ -117,7 +118,16 @@ def checkout(request):
             )
             return redirect(authorization_url)
         except PaystackError:
-            # Local/dev fallback when keys are not configured.
+            if not settings.PAYSTACK_ALLOW_LOCAL_FALLBACK:
+                order.status = Order.Status.FAILED
+                order.save(update_fields=["status"])
+                messages.error(
+                    request,
+                    "Payment provider is unavailable right now. Please try again in a moment.",
+                )
+                return redirect("orders:checkout")
+
+            # Local development fallback only.
             reference = f"local-{order.id}"
             PaymentTransaction.objects.create(
                 order=order,
@@ -128,7 +138,10 @@ def checkout(request):
                 gateway_response="Local fallback",
                 payload={"status": True, "data": {"status": "success", "amount": int(order.total_amount * 100)}},
             )
-            process_paystack_verification(reference, {"status": True, "data": {"status": "success", "amount": int(order.total_amount * 100)}, "message": "Local payment success"})
+            process_paystack_verification(
+                reference,
+                {"status": True, "data": {"status": "success", "amount": int(order.total_amount * 100)}, "message": "Local payment success"},
+            )
             messages.success(request, "Payment completed in local mode.")
             return redirect("orders:checkout_success")
         except Exception:
