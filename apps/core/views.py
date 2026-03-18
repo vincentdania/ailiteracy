@@ -1,15 +1,17 @@
 from datetime import date, timedelta
+from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from apps.catalog.models import Product
-from apps.learning.models import Course, Enrollment
+from apps.learning.models import Enrollment
 from apps.orders.models import Order
 
 from .forms import MentorshipBookingForm, ProjectSubmissionForm, ReferralApplicationForm
-from .models import Mentor, PremiumResource, Project, ReferralProgram, Testimonial
+from .models import Mentor, PremiumResource, Project, ReferralProgram
 
 
 # Public landing page
@@ -18,12 +20,26 @@ def home(request):
     featured_book = Product.objects.filter(
         slug="ai-confidence-in-21-days", product_type=Product.ProductType.BOOK, is_active=True
     ).first()
-    featured_courses = Course.objects.filter(is_featured=True).select_related("product")[:3]
-    testimonials = Testimonial.objects.filter(is_featured=True)[:3]
+    base_partner_url = featured_book.partner_purchase_url if featured_book else settings.ECOMMERCE_PARTNER_URL
+    parsed = urlparse(base_partner_url)
+    query = dict(parse_qsl(parsed.query, keep_blank_values=True))
+    query.setdefault("utm_source", "ailiteracy.ng")
+    query.setdefault("utm_medium", "referral")
+    query.setdefault("utm_campaign", "ecommerce_partner")
+    query.setdefault("product", "ai-confidence-in-21-days")
+
+    hardcopy_query = query.copy()
+    hardcopy_query.update({"format": "hardcopy", "price": "15000"})
+    hardcopy_url = urlunparse(parsed._replace(query=urlencode(hardcopy_query)))
+
+    ecopy_query = query.copy()
+    ecopy_query.update({"format": "ecopy", "price": "5000"})
+    ecopy_url = urlunparse(parsed._replace(query=urlencode(ecopy_query)))
+
     context = {
         "featured_book": featured_book,
-        "featured_courses": featured_courses,
-        "testimonials": testimonials,
+        "hardcopy_book_url": hardcopy_url,
+        "ecopy_book_url": ecopy_url,
     }
     return render(request, "core/home.html", context)
 

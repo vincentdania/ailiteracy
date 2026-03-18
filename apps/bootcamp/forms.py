@@ -13,7 +13,7 @@ class BootcampInterestForm(forms.ModelForm):
 
     class Meta:
         model = BootcampInterest
-        fields = ["name", "email", "phone", "attendance_type", "occupation"]
+        fields = ["name", "email", "phone", "location", "attendance_type"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -26,7 +26,7 @@ class BootcampInterestForm(forms.ModelForm):
             if name == "consent":
                 continue
             field.widget.attrs.setdefault("class", default_css)
-        self.fields["occupation"].required = False
+        self.fields["location"].required = True
         self.fields["name"].widget.attrs.update(
             {
                 "placeholder": "Enter your full name",
@@ -45,10 +45,10 @@ class BootcampInterestForm(forms.ModelForm):
                 "autocomplete": "tel",
             }
         )
-        self.fields["occupation"].widget.attrs.update(
+        self.fields["location"].widget.attrs.update(
             {
-                "placeholder": "e.g. Software Engineer, Student",
-                "autocomplete": "organization-title",
+                "placeholder": "e.g. Abuja, Lagos, Port Harcourt",
+                "autocomplete": "address-level2",
             }
         )
         self.fields["consent"].widget.attrs.update(

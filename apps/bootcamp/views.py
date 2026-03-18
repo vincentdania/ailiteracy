@@ -20,7 +20,7 @@ def _safe_next_url(request):
     candidate = request.POST.get("next") or request.GET.get("next")
     if candidate and url_has_allowed_host_and_scheme(candidate, allowed_hosts={request.get_host()}):
         return candidate
-    return reverse("quiz:home")
+    return reverse("core:home")
 
 
 def interest(request):
@@ -47,13 +47,12 @@ def interest(request):
         interest_obj = form.save(commit=False)
         interest_obj.ai_level = result.level if result else Result.Level.BEGINNER
         interest_obj.quiz_score = result.percent if result else 0
-        interest_obj.location = "Abuja" if interest_obj.attendance_type == BootcampInterest.AttendanceType.IN_PERSON else ""
         interest_obj.save()
 
         context = {"interest": interest_obj}
         try:
             send_mail(
-                subject="Bootcamp Interest Received - AIliteracy.ng",
+                subject="Masterclass Registration Received - AIliteracy.ng",
                 message=render_to_string("bootcamp/emails/confirmation.txt", context),
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[interest_obj.email],
@@ -65,7 +64,7 @@ def interest(request):
         if settings.DEFAULT_FROM_EMAIL:
             try:
                 send_mail(
-                    subject="New Bootcamp Interest Submission",
+                    subject="New Masterclass Registration",
                     message=render_to_string("bootcamp/emails/admin_notification.txt", context),
                     from_email=settings.DEFAULT_FROM_EMAIL,
                     recipient_list=[settings.DEFAULT_FROM_EMAIL],
@@ -74,7 +73,7 @@ def interest(request):
             except Exception:
                 logger.exception("Failed to send bootcamp admin notification for interest %s", interest_obj.id)
 
-        messages.success(request, "Thanks! Your bootcamp interest has been recorded.")
+        messages.success(request, "Thanks! Your masterclass registration has been recorded.")
         return redirect(_safe_next_url(request))
 
     context = {

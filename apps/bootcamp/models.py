@@ -8,6 +8,7 @@ class BootcampInterest(models.Model):
     class AttendanceType(models.TextChoices):
         ONLINE = "ONLINE", "Online"
         IN_PERSON = "IN_PERSON", "In Person"
+        BOOTCAMP = "BOOTCAMP", "Bootcamp"
 
     name = models.CharField(max_length=160)
     email = models.EmailField()

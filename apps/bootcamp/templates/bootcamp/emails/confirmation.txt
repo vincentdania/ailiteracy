@@ -1,16 +1,16 @@
 Hi {{ interest.name }},
 
-Thanks for registering interest in the AIliteracy Bootcamp.
+Thanks for registering for the AIliteracy AI Masterclass.
 
 Your details:
-- Attendance: {{ interest.get_attendance_type_display }}
+- Mode of participation: {{ interest.get_attendance_type_display }}
 {% if interest.location %}
 - Location: {{ interest.location }}
 {% endif %}
 - AI level: {{ interest.ai_level }}
 - Quiz score: {{ interest.quiz_score }}%
 
-We will communicate date and time shortly.
+We will communicate date, time, and participation details shortly.
 
 Regards,
 AIliteracy.ng Team
