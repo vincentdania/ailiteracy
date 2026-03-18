@@ -3,69 +3,143 @@
 {% block title %}Quiz Result | AILiteracy.ng{% endblock title %}
 
 {% block content %}
-<section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    <article class="bg-white border border-slate-100 rounded-2xl p-8 shadow-sm">
-        <p class="text-xs uppercase tracking-widest font-black text-emerald-700">Deep Assessment Result</p>
-        <h1 class="text-4xl sm:text-5xl font-black text-deep-blue mt-2">Your Deep Quiz Score: {{ result.score }}/10</h1>
-        <p class="text-lg text-slate-600 mt-2">This is your score for the 10-question assessment only.</p>
-        <p class="text-base text-slate-500 mt-2">{{ result.percent }}% correct · Level: <span class="font-bold text-slate-700">{{ result.level }}</span></p>
+<section class="px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    <div class="mx-auto max-w-6xl">
+        <div class="grid gap-8 lg:grid-cols-[minmax(0,1.08fr)_24rem] lg:items-start">
+            <div class="space-y-8">
+                <article class="rounded-[2rem] bg-white px-5 py-6 shadow-[0_24px_48px_-12px_rgba(10,37,64,0.08)] ring-1 ring-slate-200/60 sm:px-8 sm:py-8">
+                    <p class="text-[11px] font-black uppercase tracking-[0.24em] text-emerald-700">Deep Assessment Result</p>
+                    <h1 class="mt-4 text-4xl sm:text-5xl font-black tracking-tight leading-[0.95] text-deep-blue">
+                        You scored {{ result.score }}/10
+                    </h1>
+                    <p class="mt-4 max-w-2xl text-lg leading-relaxed text-slate-600">
+                        This is your score for the deep assessment only. It reflects how you handled the 10-question quiz you just completed.
+                    </p>
 
-        <div class="mt-6 rounded-xl border border-primary/40 bg-primary/10 p-5">
-            <p class="text-xs uppercase tracking-widest font-black text-emerald-700">Assessment Rank</p>
-            <h2 class="text-2xl font-black text-deep-blue mt-1">{{ rank }}</h2>
-            <p class="text-sm text-slate-700 mt-2 leading-relaxed">{{ playful_message }}</p>
-        </div>
-
-        <div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-5">
-            <p class="text-xs uppercase tracking-widest font-black text-slate-600">Overall AI Literacy Index</p>
-            {% if ali_entry %}
-                <h3 class="mt-2 text-2xl font-black text-deep-blue">Your Overall AI Literacy Score: {{ ali_entry.ali_score|floatformat:1 }} / 10</h3>
-                <p class="mt-2 text-sm text-slate-700">This combined score uses your deep assessment, micro-course completion, and final test.</p>
-                <p class="mt-1 text-sm text-slate-700">Level: <span class="font-bold">{{ ali_entry.level }}</span></p>
-                {% if ali_percentile is not None %}
-                    <p class="mt-1 text-sm text-slate-600">You scored higher than <span class="font-bold">{{ ali_percentile }}%</span> of participants.</p>
-                {% endif %}
-
-                <div class="mt-4 flex flex-wrap items-center gap-2">
-                    <a href="{{ share_links.whatsapp }}" target="_blank" rel="noopener" class="inline-flex rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 hover:border-emerald-400">Share on WhatsApp</a>
-                    <a href="{{ share_links.linkedin }}" target="_blank" rel="noopener" class="inline-flex rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 hover:border-emerald-400">Share on LinkedIn</a>
-                    <a href="{{ share_links.x }}" target="_blank" rel="noopener" class="inline-flex rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 hover:border-emerald-400">Share on X</a>
-                    <a href="{% url 'ai_index:insights' %}" class="inline-flex rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 hover:border-emerald-400">View Insights</a>
-                </div>
-            {% else %}
-                <p class="mt-2 text-sm text-slate-700">Complete your AI Literacy Index profile to generate your overall combined score from the deep assessment, micro-course completion, and final test.</p>
-                <form method="post" class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {% csrf_token %}
-                    <input type="hidden" name="action" value="compute_ali" />
-                    <div>
-                        <label class="block text-xs font-black uppercase tracking-widest text-slate-500 mb-1" for="{{ ali_identity_form.name.id_for_label }}">Name</label>
-                        {{ ali_identity_form.name }}
+                    <div class="mt-6 grid gap-4 sm:grid-cols-2">
+                        <div class="rounded-[1.5rem] bg-emerald-50 px-5 py-5 ring-1 ring-emerald-100">
+                            <p class="text-[11px] font-black uppercase tracking-[0.2em] text-emerald-700">Assessment Level</p>
+                            <p class="mt-3 text-2xl font-black text-deep-blue">{{ result.level }}</p>
+                            <p class="mt-2 text-sm font-medium text-slate-500">{{ result.percent }}% correct</p>
+                        </div>
+                        <div class="rounded-[1.5rem] bg-slate-100 px-5 py-5">
+                            <p class="text-[11px] font-black uppercase tracking-[0.2em] text-slate-500">Assessment Rank</p>
+                            <p class="mt-3 text-2xl font-black text-deep-blue">{{ rank }}</p>
+                            <p class="mt-2 text-sm leading-7 text-slate-600">{{ playful_message }}</p>
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-xs font-black uppercase tracking-widest text-slate-500 mb-1" for="{{ ali_identity_form.email.id_for_label }}">Email</label>
-                        {{ ali_identity_form.email }}
-                    </div>
-                    <div class="sm:col-span-2">
-                        <button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-deep-blue px-5 py-2.5 text-sm font-black text-white hover:brightness-110 transition-all">
-                            Compute AI Literacy Index
-                            <span class="material-symbols-outlined text-base">insights</span>
+                </article>
+
+                <article class="rounded-[2rem] bg-white px-5 py-6 shadow-[0_24px_48px_-12px_rgba(10,37,64,0.08)] ring-1 ring-slate-200/60 sm:px-8 sm:py-8">
+                    <p class="text-[11px] font-black uppercase tracking-[0.24em] text-slate-500">Overall AI Literacy Index</p>
+
+                    {% if ali_entry %}
+                        <h2 class="mt-4 text-3xl sm:text-4xl font-black tracking-tight text-deep-blue">
+                            Your overall AI Literacy Score is {{ ali_entry.ali_score|floatformat:1 }}/10
+                        </h2>
+                        <p class="mt-4 max-w-2xl text-base leading-7 text-slate-600">
+                            This score is broader than the deep assessment. It combines your deep quiz result, micro-course completion, and final test performance into a single AI Literacy Index.
+                        </p>
+
+                        <div class="mt-6 grid gap-4 sm:grid-cols-2">
+                            <div class="rounded-[1.5rem] bg-slate-50 px-5 py-5 ring-1 ring-slate-200/70">
+                                <p class="text-[11px] font-black uppercase tracking-[0.2em] text-slate-500">Current Level</p>
+                                <p class="mt-3 text-2xl font-black text-deep-blue">{{ ali_entry.level }}</p>
+                                {% if ali_percentile is not None %}
+                                    <p class="mt-2 text-sm leading-7 text-slate-600">You scored higher than <span class="font-black text-deep-blue">{{ ali_percentile }}%</span> of participants.</p>
+                                {% endif %}
+                            </div>
+                            <div class="rounded-[1.5rem] bg-deep-blue px-5 py-5 text-white">
+                                <p class="text-[11px] font-black uppercase tracking-[0.2em] text-primary">Share your score</p>
+                                <div class="mt-4 flex flex-wrap gap-2">
+                                    <a href="{{ share_links.whatsapp }}" target="_blank" rel="noopener" class="inline-flex rounded-full bg-white/10 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-white/20">WhatsApp</a>
+                                    <a href="{{ share_links.linkedin }}" target="_blank" rel="noopener" class="inline-flex rounded-full bg-white/10 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-white/20">LinkedIn</a>
+                                    <a href="{{ share_links.x }}" target="_blank" rel="noopener" class="inline-flex rounded-full bg-white/10 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-white/20">X</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <a href="{% url 'ai_index:insights' %}" class="inline-flex items-center gap-2 rounded-[1.1rem] bg-white px-5 py-3 text-sm font-black text-slate-700 ring-1 ring-slate-200 transition-colors hover:bg-slate-50">
+                                View AI Literacy Insights
+                                <span class="material-symbols-outlined text-base">insights</span>
+                            </a>
+                        </div>
+                    {% else %}
+                        <h2 class="mt-4 text-3xl sm:text-4xl font-black tracking-tight text-deep-blue">
+                            Generate your overall AI Literacy Index
+                        </h2>
+                        <p class="mt-4 max-w-2xl text-base leading-7 text-slate-600">
+                            Your deep assessment score is ready. Add your name and email to generate the broader AI Literacy Index that combines your quiz, micro-course, and final test progress.
+                        </p>
+
+                        <form method="post" class="mt-6 rounded-[1.75rem] bg-slate-50 px-5 py-5 ring-1 ring-slate-200/70 sm:px-6 sm:py-6">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="compute_ali" />
+                            <div class="grid gap-5 sm:grid-cols-2">
+                                <div>
+                                    <label class="mb-2 block text-sm font-semibold tracking-wide text-slate-700" for="{{ ali_identity_form.name.id_for_label }}">Name</label>
+                                    {{ ali_identity_form.name }}
+                                </div>
+                                <div>
+                                    <label class="mb-2 block text-sm font-semibold tracking-wide text-slate-700" for="{{ ali_identity_form.email.id_for_label }}">Email</label>
+                                    {{ ali_identity_form.email }}
+                                </div>
+                            </div>
+                            <div class="mt-5">
+                                <button type="submit" class="inline-flex items-center gap-2 rounded-[1.1rem] bg-deep-blue px-5 py-3 text-sm font-black text-white transition-all hover:brightness-110">
+                                    Generate AI Literacy Index
+                                    <span class="material-symbols-outlined text-base">insights</span>
+                                </button>
+                            </div>
+                        </form>
+                    {% endif %}
+                </article>
+
+                <div class="flex flex-wrap gap-3">
+                    <a href="{% url 'bootcamp:interest' %}?result={{ result.id }}" class="inline-flex items-center gap-2 rounded-[1.2rem] bg-primary px-6 py-4 text-base font-black text-accent-dark shadow-[0_18px_30px_-16px_rgba(0,108,81,0.35)] transition-all duration-200 hover:-translate-y-0.5 hover:brightness-110">
+                        Join the AI Literacy Bootcamp
+                        <span class="material-symbols-outlined text-base">arrow_forward</span>
+                    </a>
+                    <form method="post" action="{% url 'quiz:start' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="inline-flex items-center rounded-[1.2rem] bg-white px-6 py-4 text-base font-bold text-slate-700 ring-1 ring-slate-200 transition-colors hover:bg-slate-50">
+                            Try Again
                         </button>
-                    </div>
-                </form>
-            {% endif %}
-        </div>
+                    </form>
+                    <a href="{% url 'core:home' %}" class="inline-flex items-center rounded-[1.2rem] bg-white px-6 py-4 text-base font-bold text-slate-700 ring-1 ring-slate-200 transition-colors hover:bg-slate-50">
+                        Back Home
+                    </a>
+                </div>
+            </div>
 
-        <div class="mt-8 flex flex-wrap gap-3">
-            <a href="{% url 'bootcamp:interest' %}?result={{ result.id }}" class="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-black text-accent-dark hover:brightness-110 transition-all">
-                Join the AI Literacy Bootcamp
-                <span class="material-symbols-outlined text-base">arrow_forward</span>
-            </a>
-            <form method="post" action="{% url 'quiz:start' %}">
-                {% csrf_token %}
-                <button type="submit" class="inline-flex rounded-lg border border-slate-200 px-5 py-2.5 text-sm font-bold text-slate-600">Try Again</button>
-            </form>
-            <a href="{% url 'core:home' %}" class="inline-flex rounded-lg border border-slate-200 px-5 py-2.5 text-sm font-bold text-slate-600">Back Home</a>
+            <aside class="space-y-5 lg:sticky lg:top-28">
+                <div class="rounded-[1.9rem] bg-deep-blue px-6 py-6 text-white shadow-[0_24px_48px_-24px_rgba(10,37,64,0.35)]">
+                    <p class="text-[11px] font-black uppercase tracking-[0.22em] text-primary">What this result means</p>
+                    <h2 class="mt-4 text-3xl font-black leading-tight">Your score is a snapshot, not a ceiling.</h2>
+                    <p class="mt-4 text-sm leading-7 text-slate-200">
+                        Use this result to identify your current AI judgment level, then strengthen it through guided learning, deliberate practice, and better workflows.
+                    </p>
+                </div>
+
+                <div class="rounded-[1.75rem] bg-white px-6 py-6 shadow-[0_20px_40px_-28px_rgba(10,37,64,0.14)] ring-1 ring-slate-200/60">
+                    <p class="text-[11px] font-black uppercase tracking-[0.22em] text-emerald-700">Suggested next step</p>
+                    <h3 class="mt-4 text-2xl font-black text-deep-blue">Keep building with structure.</h3>
+                    <p class="mt-3 text-sm leading-7 text-slate-600">
+                        The bootcamp is the fastest way to turn isolated understanding into practical, repeatable AI capability you can use confidently.
+                    </p>
+                </div>
+
+                <div class="rounded-[1.75rem] bg-slate-100 px-6 py-6 shadow-[0_20px_40px_-28px_rgba(10,37,64,0.14)]">
+                    <p class="text-[11px] font-black uppercase tracking-[0.22em] text-slate-500">What’s included in the index</p>
+                    <ul class="mt-4 space-y-3 text-sm leading-7 text-slate-600">
+                        <li>• Deep assessment performance</li>
+                        <li>• Micro-course completion</li>
+                        <li>• Final micro-course test result</li>
+                    </ul>
+                </div>
+            </aside>
         </div>
-    </article>
+    </div>
 </section>
 {% endblock content %}

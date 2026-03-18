@@ -3,56 +3,103 @@
 {% block title %}AI Literacy Quiz | AILiteracy.ng{% endblock title %}
 
 {% block content %}
-<section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    <article class="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 shadow-sm">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-            <div>
-                <p class="text-xs uppercase font-black tracking-widest text-emerald-700">AI Literacy Assessment</p>
-                <h1 class="text-2xl sm:text-3xl font-black text-deep-blue">{{ attempt.quiz.title }}</h1>
-                <p class="mt-2 text-sm text-slate-600">10 applied questions. No timer. Retake any time.</p>
-            </div>
-            <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3">
-                <p class="text-xs uppercase font-black text-emerald-700 tracking-widest">Assessment Format</p>
-                <p class="text-sm font-black text-deep-blue">Single-select questions with instant scoring</p>
-            </div>
+<section class="px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    <div class="mx-auto max-w-6xl">
+        <div class="grid gap-8 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-start">
+            <aside class="space-y-5 lg:sticky lg:top-28">
+                <div class="rounded-[1.9rem] bg-deep-blue px-6 py-6 text-white shadow-[0_24px_48px_-24px_rgba(10,37,64,0.35)]">
+                    <p class="text-[11px] font-black uppercase tracking-[0.22em] text-primary">Deep Assessment</p>
+                    <h1 class="mt-4 text-3xl font-black leading-tight">{{ attempt.quiz.title }}</h1>
+                    <p class="mt-4 text-sm leading-7 text-slate-200">
+                        Work through each question carefully. There’s no timer, so focus on accuracy and judgment.
+                    </p>
+                </div>
+
+                <div class="rounded-[1.75rem] bg-white px-6 py-6 shadow-[0_20px_40px_-28px_rgba(10,37,64,0.14)] ring-1 ring-slate-200/60">
+                    <p class="text-[11px] font-black uppercase tracking-[0.22em] text-emerald-700">Assessment Format</p>
+                    <ul class="mt-4 space-y-3 text-sm leading-7 text-slate-600">
+                        <li>• {{ total_questions }} applied questions</li>
+                        <li>• One answer per question</li>
+                        <li>• Instant score and level on submit</li>
+                        <li>• Retake any time</li>
+                    </ul>
+                </div>
+
+                <div class="rounded-[1.75rem] bg-slate-100 px-6 py-6 shadow-[0_20px_40px_-28px_rgba(10,37,64,0.14)]">
+                    <h2 class="text-xl font-black text-deep-blue">Tip</h2>
+                    <p class="mt-3 text-sm leading-7 text-slate-600">
+                        The best answer is usually the one that reflects clear reasoning, responsible AI use, and practical judgment, not hype.
+                    </p>
+                </div>
+            </aside>
+
+            <article class="overflow-hidden rounded-[2rem] bg-white px-5 py-6 shadow-[0_24px_48px_-12px_rgba(10,37,64,0.08)] ring-1 ring-slate-200/60 sm:px-8 sm:py-8">
+                <div class="flex flex-col gap-4 border-b border-slate-200/80 pb-6">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <span class="inline-flex items-center rounded-full bg-emerald-100 px-4 py-2 text-[11px] font-black uppercase tracking-[0.24em] text-emerald-800">
+                            No timer
+                        </span>
+                        <span class="inline-flex items-center rounded-full bg-slate-100 px-4 py-2 text-[11px] font-black uppercase tracking-[0.24em] text-slate-600">
+                            Question set is shuffled
+                        </span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-slate-500">Answer all questions before submitting.</p>
+                        <h2 class="mt-1 text-2xl sm:text-3xl font-black tracking-tight text-deep-blue">Choose the strongest answer for each scenario.</h2>
+                    </div>
+                </div>
+
+                <form method="post" class="mt-8 space-y-6">
+                    {% csrf_token %}
+
+                    {% for item in ordered_questions %}
+                        <section class="rounded-[1.75rem] bg-slate-50 px-5 py-5 ring-1 ring-slate-200/70 sm:px-6 sm:py-6">
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                                <div class="space-y-3">
+                                    <span class="inline-flex items-center rounded-full bg-white px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500 ring-1 ring-slate-200">
+                                        Question {{ item.position }} of {{ total_questions }}
+                                    </span>
+                                    <h3 class="max-w-3xl text-lg sm:text-xl font-black leading-relaxed text-deep-blue">{{ item.question.text }}</h3>
+                                </div>
+                                <span class="inline-flex shrink-0 items-center rounded-full bg-emerald-100 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.2em] text-emerald-800">
+                                    Select one
+                                </span>
+                            </div>
+
+                            <div class="mt-6 space-y-3">
+                                {% for option in item.options %}
+                                    <label class="group block cursor-pointer">
+                                        <input
+                                            type="radio"
+                                            name="question_{{ item.question.id }}"
+                                            value="{{ option.id }}"
+                                            class="peer sr-only"
+                                            {% if option.id in item.selected_ids %}checked{% endif %}
+                                        />
+                                        <span class="flex items-start gap-4 rounded-[1.25rem] bg-white px-4 py-4 ring-1 ring-slate-200 transition-all duration-200 hover:-translate-y-0.5 hover:ring-emerald-300 hover:shadow-[0_18px_30px_-24px_rgba(10,37,64,0.22)] peer-checked:bg-emerald-50 peer-checked:ring-2 peer-checked:ring-emerald-500">
+                                            <span class="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-black text-slate-500 transition-colors peer-checked:bg-emerald-600 peer-checked:text-white">
+                                                {{ forloop.counter }}
+                                            </span>
+                                            <span class="text-sm sm:text-base font-medium leading-7 text-slate-700">{{ option.text }}</span>
+                                        </span>
+                                    </label>
+                                {% endfor %}
+                            </div>
+                        </section>
+                    {% endfor %}
+
+                    <div class="flex flex-wrap items-center gap-3 border-t border-slate-200/80 pt-6">
+                        <button type="submit" class="inline-flex items-center gap-2 rounded-[1.2rem] bg-primary px-6 py-4 text-base font-black text-accent-dark shadow-[0_18px_30px_-16px_rgba(0,108,81,0.35)] transition-all duration-200 hover:-translate-y-0.5 hover:brightness-110">
+                            Submit Assessment
+                            <span class="material-symbols-outlined text-base">check</span>
+                        </button>
+                        <a href="{% url 'core:home' %}" class="inline-flex items-center rounded-[1.2rem] bg-white px-6 py-4 text-base font-bold text-slate-700 ring-1 ring-slate-200 transition-colors hover:bg-slate-50">
+                            Exit Quiz
+                        </a>
+                    </div>
+                </form>
+            </article>
         </div>
-
-        <form method="post" class="space-y-6">
-            {% csrf_token %}
-
-            {% for item in ordered_questions %}
-                <section class="rounded-xl border border-slate-100 p-5">
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-                        <p class="text-sm font-black text-deep-blue">Q{{ item.position }} of {{ total_questions }}</p>
-                        <span class="text-xs font-black uppercase tracking-widest text-emerald-700">Choose ONE</span>
-                    </div>
-                    <h2 class="text-base sm:text-lg font-bold text-slate-800 mb-4 leading-relaxed">{{ item.question.text }}</h2>
-
-                    <div class="space-y-2">
-                        {% for option in item.options %}
-                            <label class="block rounded-lg border border-slate-200 px-4 py-3 hover:border-emerald-300 cursor-pointer transition-colors">
-                                <input
-                                    {% if item.question.kind == "MULTI" %}type="checkbox"{% else %}type="radio"{% endif %}
-                                    name="question_{{ item.question.id }}"
-                                    value="{{ option.id }}"
-                                    class="mr-2 text-emerald-600 focus:ring-emerald-500"
-                                    {% if option.id in item.selected_ids %}checked{% endif %}
-                                />
-                                <span class="text-sm font-medium text-slate-700">{{ option.text }}</span>
-                            </label>
-                        {% endfor %}
-                    </div>
-                </section>
-            {% endfor %}
-
-            <div class="pt-2 flex flex-wrap items-center gap-3">
-                <button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-black text-accent-dark hover:brightness-110 transition-all">
-                    Submit Quiz
-                    <span class="material-symbols-outlined text-base">check</span>
-                </button>
-                <a href="{% url 'core:home' %}" class="inline-flex rounded-lg border border-slate-200 px-6 py-3 text-sm font-bold text-slate-600">Exit Quiz</a>
-            </div>
-        </form>
-    </article>
+    </div>
 </section>
 {% endblock content %}
