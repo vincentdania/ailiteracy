@@ -9,6 +9,7 @@ from apps.ai_index.forms import AILiteracyIdentityForm
 from apps.ai_index.services import (
     create_or_update_ali_from_deep_result,
     percentile_higher_than,
+    queue_ali_score_email,
     share_links_for_score,
 )
 
@@ -172,6 +173,7 @@ def result(request, attempt_id):
                 user=request.user,
                 session_key=attempt.session_key,
             )
+            queue_ali_score_email(entry)
             messages.success(request, "Your AI Literacy Index has been generated.")
             return redirect("quiz:result", attempt_id=attempt.id)
 
@@ -184,6 +186,7 @@ def result(request, attempt_id):
                 user=request.user if request.user.is_authenticated else None,
                 session_key=attempt.session_key,
             )
+            queue_ali_score_email(entry)
             messages.success(request, "Your AI Literacy Index has been generated.")
             return redirect("quiz:result", attempt_id=attempt.id)
         messages.error(request, "Please provide your name and a valid email to compute your AI Literacy Index.")
@@ -196,6 +199,7 @@ def result(request, attempt_id):
             user=request.user,
             session_key=attempt.session_key,
         )
+        queue_ali_score_email(ali_entry)
 
     if identity_form is None:
         if request.user.is_authenticated and request.user.email:

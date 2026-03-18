@@ -41,6 +41,7 @@ class AILiteracyScore(models.Model):
     ali_score = models.DecimalField(max_digits=4, decimal_places=2, default=Decimal("0.00"))
     level = models.CharField(max_length=24, choices=Level.choices)
     created_at = models.DateTimeField(auto_now_add=True)
+    emailed_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         ordering = ["-created_at"]

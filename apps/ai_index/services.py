@@ -1,4 +1,5 @@
 from decimal import Decimal, ROUND_HALF_UP
+import logging
 from urllib.parse import quote_plus
 
 from django.db.models import Avg, Count
@@ -6,6 +7,8 @@ from django.db.models import Avg, Count
 from apps.learning.models import CourseAttempt
 
 from .models import AILiteracyScore
+
+logger = logging.getLogger(__name__)
 
 
 def _decimal(value):
@@ -62,6 +65,8 @@ def percentile_higher_than(current_score):
 
 
 def create_or_update_ali_from_deep_result(deep_result, name, email, user=None, session_key=""):
+    existing = AILiteracyScore.objects.filter(deep_quiz_result=deep_result).first()
+    previous_email = existing.email if existing else ""
     course_attempt = get_latest_microcourse_attempt(user=user, session_key=session_key)
     microcourse_completed = bool(course_attempt)
     final_test_score = final_test_raw_score_from_percent(course_attempt.score) if course_attempt else 0
@@ -88,7 +93,23 @@ def create_or_update_ali_from_deep_result(deep_result, name, email, user=None, s
             "level": level,
         },
     )
+    if previous_email and previous_email != email and entry.emailed_at:
+        entry.emailed_at = None
+        entry.save(update_fields=["emailed_at"])
     return entry
+
+
+def queue_ali_score_email(entry):
+    from .tasks import send_ali_score_email
+
+    try:
+        send_ali_score_email.delay(entry.id)
+    except Exception:
+        logger.exception("Failed to queue ALI score email for entry %s. Falling back to synchronous send.", entry.id)
+        try:
+            send_ali_score_email(entry.id)
+        except Exception:
+            logger.exception("Synchronous ALI score email send failed for entry %s.", entry.id)
 
 
 def share_links_for_score(score):

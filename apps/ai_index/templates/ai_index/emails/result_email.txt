@@ -1,0 +1,26 @@
+Hi {{ entry.name }},
+
+Thanks for taking the AI Literacy assessment on AIliteracy.ng.
+
+Your deep assessment result:
+- Score: {{ entry.deep_quiz_score }}/10
+- Accuracy: {{ deep_percent }}%
+- Level: {{ deep_level }}
+
+Your overall AI Literacy Index:
+- Score: {{ entry.ali_score|floatformat:1 }}/10
+- Level: {{ entry.level }}
+
+{% if entry.microcourse_completed %}
+Your micro-course has been counted in this score.
+{% else %}
+You can improve your overall AI Literacy Index by completing the micro-course and final test.
+{% endif %}
+
+Next steps:
+- Review your result: {{ site_url }}/quiz/attempt/{{ entry.deep_quiz_result.attempt_id }}/result/
+- Explore the micro-course: {{ site_url }}/course/ai-fluency/
+- Register for the bootcamp: {{ site_url }}/bootcamp/interest/?result={{ entry.deep_quiz_result.id }}
+
+Regards,
+AIliteracy.ng Team

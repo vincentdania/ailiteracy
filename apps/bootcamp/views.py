@@ -1,3 +1,5 @@
+import logging
+
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -10,6 +12,8 @@ from apps.quiz.models import Result
 
 from .forms import BootcampInterestForm
 from .models import BootcampInterest
+
+logger = logging.getLogger(__name__)
 
 
 def _safe_next_url(request):
@@ -47,21 +51,28 @@ def interest(request):
         interest_obj.save()
 
         context = {"interest": interest_obj}
-        send_mail(
-            subject="Bootcamp Interest Received - AIliteracy.ng",
-            message=render_to_string("bootcamp/emails/confirmation.txt", context),
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[interest_obj.email],
-            fail_silently=True,
-        )
-        if settings.DEFAULT_FROM_EMAIL:
+        try:
             send_mail(
-                subject="New Bootcamp Interest Submission",
-                message=render_to_string("bootcamp/emails/admin_notification.txt", context),
+                subject="Bootcamp Interest Received - AIliteracy.ng",
+                message=render_to_string("bootcamp/emails/confirmation.txt", context),
                 from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[settings.DEFAULT_FROM_EMAIL],
-                fail_silently=True,
+                recipient_list=[interest_obj.email],
+                fail_silently=False,
             )
+        except Exception:
+            logger.exception("Failed to send bootcamp confirmation email to %s", interest_obj.email)
+
+        if settings.DEFAULT_FROM_EMAIL:
+            try:
+                send_mail(
+                    subject="New Bootcamp Interest Submission",
+                    message=render_to_string("bootcamp/emails/admin_notification.txt", context),
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[settings.DEFAULT_FROM_EMAIL],
+                    fail_silently=False,
+                )
+            except Exception:
+                logger.exception("Failed to send bootcamp admin notification for interest %s", interest_obj.id)
 
         messages.success(request, "Thanks! Your bootcamp interest has been recorded.")
         return redirect(_safe_next_url(request))

@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+from django.core import mail
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.utils import timezone
@@ -9,6 +10,7 @@ from apps.quiz.models import Attempt, Quiz, Result
 
 from .models import AILiteracyScore
 from .services import create_or_update_ali_from_deep_result, percentile_higher_than
+from .tasks import send_ali_score_email
 
 
 class AILiteracyComputationTests(TestCase):
@@ -72,3 +74,40 @@ class AILiteracyComputationTests(TestCase):
 
         percentile = percentile_higher_than(mid.ali_score)
         self.assertEqual(percentile, 50)
+
+    def test_send_ali_score_email_sends_once_and_marks_entry(self):
+        course = Course.objects.get(slug="ai-fluency")
+        attempt = CourseAttempt.objects.create(
+            course=course,
+            session_key="sess-mail",
+            name="Test Learner",
+            email="learner@example.com",
+            completed_at=timezone.now(),
+            passed=True,
+            score=80,
+        )
+        quiz = Quiz.objects.create(title="Deep Quiz Mail", slug="deep-quiz-mail", is_active=True)
+        quiz_attempt = Attempt.objects.create(quiz=quiz, session_key="sess-mail")
+        deep_result = Result.objects.create(attempt=quiz_attempt, score=9, percent=90, level=Result.Level.ADVANCED)
+        entry = AILiteracyScore.objects.create(
+            deep_quiz_result=deep_result,
+            course_attempt=attempt,
+            name="Test Learner",
+            email="learner@example.com",
+            deep_quiz_score=9,
+            final_test_score=4,
+            microcourse_completed=True,
+            ali_score=Decimal("8.20"),
+            level=AILiteracyScore.Level.FLUENT,
+        )
+
+        send_ali_score_email(entry.id)
+        entry.refresh_from_db()
+
+        self.assertIsNotNone(entry.emailed_at)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("9/10", mail.outbox[0].body)
+        self.assertIn("8.2/10", mail.outbox[0].body)
+
+        send_ali_score_email(entry.id)
+        self.assertEqual(len(mail.outbox), 1)
