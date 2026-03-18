@@ -82,5 +82,6 @@ def interest(request):
         "result": result,
         "ai_level": result.level if result else "",
         "quiz_score": result.percent if result else "",
+        "selected_attendance": form["attendance_type"].value() or initial["attendance_type"],
     }
     return render(request, "bootcamp/interest.html", context)

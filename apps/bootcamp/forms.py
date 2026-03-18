@@ -17,16 +17,40 @@ class BootcampInterestForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        default_css = "w-full rounded-xl border-slate-300 focus:border-emerald-500 focus:ring-emerald-500"
+        default_css = (
+            "w-full rounded-2xl border border-transparent bg-slate-100/90 px-5 py-4 text-base text-slate-900 "
+            "placeholder:text-slate-400 shadow-none transition-all duration-200 focus:border-emerald-400 "
+            "focus:bg-white focus:ring-4 focus:ring-primary/20"
+        )
         for name, field in self.fields.items():
             if name == "consent":
                 continue
             field.widget.attrs.setdefault("class", default_css)
-        self.fields["attendance_type"].widget = forms.Select(
-            choices=BootcampInterest.AttendanceType.choices,
-            attrs={"class": default_css},
-        )
         self.fields["occupation"].required = False
+        self.fields["name"].widget.attrs.update(
+            {
+                "placeholder": "Enter your full name",
+                "autocomplete": "name",
+            }
+        )
+        self.fields["email"].widget.attrs.update(
+            {
+                "placeholder": "name@example.com",
+                "autocomplete": "email",
+            }
+        )
+        self.fields["phone"].widget.attrs.update(
+            {
+                "placeholder": "+234...",
+                "autocomplete": "tel",
+            }
+        )
+        self.fields["occupation"].widget.attrs.update(
+            {
+                "placeholder": "e.g. Software Engineer, Student",
+                "autocomplete": "organization-title",
+            }
+        )
         self.fields["consent"].widget.attrs.update(
             {
                 "class": "mt-1 h-5 w-5 shrink-0 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500",
