@@ -21,7 +21,7 @@ class QuizEngineTests(TestCase):
     def test_perfect_attempt_scores_ten_over_ten(self):
         call_command("seed_ai_literacy_quiz")
         quiz = Quiz.objects.get(slug="ai-literacy-africa")
-        attempt = Attempt.objects.create(quiz=quiz, session_key="sess-1", time_limit_seconds=1200)
+        attempt = Attempt.objects.create(quiz=quiz, session_key="sess-1", time_limit_seconds=0)
 
         for question in quiz.questions.prefetch_related("options").all():
             answer = AttemptAnswer.objects.create(attempt=attempt, question=question)
@@ -46,7 +46,7 @@ class QuizEngineTests(TestCase):
         c = Option.objects.create(question=multi, text="C", is_correct=False)
         Option.objects.create(question=multi, text="D", is_correct=False)
 
-        attempt = Attempt.objects.create(quiz=quiz, session_key="sess-2", time_limit_seconds=1200)
+        attempt = Attempt.objects.create(quiz=quiz, session_key="sess-2", time_limit_seconds=0)
         answer = AttemptAnswer.objects.create(attempt=attempt, question=multi)
         answer.selected_options.set([a, c])  # Not exact correct pair => zero credit
 
@@ -55,15 +55,15 @@ class QuizEngineTests(TestCase):
         self.assertEqual(result.percent, 0)
         self.assertEqual(result.level, "Beginner")
 
-        attempt_2 = Attempt.objects.create(quiz=quiz, session_key="sess-3", time_limit_seconds=1200)
+        attempt_2 = Attempt.objects.create(quiz=quiz, session_key="sess-3", time_limit_seconds=0)
         answer_2 = AttemptAnswer.objects.create(attempt=attempt_2, question=multi)
         answer_2.selected_options.set([a, b])
         result_2 = finalize_attempt(attempt_2)
         self.assertEqual(result_2.score, 1)
         self.assertEqual(result_2.percent, 10)
 
-    def test_twenty_minute_timeout_auto_submit_behavior(self):
-        quiz = Quiz.objects.create(title="Timed Quiz", slug="timed-quiz", is_active=True)
+    def test_untimed_quiz_does_not_auto_submit_old_attempts(self):
+        quiz = Quiz.objects.create(title="Untimed Quiz", slug="untimed-quiz", is_active=True)
         question = Question.objects.create(quiz=quiz, text="Q1", order=1, kind=Question.Kind.SINGLE)
         Option.objects.create(question=question, text="Yes", is_correct=True)
         Option.objects.create(question=question, text="No", is_correct=False)
@@ -72,19 +72,17 @@ class QuizEngineTests(TestCase):
         session.save()
         session_key = session.session_key
 
-        attempt = Attempt.objects.create(quiz=quiz, session_key=session_key, time_limit_seconds=1200)
-        Attempt.objects.filter(pk=attempt.pk).update(started_at=timezone.now() - timedelta(minutes=21))
+        attempt = Attempt.objects.create(quiz=quiz, session_key=session_key, time_limit_seconds=0)
+        Attempt.objects.filter(pk=attempt.pk).update(started_at=timezone.now() - timedelta(hours=3))
         attempt.refresh_from_db()
 
         response = self.client.get(reverse("quiz:take", kwargs={"attempt_id": attempt.id}))
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, reverse("quiz:result", kwargs={"attempt_id": attempt.id}))
+        self.assertEqual(response.status_code, 200)
 
         attempt.refresh_from_db()
-        self.assertTrue(attempt.is_timed_out)
-        self.assertIsNotNone(attempt.completed_at)
-        self.assertTrue(hasattr(attempt, "result"))
-        self.assertEqual(attempt.time_taken_seconds, 1200)
+        self.assertFalse(attempt.is_timed_out)
+        self.assertIsNone(attempt.completed_at)
+        self.assertFalse(hasattr(attempt, "result"))
 
     def test_randomization_does_not_change_correctness(self):
         call_command("seed_ai_literacy_quiz")
@@ -94,8 +92,8 @@ class QuizEngineTests(TestCase):
         session.save()
         session_key = session.session_key
 
-        attempt_one = Attempt.objects.create(quiz=quiz, session_key=session_key, time_limit_seconds=1200)
-        attempt_two = Attempt.objects.create(quiz=quiz, session_key=session_key, time_limit_seconds=1200)
+        attempt_one = Attempt.objects.create(quiz=quiz, session_key=session_key, time_limit_seconds=0)
+        attempt_two = Attempt.objects.create(quiz=quiz, session_key=session_key, time_limit_seconds=0)
 
         self.client.get(reverse("quiz:take", kwargs={"attempt_id": attempt_one.id}))
         session = self.client.session
@@ -122,13 +120,13 @@ class QuizEngineTests(TestCase):
         self.assertEqual(attempt_one.result.score, 10)
         self.assertEqual(attempt_two.result.score, 10)
 
-    def test_start_view_uses_twenty_minute_time_limit(self):
+    def test_start_view_creates_untimed_attempt(self):
         call_command("seed_ai_literacy_quiz")
         response = self.client.post(reverse("quiz:start"))
         self.assertEqual(response.status_code, 302)
 
         attempt = Attempt.objects.latest("id")
-        self.assertEqual(attempt.time_limit_seconds, 1200)
+        self.assertEqual(attempt.time_limit_seconds, 0)
 
 
 class QuizAdminValidationTests(TestCase):

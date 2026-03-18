@@ -5,18 +5,18 @@
 {% block content %}
 <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
     <div class="bg-white border border-slate-100 rounded-2xl p-8 sm:p-10 shadow-sm">
-        <p class="text-xs uppercase tracking-widest font-black text-emerald-700">Quick Assessment</p>
+        <p class="text-xs uppercase tracking-widest font-black text-emerald-700">AI Literacy Assessment</p>
         <h1 class="text-3xl sm:text-4xl font-black text-deep-blue mt-3 mb-4">AI Literacy Deep Assessment</h1>
         <p class="text-slate-600 leading-relaxed">
-            A serious high-difficulty AI literacy assessment covering governance, agentic systems, embodied AI, data privacy, and AI economics in African contexts.
+            A practical 10-question quiz covering how AI works, prompting, privacy, bias, governance, agentic systems, embodied AI, AGI, and ASI.
         </p>
         {% if quiz %}
             <ul class="mt-6 space-y-2 text-sm text-slate-600">
-                <li>• 8 single-select + 2 strict multi-select questions</li>
+                <li>• 10 single-select questions</li>
                 <li>• Shuffled questions and options per attempt</li>
-                <li>• 20-minute countdown with auto-submit on timeout</li>
+                <li>• No countdown or auto-submit pressure</li>
                 <li>• Instant score and level</li>
-                <li>• Bootcamp CTA on result</li>
+                <li>• Retake any time to improve your fluency</li>
             </ul>
             <div class="mt-8 flex flex-wrap gap-3">
                 <form method="post" action="{% url 'quiz:start' %}">

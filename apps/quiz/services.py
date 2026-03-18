@@ -47,16 +47,24 @@ def rank_for_score(score):
 
 
 def attempt_deadline(attempt):
+    if attempt.time_limit_seconds <= 0:
+        return None
     return attempt.started_at + timedelta(seconds=attempt.time_limit_seconds)
 
 
 def seconds_remaining(attempt):
-    remaining = int((attempt_deadline(attempt) - timezone.now()).total_seconds())
+    deadline = attempt_deadline(attempt)
+    if deadline is None:
+        return None
+    remaining = int((deadline - timezone.now()).total_seconds())
     return max(0, remaining)
 
 
 def has_timed_out(attempt):
-    return seconds_remaining(attempt) <= 0
+    remaining = seconds_remaining(attempt)
+    if remaining is None:
+        return False
+    return remaining <= 0
 
 
 def calculate_score(attempt):
@@ -134,9 +142,12 @@ def finalize_attempt(attempt):
     level = level_from_score(score)
     attempt.completed_at = timezone.now()
     elapsed = int((attempt.completed_at - attempt.started_at).total_seconds())
-    attempt.time_taken_seconds = max(0, min(elapsed, attempt.time_limit_seconds))
-    if has_timed_out(attempt):
-        attempt.is_timed_out = True
+    if attempt.time_limit_seconds > 0:
+        attempt.time_taken_seconds = max(0, min(elapsed, attempt.time_limit_seconds))
+        attempt.is_timed_out = has_timed_out(attempt)
+    else:
+        attempt.time_taken_seconds = max(0, elapsed)
+        attempt.is_timed_out = False
     attempt.save(update_fields=["completed_at", "time_taken_seconds", "is_timed_out"])
     result, _ = Result.objects.update_or_create(
         attempt=attempt,

@@ -22,6 +22,7 @@ class Question(models.Model):
 
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name="questions")
     text = models.TextField()
+    explanation = models.TextField(blank=True)
     order = models.PositiveIntegerField(default=1)
     kind = models.CharField(max_length=10, choices=Kind.choices, default=Kind.SINGLE)
     multi_select_count = models.PositiveSmallIntegerField(default=1)
@@ -77,7 +78,7 @@ class Attempt(models.Model):
     session_key = models.CharField(max_length=40, blank=True, db_index=True)
     started_at = models.DateTimeField(auto_now_add=True)
     completed_at = models.DateTimeField(null=True, blank=True)
-    time_limit_seconds = models.PositiveIntegerField(default=1200)
+    time_limit_seconds = models.PositiveIntegerField(default=0)
     time_taken_seconds = models.PositiveIntegerField(default=0)
     is_timed_out = models.BooleanField(default=False)
 

@@ -19,10 +19,8 @@ from .services import (
     ensure_session_key,
     finalize_attempt,
     get_or_create_random_order,
-    has_timed_out,
     rank_for_score,
     save_attempt_answers,
-    seconds_remaining,
 )
 
 
@@ -46,6 +44,7 @@ def start(request):
         quiz=quiz,
         user=request.user if request.user.is_authenticated else None,
         session_key=session_key,
+        time_limit_seconds=0,
     )
     return redirect("quiz:take", attempt_id=attempt.id)
 
@@ -80,40 +79,24 @@ def take(request, attempt_id):
 
         save_attempt_answers(attempt, selected_payload)
 
-        timed_out = has_timed_out(attempt)
-        auto_submit = request.POST.get("auto_submit") == "1"
-        if timed_out:
-            attempt.is_timed_out = True
-            attempt.save(update_fields=["is_timed_out"])
-            auto_submit = True
-
-        if not auto_submit:
-            invalid_selection_counts = []
-            for question in quiz_questions:
-                expected = question.expected_correct_count()
-                selected_count = len(selected_payload.get(question.id, []))
-                if selected_count != expected:
-                    invalid_selection_counts.append(question.order)
-            if invalid_selection_counts:
+        invalid_selection_counts = []
+        for question in quiz_questions:
+            expected = question.expected_correct_count()
+            selected_count = len(selected_payload.get(question.id, []))
+            if selected_count != expected:
+                invalid_selection_counts.append(question.order)
+        if invalid_selection_counts:
+            has_multi = any(question.kind == question.Kind.MULTI for question in quiz_questions)
+            if has_multi:
                 messages.error(
                     request,
-                    "Answer every question with the exact selection count (1 for single-select, 2 for multi-select).",
+                    "Answer every question with the exact selection count required for that question.",
                 )
             else:
-                finalize_attempt(attempt)
-                return redirect("quiz:result", attempt_id=attempt.id)
+                messages.error(request, "Choose one answer for every question before submitting.")
         else:
             finalize_attempt(attempt)
-            if attempt.is_timed_out:
-                messages.info(request, "Time is up. Your quiz was auto-submitted.")
             return redirect("quiz:result", attempt_id=attempt.id)
-
-    if has_timed_out(attempt):
-        attempt.is_timed_out = True
-        attempt.save(update_fields=["is_timed_out"])
-        finalize_attempt(attempt)
-        messages.info(request, "Time is up. Your quiz was auto-submitted.")
-        return redirect("quiz:result", attempt_id=attempt.id)
 
     answers_map = {item.question_id: list(item.selected_options.values_list("id", flat=True)) for item in attempt.answers.all()}
     ordered_questions = []
@@ -137,7 +120,6 @@ def take(request, attempt_id):
             }
         )
 
-    remaining_seconds = seconds_remaining(attempt)
     return render(
         request,
         "quiz/take.html",
@@ -145,7 +127,6 @@ def take(request, attempt_id):
             "attempt": attempt,
             "ordered_questions": ordered_questions,
             "total_questions": len(ordered_questions),
-            "remaining_seconds": remaining_seconds,
         },
     )
 
