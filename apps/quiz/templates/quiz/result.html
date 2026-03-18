@@ -5,9 +5,10 @@
 {% block content %}
 <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <article class="bg-white border border-slate-100 rounded-2xl p-8 shadow-sm">
-        <p class="text-xs uppercase tracking-widest font-black text-emerald-700">Result</p>
-        <h1 class="text-4xl sm:text-5xl font-black text-deep-blue mt-2">You scored {{ result.score }}/10</h1>
-        <p class="text-lg text-slate-600 mt-2">({{ result.percent }}%) · Level: <span class="font-bold">{{ result.level }}</span></p>
+        <p class="text-xs uppercase tracking-widest font-black text-emerald-700">Deep Assessment Result</p>
+        <h1 class="text-4xl sm:text-5xl font-black text-deep-blue mt-2">Your Deep Quiz Score: {{ result.score }}/10</h1>
+        <p class="text-lg text-slate-600 mt-2">This is your score for the 10-question assessment only.</p>
+        <p class="text-base text-slate-500 mt-2">{{ result.percent }}% correct · Level: <span class="font-bold text-slate-700">{{ result.level }}</span></p>
 
         <div class="mt-6 rounded-xl border border-primary/40 bg-primary/10 p-5">
             <p class="text-xs uppercase tracking-widest font-black text-emerald-700">Assessment Rank</p>
@@ -20,9 +21,10 @@
         {% endif %}
 
         <div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-5">
-            <p class="text-xs uppercase tracking-widest font-black text-slate-600">AI Literacy Index</p>
+            <p class="text-xs uppercase tracking-widest font-black text-slate-600">Overall AI Literacy Index</p>
             {% if ali_entry %}
-                <h3 class="mt-2 text-2xl font-black text-deep-blue">Your AI Literacy Score: {{ ali_entry.ali_score|floatformat:1 }} / 10</h3>
+                <h3 class="mt-2 text-2xl font-black text-deep-blue">Your Overall AI Literacy Score: {{ ali_entry.ali_score|floatformat:1 }} / 10</h3>
+                <p class="mt-2 text-sm text-slate-700">This combined score uses your deep assessment, micro-course completion, and final test.</p>
                 <p class="mt-1 text-sm text-slate-700">Level: <span class="font-bold">{{ ali_entry.level }}</span></p>
                 {% if ali_percentile is not None %}
                     <p class="mt-1 text-sm text-slate-600">You scored higher than <span class="font-bold">{{ ali_percentile }}%</span> of participants.</p>
@@ -35,7 +37,7 @@
                     <a href="{% url 'ai_index:insights' %}" class="inline-flex rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 hover:border-emerald-400">View Insights</a>
                 </div>
             {% else %}
-                <p class="mt-2 text-sm text-slate-700">Complete your AI Literacy Index profile to see your combined score from the microcourse, final test, and deep quiz.</p>
+                <p class="mt-2 text-sm text-slate-700">Complete your AI Literacy Index profile to generate your overall combined score from the deep assessment, micro-course completion, and final test.</p>
                 <form method="post" class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {% csrf_token %}
                     <input type="hidden" name="action" value="compute_ali" />
