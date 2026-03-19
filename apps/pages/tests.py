@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
@@ -41,3 +42,30 @@ class PagesViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(MasterclassRegistration.objects.count(), 1)
         self.assertContains(response, "Registration received")
+
+
+class AdminDashboardTests(TestCase):
+    def test_admin_dashboard_renders_for_staff_user(self):
+        user_model = get_user_model()
+        admin_user = user_model.objects.create_superuser(
+            username="admin",
+            email="admin@example.com",
+            password="strong-pass-123",
+        )
+        self.client.force_login(admin_user)
+
+        MasterclassRegistration.objects.create(
+            name="Ada Obi",
+            email="ada@example.com",
+            phone="+2348029115964",
+            location="ABUJA",
+            mode="IN_PERSON",
+        )
+        QuizSubmission.objects.create(score=8)
+
+        response = self.client.get(reverse("admin:index"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Dashboard")
+        self.assertContains(response, "Masterclass registrations")
+        self.assertContains(response, "Recent quiz activity")

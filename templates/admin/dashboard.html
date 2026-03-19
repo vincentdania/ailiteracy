@@ -1,0 +1,499 @@
+{% extends "admin/base_site.html" %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    :root {
+        --dashboard-ink: #0f172a;
+        --dashboard-soft: #667085;
+        --dashboard-border: #e5e7eb;
+        --dashboard-surface: #ffffff;
+        --dashboard-surface-soft: #f8fafc;
+        --dashboard-sidebar: #0f1b33;
+        --dashboard-accent: #0f766e;
+        --dashboard-emerald: #10b981;
+        --dashboard-blue: #3b82f6;
+        --dashboard-amber: #f59e0b;
+        --dashboard-violet: #8b5cf6;
+    }
+
+    #content {
+        padding: 24px 24px 32px;
+    }
+
+    .dashboard-shell {
+        display: grid;
+        grid-template-columns: 280px minmax(0, 1fr);
+        gap: 24px;
+        align-items: start;
+    }
+
+    .dashboard-sidebar,
+    .dashboard-panel,
+    .dashboard-card,
+    .dashboard-highlight {
+        border-radius: 28px;
+        border: 1px solid var(--dashboard-border);
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+    }
+
+    .dashboard-sidebar {
+        position: sticky;
+        top: 24px;
+        background: linear-gradient(180deg, #132241 0%, #0f1b33 100%);
+        color: #fff;
+        padding: 24px;
+    }
+
+    .dashboard-sidebar h1 {
+        margin: 0;
+        font-size: 2rem;
+        line-height: 1;
+        color: #fff;
+    }
+
+    .dashboard-sidebar p {
+        margin: 10px 0 0;
+        color: rgba(255, 255, 255, 0.72);
+        line-height: 1.6;
+    }
+
+    .dashboard-nav {
+        margin-top: 28px;
+        display: grid;
+        gap: 12px;
+    }
+
+    .dashboard-nav a {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 16px;
+        border-radius: 18px;
+        color: #fff;
+        text-decoration: none;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .dashboard-nav a:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .dashboard-nav strong,
+    .dashboard-nav span {
+        display: block;
+    }
+
+    .dashboard-nav span {
+        margin-top: 4px;
+        font-size: 0.86rem;
+        color: rgba(255, 255, 255, 0.66);
+    }
+
+    .dashboard-nav b {
+        font-size: 1.125rem;
+        color: #62fcc9;
+    }
+
+    .dashboard-main {
+        display: grid;
+        gap: 24px;
+    }
+
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: center;
+    }
+
+    .dashboard-header h2 {
+        margin: 0;
+        font-size: 2.2rem;
+        color: var(--dashboard-ink);
+    }
+
+    .dashboard-header p {
+        margin: 8px 0 0;
+        color: var(--dashboard-soft);
+        max-width: 52rem;
+    }
+
+    .dashboard-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+
+    .dashboard-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: var(--dashboard-surface);
+        border: 1px solid var(--dashboard-border);
+        color: var(--dashboard-ink);
+        font-weight: 700;
+    }
+
+    .dashboard-cards {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .dashboard-card {
+        background: var(--dashboard-surface);
+        padding: 24px;
+    }
+
+    .dashboard-card .kicker {
+        margin: 0;
+        color: var(--dashboard-soft);
+        font-size: 0.95rem;
+        font-weight: 700;
+    }
+
+    .dashboard-card .value {
+        margin: 18px 0 8px;
+        color: var(--dashboard-ink);
+        font-size: 2.6rem;
+        line-height: 1;
+        font-weight: 800;
+    }
+
+    .dashboard-card .delta {
+        margin: 0;
+        color: var(--dashboard-soft);
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+
+    .dashboard-card.card-emerald { border-top: 5px solid var(--dashboard-emerald); }
+    .dashboard-card.card-blue { border-top: 5px solid var(--dashboard-blue); }
+    .dashboard-card.card-amber { border-top: 5px solid var(--dashboard-amber); }
+    .dashboard-card.card-violet { border-top: 5px solid var(--dashboard-violet); }
+
+    .dashboard-highlights {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .dashboard-highlight {
+        background: var(--dashboard-surface-soft);
+        padding: 18px 20px;
+    }
+
+    .dashboard-highlight .label {
+        margin: 0;
+        color: var(--dashboard-soft);
+        font-size: 0.92rem;
+        font-weight: 700;
+    }
+
+    .dashboard-highlight .number {
+        margin: 10px 0 0;
+        color: var(--dashboard-ink);
+        font-size: 2rem;
+        line-height: 1;
+        font-weight: 800;
+    }
+
+    .dashboard-panels {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 24px;
+    }
+
+    .dashboard-panel {
+        background: var(--dashboard-surface);
+        overflow: hidden;
+    }
+
+    .dashboard-panel-header {
+        padding: 22px 24px 16px;
+        border-bottom: 1px solid var(--dashboard-border);
+    }
+
+    .dashboard-panel-header h3 {
+        margin: 0;
+        color: var(--dashboard-ink);
+        font-size: 1.35rem;
+    }
+
+    .dashboard-panel-header p {
+        margin: 6px 0 0;
+        color: var(--dashboard-soft);
+    }
+
+    .dashboard-table-wrap {
+        overflow-x: auto;
+    }
+
+    .dashboard-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .dashboard-table th,
+    .dashboard-table td {
+        padding: 16px 24px;
+        border-bottom: 1px solid var(--dashboard-border);
+        text-align: left;
+        vertical-align: top;
+    }
+
+    .dashboard-table th {
+        color: var(--dashboard-soft);
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+
+    .dashboard-table td strong {
+        color: var(--dashboard-ink);
+    }
+
+    .dashboard-empty {
+        padding: 24px;
+        color: var(--dashboard-soft);
+    }
+
+    .score-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(15, 118, 110, 0.08);
+        color: var(--dashboard-accent);
+        font-weight: 700;
+        font-size: 0.88rem;
+    }
+
+    .dashboard-mini-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        padding: 18px 24px 24px;
+    }
+
+    .dashboard-mini-card {
+        border: 1px solid var(--dashboard-border);
+        border-radius: 20px;
+        padding: 18px;
+        background: var(--dashboard-surface-soft);
+    }
+
+    .dashboard-mini-card p {
+        margin: 0;
+        color: var(--dashboard-soft);
+        font-weight: 700;
+    }
+
+    .dashboard-mini-card strong {
+        display: block;
+        margin-top: 10px;
+        font-size: 1.6rem;
+        color: var(--dashboard-ink);
+    }
+
+    @media (max-width: 1200px) {
+        .dashboard-shell,
+        .dashboard-panels {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-sidebar {
+            position: static;
+        }
+
+        .dashboard-cards,
+        .dashboard-highlights {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 720px) {
+        #content {
+            padding: 16px;
+        }
+
+        .dashboard-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .dashboard-meta {
+            justify-content: flex-start;
+        }
+
+        .dashboard-cards,
+        .dashboard-highlights,
+        .dashboard-mini-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-table th,
+        .dashboard-table td {
+            padding: 14px 16px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-shell">
+    <aside class="dashboard-sidebar">
+        <h1>Dashboard</h1>
+        <p>See registrations, quiz activity, and your key admin areas in one place.</p>
+
+        <nav class="dashboard-nav">
+            {% for link in quick_links %}
+                <a href="{{ link.url }}">
+                    <div>
+                        <strong>{{ link.title }}</strong>
+                        <span>{{ link.caption }}</span>
+                    </div>
+                    <b>{{ link.count }}</b>
+                </a>
+            {% endfor %}
+        </nav>
+    </aside>
+
+    <section class="dashboard-main">
+        <div class="dashboard-header">
+            <div>
+                <h2>Dashboard</h2>
+                <p>Track the signals that matter most for the MVP: new masterclass leads, quiz activity, and the content/tools you manage behind the scenes.</p>
+            </div>
+
+            <div class="dashboard-meta">
+                <span class="dashboard-pill">Users: {{ dashboard_meta.users }}</span>
+                <span class="dashboard-pill">Products: {{ dashboard_meta.products }}</span>
+                <span class="dashboard-pill">Blog posts: {{ dashboard_meta.blog_posts }}</span>
+                <span class="dashboard-pill">Resources: {{ dashboard_meta.resources }}</span>
+                <span class="dashboard-pill">AI scores: {{ dashboard_meta.ai_scores }}</span>
+            </div>
+        </div>
+
+        <div class="dashboard-cards">
+            {% for card in dashboard_cards %}
+                <article class="dashboard-card card-{{ card.tone }}">
+                    <p class="kicker">{{ card.title }}</p>
+                    <p class="value">{{ card.value }}</p>
+                    <p class="delta">{{ card.delta }}</p>
+                </article>
+            {% endfor %}
+        </div>
+
+        <div class="dashboard-highlights">
+            {% for highlight in dashboard_highlights %}
+                <article class="dashboard-highlight">
+                    <p class="label">{{ highlight.title }}</p>
+                    <p class="number">{{ highlight.value }}</p>
+                </article>
+            {% endfor %}
+        </div>
+
+        <div class="dashboard-panels">
+            <section class="dashboard-panel">
+                <div class="dashboard-panel-header">
+                    <h3>Recent masterclass registrations</h3>
+                    <p>Newest leads from the homepage registration form.</p>
+                </div>
+
+                {% if recent_registrations %}
+                    <div class="dashboard-table-wrap">
+                        <table class="dashboard-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Contact</th>
+                                    <th>Location</th>
+                                    <th>Mode</th>
+                                    <th>Submitted</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for registration in recent_registrations %}
+                                    <tr>
+                                        <td><strong>{{ registration.name }}</strong></td>
+                                        <td>{{ registration.email }}<br>{{ registration.phone }}</td>
+                                        <td>{{ registration.get_location_display }}</td>
+                                        <td>{{ registration.get_mode_display }}</td>
+                                        <td>{{ registration.created_at|date:"d M Y, H:i" }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="dashboard-empty">No registrations yet.</p>
+                {% endif %}
+            </section>
+
+            <section class="dashboard-panel">
+                <div class="dashboard-panel-header">
+                    <h3>Recent quiz activity</h3>
+                    <p>Latest AI Fluency Quiz submissions and score levels.</p>
+                </div>
+
+                {% if recent_quiz_submissions %}
+                    <div class="dashboard-table-wrap">
+                        <table class="dashboard-table">
+                            <thead>
+                                <tr>
+                                    <th>Score</th>
+                                    <th>Level</th>
+                                    <th>Submitted</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for submission in recent_quiz_submissions %}
+                                    <tr>
+                                        <td><strong>{{ submission.score }}/10</strong></td>
+                                        <td><span class="score-badge">{{ submission.level }}</span></td>
+                                        <td>{{ submission.created_at|date:"d M Y, H:i" }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="dashboard-empty">No quiz submissions yet.</p>
+                {% endif %}
+
+                <div class="dashboard-panel-header" style="border-top: 1px solid var(--dashboard-border); border-bottom: 0;">
+                    <h3>At a glance</h3>
+                    <p>Keep tabs on the rest of the system without opening multiple sections.</p>
+                </div>
+                <div class="dashboard-mini-grid">
+                    <div class="dashboard-mini-card">
+                        <p>Certificates</p>
+                        <strong>{{ dashboard_meta.certificates }}</strong>
+                    </div>
+                    <div class="dashboard-mini-card">
+                        <p>Products</p>
+                        <strong>{{ dashboard_meta.products }}</strong>
+                    </div>
+                    <div class="dashboard-mini-card">
+                        <p>Blog posts</p>
+                        <strong>{{ dashboard_meta.blog_posts }}</strong>
+                    </div>
+                    <div class="dashboard-mini-card">
+                        <p>Resources</p>
+                        <strong>{{ dashboard_meta.resources }}</strong>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+</div>
+{% endblock %}
