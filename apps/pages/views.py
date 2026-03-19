@@ -9,7 +9,8 @@ from .models import QuizSubmission
 WHATSAPP_NUMBER = "2348029115964"
 CONTACT_PHONE_DISPLAY = "08029115964"
 CONTACT_EMAIL = "learn@ailiteracy.ng"
-HYRAX_BOOKS_URL = "https://hyrax.ng/category_view/books"
+HYRAX_BOOKS_URL = "https://hyrax.ng/product/ai-confidence-in-21-days-workbook"
+HYRAX_EBOOK_URL = "https://hyrax.ng/digital-product/ai-confidence-in-21-days"
 HERO_IMAGE_URL = (
     "https://lh3.googleusercontent.com/aida-public/"
     "AB6AXuDFmkU_II7ZWcKJO6v_erO7MBd1bTLf3Z_9gGOl7_9bVMmOWBcq3WGdAk7iDbbMjkYC6ZLFxSQWDTziO2IdgZjkGIsE9MtoS7LGCLVbbM0S2FskulcaaKPNBJRckw7PHXaZ9_a1nhoY0F9WsbF3fhiLxQ72jjM__9VcYSVI_1YFxaNBhykoJNVukQvtzorddYyI07UTuDJ-mFvSVZY5QBE0WpZGny4hCQgz6vc3LDis9SXDqwzbpGP_cQZK0xFEAYBY0i4TN8glJjc"
@@ -214,7 +215,7 @@ def home(request):
         },
         "workbook_links": {
             "hardcopy": HYRAX_BOOKS_URL,
-            "ecopy": HYRAX_BOOKS_URL,
+            "ecopy": HYRAX_EBOOK_URL,
             "shop_label": "Sold on hyrax.ng",
         },
     }
