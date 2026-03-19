@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "storages",
+    "apps.pages",
     "apps.core",
     "apps.accounts",
     "apps.catalog",
@@ -61,8 +62,6 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "apps.core.context_processors.layout",
-                "apps.quiz.context_processors.quiz_prompt",
             ]
         },
     }
@@ -134,8 +133,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = "accounts:dashboard"
-LOGOUT_REDIRECT_URL = "core:home"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGIN_METHODS = {"email"}

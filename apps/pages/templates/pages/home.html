@@ -1,0 +1,572 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Literacy Nigeria | Quiz, Workbook, Masterclass</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#071224",
+                        secondary: "#0b6d54",
+                        mint: "#62fcc9",
+                        background: "#f7faf9",
+                        surface: "#ffffff",
+                        "surface-soft": "#eef2f1",
+                        "text-soft": "#5f676e",
+                        stroke: "#e4e9e8",
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                    },
+                    boxShadow: {
+                        editorial: "0 10px 40px rgba(7, 18, 36, 0.06)",
+                    },
+                    borderRadius: {
+                        "4xl": "2rem",
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 24;
+        }
+        .pattern-mask {
+            background-image: radial-gradient(circle at 2px 2px, rgba(7, 18, 36, 0.06) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-background font-sans text-primary antialiased">
+    <div class="min-h-screen">
+        <header class="border-b border-black/5 bg-surface">
+            <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+                <a href="/" class="flex items-center gap-3 font-semibold text-primary">
+                    <svg class="h-5 w-5" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <path d="M13.8261 17.4264C16.7203 18.1174 20.2244 18.5217 24 18.5217C27.7756 18.5217 31.2797 18.1174 34.1739 17.4264C36.9144 16.7722 39.9967 15.2331 41.3563 14.1648L24.8486 40.6391C24.4571 41.267 23.5429 41.267 23.1514 40.6391L6.64374 14.1648C8.00331 15.2331 11.0856 16.7722 13.8261 17.4264Z" fill="currentColor"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M39.998 12.236C39.9944 12.2537 39.9875 12.2845 39.9748 12.3294C39.9436 12.4399 39.8949 12.5741 39.8346 12.7175C39.8168 12.7597 39.7989 12.8007 39.7813 12.8398C38.5103 13.7113 35.9788 14.9393 33.7095 15.4811C30.9875 16.131 27.6413 16.5217 24 16.5217C20.3587 16.5217 17.0125 16.131 14.2905 15.4811C12.0012 14.9346 9.44505 13.6897 8.18538 12.8168C8.17384 12.7925 8.16216 12.767 8.15052 12.7408C8.09919 12.6249 8.05721 12.5114 8.02977 12.411C8.00356 12.3152 8.00039 12.2667 8.00004 12.2612C8.00004 12.261 8 12.2607 8.00004 12.2612C8.00004 12.2359 8.0104 11.9233 8.68485 11.3686C9.34546 10.8254 10.4222 10.2469 11.9291 9.72276C14.9242 8.68098 19.1919 8 24 8C28.8081 8 33.0758 8.68098 36.0709 9.72276C37.5778 10.2469 38.6545 10.8254 39.3151 11.3686C39.9006 11.8501 39.9857 12.1489 39.998 12.236Z" fill="currentColor"></path>
+                    </svg>
+                    <span class="text-sm font-bold sm:text-base">AI Literacy Nigeria</span>
+                </a>
+
+                <nav class="hidden items-center gap-8 md:flex">
+                    <a href="#quiz" class="text-sm font-medium text-primary/70 transition hover:text-secondary">Quiz</a>
+                    <a href="#workbook" class="text-sm font-medium text-primary/70 transition hover:text-secondary">Workbook</a>
+                    <a href="#masterclass" class="text-sm font-medium text-primary/70 transition hover:text-secondary">Masterclass</a>
+                    <a href="#quiz" class="rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-white transition hover:bg-primary/90">Take the Quiz</a>
+                </nav>
+            </div>
+        </header>
+
+        <section class="bg-surface">
+            <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 md:py-20 lg:px-8 lg:py-24">
+                <div class="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_28rem]">
+                    <div class="max-w-2xl">
+                        <p class="text-xs font-bold uppercase tracking-[0.22em] text-secondary">Future-Proof Your Career</p>
+                        <h1 class="mt-4 text-5xl font-black leading-[0.95] tracking-[-0.04em] text-primary sm:text-6xl lg:text-7xl">
+                            Are you AI literate?
+                        </h1>
+                        <p class="mt-6 max-w-lg text-lg leading-8 text-text-soft sm:text-xl">
+                            Take the AI Fluency Quiz and find out if you're ready for the future of work in Nigeria.
+                        </p>
+                        <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+                            <a href="#quiz" class="inline-flex min-h-[3.5rem] items-center justify-center rounded-2xl bg-secondary px-8 text-base font-bold text-white shadow-lg shadow-secondary/20 transition hover:bg-secondary/90">
+                                Start the AI Fluency Quiz
+                            </a>
+                            <div class="flex items-center gap-3 text-sm font-medium text-text-soft">
+                                <div class="flex -space-x-2">
+                                    <div class="h-7 w-7 rounded-full border-2 border-white bg-slate-300"></div>
+                                    <div class="h-7 w-7 rounded-full border-2 border-white bg-slate-400"></div>
+                                    <div class="h-7 w-7 rounded-full border-2 border-white bg-slate-500"></div>
+                                </div>
+                                <span>Join 1,000+ Nigerians</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative">
+                        <div class="overflow-hidden rounded-[2rem] bg-[#0c6a53] shadow-editorial">
+                            <img src="{{ hero_image_url }}" alt="Nigerian professional using AI tools" class="h-full w-full object-cover" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz" class="pattern-mask bg-[#f1f4f3] py-20 md:py-24">
+            <div class="mx-auto max-w-3xl px-4 sm:px-6">
+                <div class="rounded-[2rem] border border-black/5 bg-white p-6 shadow-editorial sm:p-8 md:p-10">
+                    <div class="flex items-end justify-between gap-4">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-[0.22em] text-text-soft">AI Fluency Quiz</p>
+                            <p class="mt-2 text-sm font-semibold text-text-soft">
+                                <span data-quiz-count>Question 1 of {{ quiz_question_total }}</span>
+                            </p>
+                        </div>
+                        <p class="text-sm font-bold text-secondary" data-quiz-progress-text>10% Complete</p>
+                    </div>
+
+                    <div class="mt-4 h-2 w-full overflow-hidden rounded-full bg-surface-soft">
+                        <div class="h-full rounded-full bg-secondary transition-all duration-300" style="width: 10%;" data-quiz-progress-bar></div>
+                    </div>
+
+                    <form method="post" class="mt-8" id="quiz-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="quiz_submit" />
+
+                        <div class="space-y-8">
+                            {% for question in quiz_questions %}
+                                <article
+                                    class="{% if not forloop.first %}hidden{% endif %}"
+                                    data-question-slide
+                                    data-question-index="{{ forloop.counter0 }}"
+                                >
+                                    <h2 class="text-2xl font-bold leading-tight text-primary sm:text-3xl">
+                                        {{ question.text }}
+                                    </h2>
+
+                                    <div class="mt-6 grid gap-4">
+                                        {% for key, value in question.options.items %}
+                                            <label class="block">
+                                                <input
+                                                    type="radio"
+                                                    name="question_{{ question.id }}"
+                                                    value="{{ key }}"
+                                                    class="peer sr-only"
+                                                />
+                                                <span class="flex cursor-pointer items-start gap-4 rounded-2xl bg-surface-soft px-5 py-5 text-left ring-1 ring-transparent transition hover:bg-mint/40 hover:ring-secondary/10 peer-checked:bg-mint/50 peer-checked:ring-secondary">
+                                                    <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-primary">
+                                                        {{ key }}
+                                                    </span>
+                                                    <span class="text-base font-medium leading-7 text-primary">{{ value }}</span>
+                                                </span>
+                                            </label>
+                                        {% endfor %}
+                                    </div>
+                                </article>
+                            {% endfor %}
+                        </div>
+
+                        <p class="mt-6 hidden rounded-2xl bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800 ring-1 ring-amber-200" data-quiz-notice></p>
+
+                        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-between">
+                            <button type="button" class="inline-flex min-h-[3.25rem] items-center justify-center rounded-2xl border border-stroke px-6 text-sm font-bold text-primary transition hover:bg-surface-soft" data-quiz-prev disabled>
+                                Previous
+                            </button>
+                            <div class="flex flex-col gap-3 sm:flex-row">
+                                <button type="button" class="inline-flex min-h-[3.25rem] items-center justify-center rounded-2xl border border-stroke px-6 text-sm font-bold text-primary transition hover:bg-surface-soft" data-quiz-next>
+                                    Next Question
+                                </button>
+                                <button type="submit" class="hidden min-h-[3.25rem] items-center justify-center rounded-2xl bg-secondary px-6 text-sm font-bold text-white transition hover:bg-secondary/90" data-quiz-submit>
+                                    See My Result
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="result" class="bg-surface py-20 md:py-24">
+            <div class="mx-auto max-w-2xl px-4 text-center sm:px-6">
+                <div class="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-mint text-primary">
+                    <span class="material-symbols-outlined text-4xl">trophy</span>
+                </div>
+                <p class="mt-6 text-xs font-bold uppercase tracking-[0.22em] text-text-soft">Your Result</p>
+
+                {% if quiz_result %}
+                    <p class="mt-4 text-lg font-semibold text-primary">You scored {{ quiz_result.score }}/10</p>
+                    <div class="mt-4 text-6xl font-black tracking-[-0.03em] text-primary sm:text-7xl">{{ quiz_result.score }}/10</div>
+                    <div class="mt-4 inline-flex rounded-full bg-primary px-5 py-2 text-base font-bold text-white">
+                        {{ quiz_result.level }}
+                    </div>
+                    <p class="mx-auto mt-6 max-w-xl text-lg leading-8 text-text-soft">
+                        {{ quiz_result.message }}
+                    </p>
+                {% else %}
+                    <p class="mt-4 text-lg font-semibold text-primary">Take the quiz to see your score.</p>
+                    <div class="mt-4 text-6xl font-black tracking-[-0.03em] text-primary sm:text-7xl">7/10</div>
+                    <div class="mt-4 inline-flex rounded-full bg-primary px-5 py-2 text-base font-bold text-white">
+                        AI Intermediate
+                    </div>
+                    <p class="mx-auto mt-6 max-w-xl text-lg leading-8 text-text-soft">
+                        Great job. Once you take the quiz, your actual score and share links will appear here.
+                    </p>
+                {% endif %}
+
+                <div class="mt-10">
+                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-text-soft">Share your score</p>
+                    <div class="mt-4 flex justify-center gap-4">
+                        {% if quiz_result %}
+                            <a href="{{ quiz_result.share_links.whatsapp }}" target="_blank" rel="noopener noreferrer" class="flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white transition hover:scale-105">
+                                <span class="text-sm font-black">WA</span>
+                            </a>
+                            <a href="{{ quiz_result.share_links.twitter }}" target="_blank" rel="noopener noreferrer" class="flex h-12 w-12 items-center justify-center rounded-full bg-[#111827] text-white transition hover:scale-105">
+                                <span class="text-sm font-black">X</span>
+                            </a>
+                            <a href="{{ quiz_result.share_links.linkedin }}" target="_blank" rel="noopener noreferrer" class="flex h-12 w-12 items-center justify-center rounded-full bg-[#0A66C2] text-white transition hover:scale-105">
+                                <span class="text-sm font-black">in</span>
+                            </a>
+                        {% else %}
+                            <a href="#quiz" class="flex h-12 w-12 items-center justify-center rounded-full bg-surface-soft text-primary transition hover:bg-stroke">
+                                <span class="material-symbols-outlined">share</span>
+                            </a>
+                            <a href="#quiz" class="flex h-12 w-12 items-center justify-center rounded-full bg-surface-soft text-primary transition hover:bg-stroke">
+                                <span class="text-sm font-black">WA</span>
+                            </a>
+                            <a href="#quiz" class="flex h-12 w-12 items-center justify-center rounded-full bg-surface-soft text-primary transition hover:bg-stroke">
+                                <span class="text-sm font-black">X</span>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="workbook" class="bg-[#f1f4f3] py-20 md:py-24">
+            <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+                <div class="grid items-center gap-16 lg:grid-cols-[24rem_minmax(0,1fr)]">
+                    <div class="relative mx-auto w-full max-w-sm">
+                        <div class="absolute inset-0 scale-105 rounded-[2rem] bg-secondary/10 blur-2xl"></div>
+                        <img src="{% static 'images/ai-confidence-in-21-days-book.png' %}" alt="AI Confidence in 21 Days workbook" class="relative w-full rounded-[2rem] shadow-editorial" />
+                    </div>
+
+                    <div>
+                        <h2 class="text-4xl font-black leading-tight text-primary sm:text-5xl">
+                            Become A Confident AI User in Just 21 Days
+                        </h2>
+                        <p class="mt-5 max-w-2xl text-lg leading-8 text-text-soft">
+                            Stop feeling overwhelmed by AI. Our practical workbook provides the hands-on guidance you need to be AI fluent in no time.
+                        </p>
+                        <p class="mt-4 inline-flex items-center rounded-full bg-primary/5 px-4 py-2 text-sm font-bold text-primary">
+                            {{ workbook_links.shop_label }}
+                        </p>
+
+                        <ul class="mt-8 space-y-4">
+                            <li class="flex items-center gap-3 text-base font-medium text-primary">
+                                <span class="material-symbols-outlined text-secondary">check_circle</span>
+                                21 practical guidance for daily fluency in AI
+                            </li>
+                            <li class="flex items-center gap-3 text-base font-medium text-primary">
+                                <span class="material-symbols-outlined text-secondary">check_circle</span>
+                                Prompt engineering templates for professional and everyday use
+                            </li>
+                            <li class="flex items-center gap-3 text-base font-medium text-primary">
+                                <span class="material-symbols-outlined text-secondary">check_circle</span>
+                                Africa and Nigeria specific case studies
+                            </li>
+                        </ul>
+
+                        <div class="mt-10 grid gap-5 md:grid-cols-2">
+                            <article class="rounded-[2rem] border border-stroke bg-white p-7 shadow-editorial">
+                                <div>
+                                    <p class="text-xl font-bold text-primary">Hard Copy</p>
+                                    <p class="mt-1 text-[11px] font-bold uppercase tracking-[0.18em] text-rose-500">{{ workbook_links.shop_label }}</p>
+                                </div>
+                                <p class="mt-8 text-4xl font-black text-primary">₦15,000</p>
+                                <a href="{{ workbook_links.hardcopy }}" target="_blank" rel="noopener noreferrer" class="mt-8 inline-flex min-h-[3.5rem] w-full items-center justify-center rounded-2xl border-2 border-primary px-6 text-base font-bold text-primary transition hover:bg-primary hover:text-white">
+                                    Order Hard Copy
+                                </a>
+                            </article>
+
+                            <article class="relative overflow-hidden rounded-[2rem] border border-primary bg-primary p-7 shadow-editorial">
+                                <div class="absolute right-5 top-5 rounded-full bg-mint px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-primary">
+                                    Popular
+                                </div>
+                                <div>
+                                    <p class="text-xl font-bold text-white">E-Copy</p>
+                                    <p class="mt-1 text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">{{ workbook_links.shop_label }}</p>
+                                </div>
+                                <p class="mt-8 text-4xl font-black text-white">₦5,000</p>
+                                <a href="{{ workbook_links.ecopy }}" target="_blank" rel="noopener noreferrer" class="mt-8 inline-flex min-h-[3.5rem] w-full items-center justify-center rounded-2xl bg-mint px-6 text-base font-bold text-primary transition hover:bg-white">
+                                    Get E-Copy
+                                </a>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="masterclass" class="bg-surface py-20 md:py-24">
+            <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+                <div class="overflow-hidden rounded-[2rem] bg-primary shadow-editorial lg:grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+                    <div class="p-8 text-white sm:p-10 lg:p-12">
+                        <h2 class="text-4xl font-black leading-tight">Join the AI Masterclass</h2>
+                        <p class="mt-5 max-w-md text-lg leading-8 text-white/75">
+                            A practical live training on agentic AI, copilots, and the productive use of AI for work and business.
+                        </p>
+
+                        <div class="mt-10 space-y-6">
+                            <div class="flex items-start gap-4">
+                                <span class="material-symbols-outlined text-mint">event</span>
+                                <div>
+                                    <p class="font-bold">Next Cohort</p>
+                                    <p class="text-white/75">Dates shared after registration</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <span class="material-symbols-outlined text-mint">groups</span>
+                                <div>
+                                    <p class="font-bold">Community</p>
+                                    <p class="text-white/75">Join ambitious Nigerians learning to work productively with AI.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-10 rounded-[1.5rem] border border-white/10 bg-white/5 p-5">
+                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-mint">Contact</p>
+                            <p class="mt-3 text-sm leading-7 text-white/80">
+                                WhatsApp and SMS:
+                                <span class="font-bold text-white">{{ contact.phone_display }}</span><br>
+                                Email:
+                                <span class="font-bold text-white">{{ contact.email }}</span>
+                            </p>
+                            <div class="mt-4 flex flex-wrap gap-3">
+                                <a href="{{ contact.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-[2.75rem] items-center justify-center rounded-2xl bg-mint px-4 text-sm font-bold text-primary transition hover:bg-white">
+                                    WhatsApp
+                                </a>
+                                <a href="{{ contact.sms_url }}" class="inline-flex min-h-[2.75rem] items-center justify-center rounded-2xl border border-white/15 px-4 text-sm font-bold text-white transition hover:bg-white/10">
+                                    SMS
+                                </a>
+                                <a href="{{ contact.email_url }}" class="inline-flex min-h-[2.75rem] items-center justify-center rounded-2xl border border-white/15 px-4 text-sm font-bold text-white transition hover:bg-white/10">
+                                    Email
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#e8ebea] p-8 sm:p-10 lg:p-12">
+                        {% if masterclass_success %}
+                            <div class="mb-6 rounded-3xl bg-mint/60 px-5 py-4 text-primary ring-1 ring-secondary/10">
+                                <p class="text-lg font-black">Registration received</p>
+                                <p class="mt-2 text-sm leading-7">
+                                    Thanks {{ masterclass_success.name }}. Your masterclass registration has been saved.
+                                </p>
+                                <a href="{{ masterclass_success.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex min-h-[3rem] items-center justify-center rounded-2xl bg-primary px-5 text-sm font-bold text-white transition hover:bg-primary/90">
+                                    Continue on WhatsApp
+                                </a>
+                            </div>
+                        {% endif %}
+
+                        <form method="post" class="space-y-5">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="masterclass_submit" />
+
+                            <div class="grid gap-4 md:grid-cols-2">
+                                <div>
+                                    <label for="{{ masterclass_form.name.id_for_label }}" class="mb-2 block text-xs font-bold uppercase tracking-[0.18em] text-text-soft">Full Name</label>
+                                    {{ masterclass_form.name }}
+                                    {% if masterclass_form.name.errors %}<p class="mt-2 text-sm font-medium text-rose-600">{{ masterclass_form.name.errors.0 }}</p>{% endif %}
+                                </div>
+                                <div>
+                                    <label for="{{ masterclass_form.email.id_for_label }}" class="mb-2 block text-xs font-bold uppercase tracking-[0.18em] text-text-soft">Email Address</label>
+                                    {{ masterclass_form.email }}
+                                    {% if masterclass_form.email.errors %}<p class="mt-2 text-sm font-medium text-rose-600">{{ masterclass_form.email.errors.0 }}</p>{% endif %}
+                                </div>
+                            </div>
+
+                            <div class="grid gap-4 md:grid-cols-2">
+                                <div>
+                                    <label for="{{ masterclass_form.phone.id_for_label }}" class="mb-2 block text-xs font-bold uppercase tracking-[0.18em] text-text-soft">Phone Number</label>
+                                    {{ masterclass_form.phone }}
+                                    {% if masterclass_form.phone.errors %}<p class="mt-2 text-sm font-medium text-rose-600">{{ masterclass_form.phone.errors.0 }}</p>{% endif %}
+                                </div>
+                                <div>
+                                    <label for="{{ masterclass_form.location.id_for_label }}" class="mb-2 block text-xs font-bold uppercase tracking-[0.18em] text-text-soft">Location</label>
+                                    {{ masterclass_form.location }}
+                                    {% if masterclass_form.location.errors %}<p class="mt-2 text-sm font-medium text-rose-600">{{ masterclass_form.location.errors.0 }}</p>{% endif %}
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="mb-3 block text-xs font-bold uppercase tracking-[0.18em] text-text-soft">Mode of Attendance</p>
+                                <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-6">
+                                    {% for value, label in masterclass_form.fields.mode.choices %}
+                                        {% if value %}
+                                        <label class="inline-flex cursor-pointer items-center gap-3">
+                                            <input
+                                                type="radio"
+                                                name="mode"
+                                                value="{{ value }}"
+                                                class="h-4 w-4 border-stroke text-secondary focus:ring-secondary"
+                                                {% if masterclass_form.data.mode == value or masterclass_form.initial.mode == value %}checked{% endif %}
+                                            />
+                                            <span class="text-sm font-medium text-primary">{{ label }}</span>
+                                        </label>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% if masterclass_form.mode.errors %}<p class="mt-2 text-sm font-medium text-rose-600">{{ masterclass_form.mode.errors.0 }}</p>{% endif %}
+                            </div>
+
+                            {% if masterclass_form.non_field_errors %}
+                                <div class="rounded-2xl bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700 ring-1 ring-rose-200">
+                                    {{ masterclass_form.non_field_errors.0 }}
+                                </div>
+                            {% endif %}
+
+                            <button type="submit" class="mt-3 inline-flex min-h-[3.5rem] w-full items-center justify-center rounded-2xl bg-primary px-6 text-base font-bold text-white transition hover:bg-primary/90">
+                                Reserve Your Spot
+                            </button>
+                            <p class="text-sm leading-7 text-text-soft">
+                                In-person training is available in Abuja only. Online participation is open from anywhere.
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pattern-mask bg-gradient-to-r from-mint to-[#67f1d9] py-24 text-center">
+            <div class="mx-auto max-w-4xl px-4 sm:px-6">
+                <h2 class="text-4xl font-black leading-tight text-primary sm:text-5xl">
+                    AI is already changing everything. Will you understand it… or be left behind?
+                </h2>
+                <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-primary/70">
+                    The future of Nigeria belongs to the AI-literate. Choose your starting point today.
+                </p>
+                <div class="mt-10 flex flex-wrap justify-center gap-4">
+                    <a href="#quiz" class="inline-flex min-h-[3.5rem] items-center justify-center rounded-2xl bg-primary px-8 text-base font-bold text-white transition hover:scale-[1.02]">Take the Quiz</a>
+                    <a href="#workbook" class="inline-flex min-h-[3.5rem] items-center justify-center rounded-2xl border border-primary/10 bg-white px-8 text-base font-bold text-primary transition hover:scale-[1.02]">Get the Workbook</a>
+                    <a href="#masterclass" class="inline-flex min-h-[3.5rem] items-center justify-center rounded-2xl bg-secondary px-8 text-base font-bold text-white transition hover:scale-[1.02]">Join Masterclass</a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="border-t border-black/5 bg-surface py-10">
+            <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-4 text-center sm:px-6 md:flex-row md:text-left lg:px-8">
+                <div class="flex items-center gap-3 font-semibold text-primary">
+                    <svg class="h-5 w-5" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <path d="M13.8261 17.4264C16.7203 18.1174 20.2244 18.5217 24 18.5217C27.7756 18.5217 31.2797 18.1174 34.1739 17.4264C36.9144 16.7722 39.9967 15.2331 41.3563 14.1648L24.8486 40.6391C24.4571 41.267 23.5429 41.267 23.1514 40.6391L6.64374 14.1648C8.00331 15.2331 11.0856 16.7722 13.8261 17.4264Z" fill="currentColor"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M39.998 12.236C39.9944 12.2537 39.9875 12.2845 39.9748 12.3294C39.9436 12.4399 39.8949 12.5741 39.8346 12.7175C39.8168 12.7597 39.7989 12.8007 39.7813 12.8398C38.5103 13.7113 35.9788 14.9393 33.7095 15.4811C30.9875 16.131 27.6413 16.5217 24 16.5217C20.3587 16.5217 17.0125 16.131 14.2905 15.4811C12.0012 14.9346 9.44505 13.6897 8.18538 12.8168C8.17384 12.7925 8.16216 12.767 8.15052 12.7408C8.09919 12.6249 8.05721 12.5114 8.02977 12.411C8.00356 12.3152 8.00039 12.2667 8.00004 12.2612C8.00004 12.261 8 12.2607 8.00004 12.2612C8.00004 12.2359 8.0104 11.9233 8.68485 11.3686C9.34546 10.8254 10.4222 10.2469 11.9291 9.72276C14.9242 8.68098 19.1919 8 24 8C28.8081 8 33.0758 8.68098 36.0709 9.72276C37.5778 10.2469 38.6545 10.8254 39.3151 11.3686C39.9006 11.8501 39.9857 12.1489 39.998 12.236Z" fill="currentColor"></path>
+                    </svg>
+                    <span>AI Literacy Nigeria</span>
+                </div>
+                <p class="text-sm text-text-soft">© 2026 ailiteracy.ng - Empowering the Nigerian workforce for the AI era.</p>
+                <div class="flex items-center gap-5 text-text-soft">
+                    <a href="#quiz" class="transition hover:text-secondary" aria-label="Take the quiz"><span class="material-symbols-outlined">school</span></a>
+                    <a href="#workbook" class="transition hover:text-secondary" aria-label="View the workbook"><span class="material-symbols-outlined">menu_book</span></a>
+                    <a href="#masterclass" class="transition hover:text-secondary" aria-label="View the masterclass"><span class="material-symbols-outlined">groups</span></a>
+                </div>
+            </div>
+            <div class="mx-auto mt-6 max-w-6xl px-4 text-center text-sm text-text-soft sm:px-6 md:text-left lg:px-8">
+                <p>
+                    WhatsApp and SMS:
+                    <a href="{{ contact.whatsapp_url }}" class="font-semibold text-primary transition hover:text-secondary">{{ contact.phone_display }}</a>
+                    |
+                    Email:
+                    <a href="{{ contact.email_url }}" class="font-semibold text-primary transition hover:text-secondary">{{ contact.email }}</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const slides = Array.from(document.querySelectorAll("[data-question-slide]"));
+            const counter = document.querySelector("[data-quiz-count]");
+            const progressText = document.querySelector("[data-quiz-progress-text]");
+            const progressBar = document.querySelector("[data-quiz-progress-bar]");
+            const prevButton = document.querySelector("[data-quiz-prev]");
+            const nextButton = document.querySelector("[data-quiz-next]");
+            const submitButton = document.querySelector("[data-quiz-submit]");
+            const notice = document.querySelector("[data-quiz-notice]");
+            const form = document.getElementById("quiz-form");
+
+            if (!slides.length || !counter || !progressText || !progressBar || !prevButton || !nextButton || !submitButton || !form) {
+                return;
+            }
+
+            let currentIndex = 0;
+
+            function isAnswered(index) {
+                return Boolean(slides[index].querySelector("input[type='radio']:checked"));
+            }
+
+            function showNotice(message) {
+                if (!notice) {
+                    return;
+                }
+                notice.textContent = message;
+                notice.classList.remove("hidden");
+            }
+
+            function clearNotice() {
+                if (!notice) {
+                    return;
+                }
+                notice.textContent = "";
+                notice.classList.add("hidden");
+            }
+
+            function updateQuizView(index) {
+                currentIndex = index;
+                slides.forEach(function (slide, slideIndex) {
+                    slide.classList.toggle("hidden", slideIndex !== currentIndex);
+                });
+
+                const total = slides.length;
+                const percent = Math.round(((currentIndex + 1) / total) * 100);
+                counter.textContent = "Question " + (currentIndex + 1) + " of " + total;
+                progressText.textContent = percent + "% Complete";
+                progressBar.style.width = percent + "%";
+                prevButton.disabled = currentIndex === 0;
+                prevButton.classList.toggle("opacity-50", currentIndex === 0);
+                prevButton.classList.toggle("cursor-not-allowed", currentIndex === 0);
+                nextButton.classList.toggle("hidden", currentIndex === total - 1);
+                submitButton.classList.toggle("hidden", currentIndex !== total - 1);
+                clearNotice();
+            }
+
+            prevButton.addEventListener("click", function () {
+                if (currentIndex > 0) {
+                    updateQuizView(currentIndex - 1);
+                }
+            });
+
+            nextButton.addEventListener("click", function () {
+                if (!isAnswered(currentIndex)) {
+                    showNotice("Select one answer before moving to the next question.");
+                    return;
+                }
+                if (currentIndex < slides.length - 1) {
+                    updateQuizView(currentIndex + 1);
+                }
+            });
+
+            slides.forEach(function (slide) {
+                slide.querySelectorAll("input[type='radio']").forEach(function (input) {
+                    input.addEventListener("change", function () {
+                        clearNotice();
+                    });
+                });
+            });
+
+            form.addEventListener("submit", function (event) {
+                const firstUnansweredIndex = slides.findIndex(function (_, index) {
+                    return !isAnswered(index);
+                });
+
+                if (firstUnansweredIndex !== -1) {
+                    event.preventDefault();
+                    updateQuizView(firstUnansweredIndex);
+                    showNotice("Please answer every question before submitting your result.");
+                }
+            });
+
+            updateQuizView(0);
+        });
+    </script>
+</body>
+</html>

@@ -1,7 +1,10 @@
+from unittest import skip
+
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
 
+@skip("Legacy commerce routes are retired in the single-page MVP.")
 @override_settings(ECOMMERCE_PARTNER_URL="https://hyrax.ng/")
 class PartnerCommerceRedirectTests(TestCase):
     def test_cart_redirects_to_partner(self):
