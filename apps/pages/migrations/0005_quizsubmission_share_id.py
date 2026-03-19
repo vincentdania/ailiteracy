@@ -5,6 +5,15 @@ import uuid
 from django.db import migrations, models
 
 
+def populate_share_ids(apps, schema_editor):
+    QuizSubmission = apps.get_model("pages", "QuizSubmission")
+    database_alias = schema_editor.connection.alias
+
+    for submission in QuizSubmission.objects.using(database_alias).filter(share_id__isnull=True).iterator():
+        submission.share_id = uuid.uuid4()
+        submission.save(update_fields=["share_id"])
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -13,6 +22,12 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
+            model_name="quizsubmission",
+            name="share_id",
+            field=models.UUIDField(editable=False, null=True),
+        ),
+        migrations.RunPython(populate_share_ids, migrations.RunPython.noop),
+        migrations.AlterField(
             model_name="quizsubmission",
             name="share_id",
             field=models.UUIDField(default=uuid.uuid4, editable=False, unique=True),
