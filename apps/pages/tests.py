@@ -26,11 +26,14 @@ class PagesViewTests(TestCase):
 
     def test_quiz_submission_with_medium_confidence_preserves_base_score(self):
         response = self.client.post(reverse("pages:home"), self._full_quiz_payload(), follow=True)
+        submission = QuizSubmission.objects.get()
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(QuizSubmission.objects.count(), 1)
-        self.assertEqual(QuizSubmission.objects.get().score, Decimal("10.0"))
+        self.assertEqual(submission.score, Decimal("10.0"))
+        self.assertIsNotNone(submission.share_id)
         self.assertContains(response, "Your Score: 10.0 / 10")
+        self.assertContains(response, f"/share/{submission.share_id}/")
 
     def test_high_confidence_correct_answers_gain_bonus_and_insight(self):
         response = self.client.post(reverse("pages:home"), self._full_quiz_payload(confidence="high"), follow=True)
@@ -74,6 +77,26 @@ class PagesViewTests(TestCase):
             response,
             "Please select the required answer(s) and a confidence level for every question before submitting your result.",
         )
+
+    def test_share_page_renders_og_tags_and_cta(self):
+        submission = QuizSubmission.objects.create(score=Decimal("7.4"))
+
+        response = self.client.get(reverse("pages:share", kwargs={"share_id": submission.share_id}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "My AI Literacy Score is 7.4/10")
+        self.assertContains(response, f"/share-image/{submission.share_id}/")
+        self.assertContains(response, "Test Your AI Fluency")
+        self.assertContains(response, 'name="twitter:card" content="summary_large_image"', html=False)
+
+    def test_share_image_endpoint_returns_png(self):
+        submission = QuizSubmission.objects.create(score=Decimal("7.4"))
+
+        response = self.client.get(reverse("pages:share_image", kwargs={"share_id": submission.share_id}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], "image/png")
+        self.assertTrue(response.content.startswith(b"\x89PNG\r\n\x1a\n"))
 
     def test_masterclass_submission_saves_registration(self):
         response = self.client.post(

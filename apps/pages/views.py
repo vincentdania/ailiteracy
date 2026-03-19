@@ -1,8 +1,11 @@
+from io import BytesIO
 import random
 from decimal import Decimal, ROUND_HALF_UP
-from urllib.parse import quote
+from urllib.parse import quote, quote_plus
+from uuid import UUID
 
-from django.shortcuts import redirect, render
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from .forms import MasterclassRegistrationForm
@@ -300,13 +303,120 @@ def _get_confidence_insight(score, metrics=None):
     return "Calibrating confidence alongside accuracy will sharpen your AI judgment."
 
 
-def _share_links(score):
-    message = quote(f"I scored {_score_label(score)}/10 on the AI Fluency Quiz at ailiteracy.ng")
+def _share_urls(request, share_id):
+    if not share_id:
+        return {
+            "share_url": request.build_absolute_uri(reverse("pages:home")),
+            "share_image_url": "",
+        }
+
+    if not isinstance(share_id, UUID):
+        try:
+            share_id = UUID(str(share_id))
+        except (TypeError, ValueError):
+            return {
+                "share_url": request.build_absolute_uri(reverse("pages:home")),
+                "share_image_url": "",
+            }
+
+    share_url = request.build_absolute_uri(reverse("pages:share", kwargs={"share_id": share_id}))
+    share_image_url = request.build_absolute_uri(reverse("pages:share_image", kwargs={"share_id": share_id}))
     return {
-        "whatsapp": f"https://wa.me/?text={message}",
-        "twitter": f"https://twitter.com/intent/tweet?text={message}",
-        "linkedin": "https://www.linkedin.com/sharing/share-offsite/?url=https://ailiteracy.ng",
+        "share_url": share_url,
+        "share_image_url": share_image_url,
     }
+
+
+def _share_links(score, share_url):
+    score_label = _score_label(score)
+    whatsapp_text = quote_plus(f"I scored {score_label}/10 on this AI test {share_url}")
+    x_text = quote_plus(f"I scored {score_label}/10 on this AI test")
+    encoded_share_url = quote_plus(share_url)
+    return {
+        "whatsapp": f"https://wa.me/?text={whatsapp_text}",
+        "twitter": f"https://twitter.com/intent/tweet?text={x_text}&url={encoded_share_url}",
+        "linkedin": f"https://www.linkedin.com/sharing/share-offsite/?url={encoded_share_url}",
+        "facebook": f"https://www.facebook.com/sharer/sharer.php?u={encoded_share_url}",
+    }
+
+
+def _load_share_font(size, bold=False):
+    from PIL import ImageFont
+
+    preferred_fonts = [
+        "DejaVuSans-Bold.ttf" if bold else "DejaVuSans.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+    ]
+    for font_path in preferred_fonts:
+        try:
+            return ImageFont.truetype(font_path, size=size)
+        except OSError:
+            continue
+    return ImageFont.load_default()
+
+
+def _draw_centered_text(draw, text, font, fill, canvas_width, top):
+    left, upper, right, lower = draw.textbbox((0, 0), text, font=font)
+    width = right - left
+    height = lower - upper
+    x = (canvas_width - width) / 2
+    draw.text((x, top), text, font=font, fill=fill)
+    return top + height
+
+
+def _build_share_image_response(submission):
+    from PIL import Image, ImageDraw
+
+    width = 1200
+    height = 630
+    image = Image.new("RGB", (width, height), "#071224")
+    draw = ImageDraw.Draw(image)
+
+    start = (7, 18, 36)
+    end = (11, 109, 84)
+    for y in range(height):
+        blend = y / max(height - 1, 1)
+        color = tuple(int(start[i] + (end[i] - start[i]) * blend) for i in range(3))
+        draw.line([(0, y), (width, y)], fill=color)
+
+    draw.ellipse((80, 70, 320, 310), fill=(98, 252, 201, 38))
+    draw.ellipse((930, 60, 1130, 260), fill=(255, 255, 255, 22))
+    draw.rounded_rectangle((110, 115, 1090, 515), radius=38, fill=(10, 27, 48), outline=(98, 252, 201))
+
+    title_font = _load_share_font(46, bold=True)
+    score_font = _load_share_font(118, bold=True)
+    level_font = _load_share_font(42, bold=True)
+    footer_font = _load_share_font(32, bold=False)
+
+    y = 165
+    y = _draw_centered_text(draw, "AI Fluency Score", title_font, "#CFFFEF", width, y)
+    y = _draw_centered_text(draw, f"{_score_label(submission.score)} / 10", score_font, "#FFFFFF", width, y + 28)
+    y = _draw_centered_text(draw, _get_level(submission.score), level_font, "#62FCC9", width, y + 26)
+    _draw_centered_text(draw, "Test yours at ailiteracy.ng", footer_font, "#D7E0E5", width, y + 48)
+
+    buffer = BytesIO()
+    image.save(buffer, format="PNG")
+    buffer.seek(0)
+    return HttpResponse(buffer.getvalue(), content_type="image/png")
+
+
+def share_score(request, share_id):
+    submission = get_object_or_404(QuizSubmission, share_id=share_id)
+    share_urls = _share_urls(request, submission.share_id)
+    context = {
+        "submission": submission,
+        "score_label": _score_label(submission.score),
+        "level": _get_level(submission.score),
+        "share_url": share_urls["share_url"],
+        "share_image_url": share_urls["share_image_url"],
+        "home_url": request.build_absolute_uri(reverse("pages:home")),
+    }
+    return render(request, "pages/share_score.html", context)
+
+
+def share_score_image(request, share_id):
+    submission = get_object_or_404(QuizSubmission, share_id=share_id)
+    return _build_share_image_response(submission)
 
 
 def home(request):
@@ -328,13 +438,14 @@ def home(request):
                 quiz_notice = "Please select the required answer(s) and a confidence level for every question before submitting your result."
             else:
                 adjusted_points, final_score, metrics = _calculate_quiz_score(selected_answers, selected_confidences)
-                QuizSubmission.objects.create(score=final_score)
+                submission = QuizSubmission.objects.create(score=final_score)
                 request.session["quiz_result"] = {
                     "score": float(final_score),
                     "adjusted_points": float(adjusted_points),
                     "total_points": QUIZ_TOTAL_POINTS,
                     "penalty_points": float(metrics["penalty_points"]),
                     "avg_confidence": float(metrics["avg_confidence"]),
+                    "share_id": str(submission.share_id),
                     "level": _get_level(final_score),
                     "message": _get_result_message(final_score),
                     "insight": _get_confidence_insight(final_score, metrics),
@@ -358,7 +469,13 @@ def home(request):
     if quiz_result:
         quiz_result["message"] = quiz_result.get("message") or _get_result_message(quiz_result["score"])
         quiz_result["insight"] = quiz_result.get("insight") or _get_confidence_insight(quiz_result["score"])
-        quiz_result["share_links"] = _share_links(quiz_result["score"])
+        share_urls = _share_urls(request, quiz_result.get("share_id")) if quiz_result.get("share_id") else {
+            "share_url": request.build_absolute_uri(reverse("pages:home")),
+            "share_image_url": "",
+        }
+        quiz_result["share_url"] = share_urls["share_url"]
+        quiz_result["share_image_url"] = share_urls["share_image_url"]
+        quiz_result["share_links"] = _share_links(quiz_result["score"], quiz_result["share_url"])
 
     context = {
         "quiz_questions": _build_quiz_questions(

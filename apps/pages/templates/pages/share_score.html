@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My AI Literacy Score is {{ score_label }}/10</title>
+    <meta name="description" content="Test your AI fluency at ailiteracy.ng" />
+    <meta property="og:title" content="My AI Literacy Score is {{ score_label }}/10" />
+    <meta property="og:description" content="Test your AI fluency at ailiteracy.ng" />
+    <meta property="og:image" content="{{ share_image_url }}" />
+    <meta property="og:url" content="{{ share_url }}" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="My AI Literacy Score is {{ score_label }}/10" />
+    <meta name="twitter:description" content="Test your AI fluency at ailiteracy.ng" />
+    <meta name="twitter:image" content="{{ share_image_url }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#071224",
+                        secondary: "#0b6d54",
+                        mint: "#62fcc9",
+                        background: "#f7faf9",
+                        surface: "#ffffff",
+                        "surface-soft": "#eef2f1",
+                        "text-soft": "#5f676e",
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                    },
+                    boxShadow: {
+                        editorial: "0 18px 50px rgba(7, 18, 36, 0.08)",
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen bg-background font-sans text-primary antialiased">
+    <main class="px-4 py-12 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-4xl">
+            <div class="overflow-hidden rounded-[2rem] border border-black/5 bg-surface shadow-editorial">
+                <div class="bg-primary px-6 py-8 text-white sm:px-10">
+                    <p class="text-xs font-black uppercase tracking-[0.24em] text-mint">AI Fluency Score</p>
+                    <h1 class="mt-4 text-4xl font-black tracking-tight sm:text-5xl">My AI Literacy Score is {{ score_label }}/10</h1>
+                    <p class="mt-4 max-w-2xl text-base leading-8 text-white/78">
+                        See the result card below, then test your own AI fluency on ailiteracy.ng.
+                    </p>
+                </div>
+
+                <div class="grid gap-8 px-6 py-8 sm:px-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center">
+                    <div class="overflow-hidden rounded-[1.6rem] bg-surface-soft ring-1 ring-black/5">
+                        <img src="{{ share_image_url }}" alt="AI Fluency score graphic" class="h-full w-full object-cover" />
+                    </div>
+
+                    <div>
+                        <p class="text-xs font-black uppercase tracking-[0.22em] text-secondary">Your Result</p>
+                        <div class="mt-4 text-6xl font-black tracking-[-0.04em] text-primary">{{ score_label }}/10</div>
+                        <div class="mt-4 inline-flex rounded-full bg-secondary px-5 py-2 text-sm font-black text-white">
+                            {{ level }}
+                        </div>
+                        <p class="mt-6 text-base leading-8 text-text-soft">
+                            AI literacy is more than hype. It is your ability to use these tools with judgment, verification, and confidence.
+                        </p>
+                        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                            <a href="{{ home_url }}" class="inline-flex min-h-[3.5rem] items-center justify-center rounded-2xl bg-secondary px-7 text-base font-black text-white transition hover:bg-secondary/90">
+                                Test Your AI Fluency
+                            </a>
+                            <a href="{{ share_image_url }}" class="inline-flex min-h-[3.5rem] items-center justify-center rounded-2xl border border-black/10 bg-white px-7 text-base font-bold text-primary transition hover:bg-surface-soft">
+                                Open Score Graphic
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -5,8 +5,9 @@ from .models import MasterclassRegistration, QuizSubmission
 
 @admin.register(QuizSubmission)
 class QuizSubmissionAdmin(admin.ModelAdmin):
-    list_display = ("score", "created_at")
+    list_display = ("score", "share_id", "created_at")
     list_filter = ("score", "created_at")
+    search_fields = ("share_id",)
     ordering = ("-created_at",)
 
 
@@ -16,4 +17,3 @@ class MasterclassRegistrationAdmin(admin.ModelAdmin):
     list_filter = ("location", "mode", "created_at")
     search_fields = ("name", "email", "phone")
     ordering = ("-created_at",)
-
