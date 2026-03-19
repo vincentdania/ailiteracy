@@ -8,7 +8,7 @@ from .models import QuizSubmission
 
 WHATSAPP_NUMBER = "2348029115964"
 CONTACT_PHONE_DISPLAY = "08029115964"
-CONTACT_EMAIL = "request@ailiteracy.ng"
+CONTACT_EMAIL = "learn@ailiteracy.ng"
 HYRAX_BOOKS_URL = "https://hyrax.ng/category_view/books"
 HERO_IMAGE_URL = (
     "https://lh3.googleusercontent.com/aida-public/"

@@ -10,7 +10,7 @@ class PagesViewTests(TestCase):
         response = self.client.get(reverse("pages:home"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "AI Fluency Quiz")
-        self.assertContains(response, "request@ailiteracy.ng")
+        self.assertContains(response, "learn@ailiteracy.ng")
         self.assertContains(response, "hyrax.ng")
 
     def test_quiz_submission_saves_score(self):

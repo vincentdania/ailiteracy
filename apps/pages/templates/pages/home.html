@@ -453,21 +453,24 @@
                     </svg>
                     <span>AI Literacy Nigeria</span>
                 </div>
-                <p class="text-sm text-text-soft">© 2026 ailiteracy.ng - Empowering the Nigerian workforce for the AI era.</p>
+                <div class="text-center text-sm text-text-soft">
+                    <p>
+                        WhatsApp and SMS:
+                        <a href="{{ contact.whatsapp_url }}" class="font-semibold text-primary transition hover:text-secondary">{{ contact.phone_display }}</a>
+                    </p>
+                    <p class="mt-1">
+                        Email:
+                        <a href="{{ contact.email_url }}" class="font-semibold text-primary transition hover:text-secondary">{{ contact.email }}</a>
+                    </p>
+                </div>
                 <div class="flex items-center gap-5 text-text-soft">
                     <a href="#quiz" class="transition hover:text-secondary" aria-label="Take the quiz"><span class="material-symbols-outlined">school</span></a>
                     <a href="#workbook" class="transition hover:text-secondary" aria-label="View the workbook"><span class="material-symbols-outlined">menu_book</span></a>
                     <a href="#masterclass" class="transition hover:text-secondary" aria-label="View the masterclass"><span class="material-symbols-outlined">groups</span></a>
                 </div>
             </div>
-            <div class="mx-auto mt-6 max-w-6xl px-4 text-center text-sm text-text-soft sm:px-6 md:text-left lg:px-8">
-                <p>
-                    WhatsApp and SMS:
-                    <a href="{{ contact.whatsapp_url }}" class="font-semibold text-primary transition hover:text-secondary">{{ contact.phone_display }}</a>
-                    |
-                    Email:
-                    <a href="{{ contact.email_url }}" class="font-semibold text-primary transition hover:text-secondary">{{ contact.email }}</a>
-                </p>
+            <div class="mx-auto mt-6 max-w-6xl px-4 text-center text-sm text-text-soft sm:px-6 lg:px-8">
+                <p>© 2026 ailiteracy.ng - Empowering the Nigerian workforce for the AI era.</p>
             </div>
         </footer>
     </div>
