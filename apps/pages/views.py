@@ -22,6 +22,7 @@ HERO_IMAGE_URL = (
 )
 
 QUIZ_TOTAL_POINTS = 14
+QUIZ_SCORE_CAP = Decimal("10.0")
 CONFIDENCE_OPTIONS = [
     {"id": "low", "label": "Low"},
     {"id": "medium", "label": "Medium"},
@@ -175,7 +176,10 @@ QUIZ_QUESTIONS = [
 
 
 def _decimal_score(value):
-    return Decimal(str(value)).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+    return min(
+        Decimal(str(value)).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP),
+        QUIZ_SCORE_CAP,
+    )
 
 
 def _score_label(value):
@@ -467,6 +471,7 @@ def home(request):
 
     quiz_result = request.session.get("quiz_result")
     if quiz_result:
+        quiz_result["score"] = float(_decimal_score(quiz_result["score"]))
         quiz_result["message"] = quiz_result.get("message") or _get_result_message(quiz_result["score"])
         quiz_result["insight"] = quiz_result.get("insight") or _get_confidence_insight(quiz_result["score"])
         share_urls = _share_urls(request, quiz_result.get("share_id")) if quiz_result.get("share_id") else {

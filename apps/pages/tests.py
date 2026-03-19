@@ -40,8 +40,8 @@ class PagesViewTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(QuizSubmission.objects.count(), 1)
-        self.assertEqual(QuizSubmission.objects.get().score, Decimal("12.0"))
-        self.assertContains(response, "Your Score: 12.0 / 10")
+        self.assertEqual(QuizSubmission.objects.get().score, Decimal("10.0"))
+        self.assertContains(response, "Your Score: 10.0 / 10")
         self.assertContains(response, "You show strong and confident AI fluency.")
 
     def test_wrong_high_confidence_answer_applies_penalty_and_insight(self):
@@ -97,6 +97,15 @@ class PagesViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Content-Type"], "image/png")
         self.assertTrue(response.content.startswith(b"\x89PNG\r\n\x1a\n"))
+
+    def test_share_page_caps_legacy_scores_at_ten(self):
+        submission = QuizSubmission.objects.create(score=Decimal("12.0"))
+
+        response = self.client.get(reverse("pages:share", kwargs={"share_id": submission.share_id}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "My AI Literacy Score is 10.0/10")
+        self.assertNotContains(response, "12.0/10")
 
     def test_masterclass_submission_saves_registration(self):
         response = self.client.post(
