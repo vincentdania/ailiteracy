@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
     <script>
@@ -23,12 +24,27 @@
                         "surface-soft": "#eef2f1",
                         "text-soft": "#5f676e",
                         stroke: "#e4e9e8",
+                        "editorial-surface": "#f8fafa",
+                        "editorial-surface-low": "#f2f4f4",
+                        "editorial-surface-container": "#eceeee",
+                        "editorial-surface-high": "#e6e8e8",
+                        "editorial-surface-highest": "#e1e3e3",
+                        "editorial-surface-lowest": "#ffffff",
+                        "editorial-on-surface": "#191c1d",
+                        "editorial-on-surface-variant": "#3e4948",
+                        "editorial-primary": "#004d4c",
+                        "editorial-primary-container": "#006766",
+                        "editorial-tertiary-fixed": "#7cf7de",
+                        "editorial-on-tertiary-fixed": "#00201b",
+                        "editorial-outline-variant": "#bec9c8",
                     },
                     fontFamily: {
                         sans: ["Inter", "sans-serif"],
+                        editorial: ["Manrope", "sans-serif"],
                     },
                     boxShadow: {
                         editorial: "0 10px 40px rgba(7, 18, 36, 0.06)",
+                        "editorial-float": "0px 20px 40px rgba(25, 28, 29, 0.06)",
                     },
                     borderRadius: {
                         "4xl": "2rem",
@@ -45,38 +61,45 @@
             background-image: radial-gradient(circle at 2px 2px, rgba(7, 18, 36, 0.06) 1px, transparent 0);
             background-size: 24px 24px;
         }
-        .quiz-panel {
-            height: calc(100dvh - 1rem);
-            max-height: 56rem;
+        .quiz-stage {
+            min-height: calc(100dvh - 4rem);
         }
-        .quiz-options-scroll {
+        .quiz-slide-scroll {
             scrollbar-width: thin;
-            scrollbar-color: rgba(11, 109, 84, 0.28) transparent;
+            scrollbar-color: rgba(0, 77, 76, 0.22) transparent;
         }
-        .quiz-options-scroll::-webkit-scrollbar {
+        .quiz-slide-scroll::-webkit-scrollbar {
             width: 6px;
         }
-        .quiz-options-scroll::-webkit-scrollbar-thumb {
-            background: rgba(11, 109, 84, 0.28);
+        .quiz-slide-scroll::-webkit-scrollbar-thumb {
+            background: rgba(0, 77, 76, 0.22);
             border-radius: 999px;
         }
-        .quiz-options-scroll::-webkit-scrollbar-track {
+        .quiz-slide-scroll::-webkit-scrollbar-track {
             background: transparent;
         }
         @supports not (height: 100dvh) {
-            .quiz-panel {
-                height: calc(100vh - 1rem);
+            .quiz-stage {
+                min-height: calc(100vh - 4rem);
             }
         }
-        @media (min-width: 768px) {
-            .quiz-panel {
-                height: calc(100dvh - 2rem);
-            }
-            @supports not (height: 100dvh) {
-                .quiz-panel {
-                    height: calc(100vh - 2rem);
-                }
-            }
+        .quiz-answer-card {
+            background: #e6e8e8;
+            transition: background-color 180ms ease, color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+        }
+        .quiz-answer-card:hover {
+            background: #e1e3e3;
+        }
+        .peer:checked + .quiz-answer-card {
+            background: #004d4c;
+            color: #ffffff;
+            box-shadow: 0px 20px 40px rgba(25, 28, 29, 0.06);
+        }
+        .peer:checked + .quiz-answer-card .quiz-answer-letter {
+            color: #004d4c;
+        }
+        .quiz-nav-shell {
+            box-shadow: 0px -10px 40px rgba(25, 28, 29, 0.04);
         }
     </style>
 </head>
@@ -135,115 +158,108 @@
             </div>
         </section>
 
-        <section id="quiz" class="pattern-mask bg-[#f1f4f3] py-2 md:py-4">
-            <div class="mx-auto max-w-5xl px-4 sm:px-6">
-                <div class="quiz-panel flex flex-col overflow-hidden rounded-[2rem] border border-black/5 bg-white p-4 shadow-editorial sm:p-5 md:p-6">
-                    <div class="flex items-end justify-between gap-4">
-                        <div>
-                            <p class="text-xs font-bold uppercase tracking-[0.22em] text-text-soft">AI Fluency Quiz</p>
-                            <p class="mt-2 text-sm font-semibold text-text-soft">
-                                <span data-quiz-count>Question 1 of {{ quiz_question_total }}</span>
-                            </p>
+        <section id="quiz" class="bg-editorial-surface font-editorial">
+            <div class="h-1.5 w-full bg-editorial-surface-highest">
+                <div class="h-full bg-gradient-to-r from-editorial-primary to-editorial-primary-container transition-all duration-300" style="width: 10%;" data-quiz-progress-bar></div>
+            </div>
+
+            <div class="mx-auto flex quiz-stage max-w-screen-xl flex-col px-5 pb-4 pt-5 sm:px-8 md:px-10 md:pb-6 md:pt-6 lg:px-12">
+                <form method="post" class="flex min-h-0 flex-1 flex-col" id="quiz-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="quiz_submit" />
+
+                    <div class="flex items-start justify-between gap-6">
+                        <div class="max-w-3xl">
+                            <p class="text-[0.78rem] font-bold uppercase tracking-[0.28em] text-editorial-on-surface-variant" data-quiz-count>Question 1 of {{ quiz_question_total }}</p>
+                            <p class="mt-3 text-[0.72rem] font-bold uppercase tracking-[0.28em] text-editorial-on-surface-variant" data-quiz-requirement>Select one</p>
                         </div>
-                        <p class="text-sm font-bold text-secondary" data-quiz-progress-text>10% Complete</p>
+                        <div class="text-right">
+                            <p class="text-2xl font-bold text-editorial-primary sm:text-3xl" data-quiz-progress-number>10%</p>
+                            <p class="mt-1 text-sm font-medium text-editorial-primary/90">Complete</p>
+                        </div>
                     </div>
 
-                    <div class="mt-3 h-2 w-full overflow-hidden rounded-full bg-surface-soft">
-                        <div class="h-full rounded-full bg-secondary transition-all duration-300" style="width: 10%;" data-quiz-progress-bar></div>
-                    </div>
-
-                    <form method="post" class="mt-4 flex min-h-0 flex-1 flex-col" id="quiz-form">
-                        {% csrf_token %}
-                        <input type="hidden" name="action" value="quiz_submit" />
-
-                        <div class="min-h-0 flex-1">
-                            {% for question in quiz_questions %}
-                                <article
-                                    class="{% if not forloop.first %}hidden {% endif %}h-full overflow-hidden"
-                                    data-question-slide
-                                    data-question-id="{{ question.id }}"
-                                    data-question-index="{{ forloop.counter0 }}"
-                                    data-required-count="{{ question.required_count }}"
-                                >
-                                    <div class="flex h-full flex-col overflow-hidden">
-                                    <h2 class="text-[1.6rem] font-black leading-[1.05] tracking-[-0.04em] text-primary sm:text-[1.95rem] lg:text-[2.25rem]">
+                    <div class="mt-5 min-h-0 flex-1">
+                        {% for question in quiz_questions %}
+                            <article
+                                class="{% if not forloop.first %}hidden {% endif %}h-full"
+                                data-question-slide
+                                data-question-id="{{ question.id }}"
+                                data-question-index="{{ forloop.counter0 }}"
+                                data-required-count="{{ question.required_count }}"
+                            >
+                                <div class="quiz-slide-scroll flex h-full min-h-0 flex-col overflow-y-auto pr-1">
+                                    <h2 class="max-w-5xl text-[1.9rem] font-extrabold leading-[0.96] tracking-[-0.05em] text-editorial-on-surface sm:text-[2.45rem] lg:text-[3.45rem]">
                                         {{ question.text }}
                                     </h2>
 
-                                    <div class="mt-4 flex min-h-0 flex-1 flex-col">
-                                        <div class="quiz-options-scroll grid min-h-0 flex-1 content-start gap-2.5 overflow-y-auto pr-1" data-question-options>
-                                            {% for option in question.options %}
-                                                <label class="block">
+                                    <div class="mt-6 grid grid-cols-1 gap-3 md:grid-cols-2">
+                                        {% for option in question.options %}
+                                            <label class="block">
+                                                <input
+                                                    type="{% if question.required_count == 2 %}checkbox{% else %}radio{% endif %}"
+                                                    name="question_{{ question.id }}_answer"
+                                                    value="{{ option.id }}"
+                                                    class="peer sr-only"
+                                                    data-answer-input
+                                                    {% if option.id in question.selected_answers %}checked{% endif %}
+                                                />
+                                                <span class="quiz-answer-card flex min-h-[6.4rem] cursor-pointer items-start gap-4 rounded-lg px-5 py-5 text-left text-editorial-on-surface active:scale-[0.99] md:min-h-[7.1rem]">
+                                                    <span class="quiz-answer-letter flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-editorial-surface-lowest text-lg font-bold text-editorial-primary shadow-[0_4px_12px_rgba(25,28,29,0.06)]">
+                                                        {{ option.id }}
+                                                    </span>
+                                                    <span class="text-base font-medium leading-7 md:text-[1.05rem]">{{ option.text }}</span>
+                                                </span>
+                                            </label>
+                                        {% endfor %}
+                                    </div>
+
+                                    <div class="mt-6 flex flex-col items-center gap-3 pb-1">
+                                        <p class="text-[0.68rem] font-bold uppercase tracking-[0.28em] text-editorial-on-surface-variant">How confident are you?</p>
+                                        <div class="flex w-full max-w-md rounded-full bg-editorial-surface-container p-1.5">
+                                            {% for confidence in question.confidence_options %}
+                                                <label class="flex-1">
                                                     <input
-                                                        type="{% if question.required_count == 2 %}checkbox{% else %}radio{% endif %}"
-                                                        name="question_{{ question.id }}_answer"
-                                                        value="{{ option.id }}"
+                                                        type="radio"
+                                                        name="question_{{ question.id }}_confidence"
+                                                        value="{{ confidence.id }}"
                                                         class="peer sr-only"
-                                                        data-answer-input
-                                                        {% if option.id in question.selected_answers %}checked{% endif %}
+                                                        data-confidence-input
+                                                        {% if confidence.id == question.selected_confidence %}checked{% endif %}
                                                     />
-                                                    <span class="flex min-h-[3.85rem] cursor-pointer items-start gap-3 rounded-[1.35rem] bg-surface-soft px-4 py-3.5 text-left ring-1 ring-transparent transition hover:bg-mint/40 hover:ring-secondary/10 peer-checked:bg-mint/50 peer-checked:ring-secondary sm:min-h-[4.15rem] sm:px-4.5">
-                                                        <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-primary">
-                                                            {{ option.id }}
-                                                        </span>
-                                                        <span class="text-[0.96rem] font-semibold leading-6 text-primary sm:text-[1rem]">{{ option.text }}</span>
+                                                    <span class="{% if confidence.id == 'high' %}peer-checked:bg-editorial-tertiary-fixed peer-checked:text-editorial-on-tertiary-fixed{% else %}peer-checked:bg-editorial-surface-lowest peer-checked:text-editorial-on-surface{% endif %} flex min-h-[2.9rem] cursor-pointer items-center justify-center rounded-full px-4 text-base font-bold text-editorial-on-surface-variant transition">
+                                                        {{ confidence.label }}
                                                     </span>
                                                 </label>
                                             {% endfor %}
                                         </div>
-
-                                        <div class="mt-3 rounded-[1.25rem] bg-surface-soft px-3 py-3 ring-1 ring-secondary/10">
-                                            <div class="flex flex-col items-center gap-2.5 text-center sm:flex-row sm:justify-between sm:text-left">
-                                                <div class="flex flex-col items-center gap-2 sm:items-start">
-                                                    <span class="inline-flex items-center rounded-full bg-secondary px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-white shadow-[0_12px_24px_-16px_rgba(11,109,84,0.55)] ring-1 ring-secondary/20">
-                                                        {{ question.selection_label }}
-                                                    </span>
-                                                    <p class="inline-flex items-center rounded-full bg-white px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-secondary ring-1 ring-secondary/10">
-                                                        How confident are you?
-                                                    </p>
-                                                </div>
-                                                <div class="flex flex-wrap justify-center gap-2.5 sm:justify-end">
-                                                {% for confidence in question.confidence_options %}
-                                                    <label class="block">
-                                                        <input
-                                                            type="radio"
-                                                            name="question_{{ question.id }}_confidence"
-                                                            value="{{ confidence.id }}"
-                                                            class="peer sr-only"
-                                                            data-confidence-input
-                                                            {% if confidence.id == question.selected_confidence %}checked{% endif %}
-                                                        />
-                                                        <span class="{% if confidence.id == 'low' %}border-[#d9c8aa] bg-[#fbf7ef] text-[#7a6242] hover:border-[#cdb88f] hover:bg-[#f7f1e5] peer-checked:border-[#b9965d] peer-checked:bg-[#efe1bf] peer-checked:text-[#5f4721] peer-checked:shadow-[0_14px_24px_-18px_rgba(156,124,69,0.45)]{% elif confidence.id == 'medium' %}border-secondary/15 bg-white text-secondary hover:border-secondary/25 hover:bg-white peer-checked:border-secondary peer-checked:bg-secondary/10 peer-checked:text-secondary peer-checked:shadow-[0_14px_24px_-18px_rgba(11,109,84,0.4)]{% else %}border-mint/40 bg-mint/35 text-primary hover:border-mint/60 hover:bg-mint/45 peer-checked:border-secondary peer-checked:bg-mint peer-checked:text-primary peer-checked:shadow-[0_14px_24px_-18px_rgba(98,252,201,0.8)]{% endif %} inline-flex min-h-[2.5rem] min-w-[5rem] items-center justify-center rounded-full border px-4 py-2 text-sm font-bold transition ring-1 ring-transparent peer-checked:ring-current/10">
-                                                            {{ confidence.label }}
-                                                        </span>
-                                                    </label>
-                                                {% endfor %}
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
-                                    </div>
-                                </article>
-                            {% endfor %}
-                        </div>
+                                </div>
+                            </article>
+                        {% endfor %}
+                    </div>
 
-                        <p class="mt-4 {% if not quiz_notice %}hidden {% endif %}rounded-2xl bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800 ring-1 ring-amber-200" data-quiz-notice>{{ quiz_notice }}</p>
+                    <p class="mt-4 {% if not quiz_notice %}hidden {% endif %}rounded-[1.5rem] bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800 ring-1 ring-amber-200" data-quiz-notice>{{ quiz_notice }}</p>
 
-                        <div class="mt-4 flex flex-col gap-3 border-t border-stroke/80 pt-4 sm:flex-row sm:justify-between">
-                            <button type="button" class="inline-flex min-h-[3.25rem] items-center justify-center rounded-2xl border border-stroke px-6 text-sm font-bold text-primary transition hover:bg-surface-soft" data-quiz-prev disabled>
+                    <div class="quiz-nav-shell mt-4 rounded-[2.25rem] bg-editorial-surface-lowest/95 p-3.5 backdrop-blur">
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                            <button type="button" class="inline-flex min-h-[3.25rem] items-center justify-center gap-2 rounded-full border border-editorial-outline-variant/20 px-6 text-sm font-semibold uppercase tracking-[0.18em] text-editorial-primary transition hover:opacity-90" data-quiz-prev disabled>
+                                <span class="material-symbols-outlined text-base">arrow_back_ios</span>
                                 Previous
                             </button>
                             <div class="flex flex-col gap-3 sm:flex-row">
-                                <button type="button" class="inline-flex min-h-[3.25rem] items-center justify-center rounded-2xl border border-stroke px-6 text-sm font-bold text-primary transition hover:bg-surface-soft" data-quiz-next>
+                                <button type="button" class="inline-flex min-h-[3.25rem] items-center justify-center gap-2 rounded-full bg-gradient-to-br from-editorial-primary to-editorial-primary-container px-7 text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-lg shadow-editorial-primary/20 transition hover:opacity-90" data-quiz-next>
                                     Next Question
+                                    <span class="material-symbols-outlined text-base">arrow_forward_ios</span>
                                 </button>
-                                <button type="submit" class="hidden min-h-[3.25rem] items-center justify-center rounded-2xl bg-secondary px-6 text-sm font-bold text-white transition hover:bg-secondary/90" data-quiz-submit>
+                                <button type="submit" class="hidden min-h-[3.25rem] items-center justify-center gap-2 rounded-full bg-gradient-to-br from-editorial-primary to-editorial-primary-container px-7 text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-lg shadow-editorial-primary/20 transition hover:opacity-90" data-quiz-submit>
                                     See My Result
+                                    <span class="material-symbols-outlined text-base">arrow_forward_ios</span>
                                 </button>
                             </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </section>
 
@@ -566,7 +582,8 @@
         document.addEventListener("DOMContentLoaded", function () {
             const slides = Array.from(document.querySelectorAll("[data-question-slide]"));
             const counter = document.querySelector("[data-quiz-count]");
-            const progressText = document.querySelector("[data-quiz-progress-text]");
+            const requirement = document.querySelector("[data-quiz-requirement]");
+            const progressNumber = document.querySelector("[data-quiz-progress-number]");
             const progressBar = document.querySelector("[data-quiz-progress-bar]");
             const prevButton = document.querySelector("[data-quiz-prev]");
             const nextButton = document.querySelector("[data-quiz-next]");
@@ -575,7 +592,7 @@
             const form = document.getElementById("quiz-form");
             const initialNotice = notice ? notice.textContent.trim() : "";
 
-            if (!slides.length || !counter || !progressText || !progressBar || !prevButton || !nextButton || !submitButton || !form) {
+            if (!slides.length || !counter || !requirement || !progressNumber || !progressBar || !prevButton || !nextButton || !submitButton || !form) {
                 return;
             }
 
@@ -644,20 +661,22 @@
                 notice.classList.add("hidden");
             }
 
-                function updateQuizView(index, keepNotice) {
-                    currentIndex = index;
-                    slides.forEach(function (slide, slideIndex) {
-                        slide.classList.toggle("hidden", slideIndex !== currentIndex);
-                    });
-                    const activeOptions = slides[currentIndex].querySelector("[data-question-options]");
-                    if (activeOptions) {
-                        activeOptions.scrollTop = 0;
-                    }
+            function updateQuizView(index, keepNotice) {
+                currentIndex = index;
+                slides.forEach(function (slide, slideIndex) {
+                    slide.classList.toggle("hidden", slideIndex !== currentIndex);
+                });
 
-                    const total = slides.length;
-                    const percent = Math.round(((currentIndex + 1) / total) * 100);
+                const activeSlideScroll = slides[currentIndex].querySelector(".quiz-slide-scroll");
+                if (activeSlideScroll) {
+                    activeSlideScroll.scrollTop = 0;
+                }
+
+                const total = slides.length;
+                const percent = Math.round(((currentIndex + 1) / total) * 100);
                 counter.textContent = "Question " + (currentIndex + 1) + " of " + total;
-                progressText.textContent = percent + "% Complete";
+                requirement.textContent = getRequiredCount(slides[currentIndex]) === 1 ? "Select one" : "Select two";
+                progressNumber.textContent = percent + "%";
                 progressBar.style.width = percent + "%";
                 prevButton.disabled = currentIndex === 0;
                 prevButton.classList.toggle("opacity-50", currentIndex === 0);
