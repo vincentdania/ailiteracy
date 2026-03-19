@@ -1,5 +1,18 @@
 {% extends "admin/base_site.html" %}
 
+{% block bodyclass %}dashboard-admin{% endblock %}
+
+{% block nav-sidebar %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="dashboard-breadcrumbs">
+    <a href="{% url 'admin:index' %}">Dashboard</a>
+    <span>Overview</span>
+</div>
+{% endblock %}
+
 {% block extrastyle %}
 {{ block.super }}
 <style>
@@ -17,13 +30,65 @@
         --dashboard-violet: #8b5cf6;
     }
 
+    body.dashboard-admin,
+    body.dashboard-admin #container,
+    body.dashboard-admin .main,
+    body.dashboard-admin .content {
+        background: #f4f7fb;
+    }
+
+    body.dashboard-admin #header {
+        background: #ffffff;
+        color: var(--dashboard-ink);
+        border-bottom: 1px solid var(--dashboard-border);
+        box-shadow: 0 14px 30px rgba(15, 23, 42, 0.04);
+    }
+
+    body.dashboard-admin #branding a,
+    body.dashboard-admin #user-tools,
+    body.dashboard-admin #user-tools a,
+    body.dashboard-admin #user-tools button {
+        color: var(--dashboard-ink);
+    }
+
+    body.dashboard-admin #user-tools a,
+    body.dashboard-admin #user-tools button {
+        opacity: 0.82;
+    }
+
+    body.dashboard-admin #user-tools a:hover,
+    body.dashboard-admin #user-tools button:hover {
+        opacity: 1;
+    }
+
+    .dashboard-breadcrumbs {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 18px 24px 0;
+        color: var(--dashboard-soft);
+        font-size: 0.95rem;
+        font-weight: 700;
+    }
+
+    .dashboard-breadcrumbs a {
+        color: var(--dashboard-accent);
+        text-decoration: none;
+    }
+
+    .dashboard-breadcrumbs span::before {
+        content: "•";
+        margin-right: 10px;
+        color: #c0c8d4;
+    }
+
     #content {
-        padding: 24px 24px 32px;
+        padding: 12px 24px 32px;
     }
 
     .dashboard-shell {
         display: grid;
-        grid-template-columns: 280px minmax(0, 1fr);
+        grid-template-columns: 300px minmax(0, 1fr);
         gap: 24px;
         align-items: start;
     }
@@ -40,22 +105,33 @@
     .dashboard-sidebar {
         position: sticky;
         top: 24px;
-        background: linear-gradient(180deg, #132241 0%, #0f1b33 100%);
+        background: linear-gradient(180deg, #132241 0%, #102448 100%);
         color: #fff;
-        padding: 24px;
+        padding: 28px;
     }
 
     .dashboard-sidebar h1 {
         margin: 0;
-        font-size: 2rem;
-        line-height: 1;
+        font-size: 2.1rem;
+        line-height: 1.05;
         color: #fff;
     }
 
     .dashboard-sidebar p {
-        margin: 10px 0 0;
+        margin: 12px 0 0;
         color: rgba(255, 255, 255, 0.72);
         line-height: 1.6;
+    }
+
+    .dashboard-sidebar-note {
+        margin-top: 22px;
+        padding: 14px 16px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 0.95rem;
+        line-height: 1.55;
     }
 
     .dashboard-nav {
@@ -139,6 +215,59 @@
         border: 1px solid var(--dashboard-border);
         color: var(--dashboard-ink);
         font-weight: 700;
+    }
+
+    .dashboard-hero {
+        border-radius: 28px;
+        background: linear-gradient(135deg, #ffffff 0%, #edf6ff 100%);
+        border: 1px solid var(--dashboard-border);
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+        padding: 28px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .dashboard-hero h2 {
+        margin: 0;
+        font-size: 2.1rem;
+        color: var(--dashboard-ink);
+    }
+
+    .dashboard-hero p {
+        margin: 10px 0 0;
+        color: var(--dashboard-soft);
+        max-width: 44rem;
+        line-height: 1.7;
+    }
+
+    .dashboard-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: flex-end;
+    }
+
+    .dashboard-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 3rem;
+        padding: 0 18px;
+        border-radius: 999px;
+        background: var(--dashboard-ink);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 700;
+        box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+    }
+
+    .dashboard-action.secondary {
+        background: #fff;
+        color: var(--dashboard-ink);
+        border: 1px solid var(--dashboard-border);
+        box-shadow: none;
     }
 
     .dashboard-cards {
@@ -260,6 +389,10 @@
         color: var(--dashboard-ink);
     }
 
+    .dashboard-table tbody tr:hover {
+        background: #f8fbff;
+    }
+
     .dashboard-empty {
         padding: 24px;
         color: var(--dashboard-soft);
@@ -310,6 +443,14 @@
             grid-template-columns: 1fr;
         }
 
+        .dashboard-hero {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-actions {
+            justify-content: flex-start;
+        }
+
         .dashboard-sidebar {
             position: static;
         }
@@ -351,8 +492,12 @@
 {% block content %}
 <div class="dashboard-shell">
     <aside class="dashboard-sidebar">
-        <h1>Dashboard</h1>
-        <p>See registrations, quiz activity, and your key admin areas in one place.</p>
+        <h1>Admin overview</h1>
+        <p>See registrations, quiz activity, and the tools you use most without digging through the full admin menu.</p>
+
+        <div class="dashboard-sidebar-note">
+            Start with the quick links below, then use the tables on the right to follow new registrations and recent quiz submissions.
+        </div>
 
         <nav class="dashboard-nav">
             {% for link in quick_links %}
@@ -368,12 +513,19 @@
     </aside>
 
     <section class="dashboard-main">
-        <div class="dashboard-header">
+        <section class="dashboard-hero">
             <div>
-                <h2>Dashboard</h2>
-                <p>Track the signals that matter most for the MVP: new masterclass leads, quiz activity, and the content/tools you manage behind the scenes.</p>
+                <h2>Everything at a glance</h2>
+                <p>Track the signals that matter most for the MVP: new masterclass leads, quiz activity, and the key areas you manage behind the scenes.</p>
             </div>
 
+            <div class="dashboard-actions">
+                <a class="dashboard-action" href="{% url 'admin:pages_masterclassregistration_changelist' %}">Open registrations</a>
+                <a class="dashboard-action secondary" href="{% url 'admin:pages_quizsubmission_changelist' %}">Open quiz submissions</a>
+            </div>
+        </section>
+
+        <div class="dashboard-header">
             <div class="dashboard-meta">
                 <span class="dashboard-pill">Users: {{ dashboard_meta.users }}</span>
                 <span class="dashboard-pill">Products: {{ dashboard_meta.products }}</span>
