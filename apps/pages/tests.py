@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -7,6 +9,14 @@ from .views import QUIZ_QUESTIONS
 
 
 class PagesViewTests(TestCase):
+    def _full_quiz_payload(self, confidence="medium"):
+        payload = {"action": "quiz_submit"}
+        for question in QUIZ_QUESTIONS:
+            answer = question["correct"]
+            payload[f"question_{question['id']}_answer"] = answer if len(answer) > 1 else answer[0]
+            payload[f"question_{question['id']}_confidence"] = confidence
+        return payload
+
     def test_home_page_renders(self):
         response = self.client.get(reverse("pages:home"))
         self.assertEqual(response.status_code, 200)
@@ -14,16 +24,56 @@ class PagesViewTests(TestCase):
         self.assertContains(response, "learn@ailiteracy.ng")
         self.assertContains(response, "hyrax.ng")
 
-    def test_quiz_submission_saves_score(self):
-        payload = {"action": "quiz_submit"}
-        for question in QUIZ_QUESTIONS:
-            payload[f"question_{question['id']}"] = question["correct"]
+    def test_quiz_submission_with_medium_confidence_preserves_base_score(self):
+        response = self.client.post(reverse("pages:home"), self._full_quiz_payload(), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(QuizSubmission.objects.count(), 1)
+        self.assertEqual(QuizSubmission.objects.get().score, Decimal("10.0"))
+        self.assertContains(response, "Your Score: 10.0 / 10")
+
+    def test_high_confidence_correct_answers_gain_bonus_and_insight(self):
+        response = self.client.post(reverse("pages:home"), self._full_quiz_payload(confidence="high"), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(QuizSubmission.objects.count(), 1)
+        self.assertEqual(QuizSubmission.objects.get().score, Decimal("12.0"))
+        self.assertContains(response, "Your Score: 12.0 / 10")
+        self.assertContains(response, "You show strong and confident AI fluency.")
+
+    def test_wrong_high_confidence_answer_applies_penalty_and_insight(self):
+        payload = self._full_quiz_payload()
+        payload["question_9_answer"] = ["B", "D"]
+        payload["question_9_confidence"] = "high"
 
         response = self.client.post(reverse("pages:home"), payload, follow=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(QuizSubmission.objects.count(), 1)
-        self.assertContains(response, "You scored 10/10")
+        self.assertEqual(QuizSubmission.objects.get().score, Decimal("8.0"))
+        self.assertContains(response, "Your Score: 8.0 / 10")
+        self.assertContains(response, "Your confidence exceeded your accuracy. Improve verification.")
+
+    def test_low_confidence_correct_answers_show_underconfidence_insight(self):
+        response = self.client.post(reverse("pages:home"), self._full_quiz_payload(confidence="low"), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(QuizSubmission.objects.count(), 1)
+        self.assertEqual(QuizSubmission.objects.get().score, Decimal("10.0"))
+        self.assertContains(response, "You performed well but underestimated your knowledge.")
+
+    def test_quiz_submission_requires_answer_and_confidence_for_every_question(self):
+        payload = self._full_quiz_payload()
+        del payload["question_10_confidence"]
+
+        response = self.client.post(reverse("pages:home"), payload)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(QuizSubmission.objects.count(), 0)
+        self.assertContains(
+            response,
+            "Please select the required answer(s) and a confidence level for every question before submitting your result.",
+        )
 
     def test_masterclass_submission_saves_registration(self):
         response = self.client.post(

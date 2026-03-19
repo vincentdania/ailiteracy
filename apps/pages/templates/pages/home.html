@@ -128,35 +128,68 @@
                                 <article
                                     class="{% if not forloop.first %}hidden{% endif %}"
                                     data-question-slide
+                                    data-question-id="{{ question.id }}"
                                     data-question-index="{{ forloop.counter0 }}"
+                                    data-required-count="{{ question.required_count }}"
                                 >
                                     <h2 class="text-2xl font-bold leading-tight text-primary sm:text-3xl">
                                         {{ question.text }}
                                     </h2>
 
                                     <div class="mt-6 grid gap-4">
-                                        {% for key, value in question.options.items %}
+                                        {% for option in question.options %}
                                             <label class="block">
                                                 <input
-                                                    type="radio"
-                                                    name="question_{{ question.id }}"
-                                                    value="{{ key }}"
+                                                    type="{% if question.required_count == 2 %}checkbox{% else %}radio{% endif %}"
+                                                    name="question_{{ question.id }}_answer"
+                                                    value="{{ option.id }}"
                                                     class="peer sr-only"
+                                                    data-answer-input
+                                                    {% if option.id in question.selected_answers %}checked{% endif %}
                                                 />
-                                                <span class="flex cursor-pointer items-start gap-4 rounded-2xl bg-surface-soft px-5 py-5 text-left ring-1 ring-transparent transition hover:bg-mint/40 hover:ring-secondary/10 peer-checked:bg-mint/50 peer-checked:ring-secondary">
+                                                <span class="flex min-h-[6.5rem] cursor-pointer items-start gap-4 rounded-2xl bg-surface-soft px-5 py-5 text-left ring-1 ring-transparent transition hover:bg-mint/40 hover:ring-secondary/10 peer-checked:bg-mint/50 peer-checked:ring-secondary sm:min-h-[7.5rem]">
                                                     <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-primary">
-                                                        {{ key }}
+                                                        {{ option.id }}
                                                     </span>
-                                                    <span class="text-base font-medium leading-7 text-primary">{{ value }}</span>
+                                                    <span class="text-base font-medium leading-7 text-primary">{{ option.text }}</span>
                                                 </span>
                                             </label>
                                         {% endfor %}
+                                    </div>
+
+                                    <div class="mt-5 flex justify-center">
+                                        <span class="inline-flex items-center rounded-full bg-secondary px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white shadow-[0_12px_24px_-16px_rgba(11,109,84,0.55)] ring-1 ring-secondary/20">
+                                            {{ question.selection_label }}
+                                        </span>
+                                    </div>
+
+                                    <div class="mt-6 rounded-[1.5rem] bg-surface-soft px-4 py-4 text-center ring-1 ring-secondary/10">
+                                        <p class="inline-flex items-center rounded-full bg-white px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-secondary ring-1 ring-secondary/10">
+                                            How confident are you?
+                                        </p>
+                                        <div class="mt-3 flex flex-wrap justify-center gap-3">
+                                            {% for confidence in question.confidence_options %}
+                                                <label class="block">
+                                                    <input
+                                                        type="radio"
+                                                        name="question_{{ question.id }}_confidence"
+                                                        value="{{ confidence.id }}"
+                                                        class="peer sr-only"
+                                                        data-confidence-input
+                                                        {% if confidence.id == question.selected_confidence %}checked{% endif %}
+                                                    />
+                                                    <span class="{% if confidence.id == 'low' %}border-[#d9c8aa] bg-[#fbf7ef] text-[#7a6242] hover:border-[#cdb88f] hover:bg-[#f7f1e5] peer-checked:border-[#b9965d] peer-checked:bg-[#efe1bf] peer-checked:text-[#5f4721] peer-checked:shadow-[0_14px_24px_-18px_rgba(156,124,69,0.45)]{% elif confidence.id == 'medium' %}border-secondary/15 bg-white text-secondary hover:border-secondary/25 hover:bg-white peer-checked:border-secondary peer-checked:bg-secondary/10 peer-checked:text-secondary peer-checked:shadow-[0_14px_24px_-18px_rgba(11,109,84,0.4)]{% else %}border-mint/40 bg-mint/35 text-primary hover:border-mint/60 hover:bg-mint/45 peer-checked:border-secondary peer-checked:bg-mint peer-checked:text-primary peer-checked:shadow-[0_14px_24px_-18px_rgba(98,252,201,0.8)]{% endif %} inline-flex min-h-[2.9rem] min-w-[5.75rem] items-center justify-center rounded-full border px-4 py-2 text-sm font-bold transition ring-1 ring-transparent peer-checked:ring-current/10">
+                                                        {{ confidence.label }}
+                                                    </span>
+                                                </label>
+                                            {% endfor %}
+                                        </div>
                                     </div>
                                 </article>
                             {% endfor %}
                         </div>
 
-                        <p class="mt-6 hidden rounded-2xl bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800 ring-1 ring-amber-200" data-quiz-notice></p>
+                        <p class="mt-6 {% if not quiz_notice %}hidden {% endif %}rounded-2xl bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800 ring-1 ring-amber-200" data-quiz-notice>{{ quiz_notice }}</p>
 
                         <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-between">
                             <button type="button" class="inline-flex min-h-[3.25rem] items-center justify-center rounded-2xl border border-stroke px-6 text-sm font-bold text-primary transition hover:bg-surface-soft" data-quiz-prev disabled>
@@ -184,22 +217,26 @@
                 <p class="mt-6 text-xs font-bold uppercase tracking-[0.22em] text-text-soft">Your Result</p>
 
                 {% if quiz_result %}
-                    <p class="mt-4 text-lg font-semibold text-primary">You scored {{ quiz_result.score }}/10</p>
-                    <div class="mt-4 text-6xl font-black tracking-[-0.03em] text-primary sm:text-7xl">{{ quiz_result.score }}/10</div>
+                    <p class="mt-4 text-lg font-semibold text-primary">Your Score: {{ quiz_result.score|floatformat:1 }} / 10</p>
+                    <div class="mt-4 text-6xl font-black tracking-[-0.03em] text-primary sm:text-7xl">{{ quiz_result.score|floatformat:1 }}/10</div>
                     <div class="mt-4 inline-flex rounded-full bg-primary px-5 py-2 text-base font-bold text-white">
                         {{ quiz_result.level }}
                     </div>
                     <p class="mx-auto mt-6 max-w-xl text-lg leading-8 text-text-soft">
                         {{ quiz_result.message }}
                     </p>
+                    <div class="mx-auto mt-6 max-w-xl rounded-2xl bg-mint/60 px-5 py-4 text-left ring-1 ring-secondary/10">
+                        <p class="text-xs font-bold uppercase tracking-[0.18em] text-primary">Confidence Insight</p>
+                        <p class="mt-2 text-base font-medium leading-7 text-primary">{{ quiz_result.insight }}</p>
+                    </div>
                 {% else %}
-                    <p class="mt-4 text-lg font-semibold text-primary">Take the quiz to see your score.</p>
-                    <div class="mt-4 text-6xl font-black tracking-[-0.03em] text-primary sm:text-7xl">7/10</div>
+                    <p class="mt-4 text-lg font-semibold text-primary">Take the quiz to see your score and confidence insight.</p>
+                    <div class="mt-4 text-6xl font-black tracking-[-0.03em] text-primary sm:text-7xl">7.0/10</div>
                     <div class="mt-4 inline-flex rounded-full bg-primary px-5 py-2 text-base font-bold text-white">
                         AI Intermediate
                     </div>
                     <p class="mx-auto mt-6 max-w-xl text-lg leading-8 text-text-soft">
-                        Great job. Once you take the quiz, your actual score and share links will appear here.
+                        Great job. Once you take the quiz, your actual score, confidence insight, and share links will appear here.
                     </p>
                 {% endif %}
 
@@ -486,6 +523,7 @@
             const submitButton = document.querySelector("[data-quiz-submit]");
             const notice = document.querySelector("[data-quiz-notice]");
             const form = document.getElementById("quiz-form");
+            const initialNotice = notice ? notice.textContent.trim() : "";
 
             if (!slides.length || !counter || !progressText || !progressBar || !prevButton || !nextButton || !submitButton || !form) {
                 return;
@@ -493,8 +531,51 @@
 
             let currentIndex = 0;
 
-            function isAnswered(index) {
-                return Boolean(slides[index].querySelector("input[type='radio']:checked"));
+            function getRequiredCount(slide) {
+                return Number(slide.dataset.requiredCount || "1");
+            }
+
+            function getCheckedCount(slide) {
+                return slide.querySelectorAll("[data-answer-input]:checked").length;
+            }
+
+            function hasConfidence(slide) {
+                return Boolean(slide.querySelector("[data-confidence-input]:checked"));
+            }
+
+            function selectionLabel(count) {
+                return count === 1 ? "one answer" : count + " answers";
+            }
+
+            function isQuestionComplete(index) {
+                const slide = slides[index];
+                return getCheckedCount(slide) === getRequiredCount(slide) && hasConfidence(slide);
+            }
+
+            function isQuizComplete() {
+                return slides.every(function (_, index) {
+                    return isQuestionComplete(index);
+                });
+            }
+
+            function completionMessage(slide, action) {
+                const missingAnswer = getCheckedCount(slide) !== getRequiredCount(slide);
+                const missingConfidence = !hasConfidence(slide);
+
+                if (missingAnswer && missingConfidence) {
+                    return "Select " + selectionLabel(getRequiredCount(slide)) + " and choose your confidence before " + action + ".";
+                }
+                if (missingAnswer) {
+                    return "Select " + selectionLabel(getRequiredCount(slide)) + " before " + action + ".";
+                }
+                return "Choose your confidence before " + action + ".";
+            }
+
+            function syncSubmitState() {
+                const quizComplete = isQuizComplete();
+                submitButton.disabled = !quizComplete;
+                submitButton.classList.toggle("opacity-50", !quizComplete);
+                submitButton.classList.toggle("cursor-not-allowed", !quizComplete);
             }
 
             function showNotice(message) {
@@ -513,7 +594,7 @@
                 notice.classList.add("hidden");
             }
 
-            function updateQuizView(index) {
+            function updateQuizView(index, keepNotice) {
                 currentIndex = index;
                 slides.forEach(function (slide, slideIndex) {
                     slide.classList.toggle("hidden", slideIndex !== currentIndex);
@@ -529,7 +610,10 @@
                 prevButton.classList.toggle("cursor-not-allowed", currentIndex === 0);
                 nextButton.classList.toggle("hidden", currentIndex === total - 1);
                 submitButton.classList.toggle("hidden", currentIndex !== total - 1);
-                clearNotice();
+                if (!keepNotice) {
+                    clearNotice();
+                }
+                syncSubmitState();
             }
 
             prevButton.addEventListener("click", function () {
@@ -539,8 +623,8 @@
             });
 
             nextButton.addEventListener("click", function () {
-                if (!isAnswered(currentIndex)) {
-                    showNotice("Select one answer before moving to the next question.");
+                if (!isQuestionComplete(currentIndex)) {
+                    showNotice(completionMessage(slides[currentIndex], "moving to the next question"));
                     return;
                 }
                 if (currentIndex < slides.length - 1) {
@@ -549,26 +633,34 @@
             });
 
             slides.forEach(function (slide) {
-                slide.querySelectorAll("input[type='radio']").forEach(function (input) {
+                slide.querySelectorAll("[data-answer-input], [data-confidence-input]").forEach(function (input) {
                     input.addEventListener("change", function () {
                         clearNotice();
+
+                        const requiredCount = getRequiredCount(slide);
+                        if (input.type === "checkbox" && input.hasAttribute("data-answer-input") && getCheckedCount(slide) > requiredCount) {
+                            input.checked = false;
+                            showNotice("Select only " + selectionLabel(requiredCount) + " for this question.");
+                        }
+
+                        syncSubmitState();
                     });
                 });
             });
 
             form.addEventListener("submit", function (event) {
                 const firstUnansweredIndex = slides.findIndex(function (_, index) {
-                    return !isAnswered(index);
+                    return !isQuestionComplete(index);
                 });
 
                 if (firstUnansweredIndex !== -1) {
                     event.preventDefault();
                     updateQuizView(firstUnansweredIndex);
-                    showNotice("Please answer every question before submitting your result.");
+                    showNotice(completionMessage(slides[firstUnansweredIndex], "submitting your result"));
                 }
             });
 
-            updateQuizView(0);
+            updateQuizView(0, Boolean(initialNotice));
         });
     </script>
 </body>

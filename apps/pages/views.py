@@ -1,3 +1,5 @@
+import random
+from decimal import Decimal, ROUND_HALF_UP
 from urllib.parse import quote
 
 from django.shortcuts import redirect, render
@@ -16,121 +18,255 @@ HERO_IMAGE_URL = (
     "AB6AXuDFmkU_II7ZWcKJO6v_erO7MBd1bTLf3Z_9gGOl7_9bVMmOWBcq3WGdAk7iDbbMjkYC6ZLFxSQWDTziO2IdgZjkGIsE9MtoS7LGCLVbbM0S2FskulcaaKPNBJRckw7PHXaZ9_a1nhoY0F9WsbF3fhiLxQ72jjM__9VcYSVI_1YFxaNBhykoJNVukQvtzorddYyI07UTuDJ-mFvSVZY5QBE0WpZGny4hCQgz6vc3LDis9SXDqwzbpGP_cQZK0xFEAYBY0i4TN8glJjc"
 )
 
+QUIZ_TOTAL_POINTS = 14
+CONFIDENCE_OPTIONS = [
+    {"id": "low", "label": "Low"},
+    {"id": "medium", "label": "Medium"},
+    {"id": "high", "label": "High"},
+]
+VALID_CONFIDENCES = {item["id"] for item in CONFIDENCE_OPTIONS}
+CONFIDENCE_RANKS = {"low": 1, "medium": 2, "high": 3}
+CORRECT_CONFIDENCE_MULTIPLIERS = {
+    "low": Decimal("1.0"),
+    "medium": Decimal("1.0"),
+    "high": Decimal("1.2"),
+}
+WRONG_CONFIDENCE_SCORES = {
+    "low": Decimal("0"),
+    "medium": Decimal("-0.25"),
+    "high": Decimal("-0.75"),
+}
+
 QUIZ_QUESTIONS = [
     {
         "id": 1,
-        "text": "Which scenario BEST reflects the difference between traditional software and AI systems?",
-        "options": {
-            "A": "A calculator computing sums based on fixed formulas",
-            "B": "A fraud detection system learning patterns from transaction data",
-            "C": "A spreadsheet applying predefined rules",
-            "D": "A database retrieving stored records",
-        },
-        "correct": "B",
+        "text": "Which statement best describes how modern AI systems generate responses?",
+        "weight": 1,
+        "required_count": 1,
+        "options": [
+            {"id": "A", "text": "They retrieve stored answers from structured databases"},
+            {"id": "B", "text": "They search online sources to construct real-time answers"},
+            {"id": "C", "text": "They predict likely word sequences from learned patterns"},
+            {"id": "D", "text": "They apply logical reasoning rules to derive conclusions"},
+        ],
+        "correct": ["C"],
     },
     {
         "id": 2,
-        "text": "A user asks an AI tool: “Give me accurate statistics on unemployment in Nigeria” and receives confident but incorrect numbers. What is the most accurate explanation?",
-        "options": {
-            "A": "The AI intentionally misled the user",
-            "B": "The AI retrieved outdated government data",
-            "C": "The AI generated a plausible response based on learned patterns",
-            "D": "The AI accessed unreliable internet sources",
-        },
-        "correct": "C",
+        "text": "Which statement best reflects the reliability of AI-generated outputs?",
+        "weight": 1,
+        "required_count": 1,
+        "options": [
+            {"id": "A", "text": "They are reliable when phrased in clear and simple language"},
+            {"id": "B", "text": "They are accurate when generated using advanced models"},
+            {"id": "C", "text": "They may include errors despite sounding confident and complete"},
+            {"id": "D", "text": "They remain correct if the question is properly structured"},
+        ],
+        "correct": ["C"],
     },
     {
         "id": 3,
-        "text": "A startup founder in Lagos wants AI to generate a market entry strategy. Which prompt is MOST effective?",
-        "options": {
-            "A": "Write a business strategy.",
-            "B": "Act like a business expert and give strategy.",
-            "C": "Create a detailed market entry strategy for a Lagos-based fintech targeting informal traders. Include risks, pricing in naira, and customer acquisition channels.",
-            "D": "Give me ideas for business growth.",
-        },
-        "correct": "C",
+        "text": "A business owner asks AI to write a business plan and gets a generic result. What is the best improvement?",
+        "weight": 1,
+        "required_count": 1,
+        "options": [
+            {"id": "A", "text": "Ask the system to produce a more detailed response"},
+            {"id": "B", "text": "Use a different tool with stronger performance"},
+            {"id": "C", "text": "Provide context, constraints, and a defined target audience"},
+            {"id": "D", "text": "Increase the length of the instruction significantly"},
+        ],
+        "correct": ["C"],
     },
     {
         "id": 4,
-        "text": "A Nigerian hospital wants to use AI to summarize patient records. What is the MOST responsible approach?",
-        "options": {
-            "A": "Upload full patient data to AI for faster processing",
-            "B": "Use anonymized or redacted data before processing",
-            "C": "Allow AI to directly make medical decisions",
-            "D": "Share data freely since AI improves accuracy",
-        },
-        "correct": "B",
+        "text": "An AI hiring system favors candidates from a specific region. What is the most likely explanation?",
+        "weight": 1,
+        "required_count": 1,
+        "options": [
+            {"id": "A", "text": "The system has identified stronger candidates from that region"},
+            {"id": "B", "text": "The model has learned patterns from biased historical data"},
+            {"id": "C", "text": "The algorithm is prioritizing efficiency over fairness"},
+            {"id": "D", "text": "The training process failed to include diverse examples"},
+        ],
+        "correct": ["B"],
     },
     {
         "id": 5,
-        "text": "A company uses historical hiring data to train an AI recruitment tool. Over time, it favors candidates from a specific region. What is the most likely cause?",
-        "options": {
-            "A": "The AI developed independent preferences",
-            "B": "The dataset contained historical bias",
-            "C": "The algorithm is malfunctioning",
-            "D": "AI systems always prefer majority groups",
-        },
-        "correct": "B",
+        "text": "An AI-generated report includes statistics without sources. What is the most appropriate next step?",
+        "weight": 1,
+        "required_count": 1,
+        "options": [
+            {"id": "A", "text": "Ask the system to confirm the figures it provided"},
+            {"id": "B", "text": "Compare the response with another AI-generated output"},
+            {"id": "C", "text": "Validate the figures using independent external sources"},
+            {"id": "D", "text": "Accept the information if it appears internally consistent"},
+        ],
+        "correct": ["C"],
     },
     {
         "id": 6,
-        "text": "A policymaker in Nigeria is evaluating AI deployment in public services. Which is the MOST critical governance principle?",
-        "options": {
-            "A": "Maximizing automation to reduce costs",
-            "B": "Ensuring transparency, accountability, and human oversight",
-            "C": "Replacing human workers entirely",
-            "D": "Prioritizing speed over accuracy",
-        },
-        "correct": "B",
+        "text": "A hospital wants to use AI to summarize patient records. What is the most responsible approach?",
+        "weight": 1,
+        "required_count": 1,
+        "options": [
+            {"id": "A", "text": "Provide full records to ensure more accurate summaries"},
+            {"id": "B", "text": "Remove sensitive details before processing the data"},
+            {"id": "C", "text": "Allow the system to handle summaries without review"},
+            {"id": "D", "text": "Restrict usage to only non-clinical administrative tasks"},
+        ],
+        "correct": ["B"],
     },
     {
         "id": 7,
-        "text": "Which scenario BEST represents an agentic AI system?",
-        "options": {
-            "A": "A chatbot answering customer questions",
-            "B": "A system that autonomously plans, executes, and adjusts tasks to achieve goals",
-            "C": "A static predictive model",
-            "D": "A spreadsheet automation tool",
-        },
-        "correct": "B",
+        "text": "A user asks an AI system to verify its own answer for accuracy. What is the most accurate evaluation?",
+        "weight": 2,
+        "required_count": 1,
+        "options": [
+            {"id": "A", "text": "This improves accuracy by forcing internal consistency"},
+            {"id": "B", "text": "This works when the model has advanced reasoning ability"},
+            {"id": "C", "text": "This remains unreliable because the system lacks true verification"},
+            {"id": "D", "text": "This ensures the response is supported by internal data"},
+        ],
+        "correct": ["C"],
     },
     {
         "id": 8,
-        "text": "Which scenario BEST represents embodied AI?",
-        "options": {
-            "A": "A language model generating essays",
-            "B": "A robot navigating a warehouse and adjusting movements in real time",
-            "C": "A recommendation algorithm",
-            "D": "A chatbot responding to messages",
-        },
-        "correct": "B",
+        "text": "A fintech company plans to automate loan approvals using AI. What is the most appropriate implementation?",
+        "weight": 2,
+        "required_count": 1,
+        "options": [
+            {"id": "A", "text": "Allow the system to process and approve all applications directly"},
+            {"id": "B", "text": "Use system outputs while retaining human review for decisions"},
+            {"id": "C", "text": "Reject applications automatically below defined thresholds"},
+            {"id": "D", "text": "Limit system use to customer communication processes"},
+        ],
+        "correct": ["B"],
     },
     {
         "id": 9,
-        "text": "Which statement BEST distinguishes AGI from current AI systems?",
-        "options": {
-            "A": "AGI can process larger datasets",
-            "B": "AGI can autonomously transfer knowledge across domains without retraining",
-            "C": "AGI is faster than current AI",
-            "D": "AGI only exists in robotics",
-        },
-        "correct": "B",
+        "text": "Q9 (MULTI-SELECT — choose TWO): Which two actions most effectively improve the reliability of AI outputs?",
+        "weight": 2,
+        "required_count": 2,
+        "options": [
+            {"id": "A", "text": "Request the system to restate and confirm its answer"},
+            {"id": "B", "text": "Provide clear instructions and defined constraints"},
+            {"id": "C", "text": "Cross-check outputs using independent external sources"},
+            {"id": "D", "text": "Increase the length and detail of the input prompt"},
+        ],
+        "correct": ["B", "C"],
     },
     {
         "id": 10,
-        "text": "Which statement about Artificial Superintelligence (ASI) is MOST accurate?",
-        "options": {
-            "A": "ASI is simply a larger version of current AI",
-            "B": "ASI would surpass human intelligence across all domains, raising alignment risks",
-            "C": "ASI already exists in advanced AI tools",
-            "D": "ASI refers only to physical robots",
-        },
-        "correct": "B",
+        "text": "Q10 (MULTI-SELECT — choose TWO): Which two statements accurately describe how modern AI systems function?",
+        "weight": 2,
+        "required_count": 2,
+        "options": [
+            {"id": "A", "text": "They interpret meaning using human-like understanding"},
+            {"id": "B", "text": "They generate outputs based on statistical relationships"},
+            {"id": "C", "text": "They simulate reasoning without possessing true awareness"},
+            {"id": "D", "text": "They rely on real-time access to verified information"},
+        ],
+        "correct": ["B", "C"],
     },
 ]
 
 
+def _decimal_score(value):
+    return Decimal(str(value)).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+
+
+def _score_label(value):
+    return format(_decimal_score(value), ".1f")
+
+
+def _build_quiz_questions(selected_answers=None, selected_confidences=None):
+    selected_answers = selected_answers or {}
+    selected_confidences = selected_confidences or {}
+    rendered_questions = []
+    for question in QUIZ_QUESTIONS:
+        rendered_questions.append(
+            {
+                **question,
+                "options": random.sample(question["options"], k=len(question["options"])),
+                "selected_answers": selected_answers.get(question["id"], []),
+                "selected_confidence": selected_confidences.get(question["id"], ""),
+                "selection_label": "Select one" if question["required_count"] == 1 else "Select two",
+                "confidence_options": CONFIDENCE_OPTIONS,
+            }
+        )
+    return rendered_questions
+
+
+def _selected_answers_from_post(request):
+    selected_answers = {}
+    for question in QUIZ_QUESTIONS:
+        valid_option_ids = {option["id"] for option in question["options"]}
+        selected = []
+        for raw_value in request.POST.getlist(f"question_{question['id']}_answer"):
+            if raw_value in valid_option_ids and raw_value not in selected:
+                selected.append(raw_value)
+        selected_answers[question["id"]] = selected
+    return selected_answers
+
+
+def _selected_confidences_from_post(request):
+    selected_confidences = {}
+    for question in QUIZ_QUESTIONS:
+        confidence = request.POST.get(f"question_{question['id']}_confidence", "")
+        selected_confidences[question["id"]] = confidence if confidence in VALID_CONFIDENCES else ""
+    return selected_confidences
+
+
+def _validate_quiz_submission(selected_answers, selected_confidences):
+    return [
+        question["id"]
+        for question in QUIZ_QUESTIONS
+        if len(selected_answers.get(question["id"], [])) != question["required_count"]
+        or selected_confidences.get(question["id"], "") not in VALID_CONFIDENCES
+    ]
+
+
+def _calculate_quiz_score(selected_answers, selected_confidences):
+    adjusted_points = Decimal("0")
+    confidence_total = 0
+    metrics = {
+        "penalty_points": Decimal("0"),
+        "high_penalty_count": 0,
+        "low_confidence_correct_count": 0,
+        "high_confidence_correct_count": 0,
+    }
+
+    for question in QUIZ_QUESTIONS:
+        selected = selected_answers.get(question["id"], [])
+        confidence = selected_confidences.get(question["id"], "low")
+        confidence_total += CONFIDENCE_RANKS.get(confidence, 0)
+        is_correct = len(selected) == question["required_count"] and set(selected) == set(question["correct"])
+
+        if is_correct:
+            adjusted = Decimal(str(question["weight"])) * CORRECT_CONFIDENCE_MULTIPLIERS[confidence]
+            adjusted_points += adjusted
+            if confidence == "low":
+                metrics["low_confidence_correct_count"] += 1
+            if confidence == "high":
+                metrics["high_confidence_correct_count"] += 1
+        else:
+            adjusted = WRONG_CONFIDENCE_SCORES[confidence]
+            adjusted_points += adjusted
+            if adjusted < 0:
+                metrics["penalty_points"] += -adjusted
+            if confidence == "high":
+                metrics["high_penalty_count"] += 1
+
+    metrics["avg_confidence"] = (Decimal(confidence_total) / Decimal(len(QUIZ_QUESTIONS))).quantize(
+        Decimal("0.01"),
+        rounding=ROUND_HALF_UP,
+    )
+    final_score = (adjusted_points / Decimal(QUIZ_TOTAL_POINTS)) * Decimal("10")
+    return adjusted_points, _decimal_score(final_score), metrics
+
+
 def _get_level(score):
+    score = _decimal_score(score)
     if score <= 3:
         return "Beginner"
     if score <= 6:
@@ -141,6 +277,7 @@ def _get_level(score):
 
 
 def _get_result_message(score):
+    score = _decimal_score(score)
     if score <= 3:
         return "You’re getting started. A few practical habits will make AI feel much more usable and less intimidating."
     if score <= 6:
@@ -150,8 +287,21 @@ def _get_result_message(score):
     return "Excellent. You already show clear AI fluency and the judgment needed to use these tools well."
 
 
+def _get_confidence_insight(score, metrics=None):
+    score = _decimal_score(score)
+    metrics = metrics or {}
+
+    if metrics.get("high_penalty_count", 0) > 0:
+        return "Your confidence exceeded your accuracy. Improve verification."
+    if metrics.get("low_confidence_correct_count", 0) >= 2 and score >= Decimal("5.0"):
+        return "You performed well but underestimated your knowledge."
+    if metrics.get("high_confidence_correct_count", 0) >= 2 and score >= Decimal("7.0"):
+        return "You show strong and confident AI fluency."
+    return "Calibrating confidence alongside accuracy will sharpen your AI judgment."
+
+
 def _share_links(score):
-    message = quote(f"I scored {score}/10 on the AI Fluency Quiz at ailiteracy.ng")
+    message = quote(f"I scored {_score_label(score)}/10 on the AI Fluency Quiz at ailiteracy.ng")
     return {
         "whatsapp": f"https://wa.me/?text={message}",
         "twitter": f"https://twitter.com/intent/tweet?text={message}",
@@ -163,23 +313,33 @@ def home(request):
     quiz_result = request.session.get("quiz_result")
     masterclass_success = request.session.pop("masterclass_success", None)
     form = MasterclassRegistrationForm()
+    selected_answers = {}
+    selected_confidences = {}
+    quiz_notice = None
 
     if request.method == "POST":
         action = request.POST.get("action")
 
         if action == "quiz_submit":
-            score = sum(
-                1
-                for question in QUIZ_QUESTIONS
-                if request.POST.get(f"question_{question['id']}") == question["correct"]
-            )
-            QuizSubmission.objects.create(score=score)
-            request.session["quiz_result"] = {
-                "score": score,
-                "level": _get_level(score),
-                "message": _get_result_message(score),
-            }
-            return redirect(f"{reverse('pages:home')}#result")
+            selected_answers = _selected_answers_from_post(request)
+            selected_confidences = _selected_confidences_from_post(request)
+            invalid_question_ids = _validate_quiz_submission(selected_answers, selected_confidences)
+            if invalid_question_ids:
+                quiz_notice = "Please select the required answer(s) and a confidence level for every question before submitting your result."
+            else:
+                adjusted_points, final_score, metrics = _calculate_quiz_score(selected_answers, selected_confidences)
+                QuizSubmission.objects.create(score=final_score)
+                request.session["quiz_result"] = {
+                    "score": float(final_score),
+                    "adjusted_points": float(adjusted_points),
+                    "total_points": QUIZ_TOTAL_POINTS,
+                    "penalty_points": float(metrics["penalty_points"]),
+                    "avg_confidence": float(metrics["avg_confidence"]),
+                    "level": _get_level(final_score),
+                    "message": _get_result_message(final_score),
+                    "insight": _get_confidence_insight(final_score, metrics),
+                }
+                return redirect(f"{reverse('pages:home')}#result")
 
         if action == "masterclass_submit":
             form = MasterclassRegistrationForm(request.POST)
@@ -197,12 +357,17 @@ def home(request):
     quiz_result = request.session.get("quiz_result")
     if quiz_result:
         quiz_result["message"] = quiz_result.get("message") or _get_result_message(quiz_result["score"])
+        quiz_result["insight"] = quiz_result.get("insight") or _get_confidence_insight(quiz_result["score"])
         quiz_result["share_links"] = _share_links(quiz_result["score"])
 
     context = {
-        "quiz_questions": QUIZ_QUESTIONS,
+        "quiz_questions": _build_quiz_questions(
+            selected_answers=selected_answers,
+            selected_confidences=selected_confidences,
+        ),
         "quiz_question_total": len(QUIZ_QUESTIONS),
         "quiz_result": quiz_result,
+        "quiz_notice": quiz_notice,
         "masterclass_form": form,
         "masterclass_success": masterclass_success,
         "hero_image_url": HERO_IMAGE_URL,

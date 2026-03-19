@@ -610,7 +610,7 @@
                             <tbody>
                                 {% for submission in recent_quiz_submissions %}
                                     <tr>
-                                        <td><strong>{{ submission.score }}/10</strong></td>
+                                        <td><strong>{{ submission.score|floatformat:1 }}/10</strong></td>
                                         <td><span class="score-badge">{{ submission.level }}</span></td>
                                         <td>{{ submission.created_at|date:"d M Y, H:i" }}</td>
                                     </tr>
