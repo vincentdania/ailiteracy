@@ -42,6 +42,8 @@ def interest(request):
             initial["name"] = user.get_full_name() or user.email
             initial["email"] = user.email
 
+    next_url = request.POST.get("next") or request.GET.get("next") or ""
+
     form = BootcampInterestForm(request.POST or None, initial=initial)
     if request.method == "POST" and form.is_valid():
         interest_obj = form.save(commit=False)
@@ -81,6 +83,7 @@ def interest(request):
         "result": result,
         "ai_level": result.level if result else "",
         "quiz_score": result.percent if result else "",
+        "next_url": next_url,
         "selected_attendance": form["attendance_type"].value() or initial["attendance_type"],
     }
     return render(request, "bootcamp/interest.html", context)

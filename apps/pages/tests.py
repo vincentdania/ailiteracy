@@ -125,6 +125,28 @@ class PagesViewTests(TestCase):
         self.assertEqual(MasterclassRegistration.objects.count(), 1)
         self.assertContains(response, "Registration received")
 
+    def test_public_site_routes_resolve_after_root_url_wiring(self):
+        routes = [
+            ("account_login", {}, 200),
+            ("dashboard", {}, 302),
+            ("library", {}, 302),
+            ("catalog:course_list", {}, 200),
+            ("catalog:book_landing", {"slug": "ai-confidence-in-21-days"}, 200),
+            ("content:resource_list", {}, 200),
+            ("core:community_forum", {}, 200),
+            ("core:about", {}, 200),
+            ("quiz:home", {}, 200),
+            ("bootcamp:interest", {}, 200),
+            ("ai_index:insights", {}, 200),
+            ("orders:cart", {}, 302),
+            ("certificates:my", {}, 302),
+        ]
+
+        for route_name, kwargs, expected_status in routes:
+            with self.subTest(route=route_name):
+                response = self.client.get(reverse(route_name, kwargs=kwargs or None))
+                self.assertEqual(response.status_code, expected_status)
+
 
 class AdminDashboardTests(TestCase):
     def test_admin_dashboard_renders_for_staff_user(self):

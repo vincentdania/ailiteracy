@@ -32,7 +32,7 @@
                     <form method="post" class="space-y-6">
                         {% csrf_token %}
                         {% if result %}<input type="hidden" name="result_id" value="{{ result.id }}" />{% endif %}
-                        <input type="hidden" name="next" value="{{ request.POST.next|default:request.GET.next|default:'' }}" />
+                        <input type="hidden" name="next" value="{{ next_url }}" />
 
                         <div class="space-y-2">
                             <label class="block text-sm font-semibold tracking-wide text-slate-700" for="{{ form.name.id_for_label }}">Full Name</label>
