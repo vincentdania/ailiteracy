@@ -22,7 +22,7 @@ class PagesViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "AI Fluency Quiz")
         self.assertContains(response, "learn@ailiteracy.ng")
-        self.assertContains(response, "hyrax.ng")
+        self.assertContains(response, "velocity.ng")
 
     def test_quiz_submission_with_medium_confidence_preserves_base_score(self):
         response = self.client.post(reverse("pages:home"), self._full_quiz_payload(), follow=True)
