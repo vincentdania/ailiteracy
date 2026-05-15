@@ -23,6 +23,19 @@ class PagesViewTests(TestCase):
         self.assertContains(response, "AI Fluency Quiz")
         self.assertContains(response, "learn@ailiteracy.ng")
         self.assertContains(response, "velocity.ng")
+        self.assertContains(response, "Measure Your AI Competence")
+        self.assertContains(response, reverse("pages:assessment"))
+        self.assertContains(response, reverse("catalog:book_landing", kwargs={"slug": "ai-confidence-in-21-days"}))
+
+    def test_assessment_placeholder_page_renders_framework_summary(self):
+        response = self.client.get(reverse("pages:assessment"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Applied AI Literacy &amp; Readiness Assessment", html=True)
+        self.assertContains(response, "Assessment Launching Soon")
+        self.assertContains(response, "Human Capability")
+        self.assertContains(response, "Level 5: AI Transformational")
+        self.assertContains(response, "What You Will Discover")
 
     def test_quiz_submission_with_medium_confidence_preserves_base_score(self):
         response = self.client.post(reverse("pages:home"), self._full_quiz_payload(), follow=True)
