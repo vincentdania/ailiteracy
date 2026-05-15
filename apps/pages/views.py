@@ -6,7 +6,7 @@ from uuid import UUID
 
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import NoReverseMatch, reverse
+from django.urls import reverse
 
 from .forms import MasterclassRegistrationForm
 from .models import QuizSubmission
@@ -20,90 +20,6 @@ HERO_IMAGE_URL = (
     "https://lh3.googleusercontent.com/aida-public/"
     "AB6AXuDFmkU_II7ZWcKJO6v_erO7MBd1bTLf3Z_9gGOl7_9bVMmOWBcq3WGdAk7iDbbMjkYC6ZLFxSQWDTziO2IdgZjkGIsE9MtoS7LGCLVbbM0S2FskulcaaKPNBJRckw7PHXaZ9_a1nhoY0F9WsbF3fhiLxQ72jjM__9VcYSVI_1YFxaNBhykoJNVukQvtzorddYyI07UTuDJ-mFvSVZY5QBE0WpZGny4hCQgz6vc3LDis9SXDqwzbpGP_cQZK0xFEAYBY0i4TN8glJjc"
 )
-WORKBOOK_FALLBACK_URL = "/workbook"
-
-AI_READINESS_PILLARS = [
-    {
-        "title": "Human Capability",
-        "description": "Measures your ability to understand, prompt, use, supervise, and continuously learn with AI.",
-        "icon": "psychology_alt",
-        "badge": "Capability Lens",
-        "icon_bg": "bg-[#e8f1ff]",
-        "icon_text": "text-[#124b8a]",
-        "ring": "ring-[#d7e7fb]",
-    },
-    {
-        "title": "Organizational Readiness",
-        "description": "Measures how well AI is integrated into workflows, knowledge systems, strategy, culture, and digital tools.",
-        "icon": "apartment",
-        "badge": "Workflow Readiness",
-        "icon_bg": "bg-[#e8fbf4]",
-        "icon_text": "text-[#0b6d54]",
-        "ring": "ring-[#d8f3ea]",
-    },
-    {
-        "title": "Governance & Risk",
-        "description": "Measures your ability to use AI ethically, protect data, avoid misinformation, and maintain human oversight.",
-        "icon": "shield",
-        "badge": "Risk Control",
-        "icon_bg": "bg-[#fff4e8]",
-        "icon_text": "text-[#9a5217]",
-        "ring": "ring-[#f7dfc5]",
-    },
-    {
-        "title": "Impact & Transformation",
-        "description": "Measures whether AI is improving productivity, innovation, decision-making, and real-world outcomes.",
-        "icon": "query_stats",
-        "badge": "Outcome Focus",
-        "icon_bg": "bg-[#edf2f1]",
-        "icon_text": "text-[#304845]",
-        "ring": "ring-[#d9e5e2]",
-    },
-]
-
-AI_READINESS_LEVELS = [
-    {
-        "name": "Level 1: AI Aware",
-        "description": "You understand AI at a basic level but have limited practical use.",
-        "badge": "01",
-    },
-    {
-        "name": "Level 2: AI Exploring",
-        "description": "You are experimenting with AI tools but not yet using them consistently.",
-        "badge": "02",
-    },
-    {
-        "name": "Level 3: AI Operational",
-        "description": "You use AI regularly for real tasks and productivity.",
-        "badge": "03",
-    },
-    {
-        "name": "Level 4: AI Integrated",
-        "description": "AI is embedded into your workflows, systems, and decisions.",
-        "badge": "04",
-    },
-    {
-        "name": "Level 5: AI Transformational",
-        "description": "You use AI strategically to drive innovation, performance, and competitive advantage.",
-        "badge": "05",
-    },
-]
-
-AI_READINESS_QUESTIONS = [
-    "Can you write prompts that consistently produce useful outputs?",
-    "Can you identify inaccurate, biased, or misleading AI-generated content?",
-    "Do you know what information should never be shared with AI tools?",
-    "Are you using AI to improve actual workflows, not just generate text?",
-    "Can you use AI to save time, improve decisions, and produce better outcomes?",
-]
-
-AI_READINESS_OUTCOMES = [
-    "Your current AI competence level",
-    "Your strongest AI capability areas",
-    "Your biggest readiness gaps",
-    "Your risk and governance blind spots",
-    "Your personalized next steps for improvement",
-]
 
 QUIZ_TOTAL_POINTS = 14
 QUIZ_SCORE_CAP = Decimal("10.0")
@@ -308,27 +224,6 @@ def _selected_confidences_from_post(request):
     return selected_confidences
 
 
-def _workbook_page_url():
-    try:
-        return reverse("catalog:book_landing", kwargs={"slug": "ai-confidence-in-21-days"})
-    except NoReverseMatch:
-        return WORKBOOK_FALLBACK_URL
-
-
-def _assessment_section_context(primary_label, primary_url, primary_disabled=False):
-    return {
-        "assessment_primary_label": primary_label,
-        "assessment_primary_url": primary_url,
-        "assessment_primary_disabled": primary_disabled,
-        "assessment_workbook_url": _workbook_page_url(),
-        "assessment_workbook_label": "Explore the AI Literacy Workbook",
-        "assessment_pillars": AI_READINESS_PILLARS,
-        "assessment_levels": AI_READINESS_LEVELS,
-        "assessment_questions": AI_READINESS_QUESTIONS,
-        "assessment_outcomes": AI_READINESS_OUTCOMES,
-    }
-
-
 def _validate_quiz_submission(selected_answers, selected_confidences):
     return [
         question["id"]
@@ -528,17 +423,6 @@ def share_score_image(request, share_id):
     return _build_share_image_response(submission)
 
 
-def assessment(request):
-    context = {
-        **_assessment_section_context(
-            primary_label="Assessment Launching Soon",
-            primary_url="",
-            primary_disabled=True,
-        ),
-    }
-    return render(request, "pages/assessment.html", context)
-
-
 def home(request):
     quiz_result = request.session.get("quiz_result")
     masterclass_success = request.session.pop("masterclass_success", None)
@@ -621,9 +505,5 @@ def home(request):
             "ecopy": HYRAX_EBOOK_URL,
             "shop_label": "Sold on velocity.ng",
         },
-        **_assessment_section_context(
-            primary_label="Take the AI Readiness Assessment",
-            primary_url=reverse("pages:assessment"),
-        ),
     }
     return render(request, "pages/home.html", context)
