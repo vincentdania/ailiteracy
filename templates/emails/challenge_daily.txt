@@ -1,0 +1,10 @@
+Hi {{ user.get_full_name|default:user.email }},
+
+Your Day {{ day_number }} challenge is ready:
+
+{{ lesson.title }}
+{{ lesson_url }}
+
+Read the lesson, complete the practical task, and mark the day complete to keep your streak going.
+
+— AIliteracy.ng

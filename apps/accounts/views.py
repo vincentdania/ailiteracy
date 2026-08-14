@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
+from apps.learning.challenge_services import CHALLENGE_SLUG, challenge_summary
 from apps.learning.models import Enrollment
 from apps.orders.models import AccessGrant, Order
 
@@ -12,14 +13,17 @@ def dashboard(request):
 
     enrollment_rows = []
     for enrollment in enrollments:
-        enrollment_rows.append(
-            {
-                "enrollment": enrollment,
-                "progress": enrollment.progress_percentage,
-                "completed_lessons": enrollment.completed_lessons_count,
-                "total_lessons": enrollment.total_lessons_count,
-            }
-        )
+        row = {
+            "enrollment": enrollment,
+            "progress": enrollment.progress_percentage,
+            "completed_lessons": enrollment.completed_lessons_count,
+            "total_lessons": enrollment.total_lessons_count,
+            "is_challenge": enrollment.course.slug == CHALLENGE_SLUG,
+        }
+        if row["is_challenge"]:
+            row["challenge"] = challenge_summary(enrollment)
+            row["continue_url_name"] = "learning:challenge_home"
+        enrollment_rows.append(row)
 
     overall_progress = 0
     if enrollment_rows:

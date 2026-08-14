@@ -40,6 +40,7 @@ class Lesson(models.Model):
     slug = models.SlugField()
     content = models.TextField()
     video_url = models.URLField(blank=True)
+    hero_image = models.URLField(blank=True)
     order = models.PositiveIntegerField(default=1)
     is_preview = models.BooleanField(default=False)
 
@@ -95,6 +96,32 @@ class LessonProgress(models.Model):
 
     def __str__(self) -> str:
         return f"{self.enrollment} - {self.lesson}"
+
+
+class DailyChallengeEmail(models.Model):
+    enrollment = models.ForeignKey(
+        Enrollment,
+        on_delete=models.CASCADE,
+        related_name="daily_email_deliveries",
+    )
+    lesson = models.ForeignKey(
+        Lesson,
+        on_delete=models.CASCADE,
+        related_name="daily_email_deliveries",
+    )
+    sent_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-sent_at"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["enrollment", "lesson"],
+                name="unique_daily_challenge_email_per_lesson",
+            ),
+        ]
+
+    def __str__(self) -> str:
+        return f"{self.enrollment} reminder: {self.lesson}"
 
 
 class FinalQuizQuestion(models.Model):

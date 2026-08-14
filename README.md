@@ -61,8 +61,39 @@ celery -A config worker -l info
 
 ## Test
 ```bash
-python manage.py test
+pytest
+# or: python manage.py test
 ```
+
+## The 21-Day AI Challenge
+
+The challenge is a text-and-graphics course that unlocks one lesson per day from each learner's enrollment date. Day 1 is a public preview. Enrolled learners can track their current day, lesson progress, and completion streak from `/dashboard/` or the dedicated challenge page.
+
+Import or refresh the supplied course pack after migrations:
+
+```bash
+python manage.py migrate
+python manage.py import_21day_challenge
+```
+
+The importer is idempotent. Use a custom price or fully replace the existing imported challenge with:
+
+```bash
+python manage.py import_21day_challenge --price 25000.00
+python manage.py import_21day_challenge --reset
+```
+
+### Daily email cron
+
+SMTP uses the existing `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`, `EMAIL_USE_TLS`, `EMAIL_USE_SSL`, and `DEFAULT_FROM_EMAIL` environment settings. Set `EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend` in production; development continues to use the console email backend.
+
+Run the idempotent reminder command every morning from shared-hosting cron (adjust paths to the deployed virtual environment and project):
+
+```cron
+0 7 * * * cd /home/ACCOUNT/ailiteracy && /home/ACCOUNT/venv/bin/python manage.py send_daily_challenge_emails >> /home/ACCOUNT/logs/challenge-email.log 2>&1
+```
+
+Welcome mail is sent when a challenge enrollment is created. The daily command sends only the currently unlocked day's reminder and skips learners who already completed that lesson or were already sent its reminder.
 
 ## New Feature Modules (Quiz + Bootcamp + Micro-course)
 

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}{{ module_row.module.title }} | {{ course.title }}{% endblock title %}
+
+{% block content %}
+<section class="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
+    <a href="{% url 'learning:challenge_home' course_slug=course.slug %}" class="inline-flex items-center gap-1 text-sm font-black text-emerald-700"><span class="material-symbols-outlined text-base">arrow_back</span>Challenge overview</a>
+    <p class="mt-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-700">Module {{ module_row.module.order }}</p>
+    <h1 class="mt-2 text-4xl font-black">{{ module_row.module.title }}</h1>
+    <div class="mt-8 space-y-3">
+        {% for row in module_row.lessons %}
+            <article class="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                <span class="flex size-11 shrink-0 items-center justify-center rounded-full {% if row.completed %}bg-emerald-600 text-white{% elif row.available %}bg-primary{% else %}bg-slate-100 text-slate-500{% endif %} font-black">{% if row.completed %}<span class="material-symbols-outlined">check</span>{% else %}{{ row.day_number }}{% endif %}</span>
+                <div class="min-w-0 flex-1">
+                    <h2 class="font-black text-slate-900">{{ row.lesson.title }}</h2>
+                    {% if not row.available %}<p class="mt-1 text-xs text-slate-500">{% if enrollment %}Unlocks in {{ row.days_until_unlock }} day{{ row.days_until_unlock|pluralize }}{% else %}Enrollment required{% endif %}</p>{% endif %}
+                </div>
+                {% if row.available %}<a href="{% url 'learning:challenge_lesson' course_slug=course.slug lesson_slug=row.lesson.slug %}" class="text-sm font-black text-emerald-700">Open</a>{% else %}<span class="material-symbols-outlined text-slate-400">lock</span>{% endif %}
+            </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock content %}

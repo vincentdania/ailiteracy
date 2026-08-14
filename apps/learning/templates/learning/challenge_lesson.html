@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}{{ lesson.title }} | {{ course.title }}{% endblock title %}
+
+{% block content %}
+<section class="border-b border-slate-200 bg-white">
+    <div class="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+                <a href="{% url 'learning:challenge_home' course_slug=course.slug %}" class="text-xs font-black uppercase tracking-wider text-emerald-700">{{ course.title }}</a>
+                <p class="mt-1 text-sm font-bold text-slate-500">Day {{ lesson_row.day_number }} of 21 · {{ lesson.module.title }}</p>
+            </div>
+            {% if enrollment %}
+                <div class="min-w-52">
+                    <div class="flex justify-between text-xs font-black text-slate-500"><span>Progress</span><span>{{ challenge_summary.progress }}%</span></div>
+                    <div class="mt-1.5 h-2 overflow-hidden rounded-full bg-slate-100"><div class="h-full rounded-full bg-primary" style="width: {{ challenge_summary.progress }}%"></div></div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% if lesson_row.available %}
+<article class="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
+    {% if lesson.hero_image %}<img src="{{ lesson.hero_image }}" alt="" class="mb-10 aspect-[16/7] w-full rounded-3xl object-cover shadow-lg" />{% endif %}
+    <div class="challenge-copy prose prose-slate max-w-none prose-headings:font-black prose-a:text-emerald-700 prose-strong:text-slate-900">
+        {{ lesson.content|safe }}
+    </div>
+
+    {% if enrollment %}
+        <div class="mt-10 rounded-2xl border-2 border-primary bg-white p-6 shadow-sm">
+            {% if lesson_row.completed %}
+                <div class="flex items-center gap-3 font-black text-emerald-700"><span class="material-symbols-outlined">check_circle</span>Day {{ lesson_row.day_number }} complete</div>
+            {% else %}
+                <h2 class="text-xl font-black">Finished today's task?</h2>
+                <p class="mt-2 text-sm text-slate-600">Mark this lesson complete to update your progress and streak.</p>
+                <form method="post" class="mt-5" hx-post="{{ request.path }}" hx-target="body" hx-select="body" hx-swap="outerHTML">
+                    {% csrf_token %}
+                    <button class="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-black text-accent-dark"><span class="material-symbols-outlined">check</span>Mark Day {{ lesson_row.day_number }} complete</button>
+                </form>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="mt-10 rounded-2xl bg-deep-blue p-7 text-white">
+            <h2 class="text-2xl font-black">Ready for the remaining 20 days?</h2>
+            <p class="mt-2 text-slate-300">Enroll to unlock one practical lesson each day and track your progress.</p>
+            {% if product %}<a href="{{ product.partner_purchase_url }}" class="mt-5 inline-flex rounded-xl bg-primary px-5 py-3 font-black text-accent-dark">Join the challenge</a>{% endif %}
+        </div>
+    {% endif %}
+</article>
+{% else %}
+<section class="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6 lg:px-8">
+    <span class="material-symbols-outlined text-6xl text-slate-300">lock_clock</span>
+    <h1 class="mt-5 text-3xl font-black">Day {{ lesson_row.day_number }} is still locked</h1>
+    {% if enrollment %}
+        <p class="mt-3 text-slate-600">This lesson unlocks in {{ lesson_row.days_until_unlock }} day{{ lesson_row.days_until_unlock|pluralize }}. Keep your daily rhythm going.</p>
+    {% else %}
+        <p class="mt-3 text-slate-600">Enroll in the challenge to unlock this lesson.</p>
+        {% if product %}<a href="{{ product.partner_purchase_url }}" class="mt-6 inline-flex rounded-xl bg-primary px-5 py-3 font-black">Join the challenge</a>{% endif %}
+    {% endif %}
+    <a href="{% url 'learning:challenge_home' course_slug=course.slug %}" class="mt-6 block text-sm font-black text-emerald-700">Return to course plan</a>
+</section>
+{% endif %}
+
+<nav class="mx-auto flex max-w-4xl items-center justify-between gap-4 border-t border-slate-200 px-4 py-8 sm:px-6 lg:px-8">
+    {% if previous_lesson %}<a href="{% url 'learning:challenge_lesson' course_slug=course.slug lesson_slug=previous_lesson.slug %}" class="inline-flex items-center gap-1 text-sm font-black text-slate-600"><span class="material-symbols-outlined">arrow_back</span>Previous</a>{% else %}<span></span>{% endif %}
+    {% if next_lesson %}<a href="{% url 'learning:challenge_lesson' course_slug=course.slug lesson_slug=next_lesson.slug %}" class="inline-flex items-center gap-1 text-sm font-black text-emerald-700">Next<span class="material-symbols-outlined">arrow_forward</span></a>{% endif %}
+</nav>
+
+<style>
+    .challenge-copy .challenge-recap { margin-top: 2.5rem; border-radius: 1rem; border: 1px solid #a7f3d0; background: #ecfdf5; padding: 1.25rem 1.5rem; }
+    .challenge-copy .challenge-recap h2 { margin-top: 0; }
+    .challenge-copy .challenge-recap p:last-child { margin-bottom: 0; }
+</style>
+{% endblock content %}

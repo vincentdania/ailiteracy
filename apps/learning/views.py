@@ -1,9 +1,18 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import redirect_to_login
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import MicrocourseStartForm
+from .challenge_services import (
+    CHALLENGE_SLUG,
+    build_challenge_outline,
+    challenge_summary,
+    find_lesson_row,
+    mark_lesson_complete,
+    ordered_course_lessons,
+)
 from .microcourse_services import (
     can_access_attempt,
     finalize_microcourse_attempt,
@@ -19,7 +28,6 @@ from .models import (
 )
 
 
-@login_required
 def lesson_detail(request, course_slug: str, lesson_slug: str):
     lesson = (
         Lesson.objects.select_related("module", "module__course")
@@ -29,6 +37,15 @@ def lesson_detail(request, course_slug: str, lesson_slug: str):
     )
     if not lesson:
         raise Http404("Lesson not found")
+
+    if lesson.module.course.slug == CHALLENGE_SLUG:
+        return redirect(
+            "learning:challenge_lesson",
+            course_slug=course_slug,
+            lesson_slug=lesson_slug,
+        )
+    if not request.user.is_authenticated:
+        return redirect_to_login(request.get_full_path())
 
     enrollment = Enrollment.objects.filter(user=request.user, course=lesson.module.course).first()
     if not enrollment and not lesson.is_preview:
@@ -50,6 +67,108 @@ def lesson_detail(request, course_slug: str, lesson_slug: str):
             "enrollment": enrollment,
             "completed": completed,
             "progress_percentage": progress_percentage,
+        },
+    )
+
+
+def challenge_home(request, course_slug):
+    course = get_object_or_404(
+        Course.objects.prefetch_related("modules__lessons").select_related("product"),
+        slug=course_slug,
+    )
+    enrollment = None
+    if request.user.is_authenticated:
+        enrollment = Enrollment.objects.filter(user=request.user, course=course).first()
+    outline = build_challenge_outline(course, enrollment)
+    summary = challenge_summary(enrollment) if enrollment else None
+    return render(
+        request,
+        "learning/challenge_home.html",
+        {
+            "course": course,
+            "product": getattr(course, "product", None),
+            "enrollment": enrollment,
+            "outline": outline,
+            "challenge_summary": summary,
+        },
+    )
+
+
+def challenge_module(request, course_slug, module_order):
+    course = get_object_or_404(
+        Course.objects.prefetch_related("modules__lessons"),
+        slug=course_slug,
+    )
+    module = get_object_or_404(course.modules.all(), order=module_order)
+    enrollment = None
+    if request.user.is_authenticated:
+        enrollment = Enrollment.objects.filter(user=request.user, course=course).first()
+    module_row = next(
+        (row for row in build_challenge_outline(course, enrollment) if row["module"].pk == module.pk),
+        None,
+    )
+    return render(
+        request,
+        "learning/challenge_module.html",
+        {
+            "course": course,
+            "module_row": module_row,
+            "enrollment": enrollment,
+        },
+    )
+
+
+def challenge_lesson(request, course_slug, lesson_slug):
+    course = get_object_or_404(
+        Course.objects.prefetch_related("modules__lessons").select_related("product"),
+        slug=course_slug,
+    )
+    lesson = get_object_or_404(
+        Lesson.objects.select_related("module", "module__course"),
+        module__course=course,
+        slug=lesson_slug,
+    )
+    enrollment = None
+    if request.user.is_authenticated:
+        enrollment = Enrollment.objects.filter(user=request.user, course=course).first()
+    row = find_lesson_row(course, lesson, enrollment)
+    if row is None:
+        raise Http404("Lesson not found.")
+
+    if request.method == "POST":
+        if not request.user.is_authenticated:
+            return redirect_to_login(request.get_full_path())
+        if enrollment is None:
+            messages.error(request, "Enroll in the challenge before completing lessons.")
+            return redirect("learning:challenge_home", course_slug=course.slug)
+        if not row["available"]:
+            messages.info(request, f"Day {row['day_number']} has not unlocked yet.")
+            return redirect(
+                "learning:challenge_lesson",
+                course_slug=course.slug,
+                lesson_slug=lesson.slug,
+            )
+        mark_lesson_complete(enrollment, lesson)
+        messages.success(request, f"Day {row['day_number']} marked complete.")
+        return redirect("learning:challenge_home", course_slug=course.slug)
+
+    lessons = list(ordered_course_lessons(course))
+    current_index = next(index for index, item in enumerate(lessons) if item.pk == lesson.pk)
+    previous_lesson = lessons[current_index - 1] if current_index > 0 else None
+    next_lesson = lessons[current_index + 1] if current_index + 1 < len(lessons) else None
+    summary = challenge_summary(enrollment) if enrollment else None
+    return render(
+        request,
+        "learning/challenge_lesson.html",
+        {
+            "course": course,
+            "product": getattr(course, "product", None),
+            "lesson": lesson,
+            "lesson_row": row,
+            "enrollment": enrollment,
+            "challenge_summary": summary,
+            "previous_lesson": previous_lesson,
+            "next_lesson": next_lesson,
         },
     )
 

@@ -5,6 +5,7 @@ from .models import (
     CourseAttempt,
     CourseFinalQuizAnswer,
     CourseLessonCompletion,
+    DailyChallengeEmail,
     Enrollment,
     FinalQuizOption,
     FinalQuizQuestion,
@@ -40,7 +41,7 @@ class ModuleAdmin(admin.ModelAdmin):
 
 @admin.register(Lesson)
 class LessonAdmin(admin.ModelAdmin):
-    list_display = ("title", "module", "order", "is_preview")
+    list_display = ("title", "module", "order", "is_preview", "hero_image")
     list_filter = ("module__course", "is_preview")
     prepopulated_fields = {"slug": ("title",)}
 
@@ -54,6 +55,13 @@ class EnrollmentAdmin(admin.ModelAdmin):
 @admin.register(LessonProgress)
 class LessonProgressAdmin(admin.ModelAdmin):
     list_display = ("enrollment", "lesson", "completed_at")
+
+
+@admin.register(DailyChallengeEmail)
+class DailyChallengeEmailAdmin(admin.ModelAdmin):
+    list_display = ("enrollment", "lesson", "sent_at")
+    list_filter = ("enrollment__course", "sent_at")
+    search_fields = ("enrollment__user__email", "lesson__title")
 
 
 class FinalQuizOptionInline(admin.TabularInline):

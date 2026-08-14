@@ -5,6 +5,17 @@ from . import api, views
 app_name = "learning"
 
 urlpatterns = [
+    path("challenge/<slug:course_slug>/", views.challenge_home, name="challenge_home"),
+    path(
+        "challenge/<slug:course_slug>/modules/<int:module_order>/",
+        views.challenge_module,
+        name="challenge_module",
+    ),
+    path(
+        "challenge/<slug:course_slug>/lessons/<slug:lesson_slug>/",
+        views.challenge_lesson,
+        name="challenge_lesson",
+    ),
     path("learn/<slug:course_slug>/lessons/<slug:lesson_slug>/", views.lesson_detail, name="lesson_detail"),
     path("api/learning/lessons/<int:lesson_id>/progress/", api.LessonProgressAPIView.as_view(), name="lesson_progress_api"),
     path("course/<slug:course_slug>/", views.microcourse_overview, name="microcourse_overview"),

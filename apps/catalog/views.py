@@ -1,7 +1,7 @@
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
 from django.conf import settings
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from apps.learning.models import Course, Enrollment
 
@@ -41,6 +41,8 @@ def course_list(request):
 
 
 def course_detail(request, slug: str):
+    if slug == "21-day-ai-challenge":
+        return redirect("learning:challenge_home", course_slug=slug)
     course = get_object_or_404(Course.objects.prefetch_related("modules__lessons").select_related("product"), slug=slug)
     enrollment = None
     if request.user.is_authenticated:

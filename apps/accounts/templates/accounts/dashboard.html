@@ -44,6 +44,9 @@
                                     <span class="text-[10px] font-black tracking-widest text-primary uppercase">Current Course</span>
                                     <h3 class="text-white text-xl font-black">{{ next_enrollment.enrollment.course.title }}</h3>
                                     <p class="text-slate-400 text-sm">{{ next_enrollment.completed_lessons }}/{{ next_enrollment.total_lessons }} lessons completed</p>
+                                    {% if next_enrollment.is_challenge %}
+                                        <p class="mt-2 text-sm font-bold text-primary">Day {{ next_enrollment.challenge.day_number }} of 21 · {{ next_enrollment.challenge.streak }} day streak</p>
+                                    {% endif %}
                                 </div>
                                 <div class="space-y-1">
                                     <div class="flex justify-between text-xs text-slate-400">
@@ -55,7 +58,11 @@
                                     </div>
                                 </div>
                             </div>
+                            {% if next_enrollment.is_challenge %}
+                            <a href="{% url 'learning:challenge_home' course_slug=next_enrollment.enrollment.course.slug %}" class="w-full md:w-auto flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-accent-dark font-black px-8 py-3 rounded-lg transition-all shadow-[0_4px_14px_0_rgba(102,255,204,0.3)]">
+                            {% else %}
                             <a href="{% url 'catalog:course_detail' slug=next_enrollment.enrollment.course.slug %}" class="w-full md:w-auto flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-accent-dark font-black px-8 py-3 rounded-lg transition-all shadow-[0_4px_14px_0_rgba(102,255,204,0.3)]">
+                            {% endif %}
                                 <span class="material-symbols-outlined">play_arrow</span>
                                 Resume
                             </a>
@@ -90,7 +97,12 @@
                                         </div>
                                         <span class="text-[10px] font-black text-slate-500 uppercase">{{ row.progress }}%</span>
                                     </div>
-                                    <a href="{% url 'catalog:course_detail' slug=row.enrollment.course.slug %}" class="inline-block mt-3 text-xs font-black text-emerald-700">Continue</a>
+                                    {% if row.is_challenge %}
+                                        <p class="mt-2 text-xs font-bold text-slate-500">Day {{ row.challenge.day_number }} of 21 · {{ row.challenge.streak }} day streak</p>
+                                        <a href="{% url 'learning:challenge_home' course_slug=row.enrollment.course.slug %}" class="inline-block mt-3 text-xs font-black text-emerald-700">Continue challenge</a>
+                                    {% else %}
+                                        <a href="{% url 'catalog:course_detail' slug=row.enrollment.course.slug %}" class="inline-block mt-3 text-xs font-black text-emerald-700">Continue</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </article>

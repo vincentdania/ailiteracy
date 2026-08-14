@@ -1,0 +1,11 @@
+Hi {{ user.get_full_name|default:user.email }},
+
+Welcome to {{ course.title }}.
+
+Your first lesson is ready now. You will unlock one new lesson each day for 21 days. Each lesson contains a short reading and one practical task you can use at work.
+
+Start Day 1: {{ course_url }}
+
+You can return to your dashboard at any time to see your progress, current day, and streak.
+
+— AIliteracy.ng
