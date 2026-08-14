@@ -4,6 +4,7 @@ import tempfile
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase, override_settings
+from django.urls import reverse
 
 from apps.learning.models import Course, CourseAttempt
 
@@ -14,7 +15,6 @@ from .services import issue_certificate
 REPORTLAB_AVAILABLE = importlib.util.find_spec("reportlab") is not None
 
 
-@override_settings(DEFAULT_FILE_STORAGE="django.core.files.storage.FileSystemStorage")
 class CertificateGenerationTests(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -64,3 +64,11 @@ class CertificateGenerationTests(TestCase):
         self.assertTrue(Certificate.objects.filter(pk=certificate.pk).exists())
         self.assertTrue(bool(certificate.pdf_file))
         self.assertTrue(certificate.pdf_file.name.endswith(".pdf"))
+
+        response = self.client.get(
+            reverse("certificates:verify", kwargs={"certificate_id": certificate.certificate_id})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Learner Name")
+        self.assertContains(response, str(certificate.certificate_id))
+        self.assertContains(response, "Verified")

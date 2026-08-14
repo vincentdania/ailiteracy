@@ -10,8 +10,11 @@ CHALLENGE_SLUG = "21-day-ai-challenge"
 CHALLENGE_LENGTH = 21
 
 
-def ordered_course_lessons(course):
-    return Lesson.objects.filter(module__course=course).select_related("module").order_by(
+def ordered_course_lessons(course, include_bonus=False):
+    lessons = Lesson.objects.filter(module__course=course)
+    if not include_bonus:
+        lessons = lessons.filter(module__is_bonus=False)
+    return lessons.select_related("module").order_by(
         "module__order", "order", "id"
     )
 
@@ -81,19 +84,37 @@ def build_challenge_outline(course, enrollment=None, on_date=None):
 
     rows_by_module = []
     day_number = 0
+    include_bonus = False
+    if enrollment:
+        from apps.referrals.services import user_has_referral_reward
+
+        include_bonus = user_has_referral_reward(enrollment.user)
+
     for module in course.modules.all():
+        if module.is_bonus and not include_bonus:
+            continue
         lesson_rows = []
         for lesson in module.lessons.all():
-            day_number += 1
-            available = lesson_is_available(enrollment, lesson, day_number, on_date=on_date)
+            is_bonus = module.is_bonus
+            if not is_bonus:
+                day_number += 1
+            available = include_bonus if is_bonus else lesson_is_available(
+                enrollment,
+                lesson,
+                day_number,
+                on_date=on_date,
+            )
             lesson_rows.append(
                 {
                     "lesson": lesson,
-                    "day_number": day_number,
+                    "day_number": None if is_bonus else day_number,
+                    "is_bonus": is_bonus,
                     "available": available,
                     "completed": lesson.id in completed_ids,
-                    "days_until_unlock": days_until_lesson_unlock(
-                        enrollment, day_number, on_date=on_date
+                    "days_until_unlock": None if is_bonus else days_until_lesson_unlock(
+                        enrollment,
+                        day_number,
+                        on_date=on_date,
                     ),
                 }
             )
@@ -170,4 +191,12 @@ def sync_challenge_completion(enrollment):
         attempt.passed = True
         attempt.score = 100
         attempt.save(update_fields=["completed_at", "passed", "score"])
+    from apps.certificates.services import issue_certificate
+
+    issue_certificate(
+        course_attempt=attempt,
+        name=enrollment.user.get_full_name() or enrollment.user.email,
+        email=enrollment.user.email,
+        user=enrollment.user,
+    )
     return attempt

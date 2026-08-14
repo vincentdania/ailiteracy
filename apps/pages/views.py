@@ -8,6 +8,9 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
+from apps.learning.challenge_services import CHALLENGE_SLUG, build_challenge_outline, challenge_summary
+from apps.learning.models import Course, Enrollment
+
 from .forms import MasterclassRegistrationForm
 from .models import QuizSubmission
 
@@ -424,86 +427,32 @@ def share_score_image(request, share_id):
 
 
 def home(request):
-    quiz_result = request.session.get("quiz_result")
-    masterclass_success = request.session.pop("masterclass_success", None)
-    form = MasterclassRegistrationForm()
-    selected_answers = {}
-    selected_confidences = {}
-    quiz_notice = None
+    course = (
+        Course.objects.prefetch_related("modules__lessons")
+        .filter(slug=CHALLENGE_SLUG)
+        .first()
+    )
+    enrollment = None
+    outline = []
+    summary = None
+    product = None
+    first_lesson = None
 
-    if request.method == "POST":
-        action = request.POST.get("action")
-
-        if action == "quiz_submit":
-            selected_answers = _selected_answers_from_post(request)
-            selected_confidences = _selected_confidences_from_post(request)
-            invalid_question_ids = _validate_quiz_submission(selected_answers, selected_confidences)
-            if invalid_question_ids:
-                quiz_notice = "Please select the required answer(s) and a confidence level for every question before submitting your result."
-            else:
-                adjusted_points, final_score, metrics = _calculate_quiz_score(selected_answers, selected_confidences)
-                submission = QuizSubmission.objects.create(score=final_score)
-                request.session["quiz_result"] = {
-                    "score": float(final_score),
-                    "adjusted_points": float(adjusted_points),
-                    "total_points": QUIZ_TOTAL_POINTS,
-                    "penalty_points": float(metrics["penalty_points"]),
-                    "avg_confidence": float(metrics["avg_confidence"]),
-                    "share_id": str(submission.share_id),
-                    "level": _get_level(final_score),
-                    "message": _get_result_message(final_score),
-                    "insight": _get_confidence_insight(final_score, metrics),
-                }
-                return redirect(f"{reverse('pages:home')}#result")
-
-        if action == "masterclass_submit":
-            form = MasterclassRegistrationForm(request.POST)
-            if form.is_valid():
-                registration = form.save()
-                request.session["masterclass_success"] = {
-                    "name": registration.name,
-                    "whatsapp_url": (
-                        f"https://wa.me/{WHATSAPP_NUMBER}?text="
-                        f"{quote('I just registered for the AI masterclass')}"
-                    ),
-                }
-                return redirect(f"{reverse('pages:home')}#masterclass")
-
-    quiz_result = request.session.get("quiz_result")
-    if quiz_result:
-        quiz_result["score"] = float(_decimal_score(quiz_result["score"]))
-        quiz_result["message"] = quiz_result.get("message") or _get_result_message(quiz_result["score"])
-        quiz_result["insight"] = quiz_result.get("insight") or _get_confidence_insight(quiz_result["score"])
-        share_urls = _share_urls(request, quiz_result.get("share_id")) if quiz_result.get("share_id") else {
-            "share_url": request.build_absolute_uri(reverse("pages:home")),
-            "share_image_url": "",
-        }
-        quiz_result["share_url"] = share_urls["share_url"]
-        quiz_result["share_image_url"] = share_urls["share_image_url"]
-        quiz_result["share_links"] = _share_links(quiz_result["score"], quiz_result["share_url"])
+    if course:
+        if request.user.is_authenticated:
+            enrollment = Enrollment.objects.filter(user=request.user, course=course).first()
+        outline = build_challenge_outline(course, enrollment)
+        summary = challenge_summary(enrollment) if enrollment else None
+        product = getattr(course, "product", None)
+        if outline and outline[0]["lessons"]:
+            first_lesson = outline[0]["lessons"][0]["lesson"]
 
     context = {
-        "quiz_questions": _build_quiz_questions(
-            selected_answers=selected_answers,
-            selected_confidences=selected_confidences,
-        ),
-        "quiz_question_total": len(QUIZ_QUESTIONS),
-        "quiz_result": quiz_result,
-        "quiz_notice": quiz_notice,
-        "masterclass_form": form,
-        "masterclass_success": masterclass_success,
-        "hero_image_url": HERO_IMAGE_URL,
-        "contact": {
-            "phone_display": CONTACT_PHONE_DISPLAY,
-            "email": CONTACT_EMAIL,
-            "whatsapp_url": f"https://wa.me/{WHATSAPP_NUMBER}",
-            "sms_url": f"sms:{CONTACT_PHONE_DISPLAY}",
-            "email_url": f"mailto:{CONTACT_EMAIL}",
-        },
-        "workbook_links": {
-            "hardcopy": HYRAX_BOOKS_URL,
-            "ecopy": HYRAX_EBOOK_URL,
-            "shop_label": "Sold on velocity.ng",
-        },
+        "course": course,
+        "product": product,
+        "enrollment": enrollment,
+        "challenge_summary": summary,
+        "outline": outline,
+        "first_lesson": first_lesson,
     }
     return render(request, "pages/home.html", context)

@@ -85,7 +85,13 @@ PAYSTACK_WEBHOOK_SECRET=sk_live_xxx
 PAYSTACK_CALLBACK_URL=https://ailiteracy.ng/orders/paystack/callback/
 PAYSTACK_ALLOW_LOCAL_FALLBACK=False
 
-# Route all commerce to partner site
+# Stripe USD checkout
+STRIPE_SECRET_KEY=sk_live_xxx
+STRIPE_PUBLISHABLE_KEY=pk_live_xxx
+STRIPE_WEBHOOK_SECRET=whsec_xxx
+STRIPE_PRICE_ID=price_xxx
+
+# External book/shop links
 ECOMMERCE_PARTNER_URL=https://hyrax.ng/
 ECOMMERCE_PARTNER_NAME=Hyrax.ng
 
@@ -110,6 +116,7 @@ In Terminal (with virtualenv active):
 ```bash
 cd ~/ailiteracy
 python manage.py migrate
+python manage.py import_21day_challenge
 python manage.py collectstatic --noinput
 python manage.py createsuperuser
 ```
@@ -133,7 +140,7 @@ Then verify:
 2. `https://ailiteracy.ng/admin/` loads.
 3. Static CSS/JS files are not 404.
 
-## 10) Configure Paystack webhook
+## 10) Configure payment webhooks and daily email cron
 
 In Paystack dashboard, set webhook URL:
 
@@ -141,7 +148,13 @@ In Paystack dashboard, set webhook URL:
 
 Then test a payment on live mode.
 
-If you are running partner-commerce mode (all purchases redirected to Hyrax), you can skip local Paystack webhook usage on this app.
+In Stripe, register `https://ailiteracy.ng/orders/stripe/webhook/` for the `checkout.session.completed` event.
+
+In cPanel Cron Jobs, add the daily challenge reminder (adjust the account and virtualenv paths):
+
+```cron
+0 7 * * * cd /home/<cpanel_user>/ailiteracy && /home/<cpanel_user>/virtualenv/ailiteracy/3.12/bin/python manage.py send_daily_challenge_emails >> /home/<cpanel_user>/logs/challenge-email.log 2>&1
+```
 
 ## 11) Update deployment workflow (future changes)
 

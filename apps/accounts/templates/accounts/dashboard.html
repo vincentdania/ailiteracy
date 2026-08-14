@@ -1,157 +1,87 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard | AILiteracy.ng{% endblock title %}
+{% block title %}My Challenge | 21 Days of AI{% endblock title %}
 
 {% block content %}
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-            <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Welcome back, {{ request.user.first_name|default:request.user.email }} 👋</h1>
-            <p class="text-slate-500 mt-1">Track your progress, continue lessons, and access your purchases.</p>
-        </div>
-        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center gap-4 min-w-[280px]">
-            <div class="flex-1">
-                <div class="flex justify-between mb-1">
-                    <span class="text-xs font-black text-slate-500">OVERALL PROGRESS</span>
-                    <span class="text-xs font-black text-emerald-700">{{ overall_progress }}%</span>
-                </div>
-                <div class="w-full bg-slate-100 rounded-full h-2">
-                    <div class="bg-primary h-2 rounded-full" style="width: {{ overall_progress }}%"></div>
-                </div>
+<section class="bg-cream py-10 sm:py-14">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+                <p class="text-xs font-extrabold uppercase tracking-[0.22em] text-emerald-700">My challenge</p>
+                <h1 class="mt-3 font-editorial text-5xl font-semibold tracking-tight text-ink sm:text-6xl">Welcome back, {{ request.user.first_name|default:request.user.email }}.</h1>
+                <p class="mt-4 text-slate-500">One focused task today. One stronger AI habit tomorrow.</p>
             </div>
-            <div class="flex items-center justify-center size-10 rounded-lg bg-primary/10 text-emerald-700">
-                <span class="material-symbols-outlined">trending_up</span>
-            </div>
+            <a href="{% url 'learning:challenge_home' course_slug='21-day-ai-challenge' %}" class="inline-flex min-h-12 shrink-0 items-center gap-2 rounded-full bg-ink px-6 text-sm font-extrabold text-white">View all 21 days <span class="material-symbols-outlined text-base">arrow_forward</span></a>
         </div>
-    </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-2 flex flex-col gap-8">
-            <section>
-                <h2 class="text-xl font-black text-slate-900 mb-4 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-emerald-700">play_circle</span>
-                    Continue Learning
-                </h2>
-                {% if next_enrollment %}
-                    <div class="group relative overflow-hidden rounded-xl bg-background-dark p-1 shadow-lg">
-                        <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent pointer-events-none"></div>
-                        <div class="relative bg-background-dark rounded-lg p-6 flex flex-col md:flex-row gap-6 items-center">
-                            <div class="w-full md:w-48 h-32 rounded-lg bg-gradient-to-br from-deep-blue to-slate-800 shrink-0 shadow-inner overflow-hidden flex items-center justify-center text-primary">
-                                <span class="material-symbols-outlined text-5xl">psychology</span>
-                            </div>
-                            <div class="flex-1 space-y-3">
-                                <div>
-                                    <span class="text-[10px] font-black tracking-widest text-primary uppercase">Current Course</span>
-                                    <h3 class="text-white text-xl font-black">{{ next_enrollment.enrollment.course.title }}</h3>
-                                    <p class="text-slate-400 text-sm">{{ next_enrollment.completed_lessons }}/{{ next_enrollment.total_lessons }} lessons completed</p>
-                                    {% if next_enrollment.is_challenge %}
-                                        <p class="mt-2 text-sm font-bold text-primary">Day {{ next_enrollment.challenge.day_number }} of 21 · {{ next_enrollment.challenge.streak }} day streak</p>
-                                    {% endif %}
-                                </div>
-                                <div class="space-y-1">
-                                    <div class="flex justify-between text-xs text-slate-400">
-                                        <span>Progress</span>
-                                        <span>{{ next_enrollment.progress }}%</span>
-                                    </div>
-                                    <div class="w-full bg-slate-700 rounded-full h-1.5">
-                                        <div class="bg-primary h-1.5 rounded-full" style="width: {{ next_enrollment.progress }}%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% if next_enrollment.is_challenge %}
-                            <a href="{% url 'learning:challenge_home' course_slug=next_enrollment.enrollment.course.slug %}" class="w-full md:w-auto flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-accent-dark font-black px-8 py-3 rounded-lg transition-all shadow-[0_4px_14px_0_rgba(102,255,204,0.3)]">
+        {% if challenge_enrollment %}
+            <div class="mt-10 grid overflow-hidden rounded-[2rem] bg-ink text-white shadow-2xl lg:grid-cols-[1fr_22rem]">
+                <div class="relative overflow-hidden p-7 sm:p-10">
+                    <div class="soft-grid absolute inset-0"></div>
+                    <div class="relative">
+                        <p class="text-xs font-extrabold uppercase tracking-[0.2em] text-primary">Day {{ challenge_enrollment.challenge.day_number }} of 21</p>
+                        {% if challenge_enrollment.challenge.next_action %}
+                            <h2 class="mt-4 max-w-2xl font-editorial text-4xl font-semibold leading-none sm:text-6xl">{{ challenge_enrollment.challenge.next_action.lesson.title }}</h2>
+                            {% if challenge_enrollment.challenge.next_action.available %}
+                                <a href="{% url 'learning:challenge_lesson' course_slug=challenge_enrollment.enrollment.course.slug lesson_slug=challenge_enrollment.challenge.next_action.lesson.slug %}" class="mt-8 inline-flex min-h-14 items-center gap-2 rounded-full bg-primary px-7 font-extrabold text-ink transition hover:bg-white">Start today's lesson <span class="material-symbols-outlined">arrow_forward</span></a>
                             {% else %}
-                            <a href="{% url 'catalog:course_detail' slug=next_enrollment.enrollment.course.slug %}" class="w-full md:w-auto flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-accent-dark font-black px-8 py-3 rounded-lg transition-all shadow-[0_4px_14px_0_rgba(102,255,204,0.3)]">
+                                <p class="mt-7 inline-flex rounded-full border border-white/15 px-5 py-3 text-sm font-bold text-white/60">Next lesson unlocks in {{ challenge_enrollment.challenge.next_action.days_until_unlock }} day{{ challenge_enrollment.challenge.next_action.days_until_unlock|pluralize }}</p>
                             {% endif %}
-                                <span class="material-symbols-outlined">play_arrow</span>
-                                Resume
-                            </a>
-                        </div>
+                        {% else %}
+                            <h2 class="mt-4 font-editorial text-5xl font-semibold">All 21 days complete.</h2>
+                            <p class="mt-5 text-white/60">You built the habit. Now keep using it.</p>
+                        {% endif %}
                     </div>
-                {% else %}
-                    <div class="bg-white border border-slate-100 rounded-xl p-6">
-                        <p class="text-slate-600">No active enrollment yet. Start a course to begin tracking progress.</p>
-                        <a href="{% url 'catalog:course_list' %}" class="inline-flex mt-4 rounded-lg bg-primary px-4 py-2 font-black text-accent-dark">Browse Courses</a>
-                    </div>
-                {% endif %}
-            </section>
+                </div>
+                <div class="grid grid-cols-2 gap-px bg-white/10 lg:grid-cols-1">
+                    <div class="bg-white/5 p-6"><span class="block text-4xl font-extrabold text-primary">{{ challenge_enrollment.challenge.progress }}%</span><span class="mt-2 block text-sm text-white/50">Challenge complete</span></div>
+                    <div class="bg-white/5 p-6"><span class="block text-4xl font-extrabold text-primary">{{ challenge_enrollment.challenge.streak }}</span><span class="mt-2 block text-sm text-white/50">Current streak</span></div>
+                </div>
+            </div>
 
+            <div class="mt-6 rounded-[1.5rem] border border-black/10 bg-white p-6">
+                <div class="flex items-center justify-between text-xs font-extrabold uppercase tracking-[0.16em] text-slate-500"><span>Challenge progress</span><span>{{ challenge_enrollment.challenge.completed_lessons }} of 21 complete</span></div>
+                <div class="mt-4 h-3 overflow-hidden rounded-full bg-slate-100"><div class="h-full rounded-full bg-emerald-500" style="width: {{ challenge_enrollment.challenge.progress }}%"></div></div>
+            </div>
+        {% else %}
+            <div class="relative mt-10 overflow-hidden rounded-[2rem] bg-coral p-8 sm:p-12">
+                <div class="max-w-2xl">
+                    <p class="text-xs font-extrabold uppercase tracking-[0.22em] text-ink/55">Your next 21 days</p>
+                    <h2 class="mt-4 font-editorial text-5xl font-semibold leading-[.95] text-ink">Turn AI curiosity into a daily advantage.</h2>
+                    <p class="mt-5 text-lg leading-8 text-ink/65">Start with the free first lesson, then join when you are ready to build the full habit.</p>
+                    <a href="{% url 'learning:challenge_home' course_slug='21-day-ai-challenge' %}" class="mt-7 inline-flex min-h-13 items-center gap-2 rounded-full bg-ink px-7 font-extrabold text-white">Explore the challenge <span class="material-symbols-outlined">arrow_forward</span></a>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="mt-10 grid gap-8 lg:grid-cols-[1fr_22rem]">
             <section>
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-xl font-black text-slate-900">Enrolled Courses</h2>
-                    <a href="{% url 'catalog:course_list' %}" class="text-sm font-black text-emerald-700 hover:underline">Explore more</a>
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-extrabold tracking-tight">Your learning</h2>
+                    <a href="{% url 'library' %}" class="text-sm font-extrabold text-emerald-700">Open library</a>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="mt-4 grid gap-4 sm:grid-cols-2">
                     {% for row in enrollment_rows %}
-                        <article class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                            <div class="flex gap-4">
-                                <div class="size-16 rounded-lg bg-slate-100 flex items-center justify-center shrink-0 text-slate-500">
-                                    <span class="material-symbols-outlined text-3xl">terminal</span>
-                                </div>
-                                <div class="flex-1">
-                                    <h3 class="font-black text-slate-900 leading-tight">{{ row.enrollment.course.title }}</h3>
-                                    <p class="text-xs text-slate-500 mt-1">{{ row.completed_lessons }}/{{ row.total_lessons }} lessons</p>
-                                    <div class="mt-3 flex items-center gap-2">
-                                        <div class="flex-1 bg-slate-100 h-1.5 rounded-full">
-                                            <div class="bg-primary h-1.5 rounded-full" style="width: {{ row.progress }}%"></div>
-                                        </div>
-                                        <span class="text-[10px] font-black text-slate-500 uppercase">{{ row.progress }}%</span>
-                                    </div>
-                                    {% if row.is_challenge %}
-                                        <p class="mt-2 text-xs font-bold text-slate-500">Day {{ row.challenge.day_number }} of 21 · {{ row.challenge.streak }} day streak</p>
-                                        <a href="{% url 'learning:challenge_home' course_slug=row.enrollment.course.slug %}" class="inline-block mt-3 text-xs font-black text-emerald-700">Continue challenge</a>
-                                    {% else %}
-                                        <a href="{% url 'catalog:course_detail' slug=row.enrollment.course.slug %}" class="inline-block mt-3 text-xs font-black text-emerald-700">Continue</a>
-                                    {% endif %}
-                                </div>
-                            </div>
+                        <article class="rounded-[1.5rem] border border-black/10 bg-white p-5">
+                            <div class="flex items-start justify-between gap-4"><span class="flex size-11 items-center justify-center rounded-full {% if row.is_challenge %}bg-primary{% else %}bg-slate-100{% endif %}"><span class="material-symbols-outlined">{% if row.is_challenge %}calendar_month{% else %}school{% endif %}</span></span><span class="text-xs font-extrabold text-slate-400">{{ row.progress }}%</span></div>
+                            <h3 class="mt-6 text-lg font-extrabold tracking-tight">{{ row.enrollment.course.title }}</h3>
+                            <p class="mt-2 text-sm text-slate-500">{{ row.completed_lessons }} of {{ row.total_lessons }} lessons complete</p>
+                            <div class="mt-5 h-1.5 overflow-hidden rounded-full bg-slate-100"><div class="h-full rounded-full bg-emerald-500" style="width: {{ row.progress }}%"></div></div>
                         </article>
                     {% empty %}
-                        <p class="text-sm text-slate-500">No enrollments yet.</p>
+                        <div class="col-span-full rounded-[1.5rem] border border-dashed border-black/15 p-7 text-sm text-slate-500">Your enrolled learning will appear here.</div>
                     {% endfor %}
                 </div>
             </section>
-        </div>
 
-        <div class="flex flex-col gap-6">
-            <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
-                <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-slate-500">library_books</span>
-                    Quick Access
-                </h3>
-                <div class="space-y-3">
-                    <a href="{% url 'library' %}" class="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-3 text-sm font-semibold hover:bg-primary/20 transition-colors">
-                        <span>My Library</span>
-                        <span class="material-symbols-outlined text-base">arrow_forward</span>
-                    </a>
-                    <a href="{{ ecommerce_partner_url }}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-3 text-sm font-semibold hover:bg-primary/20 transition-colors">
-                        <span>Shop on {{ ecommerce_partner_name }}</span>
-                        <span class="material-symbols-outlined text-base">arrow_forward</span>
-                    </a>
-                    <a href="{% url 'certificates:my' %}" class="flex items-center justify-between rounded-lg bg-slate-50 px-4 py-3 text-sm font-semibold hover:bg-primary/20 transition-colors">
-                        <span>My Certificates</span>
-                        <span class="material-symbols-outlined text-base">arrow_forward</span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="bg-background-dark rounded-xl p-6 text-white">
-                <h3 class="font-black mb-4 text-primary">Recent Purchases</h3>
-                <div class="space-y-3 text-sm">
-                    {% for order in orders|slice:":5" %}
-                        <article class="rounded-lg bg-white/10 border border-white/10 px-4 py-3">
-                            <p class="text-xs text-slate-300">Order #{{ order.id }} · {{ order.created_at|date:"M d, Y" }}</p>
-                            <ul class="mt-2 space-y-1 text-slate-100">
-                                {% for item in order.items.all|slice:":2" %}
-                                    <li>{{ item.title }} × {{ item.quantity }}</li>
-                                {% endfor %}
-                            </ul>
-                        </article>
-                    {% empty %}
-                        <p class="text-slate-300">No paid orders yet.</p>
-                    {% endfor %}
-                </div>
-            </div>
+            <aside class="rounded-[1.5rem] border border-black/10 bg-white p-6 lg:self-start">
+                <h2 class="text-sm font-extrabold uppercase tracking-[0.16em] text-slate-500">Quick links</h2>
+                <nav class="mt-5 space-y-2">
+                    <a href="{% url 'library' %}" class="flex items-center justify-between rounded-xl bg-cream px-4 py-3 text-sm font-bold">My library <span class="material-symbols-outlined text-base">arrow_forward</span></a>
+                    <a href="{% url 'certificates:my' %}" class="flex items-center justify-between rounded-xl bg-cream px-4 py-3 text-sm font-bold">Certificates <span class="material-symbols-outlined text-base">arrow_forward</span></a>
+                    <a href="mailto:learn@ailiteracy.ng" class="flex items-center justify-between rounded-xl bg-cream px-4 py-3 text-sm font-bold">Get help <span class="material-symbols-outlined text-base">arrow_forward</span></a>
+                </nav>
+            </aside>
         </div>
     </div>
 </section>

@@ -1,6 +1,8 @@
 from io import BytesIO
 
 from django.core.files.base import ContentFile
+from django.conf import settings
+from django.urls import reverse
 from django.utils import timezone
 
 from .models import Certificate
@@ -28,12 +30,12 @@ def _render_certificate_pdf(certificate):
     width, height = landscape(A4)
 
     # Background and frame
-    pdf.setFillColor(colors.HexColor("#f8f6ef"))
+    pdf.setFillColor(colors.HexColor("#f6f3ea"))
     pdf.rect(0, 0, width, height, fill=1, stroke=0)
 
     outer_margin = 16 * mm
     inner_margin = 22 * mm
-    pdf.setStrokeColor(colors.HexColor("#0a2540"))
+    pdf.setStrokeColor(colors.HexColor("#14201d"))
     pdf.setLineWidth(2.2)
     pdf.roundRect(
         outer_margin,
@@ -45,7 +47,7 @@ def _render_certificate_pdf(certificate):
         fill=0,
     )
 
-    pdf.setStrokeColor(colors.HexColor("#b9933f"))
+    pdf.setStrokeColor(colors.HexColor("#7a9f31"))
     pdf.setLineWidth(1.1)
     pdf.roundRect(
         inner_margin,
@@ -60,10 +62,10 @@ def _render_certificate_pdf(certificate):
     # Header ribbon
     ribbon_h = 22 * mm
     ribbon_y = height - inner_margin - ribbon_h
-    pdf.setFillColor(colors.HexColor("#0a2540"))
+    pdf.setFillColor(colors.HexColor("#14201d"))
     pdf.roundRect(inner_margin, ribbon_y, width - (inner_margin * 2), ribbon_h, 6, fill=1, stroke=0)
 
-    pdf.setFillColor(colors.HexColor("#66ffcc"))
+    pdf.setFillColor(colors.HexColor("#b7f34a"))
     pdf.setFont("Helvetica-Bold", 14)
     pdf.drawString(inner_margin + (9 * mm), ribbon_y + (8.2 * mm), "AILiteracy.ng")
     pdf.setFont("Helvetica-Bold", 11)
@@ -93,12 +95,12 @@ def _render_certificate_pdf(certificate):
         start_size=40,
         min_size=24,
     )
-    pdf.setFillColor(colors.HexColor("#0a2540"))
+    pdf.setFillColor(colors.HexColor("#14201d"))
     pdf.setFont("Helvetica-Bold", name_font_size)
     name_y = top_y - (18 * mm)
     pdf.drawCentredString(width / 2, name_y, certificate.name)
 
-    pdf.setStrokeColor(colors.HexColor("#b9933f"))
+    pdf.setStrokeColor(colors.HexColor("#7a9f31"))
     pdf.setLineWidth(1)
     pdf.line(inner_margin + (42 * mm), name_y - (4 * mm), width - inner_margin - (42 * mm), name_y - (4 * mm))
 
@@ -115,7 +117,7 @@ def _render_certificate_pdf(certificate):
         course_lines = simpleSplit(certificate.course.title, course_font, course_font_size, course_max_width)
 
     course_y = name_y - (24 * mm)
-    pdf.setFillColor(colors.HexColor("#0a2540"))
+    pdf.setFillColor(colors.HexColor("#14201d"))
     pdf.setFont(course_font, course_font_size)
     for index, line in enumerate(course_lines[:2]):
         pdf.drawCentredString(width / 2, course_y - (index * (course_font_size + 4)), line)
@@ -132,12 +134,13 @@ def _render_certificate_pdf(certificate):
 
     pdf.setFillColor(colors.HexColor("#64748b"))
     pdf.setFont("Helvetica-Bold", 8)
-    pdf.drawString(inner_margin + (10 * mm), info_top + (10 * mm), "DATE ISSUED")
+    pdf.drawString(inner_margin + (10 * mm), info_top + (10 * mm), "DATE COMPLETED")
     pdf.drawString(inner_margin + (20 * mm) + box_w, info_top + (10 * mm), "CERTIFICATE ID")
 
     pdf.setFillColor(colors.HexColor("#0f172a"))
     pdf.setFont("Helvetica", 10)
-    completion_date = timezone.localtime(certificate.issued_at).strftime("%B %d, %Y")
+    completion_timestamp = certificate.course_attempt.completed_at or certificate.issued_at
+    completion_date = timezone.localtime(completion_timestamp).strftime("%B %d, %Y")
     pdf.drawString(inner_margin + (10 * mm), info_top + (5.2 * mm), completion_date)
     pdf.drawString(inner_margin + (20 * mm) + box_w, info_top + (5.2 * mm), str(certificate.certificate_id))
 
@@ -159,13 +162,13 @@ def _render_certificate_pdf(certificate):
     pdf.drawString(right_sig_x1, sig_y - (4.5 * mm), "Certification Office")
 
     # Verification seal
-    seal_x = width - inner_margin - (34 * mm)
-    seal_y = inner_margin + (45 * mm)
-    pdf.setStrokeColor(colors.HexColor("#b9933f"))
+    seal_x = width - inner_margin - (25 * mm)
+    seal_y = ribbon_y - (22 * mm)
+    pdf.setStrokeColor(colors.HexColor("#7a9f31"))
     pdf.setLineWidth(1.6)
-    pdf.circle(seal_x, seal_y, 16 * mm, stroke=1, fill=0)
-    pdf.circle(seal_x, seal_y, 13 * mm, stroke=1, fill=0)
-    pdf.setFillColor(colors.HexColor("#0a2540"))
+    pdf.circle(seal_x, seal_y, 12 * mm, stroke=1, fill=0)
+    pdf.circle(seal_x, seal_y, 10 * mm, stroke=1, fill=0)
+    pdf.setFillColor(colors.HexColor("#14201d"))
     pdf.setFont("Helvetica-Bold", 8)
     pdf.drawCentredString(seal_x, seal_y + (2 * mm), "VERIFIED")
     pdf.setFont("Helvetica", 7)
@@ -173,7 +176,9 @@ def _render_certificate_pdf(certificate):
 
     pdf.setFillColor(colors.HexColor("#64748b"))
     pdf.setFont("Helvetica-Oblique", 9)
-    pdf.drawCentredString(width / 2, inner_margin + (7 * mm), "Verify this certificate at ailiteracy.ng")
+    verify_path = reverse("certificates:verify", kwargs={"certificate_id": certificate.certificate_id})
+    verify_url = f"{settings.SITE_URL.rstrip('/')}{verify_path}"
+    pdf.drawCentredString(width / 2, inner_margin + (7 * mm), f"Verify at {verify_url}")
 
     pdf.showPage()
     pdf.save()

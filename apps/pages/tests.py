@@ -1,83 +1,59 @@
 from decimal import Decimal
+from io import StringIO
 
 from django.contrib.auth import get_user_model
+from django.core.management import call_command
 from django.test import TestCase
 from django.urls import reverse
 
 from .models import MasterclassRegistration, QuizSubmission
-from .views import QUIZ_QUESTIONS
 
 
-class PagesViewTests(TestCase):
-    def _full_quiz_payload(self, confidence="medium"):
-        payload = {"action": "quiz_submit"}
-        for question in QUIZ_QUESTIONS:
-            answer = question["correct"]
-            payload[f"question_{question['id']}_answer"] = answer if len(answer) > 1 else answer[0]
-            payload[f"question_{question['id']}_confidence"] = confidence
-        return payload
-
-    def test_home_page_renders(self):
+class ChallengeFirstHomepageTests(TestCase):
+    def test_home_page_is_the_21_day_challenge(self):
         response = self.client.get(reverse("pages:home"))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "AI Fluency Quiz")
-        self.assertContains(response, "learn@ailiteracy.ng")
-        self.assertContains(response, "velocity.ng")
-
-    def test_quiz_submission_with_medium_confidence_preserves_base_score(self):
-        response = self.client.post(reverse("pages:home"), self._full_quiz_payload(), follow=True)
-        submission = QuizSubmission.objects.get()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(QuizSubmission.objects.count(), 1)
-        self.assertEqual(submission.score, Decimal("10.0"))
-        self.assertIsNotNone(submission.share_id)
-        self.assertContains(response, "Your Score: 10.0 / 10")
-        self.assertContains(response, f"/share/{submission.share_id}/")
+        self.assertContains(response, "From zero to")
+        self.assertContains(response, "focused days")
+        self.assertContains(response, "Do I need a paid AI subscription?")
+        self.assertNotContains(response, "Join the AI Masterclass")
 
-    def test_high_confidence_correct_answers_gain_bonus_and_insight(self):
-        response = self.client.post(reverse("pages:home"), self._full_quiz_payload(confidence="high"), follow=True)
+    def test_imported_challenge_populates_homepage_curriculum_and_preview(self):
+        call_command("import_21day_challenge", stdout=StringIO())
 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(QuizSubmission.objects.count(), 1)
-        self.assertEqual(QuizSubmission.objects.get().score, Decimal("10.0"))
-        self.assertContains(response, "Your Score: 10.0 / 10")
-        self.assertContains(response, "You show strong and confident AI fluency.")
-
-    def test_wrong_high_confidence_answer_applies_penalty_and_insight(self):
-        payload = self._full_quiz_payload()
-        payload["question_9_answer"] = ["B", "D"]
-        payload["question_9_confidence"] = "high"
-
-        response = self.client.post(reverse("pages:home"), payload, follow=True)
+        response = self.client.get(reverse("pages:home"))
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(QuizSubmission.objects.count(), 1)
-        self.assertEqual(QuizSubmission.objects.get().score, Decimal("8.0"))
-        self.assertContains(response, "Your Score: 8.0 / 10")
-        self.assertContains(response, "Your confidence exceeded your accuracy. Improve verification.")
+        self.assertContains(response, "Foundations")
+        self.assertContains(response, "Agentic AI")
+        self.assertContains(response, "Take the free AI self-check")
+        self.assertContains(response, "/challenge/21-day-ai-challenge/lessons/day-01-")
 
-    def test_low_confidence_correct_answers_show_underconfidence_insight(self):
-        response = self.client.post(reverse("pages:home"), self._full_quiz_payload(confidence="low"), follow=True)
+    def test_public_site_routes_still_resolve(self):
+        routes = [
+            ("account_login", {}, 200),
+            ("dashboard", {}, 302),
+            ("library", {}, 302),
+            ("catalog:course_list", {}, 200),
+            ("catalog:book_landing", {"slug": "ai-confidence-in-21-days"}, 200),
+            ("content:resource_list", {}, 200),
+            ("core:community_forum", {}, 200),
+            ("core:about", {}, 200),
+            ("quiz:home", {}, 200),
+            ("bootcamp:interest", {}, 200),
+            ("ai_index:insights", {}, 200),
+            ("orders:cart", {}, 302),
+            ("certificates:my", {}, 302),
+        ]
 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(QuizSubmission.objects.count(), 1)
-        self.assertEqual(QuizSubmission.objects.get().score, Decimal("10.0"))
-        self.assertContains(response, "You performed well but underestimated your knowledge.")
+        for route_name, kwargs, expected_status in routes:
+            with self.subTest(route=route_name):
+                response = self.client.get(reverse(route_name, kwargs=kwargs or None))
+                self.assertEqual(response.status_code, expected_status)
 
-    def test_quiz_submission_requires_answer_and_confidence_for_every_question(self):
-        payload = self._full_quiz_payload()
-        del payload["question_10_confidence"]
 
-        response = self.client.post(reverse("pages:home"), payload)
-
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(QuizSubmission.objects.count(), 0)
-        self.assertContains(
-            response,
-            "Please select the required answer(s) and a confidence level for every question before submitting your result.",
-        )
-
+class SharedScorePageTests(TestCase):
     def test_share_page_renders_og_tags_and_cta(self):
         submission = QuizSubmission.objects.create(score=Decimal("7.4"))
 
@@ -106,46 +82,6 @@ class PagesViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "My AI Literacy Score is 10.0/10")
         self.assertNotContains(response, "12.0/10")
-
-    def test_masterclass_submission_saves_registration(self):
-        response = self.client.post(
-            reverse("pages:home"),
-            {
-                "action": "masterclass_submit",
-                "name": "Vincent Dania",
-                "email": "vincent@example.com",
-                "phone": "+2348029115964",
-                "location": "ABUJA",
-                "mode": "IN_PERSON",
-            },
-            follow=True,
-        )
-
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(MasterclassRegistration.objects.count(), 1)
-        self.assertContains(response, "Registration received")
-
-    def test_public_site_routes_resolve_after_root_url_wiring(self):
-        routes = [
-            ("account_login", {}, 200),
-            ("dashboard", {}, 302),
-            ("library", {}, 302),
-            ("catalog:course_list", {}, 200),
-            ("catalog:book_landing", {"slug": "ai-confidence-in-21-days"}, 200),
-            ("content:resource_list", {}, 200),
-            ("core:community_forum", {}, 200),
-            ("core:about", {}, 200),
-            ("quiz:home", {}, 200),
-            ("bootcamp:interest", {}, 200),
-            ("ai_index:insights", {}, 200),
-            ("orders:cart", {}, 302),
-            ("certificates:my", {}, 302),
-        ]
-
-        for route_name, kwargs, expected_status in routes:
-            with self.subTest(route=route_name):
-                response = self.client.get(reverse(route_name, kwargs=kwargs or None))
-                self.assertEqual(response.status_code, expected_status)
 
 
 class AdminDashboardTests(TestCase):

@@ -20,6 +20,29 @@ MODULES = (
     ("Your System", 20, 21),
 )
 
+BONUS_PROMPTS = (
+    "Turn these rough notes into a one-page brief with decisions, owners, and deadlines.",
+    "Draft three versions of this email: concise, warm, and executive. Keep the facts unchanged.",
+    "Review this document like a skeptical client. List unclear claims and the questions they would ask.",
+    "Convert this goal into a weekly plan with milestones, risks, and the first three actions.",
+    "Summarise this meeting into decisions, open questions, and follow-ups by person.",
+    "Build a reusable checklist for this process. Flag steps that need human approval.",
+    "Compare these options using cost, speed, risk, and long-term value. State your assumptions.",
+    "Rewrite this explanation for a smart beginner without removing important nuance.",
+    "Create a first draft from these facts. Mark every place where more evidence is needed.",
+    "Act as my quality reviewer. Find contradictions, missing context, and unsupported numbers.",
+    "Turn this customer feedback into themes, representative examples, and practical next steps.",
+    "Create five interview questions that test for real experience rather than rehearsed answers.",
+    "Help me prepare for this conversation: likely concerns, useful questions, and a clear outcome.",
+    "Transform this repeated task into a standard operating procedure a colleague can follow.",
+    "Generate ten ideas under these constraints, then rank the strongest three and explain why.",
+    "Make this proposal more persuasive by clarifying the problem, value, proof, and next step.",
+    "Identify what should not be automated in this workflow and explain the human judgment required.",
+    "Create a verification plan for this AI-generated answer using independent, authoritative sources.",
+    "Turn this project into a status update: progress, blockers, decisions needed, and next milestone.",
+    "Help me design a personal AI workflow for this role using triggers, inputs, steps, and review points.",
+)
+
 
 def parse_lesson_source(source):
     metadata = {}
@@ -104,7 +127,7 @@ class Command(BaseCommand):
             module, _ = Module.objects.update_or_create(
                 course=course,
                 order=module_order,
-                defaults={"title": title},
+                defaults={"title": title, "is_bonus": False},
             )
             modules[module_order] = (module, first_day, last_day)
 
@@ -134,8 +157,35 @@ class Command(BaseCommand):
                 },
             )
 
+        bonus_module, _ = Module.objects.update_or_create(
+            course=course,
+            order=6,
+            defaults={
+                "title": "Advanced Prompting: 20 More Work-Saving Prompts",
+                "is_bonus": True,
+            },
+        )
+        prompt_items = "".join(f"<li><strong>Prompt {index}:</strong> {escape(prompt)}</li>" for index, prompt in enumerate(BONUS_PROMPTS, start=1))
+        Lesson.objects.update_or_create(
+            module=bonus_module,
+            order=1,
+            defaults={
+                "title": "20 More Work-Saving Prompts",
+                "slug": "bonus-20-work-saving-prompts",
+                "content": (
+                    "<h1>20 More Work-Saving Prompts</h1>"
+                    "<p>Use these as starting points. Replace vague placeholders with your real context, constraints, audience, and desired output.</p>"
+                    f"<ol>{prompt_items}</ol>"
+                    "<aside class=\"challenge-recap\"><h2>Use them responsibly</h2><p><strong>Remember:</strong> Review sensitive inputs · Verify important claims · Keep human judgment in the loop</p></aside>"
+                ),
+                "video_url": "",
+                "hero_image": "/static/lesson_heroes/day21_hero.png",
+                "is_preview": False,
+            },
+        )
+
         # Remove stale rows if the command previously imported a different structure.
-        Module.objects.filter(course=course).exclude(order__in=range(1, 6)).delete()
+        Module.objects.filter(course=course).exclude(order__in=range(1, 7)).delete()
         for module, first_day, last_day in modules.values():
             module.lessons.exclude(order__in=range(1, last_day - first_day + 2)).delete()
 
@@ -147,6 +197,7 @@ class Command(BaseCommand):
                 "short_description": "From zero to up-and-running with AI in 21 days.",
                 "description": course.description,
                 "price": options["price"],
+                "price_usd": "39.00",
                 "is_active": True,
                 "is_featured": True,
                 "cover_image": "/static/lesson_heroes/day01_hero.png",
@@ -156,7 +207,6 @@ class Command(BaseCommand):
 
         self.stdout.write(
             self.style.SUCCESS(
-                "Imported 1 course, %s modules, %s lessons, and 1 product."
-                % (course.modules.count(), Lesson.objects.filter(module__course=course).count())
+                "Imported 1 course, 5 core modules, 21 core lessons, 1 gated bonus module, and 1 product."
             )
         )

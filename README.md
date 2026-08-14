@@ -24,6 +24,7 @@ Django project for [ailiteracy.ng](https://ailiteracy.ng) using Django Templates
 - `apps.bootcamp`
 - `apps.certificates`
 - `apps.ai_index`
+- `apps.referrals`
 
 ## Local setup
 1. Create and activate a virtual env.
@@ -76,6 +77,8 @@ python manage.py migrate
 python manage.py import_21day_challenge
 ```
 
+The import creates 1 challenge course, 5 core modules, 21 daily lessons, 1 gated referral-bonus module, and 1 linked catalog product. The core progress calculation remains 21 days; the bonus lesson never changes the completion percentage.
+
 The importer is idempotent. Use a custom price or fully replace the existing imported challenge with:
 
 ```bash
@@ -94,6 +97,60 @@ Run the idempotent reminder command every morning from shared-hosting cron (adju
 ```
 
 Welcome mail is sent when a challenge enrollment is created. The daily command sends only the currently unlocked day's reminder and skips learners who already completed that lesson or were already sent its reminder.
+
+### Payments: Paystack and Stripe
+
+The native checkout supports both currencies without changing the existing Paystack verification and fulfilment service:
+
+- NGN uses Paystack.
+- USD uses Stripe Checkout.
+- The challenge defaults to `₦20,000` and `$39` when imported.
+- Access is granted only after a verified callback or signed webhook marks the order paid.
+
+Configure these production environment variables:
+
+```env
+PAYSTACK_PUBLIC_KEY=pk_live_...
+PAYSTACK_SECRET_KEY=sk_live_...
+PAYSTACK_WEBHOOK_SECRET=sk_live_...
+PAYSTACK_CALLBACK_URL=https://ailiteracy.ng/orders/paystack/callback/
+PAYSTACK_ALLOW_LOCAL_FALLBACK=False
+
+STRIPE_SECRET_KEY=sk_live_...
+STRIPE_PUBLISHABLE_KEY=pk_live_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+STRIPE_PRICE_ID=price_...
+```
+
+Register these provider endpoints:
+
+- Paystack callback: `https://ailiteracy.ng/orders/paystack/callback/`
+- Paystack webhook: `https://ailiteracy.ng/orders/paystack/webhook/`
+- Stripe webhook: `https://ailiteracy.ng/orders/stripe/webhook/`
+- Stripe event: `checkout.session.completed`
+
+`STRIPE_PRICE_ID` is optional. When it is blank, checkout uses the product's `price_usd` value. Never enable `PAYSTACK_ALLOW_LOCAL_FALLBACK` in production.
+
+### Certificates and referrals
+
+Completing all 21 core lessons marks the course attempt complete and issues a PDF certificate. Certificates have a public verification page at `/certificates/<uuid>/`; the PDF download remains available to its owner.
+
+Graduates receive a single-use referral link under `/refer/<code>/`. When a new learner follows that link and then enrols in the challenge, the referral is rewarded and the gated bonus module unlocks for both accounts. Referral records and reward status are available in Django admin.
+
+### Shared-hosting production sequence
+
+Passenger hosts the WSGI application, so no long-running scheduler is required for the challenge. Deploy with:
+
+```bash
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py import_21day_challenge
+python manage.py collectstatic --noinput
+python manage.py check --deploy
+pytest
+```
+
+Then configure the daily email cron shown above. Celery remains optional for asynchronous receipts; order fulfilment falls back to direct email calls when a worker is unavailable.
 
 ## New Feature Modules (Quiz + Bootcamp + Micro-course)
 

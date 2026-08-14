@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "apps.bootcamp",
     "apps.certificates",
     "apps.ai_index",
+    "apps.referrals",
 ]
 
 MIDDLEWARE = [
@@ -175,6 +176,11 @@ PAYSTACK_SECRET_KEY = env("PAYSTACK_SECRET_KEY", default="")
 PAYSTACK_WEBHOOK_SECRET = env("PAYSTACK_WEBHOOK_SECRET", default=PAYSTACK_SECRET_KEY)
 PAYSTACK_CALLBACK_URL = env("PAYSTACK_CALLBACK_URL", default="http://localhost:8000/orders/paystack/callback/")
 PAYSTACK_ALLOW_LOCAL_FALLBACK = env.bool("PAYSTACK_ALLOW_LOCAL_FALLBACK", default=DEBUG)
+
+STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY", default="")
+STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISHABLE_KEY", default="")
+STRIPE_WEBHOOK_SECRET = env("STRIPE_WEBHOOK_SECRET", default="")
+STRIPE_PRICE_ID = env("STRIPE_PRICE_ID", default="")
 
 ECOMMERCE_PARTNER_URL = env("ECOMMERCE_PARTNER_URL", default="https://hyrax.ng/")
 ECOMMERCE_PARTNER_NAME = env("ECOMMERCE_PARTNER_NAME", default="Hyrax.ng")

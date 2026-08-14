@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}AIliteracy{% endblock title %}</title>
+    <title>{% block title %}21 Days of AI | AILiteracy.ng{% endblock title %}</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
     <script>
         tailwind.config = {
@@ -11,14 +11,18 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: "#66ffcc",
-                        "background-light": "#f5f8f7",
-                        "background-dark": "#0f231c",
-                        "deep-blue": "#0a2540",
-                        "accent-dark": "#101816"
+                        primary: "#b7f34a",
+                        "background-light": "#f6f3ea",
+                        "background-dark": "#101b18",
+                        "deep-blue": "#122a25",
+                        "accent-dark": "#101816",
+                        ink: "#14201d",
+                        cream: "#f6f3ea",
+                        coral: "#ff7a59"
                     },
                     fontFamily: {
-                        display: ["Inter", "sans-serif"]
+                        display: ["Manrope", "sans-serif"],
+                        editorial: ["Newsreader", "serif"]
                     },
                     borderRadius: {
                         DEFAULT: "0.25rem",
@@ -30,7 +34,7 @@
             }
         };
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
@@ -42,6 +46,35 @@
         [x-cloak] {
             display: none !important;
         }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: radial-gradient(circle at 12% 8%, rgba(183, 243, 74, 0.11), transparent 27rem), #f6f3ea;
+        }
+
+        .soft-grid {
+            background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+            background-size: 36px 36px;
+        }
+
+        .challenge-copy > :first-child { margin-top: 0; }
+        .challenge-copy h1,
+        .challenge-copy h2,
+        .challenge-copy h3 { color: #14201d; letter-spacing: -0.025em; }
+        .challenge-copy h1 { font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.05; }
+        .challenge-copy h2 { margin-top: 2.75rem; font-size: 1.65rem; }
+        .challenge-copy h3 { margin-top: 2rem; font-size: 1.25rem; }
+        .challenge-copy p,
+        .challenge-copy li { color: #42504c; line-height: 1.85; }
+        .challenge-copy blockquote {
+            border-left: 4px solid #b7f34a;
+            background: #eef7d9;
+            border-radius: 0 1rem 1rem 0;
+            padding: 1rem 1.25rem;
+            color: #20342e;
+        }
+        .challenge-copy code { border-radius: .4rem; background: #e9ece4; padding: .12rem .35rem; color: #193f35; }
 
         .nigerian-pattern {
             background-color: transparent;
@@ -80,7 +113,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col bg-background-light text-slate-900 font-display">
+<body class="min-h-screen flex flex-col bg-background-light text-ink font-display antialiased">
     {% include "includes/nav.html" %}
 
     <main class="flex-1">

@@ -9,8 +9,10 @@ urlpatterns = [
     path("cart/add/<int:product_id>/", views.add_to_cart, name="add_to_cart"),
     path("cart/remove/<int:item_id>/", views.remove_from_cart, name="remove_from_cart"),
     path("checkout/", views.checkout, name="checkout"),
+    path("buy/<slug:slug>/", views.buy_product, name="buy_product"),
     path("checkout/success/", views.checkout_success, name="checkout_success"),
     path("paystack/callback/", views.paystack_callback, name="paystack_callback"),
     path("paystack/webhook/", views.paystack_webhook, name="paystack_webhook"),
+    path("stripe/webhook/", views.stripe_webhook, name="stripe_webhook"),
     path("api/payments/verify/", api.PaystackVerifyAPIView.as_view(), name="api_payment_verify"),
 ]

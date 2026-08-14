@@ -24,3 +24,12 @@ def send_challenge_welcome_on_enrollment(sender, instance, created, **kwargs):
             logger.exception("Could not send challenge welcome email for enrollment %s", instance.pk)
 
     transaction.on_commit(deliver)
+
+
+@receiver(post_save, sender=Enrollment)
+def reward_challenge_referral_on_enrollment(sender, instance, created, **kwargs):
+    if not created or instance.course.slug != CHALLENGE_SLUG:
+        return
+    from apps.referrals.services import reward_referral_for_enrollment
+
+    reward_referral_for_enrollment(instance)

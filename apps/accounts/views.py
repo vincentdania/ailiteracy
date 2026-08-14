@@ -29,8 +29,9 @@ def dashboard(request):
     if enrollment_rows:
         overall_progress = int(sum(row["progress"] for row in enrollment_rows) / len(enrollment_rows))
 
-    next_enrollment = None
-    if enrollment_rows:
+    challenge_enrollment = next((row for row in enrollment_rows if row["is_challenge"]), None)
+    next_enrollment = challenge_enrollment
+    if next_enrollment is None and enrollment_rows:
         next_enrollment = sorted(enrollment_rows, key=lambda row: row["progress"], reverse=True)[0]
 
     return render(
@@ -41,6 +42,7 @@ def dashboard(request):
             "enrollment_rows": enrollment_rows,
             "overall_progress": overall_progress,
             "next_enrollment": next_enrollment,
+            "challenge_enrollment": challenge_enrollment,
         },
     )
 

@@ -17,6 +17,7 @@ class Product(models.Model):
     short_description = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    price_usd = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=False)
     cover_image = models.URLField(blank=True)

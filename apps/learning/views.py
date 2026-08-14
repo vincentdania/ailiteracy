@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import redirect_to_login
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
+from urllib.parse import quote
 
 from .forms import MicrocourseStartForm
 from .challenge_services import (
@@ -107,6 +108,8 @@ def challenge_module(request, course_slug, module_order):
         (row for row in build_challenge_outline(course, enrollment) if row["module"].pk == module.pk),
         None,
     )
+    if module_row is None:
+        raise Http404("Module not found.")
     return render(
         request,
         "learning/challenge_module.html",
@@ -149,10 +152,15 @@ def challenge_lesson(request, course_slug, lesson_slug):
                 lesson_slug=lesson.slug,
             )
         mark_lesson_complete(enrollment, lesson)
-        messages.success(request, f"Day {row['day_number']} marked complete.")
+        if row["is_bonus"]:
+            messages.success(request, "Bonus lesson marked complete.")
+        else:
+            messages.success(request, f"Day {row['day_number']} marked complete.")
+            if challenge_summary(enrollment)["is_complete"]:
+                return redirect("learning:challenge_graduation", course_slug=course.slug)
         return redirect("learning:challenge_home", course_slug=course.slug)
 
-    lessons = list(ordered_course_lessons(course))
+    lessons = list(ordered_course_lessons(course, include_bonus=row["is_bonus"]))
     current_index = next(index for index, item in enumerate(lessons) if item.pk == lesson.pk)
     previous_lesson = lessons[current_index - 1] if current_index > 0 else None
     next_lesson = lessons[current_index + 1] if current_index + 1 < len(lessons) else None
@@ -169,6 +177,47 @@ def challenge_lesson(request, course_slug, lesson_slug):
             "challenge_summary": summary,
             "previous_lesson": previous_lesson,
             "next_lesson": next_lesson,
+        },
+    )
+
+
+@login_required
+def challenge_graduation(request, course_slug):
+    course = get_object_or_404(Course, slug=course_slug)
+    enrollment = get_object_or_404(Enrollment, user=request.user, course=course)
+    summary = challenge_summary(enrollment)
+    if not summary["is_complete"]:
+        messages.info(request, "Complete all 21 challenge days to open graduation.")
+        return redirect("learning:challenge_home", course_slug=course.slug)
+
+    attempt = get_object_or_404(
+        CourseAttempt.objects.select_related("certificate"),
+        course=course,
+        user=request.user,
+        completed_at__isnull=False,
+    )
+    certificate = getattr(attempt, "certificate", None)
+
+    from apps.referrals.services import build_referral_url, get_or_create_share_referral
+
+    referral = get_or_create_share_referral(request.user)
+    referral_url = build_referral_url(request, referral)
+    share_message = (
+        "I just completed the 21-Day AI Challenge and built a practical AI habit. "
+        f"Join me here: {referral_url}"
+    )
+    return render(
+        request,
+        "learning/challenge_graduation.html",
+        {
+            "course": course,
+            "enrollment": enrollment,
+            "challenge_summary": summary,
+            "attempt": attempt,
+            "certificate": certificate,
+            "referral_url": referral_url,
+            "referral_message": share_message,
+            "whatsapp_share_url": f"https://wa.me/?text={quote(share_message)}",
         },
     )
 

@@ -28,7 +28,7 @@ class PaymentTransactionInline(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     list_display = ("id", "user", "status", "total_amount", "currency", "created_at", "paid_at")
     list_filter = ("status", "currency")
-    search_fields = ("id", "user__email", "email", "paystack_reference")
+    search_fields = ("id", "user__email", "email", "paystack_reference", "stripe_session_id")
     inlines = [OrderItemInline, PaymentTransactionInline]
 
 

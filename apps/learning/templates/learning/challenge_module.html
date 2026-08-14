@@ -1,23 +1,51 @@
 {% extends "base.html" %}
 
-{% block title %}{{ module_row.module.title }} | {{ course.title }}{% endblock title %}
+{% block title %}{{ module_row.module.title }} | 21 Days of AI{% endblock title %}
 
 {% block content %}
-<section class="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-    <a href="{% url 'learning:challenge_home' course_slug=course.slug %}" class="inline-flex items-center gap-1 text-sm font-black text-emerald-700"><span class="material-symbols-outlined text-base">arrow_back</span>Challenge overview</a>
-    <p class="mt-8 text-xs font-black uppercase tracking-[0.2em] text-emerald-700">Module {{ module_row.module.order }}</p>
-    <h1 class="mt-2 text-4xl font-black">{{ module_row.module.title }}</h1>
-    <div class="mt-8 space-y-3">
-        {% for row in module_row.lessons %}
-            <article class="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                <span class="flex size-11 shrink-0 items-center justify-center rounded-full {% if row.completed %}bg-emerald-600 text-white{% elif row.available %}bg-primary{% else %}bg-slate-100 text-slate-500{% endif %} font-black">{% if row.completed %}<span class="material-symbols-outlined">check</span>{% else %}{{ row.day_number }}{% endif %}</span>
-                <div class="min-w-0 flex-1">
-                    <h2 class="font-black text-slate-900">{{ row.lesson.title }}</h2>
-                    {% if not row.available %}<p class="mt-1 text-xs text-slate-500">{% if enrollment %}Unlocks in {{ row.days_until_unlock }} day{{ row.days_until_unlock|pluralize }}{% else %}Enrollment required{% endif %}</p>{% endif %}
+<section class="bg-ink text-white">
+    <div class="soft-grid">
+        <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+            <a href="{% url 'learning:challenge_home' course_slug=course.slug %}" class="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-primary"><span class="material-symbols-outlined text-base">arrow_back</span>Challenge roadmap</a>
+            <div class="mt-10 flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                    <p class="text-xs font-extrabold uppercase tracking-[0.24em] text-white/45">Module 0{{ module_row.module.order }}</p>
+                    <h1 class="mt-3 font-editorial text-5xl font-semibold tracking-tight sm:text-7xl">{{ module_row.module.title }}</h1>
                 </div>
-                {% if row.available %}<a href="{% url 'learning:challenge_lesson' course_slug=course.slug lesson_slug=row.lesson.slug %}" class="text-sm font-black text-emerald-700">Open</a>{% else %}<span class="material-symbols-outlined text-slate-400">lock</span>{% endif %}
-            </article>
-        {% endfor %}
+                <div class="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-sm text-white/60">
+                    <span class="font-extrabold text-primary">{{ module_row.lessons|length }}</span> focused day{{ module_row.lessons|length|pluralize }} in this module
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-cream py-14 sm:py-20">
+    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-8 flex items-center justify-between gap-4">
+            <div><p class="text-xs font-extrabold uppercase tracking-[0.2em] text-emerald-700">Module plan</p><h2 class="mt-2 text-2xl font-extrabold tracking-tight">Keep moving one day at a time.</h2></div>
+            <span class="hidden text-sm text-slate-500 sm:block">{{ course.title }}</span>
+        </div>
+
+        <ol class="relative space-y-4 before:absolute before:bottom-8 before:left-6 before:top-8 before:w-px before:bg-black/10 sm:before:left-8">
+            {% for row in module_row.lessons %}
+                <li class="relative flex items-center gap-4 rounded-[1.5rem] border border-black/10 bg-white p-4 transition hover:border-black/25 hover:shadow-lg sm:gap-6 sm:p-6">
+                    <span class="z-10 flex size-12 shrink-0 items-center justify-center rounded-full border-4 border-white text-sm font-extrabold sm:size-16 {% if row.completed %}bg-emerald-600 text-white{% elif row.available %}bg-primary text-ink{% else %}bg-slate-100 text-slate-400{% endif %}">
+                        {% if row.completed %}<span class="material-symbols-outlined">check</span>{% elif row.is_bonus %}<span class="material-symbols-outlined">auto_awesome</span>{% else %}{{ row.day_number }}{% endif %}
+                    </span>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-[0.65rem] font-extrabold uppercase tracking-[0.17em] {% if row.available %}text-emerald-700{% else %}text-slate-400{% endif %}">{% if row.is_bonus %}Referral bonus{% else %}Day {{ row.day_number }}{% endif %}{% if row.completed %} · Complete{% endif %}</p>
+                        <h2 class="mt-1 text-lg font-extrabold tracking-tight text-ink sm:text-xl">{{ row.lesson.title }}</h2>
+                        {% if not row.available %}<p class="mt-2 text-xs text-slate-400">{% if enrollment %}Available in {{ row.days_until_unlock }} day{{ row.days_until_unlock|pluralize }}{% else %}Join the challenge to unlock this lesson{% endif %}</p>{% endif %}
+                    </div>
+                    {% if row.available %}
+                        <a href="{% url 'learning:challenge_lesson' course_slug=course.slug lesson_slug=row.lesson.slug %}" class="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-ink text-white transition hover:bg-emerald-800" aria-label="Open {% if row.is_bonus %}bonus lesson{% else %}Day {{ row.day_number }}{% endif %}"><span class="material-symbols-outlined">arrow_forward</span></a>
+                    {% else %}
+                        <span class="flex size-11 shrink-0 items-center justify-center text-slate-300"><span class="material-symbols-outlined">lock</span></span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
     </div>
 </section>
 {% endblock content %}

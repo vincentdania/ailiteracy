@@ -7,6 +7,11 @@ app_name = "learning"
 urlpatterns = [
     path("challenge/<slug:course_slug>/", views.challenge_home, name="challenge_home"),
     path(
+        "challenge/<slug:course_slug>/graduation/",
+        views.challenge_graduation,
+        name="challenge_graduation",
+    ),
+    path(
         "challenge/<slug:course_slug>/modules/<int:module_order>/",
         views.challenge_module,
         name="challenge_module",

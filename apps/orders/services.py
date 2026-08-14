@@ -9,7 +9,7 @@ from apps.learning.models import Enrollment
 from .models import AccessGrant, Cart, Order, OrderItem, PaymentTransaction
 
 
-def create_order_from_cart(user, email: Optional[str] = None) -> Order:
+def create_order_from_cart(user, email: Optional[str] = None, currency: str = "NGN") -> Order:
     cart = Cart.objects.filter(user=user).prefetch_related("items__product").first()
     if not cart or not cart.items.exists():
         raise ValueError("Cart is empty.")
@@ -20,24 +20,48 @@ def create_order_from_cart(user, email: Optional[str] = None) -> Order:
             user=user,
             email=email or user.email,
             total_amount=Decimal("0.00"),
-            currency="NGN",
+            currency=currency,
         )
 
         for item in cart.items.select_related("product"):
+            item_price = item.product.price_usd if currency == "USD" else item.product.price
+            if item_price is None:
+                raise ValueError(f"{item.product.title} is not available in {currency}.")
             OrderItem.objects.create(
                 order=order,
                 product=item.product,
                 title=item.product.title,
-                unit_price=item.product.price,
+                unit_price=item_price,
                 quantity=item.quantity,
             )
-            total += item.product.price * item.quantity
+            total += item_price * item.quantity
 
         order.total_amount = total
         order.save(update_fields=["total_amount"])
 
         cart.items.all().delete()
 
+    return order
+
+
+def create_order_for_product(user, product, email=None, currency="NGN"):
+    unit_price = product.price_usd if currency == "USD" else product.price
+    if unit_price is None:
+        raise ValueError(f"{product.title} is not available in {currency}.")
+    with transaction.atomic():
+        order = Order.objects.create(
+            user=user,
+            email=email or user.email,
+            total_amount=unit_price,
+            currency=currency,
+        )
+        OrderItem.objects.create(
+            order=order,
+            product=product,
+            title=product.title,
+            unit_price=unit_price,
+            quantity=1,
+        )
     return order
 
 
@@ -78,6 +102,7 @@ def fulfill_paid_order(
     order: Order,
     reference: Optional[str] = None,
     payload: Optional[Dict[str, Any]] = None,
+    gateway: str = "paystack",
 ) -> bool:
     with transaction.atomic():
         locked_order = Order.objects.select_for_update().get(pk=order.pk)
@@ -86,9 +111,14 @@ def fulfill_paid_order(
 
         locked_order.status = Order.Status.PAID
         locked_order.paid_at = timezone.now()
-        if reference:
+        update_fields = ["status", "paid_at"]
+        if reference and gateway == "paystack":
             locked_order.paystack_reference = reference
-        locked_order.save(update_fields=["status", "paid_at", "paystack_reference"])
+            update_fields.append("paystack_reference")
+        if reference and gateway == "stripe":
+            locked_order.stripe_session_id = reference
+            update_fields.append("stripe_session_id")
+        locked_order.save(update_fields=update_fields)
 
         order_items = locked_order.items.select_related("product", "product__course").prefetch_related("product__bundle_items")
         for order_item in order_items:
@@ -104,6 +134,53 @@ def fulfill_paid_order(
         send_purchase_receipt_email(locked_order.id)
         send_download_links_email(locked_order.id)
     return True
+
+
+def process_stripe_checkout_session(session):
+    session_payload = session.to_dict() if hasattr(session, "to_dict") else dict(session)
+    metadata = session.get("metadata") or {}
+    order_id = metadata.get("order_id") or session.get("client_reference_id")
+    session_id = session.get("id")
+    if not order_id or not session_id:
+        return False, None
+
+    order = Order.objects.filter(pk=order_id).first()
+    if order is None:
+        return False, None
+
+    payment_status = session.get("payment_status")
+    currency = str(session.get("currency") or "").upper()
+    amount_total = session.get("amount_total")
+    amount = Decimal(amount_total or 0) / 100
+    is_success = (
+        payment_status == "paid"
+        and currency == order.currency
+        and amount == order.total_amount
+    )
+
+    transaction_obj, _ = PaymentTransaction.objects.get_or_create(
+        reference=session_id,
+        defaults={
+            "order": order,
+            "amount": amount,
+            "currency": currency or order.currency,
+        },
+    )
+    transaction_obj.amount = amount
+    transaction_obj.currency = currency or order.currency
+    transaction_obj.status = (
+        PaymentTransaction.Status.SUCCESS if is_success else PaymentTransaction.Status.FAILED
+    )
+    transaction_obj.gateway_response = payment_status or "Stripe checkout event"
+    transaction_obj.payload = session_payload
+    transaction_obj.save()
+
+    if is_success:
+        fulfill_paid_order(order, reference=session_id, payload=session_payload, gateway="stripe")
+    elif order.status == Order.Status.PENDING:
+        order.status = Order.Status.FAILED
+        order.save(update_fields=["status"])
+    return is_success, order
 
 
 def process_paystack_verification(
@@ -124,11 +201,19 @@ def process_paystack_verification(
         )
 
     data = payload.get("data", {})
-    is_success = bool(payload.get("status")) and data.get("status") == "success"
-
     amount_kobo = data.get("amount")
+    verified_amount = Decimal(amount_kobo or 0) / 100
+    verified_currency = str(data.get("currency") or order.currency).upper()
+    is_success = (
+        bool(payload.get("status"))
+        and data.get("status") == "success"
+        and verified_amount == order.total_amount
+        and verified_currency == order.currency
+    )
+
     if amount_kobo is not None:
-        transaction_obj.amount = Decimal(amount_kobo) / 100
+        transaction_obj.amount = verified_amount
+    transaction_obj.currency = verified_currency
 
     transaction_obj.status = (
         PaymentTransaction.Status.SUCCESS if is_success else PaymentTransaction.Status.FAILED

@@ -23,6 +23,7 @@ class Module(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="modules")
     title = models.CharField(max_length=220)
     order = models.PositiveIntegerField(default=1)
+    is_bonus = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["course", "order"]
@@ -70,11 +71,15 @@ class Enrollment(models.Model):
 
     @property
     def total_lessons_count(self) -> int:
-        return Lesson.objects.filter(module__course=self.course).count()
+        return Lesson.objects.filter(module__course=self.course, module__is_bonus=False).count()
 
     @property
     def completed_lessons_count(self) -> int:
-        return LessonProgress.objects.filter(enrollment=self, completed_at__isnull=False).count()
+        return LessonProgress.objects.filter(
+            enrollment=self,
+            lesson__module__is_bonus=False,
+            completed_at__isnull=False,
+        ).count()
 
     @property
     def progress_percentage(self) -> int:

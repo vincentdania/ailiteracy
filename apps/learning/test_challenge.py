@@ -1,6 +1,8 @@
 from datetime import datetime, time, timedelta
 from decimal import Decimal
 from io import StringIO
+import shutil
+import tempfile
 
 from django.contrib.auth import get_user_model
 from django.core import mail
@@ -10,6 +12,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from apps.catalog.models import Product
+from apps.certificates.models import Certificate
 
 from .challenge_services import (
     calculate_streak,
@@ -36,10 +39,13 @@ class ChallengeImportCommandTests(TestCase):
 
         course = Course.objects.get(slug="21-day-ai-challenge")
         self.assertEqual(Course.objects.filter(slug=course.slug).count(), 1)
-        self.assertEqual(course.modules.count(), 5)
-        self.assertEqual(Lesson.objects.filter(module__course=course).count(), 21)
+        self.assertEqual(course.modules.filter(is_bonus=False).count(), 5)
+        self.assertEqual(Lesson.objects.filter(module__course=course, module__is_bonus=False).count(), 21)
+        self.assertEqual(course.modules.filter(is_bonus=True).count(), 1)
+        self.assertEqual(Lesson.objects.filter(module__course=course, module__is_bonus=True).count(), 1)
         self.assertEqual(Product.objects.filter(slug=course.slug).count(), 1)
         self.assertEqual(course.product.price, Decimal("25000.00"))
+        self.assertEqual(course.product.price_usd, Decimal("39.00"))
 
         first_lesson = Lesson.objects.filter(module__course=course).order_by(
             "module__order", "order"
@@ -52,6 +58,9 @@ class ChallengeImportCommandTests(TestCase):
 
 class ChallengeServiceTestCase(TestCase):
     def setUp(self):
+        self.temp_media = tempfile.mkdtemp()
+        self.media_override = override_settings(MEDIA_ROOT=self.temp_media)
+        self.media_override.enable()
         self.user = get_user_model().objects.create_user(
             username="challenger",
             email="challenger@example.com",
@@ -82,6 +91,11 @@ class ChallengeServiceTestCase(TestCase):
         )
         Enrollment.objects.filter(pk=self.enrollment.pk).update(created_at=start)
         self.enrollment.refresh_from_db()
+
+    def tearDown(self):
+        self.media_override.disable()
+        shutil.rmtree(self.temp_media, ignore_errors=True)
+        super().tearDown()
 
 
 class ChallengeDripTests(ChallengeServiceTestCase):
@@ -132,6 +146,7 @@ class ChallengeDripTests(ChallengeServiceTestCase):
         self.assertTrue(attempt.passed)
         self.assertEqual(attempt.score, 100)
         self.assertIsNotNone(attempt.completed_at)
+        self.assertTrue(Certificate.objects.filter(course_attempt=attempt).exists())
 
 
 class ChallengeStreakTests(ChallengeServiceTestCase):

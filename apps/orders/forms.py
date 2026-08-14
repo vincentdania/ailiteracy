@@ -2,6 +2,8 @@ from django import forms
 
 
 class CheckoutForm(forms.Form):
+    CURRENCY_CHOICES = (("NGN", "Pay in naira"), ("USD", "Pay in US dollars"))
+
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
@@ -10,3 +12,4 @@ class CheckoutForm(forms.Form):
             }
         )
     )
+    currency = forms.ChoiceField(choices=CURRENCY_CHOICES, widget=forms.RadioSelect)
