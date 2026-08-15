@@ -4,6 +4,8 @@ import { useState } from "react";
 import { ArrowLeft, ArrowRight, Check, Clock3, Sparkles, Target } from "lucide-react";
 import { saveOnboardingAction } from "@/app/actions/onboarding";
 import { Button } from "@/components/ui/button";
+import { COUNTRIES, DEFAULT_COUNTRY } from "@/lib/countries";
+import { PROFESSIONS, PROFESSION_OTHER, OTHER_LABEL } from "@/lib/professions";
 
 const levelOptions = [
   { value: "BEGINNER", label: "Beginner", copy: "I am starting from first principles." },
@@ -17,6 +19,7 @@ const stepTitles = ["Tell us about your professional world.", "What outcome matt
 export function OnboardingForm() {
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [profession, setProfession] = useState("");
+  const [professionChoice, setProfessionChoice] = useState("");
   const [goal, setGoal] = useState("");
   const [level, setLevel] = useState("BEGINNER");
   const [weeklyMinutes, setWeeklyMinutes] = useState("140");
@@ -31,10 +34,10 @@ export function OnboardingForm() {
     </div>
 
     <section className={step === 1 ? "grid gap-5" : "hidden"}>
-      <label className="grid gap-2 text-sm font-bold">What is your current profession?<input required={step === 1} name="profession" value={profession} onChange={(event) => setProfession(event.target.value)} className="h-14 rounded-2xl border border-[#c0c8c4] bg-white px-4 font-normal" placeholder="e.g. Operations manager" autoFocus /></label>
+      <label className="grid gap-2 text-sm font-bold">What is your current profession?<select value={professionChoice} onChange={(event) => { const value = event.target.value; setProfessionChoice(value); setProfession(value === PROFESSION_OTHER ? "" : value); }} className="h-14 rounded-2xl border border-[#c0c8c4] bg-white px-4 font-normal" autoFocus><option value="" disabled>Select your profession</option>{PROFESSIONS.map((option) => <option key={option} value={option}>{option}</option>)}<option value={PROFESSION_OTHER}>{OTHER_LABEL}</option></select>{professionChoice === PROFESSION_OTHER && <input value={profession} onChange={(event) => setProfession(event.target.value)} className="h-14 rounded-2xl border border-[#c0c8c4] bg-white px-4 font-normal" placeholder="Type your profession" autoFocus />}<input type="hidden" name="profession" value={profession} required={step === 1} /></label>
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="grid gap-2 text-sm font-bold">Industry <span className="font-normal text-[#717975]">(optional)</span><input name="industry" className="h-14 rounded-2xl border border-[#c0c8c4] bg-white px-4 font-normal" placeholder="Professional services" /></label>
-        <label className="grid gap-2 text-sm font-bold">Country or region<input required name="country" defaultValue="Nigeria" className="h-14 rounded-2xl border border-[#c0c8c4] bg-white px-4 font-normal" /></label>
+        <label className="grid gap-2 text-sm font-bold">Country or region<select name="country" defaultValue={DEFAULT_COUNTRY} className="h-14 rounded-2xl border border-[#c0c8c4] bg-white px-4 font-normal">{COUNTRIES.map((country) => <option key={country} value={country}>{country}</option>)}</select></label>
       </div>
       <div className="mt-3 flex justify-end"><Button type="button" size="lg" disabled={profession.trim().length < 2} onClick={() => setStep(2)}>Continue <ArrowRight className="ml-2" size={18} /></Button></div>
     </section>

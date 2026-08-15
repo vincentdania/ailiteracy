@@ -3,6 +3,7 @@ day: 22
 title: Bonus — Build Your Personal AI Operating System
 module: Bonus Lab
 summary: Turn 21 days of practice into a repeatable weekly workflow.
+subtitle: Turn 21 days of practice into a repeatable weekly workflow.
 ---
 
 # Build Your Personal AI Operating System

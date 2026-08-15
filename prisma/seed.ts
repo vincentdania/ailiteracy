@@ -89,7 +89,7 @@ async function seed() {
   }
   await prisma.lesson.upsert({
     where: { moduleId_slug: { moduleId: bonusModule.id, slug: "bonus-ai-operating-system" } },
-    update: { contentMarkdown: bonus.content.trim() },
+    update: { contentMarkdown: bonus.content.trim(), summary: bonus.summary ?? "Turn the challenge into a durable weekly practice." },
     create: {
       moduleId: bonusModule.id,
       dayNumber: 22,

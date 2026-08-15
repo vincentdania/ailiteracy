@@ -1,3 +1,9 @@
+---
+day: 1
+title: Day 1 — What AI Can and Can't Do
+subtitle: The truth about what AI can and can't do — and why it matters for your work.
+---
+
 # Day 1 — What AI Can and Can't Do
 
 **Read time: 5 minutes · Task: 10 minutes**
