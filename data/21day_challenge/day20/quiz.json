@@ -1,0 +1,35 @@
+[
+  {
+    "q": "What is a Personal AI Operating System?",
+    "options": [
+      "Software you install on your computer",
+      "Your day designed — the same AI moments at the same times",
+      "A folder of AI tools you use occasionally",
+      "A backup system for your files"
+    ],
+    "answer": 1,
+    "explanation": "A computer without an OS is parts, and you without a routine are the same. The system is your day, designed: the same AI moments at the same times, so the gains compound instead of scattering."
+  },
+  {
+    "q": "Which approach matches the lesson's guidance for building your system?",
+    "options": [
+      "Adopt all five blocks exactly as described",
+      "Pick the two or three blocks that fit your job and write them down",
+      "Use AI whenever you remember to",
+      "Skip the weekly review to save time"
+    ],
+    "answer": 1,
+    "explanation": "You do not need all five blocks — you need the ones that fit your job, written down, because an unwritten system does not survive Mondays. For each block note the tool, trigger, prompt or workflow, and output."
+  },
+  {
+    "q": "What is the purpose of the weekly review?",
+    "options": [
+      "To add more automations every week",
+      "To see what the system saved you, what you skipped and what output was useless, then adjust one thing",
+      "To replace all your tools with new ones",
+      "To measure how much time you spend on AI"
+    ],
+    "answer": 1,
+    "explanation": "Once a week, spend fifteen minutes asking what the system saved you, what you skipped and what output was useless, then adjust one thing. Systems that get reviewed get better; systems that don't get abandoned."
+  }
+]

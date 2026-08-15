@@ -1,0 +1,35 @@
+[
+  {
+    "q": "You need a 10-minute executive update, and a colleague needs a 45-minute training session. Where should you both start?",
+    "options": [
+      "With a design template that suits both",
+      "With the charts, since they carry the message",
+      "With a slide-by-slide outline covering topic, audience, duration and one key message",
+      "With the same outline, trimmed to fit"
+    ],
+    "answer": 2,
+    "explanation": "The lesson says never open a blank slide deck: tell AI the topic, audience, duration and the one message people should remember, and approve the story before any design happens. Different audiences need completely different outlines."
+  },
+  {
+    "q": "An AI deck tool turns your approved outline into slides, but they look generic. What does the lesson advise?",
+    "options": [
+      "Add your own numbers, examples and photos",
+      "Accept them — generic is safe for executives",
+      "Start over with a different tool",
+      "Ask the tool to copy a competitor's deck"
+    ],
+    "answer": 0,
+    "explanation": "Treat the tool's output as a first design, not a finished deck. If it looks generic, that's a signal to add your specifics — your numbers, your examples, your photos."
+  },
+  {
+    "q": "You have the numbers for your quarterly results and want one slide about them. What does the lesson suggest?",
+    "options": [
+      "Put every number in a dense table so nothing is lost",
+      "Let AI generate the figures so the chart looks impressive",
+      "Pick the most colourful chart available",
+      "Ask which chart type tells the story best and add a one-line takeaway"
+    ],
+    "answer": 3,
+    "explanation": "Paste your numbers and ask which chart type tells the story — bar for comparison, line for trends, a single big number for impact — and add a one-line takeaway. The takeaway belongs on the slide; the chart is the evidence. Check every number first."
+  }
+]

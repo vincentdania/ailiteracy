@@ -1,0 +1,35 @@
+[
+  {
+    "q": "Your working life runs on Gmail, Drive and Docs. Which tool fits your daily workflow best?",
+    "options": [
+      "ChatGPT",
+      "Gemini",
+      "Copilot",
+      "Perplexity"
+    ],
+    "answer": 1,
+    "explanation": "Gemini is Google's assistant and is best when your working life runs on Gmail, Drive and Docs, because it sits naturally inside that ecosystem."
+  },
+  {
+    "q": "Mid-afternoon you hit ChatGPT's free message cap. What should you do?",
+    "options": [
+      "Wait a while, or switch to another tool — switching costs nothing",
+      "Sign up for a paid plan immediately",
+      "Give up on AI for the rest of the week",
+      "Borrow a colleague's account to keep going"
+    ],
+    "answer": 0,
+    "explanation": "Free tiers cap messages and searches so the free ride stays free. When you hit a cap, wait — or switch tools, since switching costs nothing and you have four others."
+  },
+  {
+    "q": "Over the next few days of practice, which approach builds fluency fastest?",
+    "options": [
+      "Hopping between all five tools in every session",
+      "Doing your practice in one primary tool and keeping the others on standby",
+      "Using whichever tool released the newest update",
+      "Reading reviews to find the 'best' tool before you start"
+    ],
+    "answer": 1,
+    "explanation": "Fluency beats tool-hopping: you judge a tool from use, not reviews. Practise in one primary tool — ChatGPT is the sensible default — and keep the rest on standby until the Day 5 head-to-head."
+  }
+]

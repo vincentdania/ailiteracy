@@ -1,0 +1,35 @@
+[
+  {
+    "q": "Which sequence is the five-part pattern every good workflow follows?",
+    "options": [
+      "Trigger, gather, process, output, human check",
+      "Prompt, reply, edit, send, delete",
+      "Trigger, output, process, check, gather",
+      "Gather, trigger, check, process, output"
+    ],
+    "answer": 0,
+    "explanation": "Every good workflow has the same skeleton: trigger → gather → process → output → human check. Only the last step belongs to you."
+  },
+  {
+    "q": "In a meeting follow-up workflow, notes are saved, AI extracts decisions and action items, and a draft email appears. Where is your checkpoint?",
+    "options": [
+      "The trigger is missing, so the workflow will not run",
+      "Reading and correcting the draft before you hit send",
+      "The AI should send the email automatically",
+      "The gather step is unnecessary"
+    ],
+    "answer": 1,
+    "explanation": "The human check is the final step — you review before anything goes anywhere important. It is not a weakness; it is the feature that lets a workflow run for months."
+  },
+  {
+    "q": "According to the lesson, where do workflows most often fail?",
+    "options": [
+      "Inside the tool, because AI is too slow",
+      "On the drawing board — a trigger nobody set up, an input nobody feeds, an output nobody reads",
+      "Because the human check slows them down",
+      "Because free tiers cannot run workflows"
+    ],
+    "answer": 1,
+    "explanation": "Workflows fail on the drawing board, not in the tool. That is why you design the whole job on paper first — and keep the human checkpoint in every run."
+  }
+]

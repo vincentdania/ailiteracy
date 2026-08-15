@@ -1,0 +1,35 @@
+[
+  {
+    "q": "You want every AI tool you use to already know your role and style. What does the lesson suggest?",
+    "options": [
+      "Explain your role at the start of every conversation",
+      "Create a separate spec for each tool",
+      "Rely on each tool's default settings",
+      "Write one four-section spec and paste it into any tool you use"
+    ],
+    "answer": 3,
+    "explanation": "The written spec — role, style, routines and know-how — turns any tool into an assistant briefed on your world. Put the core in custom instructions, keep the full spec as a file, and paste it into new tools the day you meet them."
+  },
+  {
+    "q": "Which section of the assistant spec does the lesson call 'the gold'?",
+    "options": [
+      "Role, because it defines your job",
+      "Know-how — the facts you constantly re-explain",
+      "Style, because it sets the tone",
+      "Routines, because they run daily"
+    ],
+    "answer": 1,
+    "explanation": "Know-how is the facts you re-explain constantly: team names, clients, current projects, deadlines. Every fact you type once is a fact you never retype."
+  },
+  {
+    "q": "You set up a morning briefing prompt. According to the lesson, where does the real value come from?",
+    "options": [
+      "From the automation running it without you",
+      "From AI writing your to-do list for you",
+      "From the habit of planning your day in one place with a second pair of eyes",
+      "From having a summary of yesterday's news"
+    ],
+    "answer": 2,
+    "explanation": "The value isn't the automation; it's the habit of planning the day in one place with a second pair of eyes. The prompt surfaces what you've missed, your three priorities and what you should say no to."
+  }
+]

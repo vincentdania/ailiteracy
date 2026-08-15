@@ -97,6 +97,7 @@ model User {
   learningPlans      LearningPlan[]
   projectSubmissions ProjectSubmission[]
   aiUsageEvents      AiUsageEvent[]
+  quizAttempts       QuizAttempt[]
   createdAt          DateTime                 @default(now())
   updatedAt          DateTime                 @updatedAt
 
@@ -164,15 +165,33 @@ model Lesson {
   summary             String?
   contentMarkdown     String
   heroImage           String?
+  quizJson            Json?
   isFreePreview       Boolean              @default(false)
   isBonus             Boolean              @default(false)
   personalizedLessons PersonalizedLesson[]
   projectSubmissions  ProjectSubmission[]
+  quizAttempts        QuizAttempt[]
 
   @@unique([moduleId, slug])
   @@unique([moduleId, dayNumber])
   @@index([dayNumber])
   @@index([isBonus])
+}
+
+model QuizAttempt {
+  id        String   @id @default(cuid())
+  userId    String
+  lessonId  String
+  score     Int
+  total     Int
+  answers   Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+  @@index([userId])
 }
 
 model Enrollment {

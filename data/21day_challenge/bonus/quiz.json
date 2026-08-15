@@ -1,0 +1,35 @@
+[
+  {
+    "q": "What are the three parts of the operating system in this bonus lab?",
+    "options": [
+      "Capture, Prompt, Review",
+      "Build, Test, Deploy",
+      "Plan, Write, Send",
+      "Learn, Earn, Teach"
+    ],
+    "answer": 0,
+    "explanation": "Capture keeps one list of repetitive, language-heavy work; Prompt saves the prompt, context and quality checklist that produced a good result; Review spends ten minutes each Friday improving one workflow."
+  },
+  {
+    "q": "After a prompt produces a good result, what should you save?",
+    "options": [
+      "Just the prompt text",
+      "The prompt, the context and the quality checklist",
+      "The output on its own",
+      "The name of the model used"
+    ],
+    "answer": 1,
+    "explanation": "The second part of the system saves the whole recipe — the prompt, the context and the quality checklist that produced a good result — so you can repeat it, not just the prompt on its own."
+  },
+  {
+    "q": "What is the final step of the bonus task for your chosen recurring task?",
+    "options": [
+      "Delete the task from your capture list",
+      "Run it once, measure the time saved, then teach it to one colleague",
+      "Automate it with n8n immediately",
+      "Ask a manager for written approval"
+    ],
+    "answer": 1,
+    "explanation": "The bonus task is to document the trigger, inputs, prompt, verification checklist and final owner, run it once, measure the time saved, then teach it to one colleague — spreading the system, not hoarding it."
+  }
+]

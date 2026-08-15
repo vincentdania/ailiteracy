@@ -1,0 +1,35 @@
+[
+  {
+    "q": "You have read an AI summary of a topic and want to genuinely own the material. What does the lesson advise?",
+    "options": [
+      "Read the summary twice to memorise it",
+      "Summarise the summary for a friend",
+      "Move straight on to the next topic",
+      "Ask AI to quiz you and check your answers"
+    ],
+    "answer": 3,
+    "explanation": "Explanations make you understand; questions make you own the material. Getting it wrong in a private chat costs nothing — if you can answer the questions, you know it; if you can't, you know exactly what to reread."
+  },
+  {
+    "q": "You want to move into data analysis. What is the lesson's recommended first step?",
+    "options": [
+      "Enrol on the most popular course immediately",
+      "Ask for a skill map, then turn it into a 30-day plan with milestones",
+      "Ask AI to do the analysis for you",
+      "Read a single article about the field"
+    ],
+    "answer": 1,
+    "explanation": "Ask for the five core skills, what to learn in what order and how to prove each, then turn the map into a 30-day plan with weekly milestones and a visible finish. AI is the guide; the milestones are yours."
+  },
+  {
+    "q": "An AI explanation still confuses you. What does the lesson suggest you do?",
+    "options": [
+      "Give up — the topic is beyond you",
+      "Find a harder explanation to challenge yourself",
+      "Keep pushing: ask for simpler terms, a real example, and where it matters in your job",
+      "Memorise the explanation despite not understanding it"
+    ],
+    "answer": 2,
+    "explanation": "Tutor mode adjusts to your level and you keep pushing — 'simpler', 'give me a real example', 'where does this actually matter in my job?' — because this tutor is happy to explain the same thing five different ways."
+  }
+]

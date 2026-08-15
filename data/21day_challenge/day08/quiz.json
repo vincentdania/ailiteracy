@@ -1,0 +1,35 @@
+[
+  {
+    "q": "You are comparing three software vendors for your team. How should you use AI to weigh them up?",
+    "options": [
+      "Ask AI to recommend the cheapest option outright",
+      "Score each vendor against weighted criteria and let AI build the matrix",
+      "Ask AI to decide for you once you share your budget",
+      "Compare the prices you already know and skip the rest"
+    ],
+    "answer": 1,
+    "explanation": "The lesson's decision-matrix method scores each option against weighted criteria such as cost, time, risk and quality. You supply the scores you trust; AI does the layout and the arithmetic, which forces the trade-offs into the open."
+  },
+  {
+    "q": "A plain pros-and-cons list is shallow, the lesson says. What turns it into a real analysis?",
+    "options": [
+      "Making the list longer and more detailed",
+      "Asking AI to pick the winning side",
+      "Adding a one-line reason and a weight out of ten to each item",
+      "Writing the list in a spreadsheet"
+    ],
+    "answer": 2,
+    "explanation": "Weighting each item out of ten — and asking which three matter most and why — turns a list into an analysis. The weighting is what separates a shallow list from genuine decision support."
+  },
+  {
+    "q": "After running your decision through AI, it gives a confident recommendation. What should you do?",
+    "options": [
+      "Accept it, because AI has weighed all the evidence",
+      "Keep asking until AI changes its mind",
+      "Ask AI to commit to the decision on your behalf",
+      "Treat it as a memo and make the final call yourself"
+    ],
+    "answer": 3,
+    "explanation": "AI structures your thinking, surfaces blind spots and makes trade-offs visible, but it cannot own the decision — you have the stakes, the relationships and the accountability. The output is a memo; the decision is yours."
+  }
+]

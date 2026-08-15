@@ -1,0 +1,35 @@
+[
+  {
+    "q": "Which prompt contains all four parts of the framework: role, context, task and format?",
+    "options": [
+      "'Write an email.'",
+      "'You are my executive assistant. The client is upset about a late delivery. Draft a short apology email, warm but professional, under 100 words.'",
+      "'Summarise this meeting.'",
+      "'Give me some ideas.'"
+    ],
+    "answer": 1,
+    "explanation": "It names the role (executive assistant), the context (an upset client, a late delivery), the task (draft an apology email) and the format (short, warm but professional, under 100 words). The others leave the AI guessing."
+  },
+  {
+    "q": "Which two of the four parts are still missing from this prompt: 'Summarise our Q3 sales results in five bullet points'?",
+    "options": [
+      "Role and context",
+      "Task and format",
+      "Role and task",
+      "Format and context"
+    ],
+    "answer": 0,
+    "explanation": "It has the task (summarise) and the format (five bullet points), but no role for the AI to play and no context — no audience, background or constraints to shape the answer."
+  },
+  {
+    "q": "AI's first draft of your email is far too formal for your client. What is the best next move?",
+    "options": [
+      "Start over with a completely new prompt",
+      "Follow up: 'Make this friendlier and less formal'",
+      "Accept the draft — you only get one attempt",
+      "Silently edit it in Word and never mention it again"
+    ],
+    "answer": 1,
+    "explanation": "Your first answer is a draft, not a verdict. Editing beats restarting every time, so follow up with adjustments like 'make it shorter' or 'more direct' until it fits."
+  }
+]

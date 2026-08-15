@@ -1,0 +1,35 @@
+[
+  {
+    "q": "Why can an AI confidently state a fact that is completely wrong?",
+    "options": [
+      "AI is usually wrong about most topics",
+      "AI predicts rather than knows, so wrong facts come with total confidence",
+      "AI tools refuse to provide sources",
+      "Confidence only fails with code"
+    ],
+    "answer": 1,
+    "explanation": "AI does not know things; it predicts them, so invented citations, wrong figures and made-up names arrive sounding certain. For anything read, cited or paid for, verify the facts and ask for sources."
+  },
+  {
+    "q": "Before pasting something into an AI tool, which item passes the lesson's safety test?",
+    "options": [
+      "A client's unlisted phone number",
+      "Your company's confidential pricing list",
+      "Your own draft agenda for a public meeting",
+      "Your bank login details"
+    ],
+    "answer": 2,
+    "explanation": "The test is: 'If this appeared on the internet tomorrow, would anyone be harmed?' A draft agenda for a public meeting is safe; client data, confidential lists and credentials should never be pasted."
+  },
+  {
+    "q": "An AI-drafted job advert sounds off about a group of people. What should you do?",
+    "options": [
+      "Ship it — AI is neutral",
+      "Fix it before it ships",
+      "Ignore it and blame the tool",
+      "Ask the AI to sound more confident"
+    ],
+    "answer": 1,
+    "explanation": "AI learned from the internet, which is not neutral, so outputs can carry stereotypes about gender, race, age or nationality while sounding authoritative. Watch for bias in anything about people and fix it before it ships."
+  }
+]

@@ -1,0 +1,35 @@
+[
+  {
+    "q": "You need a spreadsheet formula but don't remember the syntax. What is the skill the lesson wants you to build?",
+    "options": [
+      "Memorising the most common formula names",
+      "Describing the job clearly in plain English and letting AI write it",
+      "Copying formulas from the internet",
+      "Building the spreadsheet by hand to stay in control"
+    ],
+    "answer": 1,
+    "explanation": "The skill isn't knowing =TEXT() by heart; it's describing what you want clearly enough for AI to translate. AI gives you the formula, the cell references and an explanation — then you test it on a few rows before trusting it."
+  },
+  {
+    "q": "You want to upload a company spreadsheet to ChatGPT and ask questions about it. What should you do first?",
+    "options": [
+      "Upload the original so the answers are accurate",
+      "Send the file link instead of the file",
+      "Upload only the columns you care about",
+      "Use a copy with anything sensitive removed"
+    ],
+    "answer": 3,
+    "explanation": "Upload a copy with anything sensitive removed, and treat the answers as a starting point rather than an audit. Keeping the raw data safe is one of the day's rules."
+  },
+  {
+    "q": "AI gives you a formula and a forecast model. What is the one rule the lesson repeats?",
+    "options": [
+      "Verify every number against a value you already know",
+      "Never question a number AI produces",
+      "Only use models built from your own data",
+      "Ask AI to audit its own work first"
+    ],
+    "answer": 0,
+    "explanation": "AI can be confidently wrong about numbers, so check every formula against a value you already know. Verification is the rule that turns AI's fast first pass into something you can rely on."
+  }
+]

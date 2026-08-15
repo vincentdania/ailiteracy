@@ -1,0 +1,35 @@
+[
+  {
+    "q": "You want a new form response to trigger a draft reply automatically. Which tool fits?",
+    "options": [
+      "ChatGPT Tasks",
+      "A no-code flow tool like Zapier, Make or n8n",
+      "Claude Projects",
+      "A spreadsheet formula"
+    ],
+    "answer": 1,
+    "explanation": "No-code flow tools connect your apps — new form response leads to draft reply — and you build the flow visually by connecting boxes, not by programming. ChatGPT Tasks and Claude Projects schedule AI jobs but do not connect apps this way."
+  },
+  {
+    "q": "Which automation sits in the sweet spot described in the lesson?",
+    "options": [
+      "A daily briefing delivered each morning for you to read",
+      "A flow that moves client payments automatically",
+      "An automation that holds your passwords",
+      "Follow-up emails sent to clients without review"
+    ],
+    "answer": 0,
+    "explanation": "The sweet spot is work that produces a draft or a nudge, with you doing the final judgement. Money and secrets are the two things you never automate."
+  },
+  {
+    "q": "A no-code tool asks for a credit card during sign-up. What should you do?",
+    "options": [
+      "Enter the card to unlock the free tier",
+      "Stop — you do not need a paid plan to start",
+      "Use your company card and expense it later",
+      "Borrow a colleague's card details"
+    ],
+    "answer": 1,
+    "explanation": "Zapier, Make and n8n all have free tiers, so no card is needed to start. The lesson's rule is clear: if a tool asks for a credit card, stop — you don't need one."
+  }
+]

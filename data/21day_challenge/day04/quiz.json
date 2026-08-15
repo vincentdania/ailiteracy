@@ -1,0 +1,35 @@
+[
+  {
+    "q": "Which of the ten task types does 'Give me five pros and five cons of outsourcing payroll versus keeping it in-house' belong to?",
+    "options": [
+      "Rewrite",
+      "Decide",
+      "Outline",
+      "Translate"
+    ],
+    "answer": 1,
+    "explanation": "This is a Decide task: it lays out pros and cons so you can weigh a real decision. It is not rewriting, structuring or translating anything."
+  },
+  {
+    "q": "The lesson says to run the ten tasks against your own real work, not invented scenarios. Why does that matter?",
+    "options": [
+      "Real documents are shorter and quicker to paste in",
+      "Fluency comes from practising with content you actually use",
+      "AI gives better answers to invented scenarios",
+      "It makes your results more impressive to share"
+    ],
+    "answer": 1,
+    "explanation": "Reps build fluency: running the ten tasks on your real email, report and decision makes prompting feel natural by Monday — and the outputs are genuinely useful, not practice fluff."
+  },
+  {
+    "q": "After running the ten tasks, what should you do with your three best results?",
+    "options": [
+      "Delete them to keep your workspace tidy",
+      "Mark them with a star — they become the core of your prompt library",
+      "Use each one only once so they stay fresh",
+      "Compare them to find which tool performed worst"
+    ],
+    "answer": 1,
+    "explanation": "Mark your three best with a star: they become the core of your prompt library, and later feed your saved templates on Day 11 and your first automations on Day 17."
+  }
+]

@@ -1,0 +1,35 @@
+[
+  {
+    "q": "Your team needs to know, from its own records, what was committed to last quarter. What is the best approach?",
+    "options": [
+      "Ask AI in a normal chat — it tracks general knowledge",
+      "Create a Claude Project, upload your reports and ask inside that project",
+      "Paste a summary you wrote into any chat",
+      "Upload just the most recent document"
+    ],
+    "answer": 1,
+    "explanation": "A Claude Project holds your key documents, and every conversation inside it draws on them, so answers come from your own material rather than general knowledge. The answers are only as good as the files you upload."
+  },
+  {
+    "q": "Claude builds a draft report as an artifact and you want to change it. What does the lesson advise?",
+    "options": [
+      "Start a fresh conversation for each change",
+      "Copy the draft into Word and edit it there",
+      "Regenerate the whole thing until it is perfect",
+      "Give change instructions and edit the artifact in place, then copy it out when it's right"
+    ],
+    "answer": 3,
+    "explanation": "Artifacts are living documents in a side panel that you edit together in real time — 'shorten the intro', 'add a risk section'. Iterate in the living document and copy out when it's right, so there's no copy-pasting of draft versions."
+  },
+  {
+    "q": "Your work documents contain sensitive client information. What should you upload to a Claude Project?",
+    "options": [
+      "Redacted versions, keeping sensitive documents out",
+      "Everything, so the answers are complete",
+      "Only the file names and titles",
+      "A summary written by another AI"
+    ],
+    "answer": 0,
+    "explanation": "The lesson's rule is to keep sensitive documents out of Projects. Upload redacted versions, and keep Projects fed with the files that make answers good — without the secrets."
+  }
+]

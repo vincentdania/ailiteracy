@@ -1,0 +1,35 @@
+[
+  {
+    "q": "AI's first draft of your proposal is too long and sounds robotic. What does the lesson recommend?",
+    "options": [
+      "Ask for a complete rewrite from scratch",
+      "Accept the draft — AI writes well enough",
+      "Tell AI to 'make it better' and wait",
+      "Give specific instructions, like cutting it by 20%, and an example of your voice, in rounds"
+    ],
+    "answer": 3,
+    "explanation": "Small, specific instructions beat vague ones: 'shorten by 20%' works, 'make it better' doesn't. If the voice is off, give it an example — 'here's how I'd say it — match this' — and steer it through two or three rounds."
+  },
+  {
+    "q": "Why does the lesson describe AI's draft as a 'working document' rather than a finished answer?",
+    "options": [
+      "Because it is saved in the cloud",
+      "Because you build it in rounds — outline, rough draft, tighten, polish — in one place",
+      "Because only Claude can edit it",
+      "Because it is not suitable for real work"
+    ],
+    "answer": 1,
+    "explanation": "The working-document method improves the draft in place across rounds, so there's never a version-control mess. Each round you read, mark what's wrong and send it back with specific instructions."
+  },
+  {
+    "q": "Your organisation has firm tone rules — for example, 'we say customers, never clients'. How do you make every draft obey them?",
+    "options": [
+      "Remind AI of the rules at the start of every chat",
+      "Fix the wording by hand after each draft",
+      "Paste your style rules once, covering vocabulary, voice, conventions and tone",
+      "Ask AI to write in a neutral tone instead"
+    ],
+    "answer": 2,
+    "explanation": "Paste your style guide in once and every draft obeys it — vocabulary, voice, conventions and tone. Organisations spend fortunes on brand voice; you can enforce yours with one paragraph of instructions."
+  }
+]

@@ -1,0 +1,35 @@
+[
+  {
+    "q": "You have uploaded a 40-page report. Which approach gets the most out of it?",
+    "options": [
+      "Ask for one summary and stop there",
+      "Interrogate it: summary, key decisions, deadlines, action items, then follow-ups like you would ask a colleague",
+      "Read it page by page first, then ask your questions",
+      "Ask only yes-or-no questions to keep answers short"
+    ],
+    "answer": 1,
+    "explanation": "You do not read the document — you interrogate it. Ask for the summary, decisions, deadlines and action items, then follow up on whatever matters most, as you would with a colleague who has read it."
+  },
+  {
+    "q": "AI makes a claim from your document and you want to check it. What should you ask?",
+    "options": [
+      "'Which page or section does that claim come from?' — then check the ones that matter",
+      "'Is this definitely true?' — and trust the answer",
+      "Nothing, because AI never misreads or invents",
+      "Ask a second AI the same question and average the replies"
+    ],
+    "answer": 0,
+    "explanation": "AI can misread, skip or invent, so the Day 1 rule still applies: ask for sources — which page or section — and check the claims that matter. That habit is what keeps research safe."
+  },
+  {
+    "q": "What is the goal state for any document you are handed at work?",
+    "options": [
+      "A full rewrite of the document in your own words",
+      "A one-page brief — summary, key points, action items, open questions — in minutes",
+      "A list of every fact the document contains",
+      "A second opinion from a different tool"
+    ],
+    "answer": 1,
+    "explanation": "The goal state is a one-page brief: summary, key points, action items and open questions, produced in minutes. Master that and you become the person everyone sends the hard documents to."
+  }
+]

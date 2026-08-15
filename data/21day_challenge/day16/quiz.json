@@ -1,0 +1,35 @@
+[
+  {
+    "q": "What is the key difference between a chatbot and an AI agent?",
+    "options": [
+      "A chatbot runs on a schedule",
+      "An agent acts on an instruction and works through steps to produce something",
+      "Agents never make mistakes",
+      "Chatbots can move money automatically"
+    ],
+    "answer": 1,
+    "explanation": "A chatbot waits for a prompt, replies and stops. An agent takes an instruction and keeps going — checking sources, running steps and reporting back — which is why it is described as a prompt plus tools plus steps."
+  },
+  {
+    "q": "Which of these tasks is safest to hand to an agent first?",
+    "options": [
+      "Sending a payment to a supplier",
+      "Drafting a weekly summary of your own team's data",
+      "Emailing a client without your review",
+      "Storing your passwords for quick access"
+    ],
+    "answer": 1,
+    "explanation": "Drafts and summaries are work you would check anyway, so any error gets caught at review. Money movements, passwords and messages sent without review are on the 'do not hand over yet' list."
+  },
+  {
+    "q": "Why is a wrong number more dangerous inside an agent's finished report than in a single chat reply?",
+    "options": [
+      "Agents are less accurate than chatbots",
+      "The error is buried deeper in a whole product built on top of it",
+      "Agents refuse to admit mistakes",
+      "Agents run faster, so errors multiply"
+    ],
+    "answer": 1,
+    "explanation": "If a chatbot gives you a wrong number, you spot it. If an agent builds a whole report on that wrong number, the error is buried deeper — which is why the rule is 'start supervised, stay supervised'."
+  }
+]

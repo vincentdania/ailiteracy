@@ -1,0 +1,35 @@
+[
+  {
+    "q": "Which combination runs your agent privately on your own computer?",
+    "options": [
+      "Ollama for the model and Open WebUI for the interface",
+      "ChatGPT Tasks and Zapier",
+      "Claude Projects on its own",
+      "A hosted model only"
+    ],
+    "answer": 0,
+    "explanation": "Ollama runs an AI model on your computer and Open WebUI gives you a simple chat interface and knowledge base. n8n is added later, only after the agent gives reliable answers."
+  },
+  {
+    "q": "During testing, you give the agent an incomplete request. What should it do?",
+    "options": [
+      "Guess the missing context",
+      "Ask when context is missing",
+      "Refuse to answer at all",
+      "Send a message to the client"
+    ],
+    "answer": 1,
+    "explanation": "The agent brief instructs it to ask when context is missing. The 'missing context' test checks exactly this: an incomplete request should produce questions, not guesses."
+  },
+  {
+    "q": "Why must the first workflow stay read-only and require approval for actions?",
+    "options": [
+      "Free tools do not support writing",
+      "The agent must never send, delete, publish or spend without your approval",
+      "Read-only workflows run faster",
+      "Approval is only needed for financial tasks"
+    ],
+    "answer": 1,
+    "explanation": "The agent brief requires approval for any action — never send, delete, publish or spend without it. Keep secrets out, start read-only, and test before trusting the agent."
+  }
+]

@@ -30,9 +30,16 @@ function parseLessonMarkdown(raw: string) {
 }
 
 async function readLesson(day: number) {
-  const file = path.join(process.cwd(), "data", "21day_challenge", `day${String(day).padStart(2, "0")}`, "lesson.md");
+  const dir = path.join(process.cwd(), "data", "21day_challenge", `day${String(day).padStart(2, "0")}`);
+  const file = path.join(dir, "lesson.md");
   const raw = await readFile(file, "utf8");
   const parsed = parseLessonMarkdown(raw);
+  let quizJson: unknown;
+  try {
+    quizJson = JSON.parse(await readFile(path.join(dir, "quiz.json"), "utf8"));
+  } catch {
+    quizJson = undefined;
+  }
   return {
     dayNumber: day,
     title: parsed.title ?? titleFromMarkdown(parsed.content, day),
@@ -40,6 +47,7 @@ async function readLesson(day: number) {
     summary: parsed.subtitle ?? `A focused, practical AI skill for day ${day}.`,
     contentMarkdown: parsed.content.trim(),
     heroImage: `/lessons/day${String(day).padStart(2, "0")}_hero.png`,
+    quizJson,
     isFreePreview: day === 1,
     isBonus: false,
   };
@@ -83,13 +91,19 @@ async function seed() {
   });
   const bonusRaw = await readFile(path.join(process.cwd(), "data/21day_challenge/bonus/lesson.md"), "utf8");
   const bonus = parseLessonMarkdown(bonusRaw);
+  let bonusQuiz: unknown;
+  try {
+    bonusQuiz = JSON.parse(await readFile(path.join(process.cwd(), "data/21day_challenge/bonus/quiz.json"), "utf8"));
+  } catch {
+    bonusQuiz = undefined;
+  }
   const existingBonus = await prisma.lesson.findFirst({ where: { slug: "bonus-ai-operating-system", module: { courseId: course.id } } });
   if (existingBonus && existingBonus.moduleId !== bonusModule.id) {
     await prisma.lesson.update({ where: { id: existingBonus.id }, data: { moduleId: bonusModule.id } });
   }
   await prisma.lesson.upsert({
     where: { moduleId_slug: { moduleId: bonusModule.id, slug: "bonus-ai-operating-system" } },
-    update: { contentMarkdown: bonus.content.trim(), summary: bonus.summary ?? "Turn the challenge into a durable weekly practice." },
+    update: { contentMarkdown: bonus.content.trim(), summary: bonus.summary ?? "Turn the challenge into a durable weekly practice.", quizJson: bonusQuiz },
     create: {
       moduleId: bonusModule.id,
       dayNumber: 22,
@@ -97,6 +111,7 @@ async function seed() {
       slug: "bonus-ai-operating-system",
       summary: bonus.summary ?? "Turn the challenge into a durable weekly practice.",
       contentMarkdown: bonus.content.trim(),
+      quizJson: bonusQuiz,
       isFreePreview: false,
       isBonus: true,
     },

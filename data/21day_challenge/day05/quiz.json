@@ -1,0 +1,35 @@
+[
+  {
+    "q": "You have a 40-page contract to analyse and summarise. Which tool is the sensible starting point?",
+    "options": [
+      "Perplexity",
+      "Copilot",
+      "Claude",
+      "Gemini"
+    ],
+    "answer": 2,
+    "explanation": "The rule of thumb points long or messy documents to Claude: it handles uploaded files well and produces thoughtful, well-structured drafts and answers."
+  },
+  {
+    "q": "You need current facts with sources you can check for a research brief. Which tool fits the job?",
+    "options": [
+      "Perplexity",
+      "Gemini",
+      "Claude",
+      "Copilot"
+    ],
+    "answer": 0,
+    "explanation": "Perplexity is the researcher: it is best when you need sources and current information, not just an answer you would have to trust blindly."
+  },
+  {
+    "q": "A colleague insists ChatGPT is the only tool worth using. What does the lesson argue instead?",
+    "options": [
+      "Agree — consistency beats variety",
+      "Tools are free to switch between; match the tool to the job and marry none of them",
+      "Use ChatGPT for everything except research",
+      "Switch to whichever tool has the newest features each week"
+    ],
+    "answer": 1,
+    "explanation": "There is no best tool: switching costs zero, and different weeks call for different tools. The only wrong move is marrying one and defending it like a football club."
+  }
+]

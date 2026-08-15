@@ -1,0 +1,35 @@
+[
+  {
+    "q": "You are tired of re-explaining your job and writing style at the start of every chat. What does the lesson recommend?",
+    "options": [
+      "Start each chat by pasting your full CV",
+      "Save a different prompt for every topic you discuss",
+      "Upgrade to a paid plan with better memory",
+      "Set custom instructions covering who you are, how you write and what to avoid"
+    ],
+    "answer": 3,
+    "explanation": "Custom instructions are a short profile that applies to every conversation, so each chat starts pre-briefed. Include who you are, how you write and what you never want in an output."
+  },
+  {
+    "q": "Which of these follows the lesson's template structure for a saved prompt?",
+    "options": [
+      "\"Fix this draft.\"",
+      "\"You are my editor. Here is my draft: ___. Make it tighter and more persuasive, same meaning, under ___ words.\"",
+      "\"Rewrite this and make it better than before.\"",
+      "\"What would you change about my writing?\""
+    ],
+    "answer": 1,
+    "explanation": "Saved prompts follow the Day 3 framework — role, context, task, format — with blanks for the parts that change. Three good templates beat thirty mediocre ones."
+  },
+  {
+    "q": "Why does the lesson suggest writing down the workflows you repeat, such as the weekly report or the Friday client email?",
+    "options": [
+      "It is required before you can use custom instructions",
+      "It proves to your manager that you are organised",
+      "It becomes a personal playbook that saves time and travels with you to new tools",
+      "It lets you automate them with code later"
+    ],
+    "answer": 2,
+    "explanation": "A document of your repeatable workflows — the prompt, the tweaks, the output format — is your personal playbook. It takes an hour to build, saves hours every week, and comes with you if you switch tools."
+  }
+]

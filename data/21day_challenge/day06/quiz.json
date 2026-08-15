@@ -1,0 +1,35 @@
+[
+  {
+    "q": "In the sandwich method — context, draft, edit, polish — where does your judgement go in?",
+    "options": [
+      "In the context you give the AI",
+      "In the edit step, cutting and rewriting so it sounds like you",
+      "In choosing which tool to use",
+      "Only in the final polish pass"
+    ],
+    "answer": 1,
+    "explanation": "The edit step is non-negotiable: that is where you cut, rewrite and make the draft sound like you. AI drafts and polishes, but your judgement lives in the middle."
+  },
+  {
+    "q": "AI's first draft of your proposal sounds too salesy. What should you do?",
+    "options": [
+      "Restart with a brand new prompt",
+      "Send a follow-up: 'This is too salesy; make it matter-of-fact'",
+      "Accept the draft and soften it when you present it",
+      "Ask for a longer, more detailed version"
+    ],
+    "answer": 1,
+    "explanation": "Tone is a dial, not a coin flip: AI follows tone instructions well, so adjust with a follow-up rather than restarting. That is the polish step working as intended."
+  },
+  {
+    "q": "Which of these should you draft yourself rather than hand to AI?",
+    "options": [
+      "A weekly status update for your team",
+      "An introduction for a client report",
+      "A sensitive apology where getting it wrong could cost a relationship",
+      "A summary of a meeting for your manager"
+    ],
+    "answer": 2,
+    "explanation": "Anything where tone is deeply personal — a sensitive apology, a disciplinary note — should be drafted by you. Use AI only for a second opinion and a polish pass."
+  }
+]

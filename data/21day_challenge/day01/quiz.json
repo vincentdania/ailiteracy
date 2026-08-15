@@ -1,0 +1,35 @@
+[
+  {
+    "q": "You need a proposal for your boss that includes budget figures. What is the right way to use AI for this?",
+    "options": [
+      "Ask AI for the figures and paste them in unchanged",
+      "Let AI draft the proposal but verify every figure yourself",
+      "Avoid AI entirely because it cannot handle numbers",
+      "Ask AI to round the figures so they look cleaner"
+    ],
+    "answer": 1,
+    "explanation": "AI can state a wrong number with total confidence — that is hallucination. Treat it like a fast intern: let it draft, then check the facts yourself before anything leaves your desk."
+  },
+  {
+    "q": "A colleague says ChatGPT 'thinks like a human'. What is the most accurate way to describe what it actually does?",
+    "options": [
+      "It predicts the next word in a sequence, billions of times over",
+      "It runs a copy of a human brain on a computer",
+      "It searches a database of everything ever written",
+      "It calculates answers like a calculator that never errs"
+    ],
+    "answer": 0,
+    "explanation": "Tools like ChatGPT are prediction engines: they guess the next word in a sequence so well that the result looks like thinking. It is pattern matching at scale, not actual thought."
+  },
+  {
+    "q": "Which of these weekly tasks is the best fit to hand to AI?",
+    "options": [
+      "Signing off the final department budget",
+      "Deciding which colleague to promote",
+      "Drafting the first version of a client email",
+      "Emailing confidential staff records"
+    ],
+    "answer": 2,
+    "explanation": "Drafting is one of AI's genuine strengths, so a first-draft email is a great fit. Final decisions, judgement calls and your private data are exactly what stays human."
+  }
+]
