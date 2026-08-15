@@ -5,7 +5,9 @@
  * Run inside the app container: node /tmp/regenerate-why-it-matters.mjs
  * Idempotent. Updates ONLY whyItMatters; leaves progress, other overlay fields untouched.
  */
-import { PrismaClient } from "@prisma/client";
+import { createRequire } from "node:module";
+const require = createRequire("/app/package.json"); // resolve deps from the app container
+const { PrismaClient } = require("@prisma/client");
 
 const db = new PrismaClient();
 
