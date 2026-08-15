@@ -31,6 +31,13 @@ export async function saveOnboardingAction(formData: FormData) {
   await createOrRefreshLearningPlan(session.user.id, course.id, { ...parsed, preferredTools });
   await db.userProfile.update({ where: { userId: session.user.id }, data: { onboardingDone: true } });
   await updateSession({ user: { onboardingDone: true } });
+  if (process.env.FREE_ENROLLMENT_ENABLED === "true") {
+    await db.$transaction([
+      db.enrollment.upsert({ where: { userId_courseId: { userId: session.user.id, courseId: course.id } }, update: { status: "ACTIVE" }, create: { userId: session.user.id, courseId: course.id } }),
+      db.streak.upsert({ where: { userId: session.user.id }, update: {}, create: { userId: session.user.id } }),
+    ]);
+    redirect("/dashboard");
+  }
   const enrollment = await db.enrollment.findFirst({ where: { userId: session.user.id, status: { in: ["ACTIVE", "COMPLETED"] } }, select: { id: true } });
   redirect(enrollment ? "/dashboard" : "/checkout");
 }

@@ -1,6 +1,7 @@
 "use server";
 
 import bcrypt from "bcryptjs";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { sendEmail } from "@/lib/email";
@@ -8,12 +9,14 @@ import { secureToken, tokenHash } from "@/lib/security";
 import { referralCode } from "@/lib/utils";
 import { signIn } from "@/lib/auth";
 import { enforceRateLimit } from "@/lib/redis";
+import { verifyRecaptchaToken } from "@/lib/recaptcha";
 
 export type AuthActionState = { ok: boolean; message: string; verificationPath?: string };
 
 const signupSchema = z.object({ name: z.string().min(2).max(100), email: z.string().email(), password: z.string().min(8).max(72), referral: z.string().optional() });
 
 export async function signupAction(_previous: AuthActionState, formData: FormData): Promise<AuthActionState> {
+  if (!(await verifyRecaptchaToken(String(formData.get("recaptchaToken") ?? "")))) return { ok: false, message: "Please complete the security check." };
   const parsed = signupSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { ok: false, message: parsed.error.issues[0]?.message ?? "Check your details." };
   const email = parsed.data.email.toLowerCase();
@@ -42,6 +45,7 @@ export async function signupAction(_previous: AuthActionState, formData: FormDat
 export async function credentialsLoginAction(formData: FormData) {
   const requestedPath = String(formData.get("next") || "/dashboard");
   const redirectTo = requestedPath.startsWith("/") && !requestedPath.startsWith("//") ? requestedPath : "/dashboard";
+  if (!(await verifyRecaptchaToken(String(formData.get("recaptchaToken") ?? "")))) redirect(`/login?error=recaptcha&next=${encodeURIComponent(redirectTo)}`);
   await signIn("credentials", { email: formData.get("email"), password: formData.get("password"), redirectTo });
 }
 
