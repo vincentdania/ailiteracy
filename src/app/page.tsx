@@ -121,7 +121,7 @@ export default function HomePage() {
 
         <section className="bg-[#00261d] py-20 text-white md:py-24">
           <div className="container-shell grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
-            <div><p className="eyebrow text-[#ceee93]">Africa as a source of insight</p><h2 className="display mt-4 text-5xl">Real cases. Local constraints. Global lessons.</h2><p className="mt-5 leading-7 text-white/70">Study documented work in health, language, agriculture and climate resilience, then learn to test what makes an AI system useful and responsible.</p></div>
+            <div><p className="eyebrow eyebrow-inverse">Africa as a source of insight</p><h2 className="display mt-4 text-5xl">Real cases. Local constraints. Global lessons.</h2><p className="mt-5 leading-7 text-white/70">Study documented work in health, language, agriculture and climate resilience, then learn to test what makes an AI system useful and responsible.</p></div>
             <div className="grid gap-4 sm:grid-cols-2">{CASE_STUDIES.slice(0, 4).map((item) => <a key={item.slug} href={item.sourceUrl} target="_blank" rel="noreferrer" className="rounded-2xl border border-white/12 bg-white/6 p-6 transition hover:bg-white/10"><p className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#ceee93]"><MapPin size={13} />{item.region} · {item.sector}</p><h3 className="mt-3 font-serif text-xl font-semibold">{item.name}</h3><p className="mt-2 line-clamp-3 text-sm leading-6 text-white/65">{item.summary}</p></a>)}</div>
           </div>
         </section>
