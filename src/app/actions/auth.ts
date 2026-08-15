@@ -44,3 +44,9 @@ export async function credentialsLoginAction(formData: FormData) {
   const redirectTo = requestedPath.startsWith("/") && !requestedPath.startsWith("//") ? requestedPath : "/dashboard";
   await signIn("credentials", { email: formData.get("email"), password: formData.get("password"), redirectTo });
 }
+
+export async function googleSignInAction(formData: FormData) {
+  const requestedPath = String(formData.get("next") || "/dashboard");
+  const redirectTo = requestedPath.startsWith("/") && !requestedPath.startsWith("//") ? requestedPath : "/dashboard";
+  await signIn("google", { redirectTo });
+}
