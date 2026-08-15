@@ -37,8 +37,8 @@ export async function gradeQuizAction(formData: FormData) {
     score,
     total: questions.length,
     perQuestion: questions.map((question, i) => ({
-      correct: answers[i] === question.answer,
-      chosen: answers[i],
+      correct: (answers[i] ?? -1) === question.answer,
+      chosen: answers[i] ?? -1,
       answer: question.answer,
       explanation: question.explanation,
     })),

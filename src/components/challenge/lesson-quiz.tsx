@@ -38,9 +38,9 @@ export function LessonQuiz({ lessonId, quiz, bestScore }: { lessonId: string; qu
             <legend className="mb-3 font-bold text-[#00261d]">{qi + 1}. {question.q}</legend>
             <div className="grid gap-2">
               {question.options.map((option, oi) => {
-                const chosen = answers[qi] === oi;
-                const showCorrect = result && result.perQuestion[qi].answer === oi;
-                const showWrong = result && chosen && result.perQuestion[qi].answer !== oi;
+                const chosen = (answers[qi] ?? -1) === oi;
+                const showCorrect = result && result.perQuestion[qi]?.answer === oi;
+                const showWrong = result && chosen && result.perQuestion[qi]?.answer !== oi;
                 return (
                   <label key={oi} className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 text-sm ${showCorrect ? "border-[#1d604d] bg-[#eef5e9]" : showWrong ? "border-[#b5472e] bg-[#fdf1ee]" : chosen ? "border-[#00261d] ring-1 ring-[#00261d]" : "border-[#e2e8f0]"}`}>
                     <input type="radio" name={`q${qi}`} value={oi} checked={chosen} onChange={() => { if (result) return; const next = [...answers]; next[qi] = oi; setAnswers(next); }} className="accent-[#00261d]" disabled={!!result} />
@@ -51,7 +51,7 @@ export function LessonQuiz({ lessonId, quiz, bestScore }: { lessonId: string; qu
                 );
               })}
             </div>
-            {result && <p className="mt-3 rounded-xl bg-[#f4f6f5] p-3 text-sm leading-6 text-[#414845]">{result.perQuestion[qi].correct ? "Correct. " : "Not quite. "}{result.perQuestion[qi].explanation}</p>}
+            {result && <p className="mt-3 rounded-xl bg-[#f4f6f5] p-3 text-sm leading-6 text-[#414845]">{(result.perQuestion[qi]?.correct ? "Correct. " : "Not quite. ")}{result.perQuestion[qi]?.explanation}</p>}
           </fieldset>
         ))}
       </div>
