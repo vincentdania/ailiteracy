@@ -1,0 +1,25 @@
+{
+  "name": "AI Literacy — Personalized AI Certificate Program",
+  "short_name": "AI Literacy",
+  "description": "Build practical AI confidence in 20 focused minutes a day.",
+  "id": "/",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#f8f7f1",
+  "theme_color": "#00261d",
+  "lang": "en-NG",
+  "dir": "ltr",
+  "categories": ["education", "productivity", "business"],
+  "shortcuts": [
+    { "name": "Continue learning", "short_name": "Continue", "url": "/dashboard", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Course roadmap", "short_name": "Roadmap", "url": "/challenge", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
+  ],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
