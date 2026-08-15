@@ -1,4 +1,4 @@
-import { PrismaClient, UserRole } from "@prisma/client";
+import { Prisma, PrismaClient, UserRole } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
@@ -34,9 +34,9 @@ async function readLesson(day: number) {
   const file = path.join(dir, "lesson.md");
   const raw = await readFile(file, "utf8");
   const parsed = parseLessonMarkdown(raw);
-  let quizJson: unknown;
+  let quizJson: Prisma.InputJsonValue | undefined;
   try {
-    quizJson = JSON.parse(await readFile(path.join(dir, "quiz.json"), "utf8"));
+    quizJson = JSON.parse(await readFile(path.join(dir, "quiz.json"), "utf8")) as Prisma.InputJsonValue;
   } catch {
     quizJson = undefined;
   }
@@ -91,9 +91,9 @@ async function seed() {
   });
   const bonusRaw = await readFile(path.join(process.cwd(), "data/21day_challenge/bonus/lesson.md"), "utf8");
   const bonus = parseLessonMarkdown(bonusRaw);
-  let bonusQuiz: unknown;
+  let bonusQuiz: Prisma.InputJsonValue | undefined;
   try {
-    bonusQuiz = JSON.parse(await readFile(path.join(process.cwd(), "data/21day_challenge/bonus/quiz.json"), "utf8"));
+    bonusQuiz = JSON.parse(await readFile(path.join(process.cwd(), "data/21day_challenge/bonus/quiz.json"), "utf8")) as Prisma.InputJsonValue;
   } catch {
     bonusQuiz = undefined;
   }
