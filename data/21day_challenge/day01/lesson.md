@@ -27,8 +27,8 @@ Interns produce first drafts quickly. They also make confident mistakes. You wou
 ## What AI is unreliable at
 
 - **Facts and figures** — it can state a wrong number with total confidence (hallucination)
-- **Math** — simple arithmetic trips it up; always verify
-- **Judgment** — it has no stakes in your life; it won't know what your boss actually wants
+- **Maths** — simple arithmetic trips it up; always verify
+- **Judgement** — it has no stakes in your life; it won't know what your boss actually wants
 - **Your private data** — unless you decide to share it, it stays yours
 
 ## The three rules of this challenge

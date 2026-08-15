@@ -40,7 +40,7 @@ So the rule is simple: **start supervised, stay supervised.** Use agents for wor
 - Final decisions with real consequences
 - Messages to clients or bosses sent without your review
 
-Agents are early. The professionals winning with them aren't automating everything — they're automating the boring middle and keeping the judgment for themselves.
+Agents are early. The professionals winning with them aren't automating everything — they're automating the boring middle and keeping the judgement for themselves.
 
 ## Why this matters
 

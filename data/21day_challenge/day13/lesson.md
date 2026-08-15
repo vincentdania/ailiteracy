@@ -18,7 +18,7 @@ The mistake is treating AI like a vending machine: one prompt, one final answer.
 
 ## Iterative editing beats big rewrites
 
-Small, specific instructions beat vague ones every time. "Shorten by 20%" works; "make it better" doesn't. If the voice is off, give it an example: *"here's how I'd say it — match this."* After two or three rounds, the draft starts to sound like you, because you've been steering the whole way. That's co-writing: it brings the speed, you bring the judgment.
+Small, specific instructions beat vague ones every time. "Shorten by 20%" works; "make it better" doesn't. If the voice is off, give it an example: *"here's how I'd say it — match this."* After two or three rounds, the draft starts to sound like you, because you've been steering the whole way. That's co-writing: it brings the speed; you bring the judgement.
 
 ## Enforce your style guide
 
@@ -33,7 +33,7 @@ Organisations spend fortunes on brand voice; you can enforce yours with one para
 
 ## Why this matters
 
-Deliverables are where your reputation lives. Co-writing is not delegation — it's a partnership where you supply judgment and it supplies speed. The pro's tell-tale sign: you can't tell AI was involved, because the voice is yours. That's the bar. A reader should never spot "this paragraph was generated" — they should just notice you got faster.
+Deliverables are where your reputation lives. Co-writing is not delegation — it's a partnership where you supply judgement and it supplies speed. The pro's tell-tale sign: you can't tell AI was involved, because the voice is yours. That's the bar. A reader should never spot "this paragraph was generated" — they should just notice you got faster.
 
 ---
 

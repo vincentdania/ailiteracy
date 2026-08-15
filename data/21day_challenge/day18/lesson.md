@@ -26,7 +26,7 @@ Five steps. Only the last one is yours.
 
 ## A worked example: meeting follow-up
 
-Say you leave every client call with messy notes and a vague promise to "send a summary."
+Say you leave every client call with messy notes and a vague promise to "send a summary".
 
 - **Trigger:** new meeting note saved to your notes app
 - **Gather:** the note text and the attendee list
