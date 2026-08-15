@@ -5,6 +5,14 @@ import { db } from "@/lib/db";
 export default auth(async (request) => {
   const path = request.nextUrl.pathname;
   const user = request.auth?.user;
+
+  // Allow unauthenticated visitors to read free-preview lessons (e.g. Day 1)
+  if (!user && path.startsWith("/challenge/")) {
+    const slug = path.slice("/challenge/".length);
+    const lesson = await db.lesson.findFirst({ where: { slug, isFreePreview: true }, select: { id: true } });
+    if (lesson) return NextResponse.next();
+  }
+
   if (!user) return NextResponse.redirect(new URL(`/login?next=${encodeURIComponent(path)}`, request.url));
   if (path.startsWith("/admin") && user.role !== "ADMIN") return NextResponse.redirect(new URL("/dashboard", request.url));
   if (!path.startsWith("/admin") && !user.onboardingDone && path !== "/onboarding") {
