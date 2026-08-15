@@ -14,6 +14,7 @@ export type PersonalizationInput = {
 export type TrackDefinition = {
   label: string;
   promise: string;
+  buildingBlock: string;
   keywords: string[];
   tools: string[];
   caseStudies: string[];
@@ -24,6 +25,7 @@ export const TRACKS: Record<LearningTrack, TrackDefinition> = {
   CAREER_PRODUCTIVITY: {
     label: "AI for Career & Productivity",
     promise: "Turn recurring knowledge work into reliable, human-reviewed AI workflows.",
+    buildingBlock: "turning recurring knowledge work into reliable, human-reviewed AI workflows",
     keywords: ["career", "work", "productivity", "operations", "report", "email", "admin", "job", "workflow"],
     tools: ["ChatGPT or DeepSeek", "Perplexity", "Google Workspace or Microsoft 365"],
     caseStudies: ["agriadvisor-field-guidance", "masakhane-african-languages"],
@@ -36,6 +38,7 @@ export const TRACKS: Record<LearningTrack, TrackDefinition> = {
   BUSINESS_GROWTH: {
     label: "AI for Business Growth",
     promise: "Use AI to understand customers, improve service and create a practical growth engine.",
+    buildingBlock: "using AI to understand customers, improve service and create a practical growth engine",
     keywords: ["marketing", "sales", "customer", "business", "growth", "revenue", "service", "commerce"],
     tools: ["ChatGPT or DeepSeek", "Canva", "Google Sheets"],
     caseStudies: ["esusfarm-smallholders", "agriadvisor-field-guidance"],
@@ -48,6 +51,7 @@ export const TRACKS: Record<LearningTrack, TrackDefinition> = {
   CREATIVE_CONTENT: {
     label: "AI for Creativity & Content",
     promise: "Develop an authentic content system without surrendering taste, voice or cultural context.",
+    buildingBlock: "developing an authentic content system without surrendering taste, voice or cultural context",
     keywords: ["content", "creative", "design", "video", "writing", "social", "brand", "creator", "music"],
     tools: ["ChatGPT or DeepSeek", "Canva", "Adobe Express or CapCut"],
     caseStudies: ["masakhane-african-languages", "google-flood-nigeria"],
@@ -60,6 +64,7 @@ export const TRACKS: Record<LearningTrack, TrackDefinition> = {
   DATA_DECISIONS: {
     label: "AI for Data & Decisions",
     promise: "Ask better questions of information, test claims and communicate decisions clearly.",
+    buildingBlock: "asking better questions of information, testing claims and communicating decisions clearly",
     keywords: ["data", "analysis", "research", "decision", "finance", "forecast", "insight", "excel", "analytics"],
     tools: ["ChatGPT or DeepSeek", "Google Sheets or Excel", "Perplexity"],
     caseStudies: ["google-flood-nigeria", "esusfarm-smallholders"],
@@ -72,6 +77,7 @@ export const TRACKS: Record<LearningTrack, TrackDefinition> = {
   ENTREPRENEURSHIP: {
     label: "AI for Entrepreneurship",
     promise: "Move from a real local problem to a tested, responsible AI-enabled offer.",
+    buildingBlock: "moving from a real local problem to a tested, responsible AI-enabled offer",
     keywords: ["startup", "entrepreneur", "founder", "idea", "venture", "product", "sme", "freelance"],
     tools: ["ChatGPT or DeepSeek", "Canva", "Notion or Google Docs"],
     caseStudies: ["ubenwa-newborn-care", "esusfarm-smallholders", "agriadvisor-field-guidance"],
@@ -83,7 +89,8 @@ export const TRACKS: Record<LearningTrack, TrackDefinition> = {
   },
   EDUCATION_RESEARCH: {
     label: "AI for Education & Research",
-    promise: "Use AI to deepen learning and research while preserving evidence, authorship and judgment.",
+    promise: "Use AI to deepen learning and research while preserving evidence, authorship and judgement.",
+    buildingBlock: "using AI to deepen learning and research while preserving evidence, authorship and judgement",
     keywords: ["teacher", "student", "education", "learn", "research", "academic", "school", "training"],
     tools: ["ChatGPT or DeepSeek", "Perplexity", "Google Scholar"],
     caseStudies: ["masakhane-african-languages", "ubenwa-newborn-care"],

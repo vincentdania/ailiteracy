@@ -51,7 +51,7 @@ function lessonOverlay(track: LearningTrack, input: PersonalizationInput, lesson
   const caseIndex = caseStudyDays.indexOf(lesson.dayNumber);
   return {
     lessonId: lesson.id,
-    whyItMatters: `For your goal—${input.primaryGoal}—${lesson.title.toLowerCase()} is a building block for ${definition.promise.toLowerCase()}`,
+    whyItMatters: `For your goal—${input.primaryGoal}—${lesson.title.toLowerCase().replace(/\bai\b/g, "AI")} is a building block for ${definition.buildingBlock}`,
     tailoredExample: tailoredExample(track, input, lesson.dayNumber),
     practiceBrief: `Using a real but non-sensitive situation from your work or life, create ${DAILY_OUTPUTS[Math.min(lesson.dayNumber - 1, DAILY_OUTPUTS.length - 1)]}. You have about ${Math.max(15, Math.round(input.weeklyMinutes / 7))} minutes. Save the prompt, the result and the changes you made.`,
     successCriteria: [
