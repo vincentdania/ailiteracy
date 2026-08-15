@@ -10,7 +10,8 @@ const moduleDefinitions = [
   { orderIndex: 2, title: "Prompting for Real Work", days: [5, 6, 7, 8] },
   { orderIndex: 3, title: "Documents, Decisions & Data", days: [9, 10, 11, 12] },
   { orderIndex: 4, title: "Creative and Responsible AI", days: [13, 14, 15, 16] },
-  { orderIndex: 5, title: "Your AI Operating System", days: [17, 18, 19, 20, 21] },
+  { orderIndex: 5, title: "Your AI Operating System", days: [17, 18, 19, 20] },
+  { orderIndex: 6, title: "Build Your Personal AI Agent with Open-Source Tools", days: [21] },
 ];
 
 function titleFromMarkdown(content: string, day: number) {
@@ -66,21 +67,26 @@ async function seed() {
     });
     for (const day of definition.days) {
       const lesson = await readLesson(day);
-      await prisma.lesson.upsert({
-        where: { moduleId_slug: { moduleId: courseModule.id, slug: lesson.slug } },
-        update: lesson,
-        create: { moduleId: courseModule.id, ...lesson },
-      });
+      const existingLesson = await prisma.lesson.findFirst({ where: { slug: lesson.slug, module: { courseId: course.id } } });
+      if (existingLesson) {
+        await prisma.lesson.update({ where: { id: existingLesson.id }, data: { moduleId: courseModule.id, ...lesson } });
+      } else {
+        await prisma.lesson.create({ data: { moduleId: courseModule.id, ...lesson } });
+      }
     }
   }
 
   const bonusModule = await prisma.module.upsert({
-    where: { courseId_orderIndex: { courseId: course.id, orderIndex: 6 } },
+    where: { courseId_orderIndex: { courseId: course.id, orderIndex: 7 } },
     update: { title: "Referral Bonus Lab" },
-    create: { courseId: course.id, title: "Referral Bonus Lab", orderIndex: 6 },
+    create: { courseId: course.id, title: "Referral Bonus Lab", orderIndex: 7 },
   });
   const bonusRaw = await readFile(path.join(process.cwd(), "data/21day_challenge/bonus/lesson.md"), "utf8");
   const bonus = parseLessonMarkdown(bonusRaw);
+  const existingBonus = await prisma.lesson.findFirst({ where: { slug: "bonus-ai-operating-system", module: { courseId: course.id } } });
+  if (existingBonus && existingBonus.moduleId !== bonusModule.id) {
+    await prisma.lesson.update({ where: { id: existingBonus.id }, data: { moduleId: bonusModule.id } });
+  }
   await prisma.lesson.upsert({
     where: { moduleId_slug: { moduleId: bonusModule.id, slug: "bonus-ai-operating-system" } },
     update: { contentMarkdown: bonus.content.trim() },

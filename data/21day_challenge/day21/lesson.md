@@ -1,70 +1,89 @@
 ---
 day: 21
-title: Day 21 — Capstone + Certificate
-subtitle: Graduate. Claim your certificate. Bring a colleague.
-bullets: Assemble your AI Work Playbook | 21 outputs, one professional asset | Claim your certificate today | Invite a colleague — both get a bonus | Join the community, keep the streak
-rules: Finish the playbook today | Claim your certificate | Invite one colleague
+title: Day 21 — Build Your Personal AI Agent with Open-Source Tools
+subtitle: Build a private agent you can run, inspect and improve.
+bullets: Run a model locally with Ollama | Use Open WebUI as the interface | Give the agent one clear job | Add only the tools it needs | Test before trusting it
+rules: Start read-only | Keep secrets out | Require approval for actions
 ---
 
-# Day 21 — Capstone + Certificate
+# Day 21 — Build Your Personal AI Agent with Open-Source Tools
 
-**Read time: 5 minutes · Task: 15 minutes**
+**Read time: 7 minutes · Task: 30 minutes**
 
-This is it. Twenty days of drafts, prompts, workflows, and rules — today you assemble them into the thing you'll actually use: your AI Work Playbook. And you graduate.
+Today you will turn your best workflow into a personal AI agent. The first version should do one useful job well.
 
-## Your AI Work Playbook
+## Your open-source stack
 
-Your playbook is your 21 daily outputs, arranged into one document you can open on any Monday. The structure:
+- **Ollama** runs an AI model on your computer.
+- **Open WebUI** gives you a simple chat interface and knowledge base.
+- **n8n** connects the agent to repeatable workflows when you are ready.
 
-1. **My AI Fit List** (Day 1) — your map of what AI should touch
-2. **My Toolkit & Prompts** (Days 2–5) — accounts, best prompts, tool picks
-3. **My Templates** (Days 6–11) — writing, research, presentation, and automation methods
-4. **My Projects** (Days 12–15) — Claude setup, assistant spec, cheat sheets
-5. **My Automations** (Days 16–19) — delegation list, live workflows, safety rules
-6. **My System** (Day 20) — your daily routine, start to finish
+Start with Ollama and Open WebUI. Add n8n only after the agent gives reliable answers.
 
-Missed a day's output? Don't panic — the playbook works with what you have. It's a toolkit, not a trophy.
+Official setup guides:
 
-## The capstone checklist
+- [Ollama quickstart](https://docs.ollama.com/quickstart)
+- [Open WebUI quickstart](https://docs.openwebui.com/getting-started/quick-start/)
+- [n8n documentation](https://docs.n8n.io/)
 
-- [ ] Playbook assembled, all sections present
-- [ ] One workflow running and checked this week
-- [ ] Safety rules card within reach
-- [ ] Certificate claimed
-- [ ] One colleague invited
+## 1. Choose one job
 
-Work through it now. Fifteen minutes and you're done — properly done.
+Pick a narrow task you already understand:
 
-## Claim your certificate
+- Turn meeting notes into actions
+- Draft a weekly operations brief
+- Answer questions from an approved policy document
+- Turn field updates into a concise project report
 
-Your certificate is waiting: claim it from the course page, and it's yours to share — LinkedIn, email signature, CV. You've earned it with twenty-one days of actual work, not watching.
+Write the outcome in one sentence: **“My agent turns ___ into ___.”**
 
-## Now the important part: bring a colleague
+## 2. Write the agent brief
 
-The best graduates don't finish alone. Choose one colleague who keeps saying "I should learn AI" — the one who'd benefit most, and who'd make your workplace stronger with you both running the same system.
+Use this template as the agent's system prompt:
 
-Send the invite: your completion card, the certificate, and one honest line about what changed for you. Here's one you can post or send as-is:
+> You are my [role] agent. Your job is to [single outcome]. Use only the information I provide. Ask when context is missing. Separate facts, assumptions and recommendations. Never send, delete, publish or spend without my approval. End with a short checklist for my review.
 
-*"Finished the 21-Day AI Challenge — from zero to a full AI work system in three weeks. My drafts, research, and reporting now run on AI, with me in charge. If you've been meaning to start, this is the one. Join me — we both get a bonus module."*
+Add only the documents the agent needs. Remove personal, client and company secrets first.
 
-When your colleague joins, you both unlock the bonus module. Two people with a system beat one person with a system every time — and someone you bring in keeps your streak alive.
+## 3. Build the first version
 
-## Why this matters
+1. Install Ollama and run a model that fits your device.
+2. Install Open WebUI and connect it to Ollama.
+3. Create a model or workspace with your agent brief.
+4. Add one safe reference document.
+5. Test with a real but non-sensitive task.
 
-Twenty-one days ago you had a question: *can I actually get up and running with AI?* Today you have the answer, in writing, on your desk, working. That's not hype. That's a skill your employer will notice, your clients will feel, and nobody can take from you.
+If your computer cannot run a local model comfortably, complete the design and testing steps with a hosted model. The agent brief and safety rules stay the same.
 
-Welcome to the club. Now go make your colleague join it.
+## 4. Test it
+
+Run three checks:
+
+1. **Normal case:** a complete, clear request.
+2. **Missing context:** an incomplete request; the agent should ask questions.
+3. **Unsafe request:** ask it to send, delete or expose something; it should stop for approval.
+
+Record what failed and revise the brief once.
+
+## 5. Add a workflow later
+
+When the agent is reliable, use n8n to connect a trigger, the model, an output and a human approval step. Keep the first workflow read-only.
+
+## Capstone checklist
+
+- [ ] One clear agent job
+- [ ] Agent brief added
+- [ ] One approved knowledge source
+- [ ] Three tests completed
+- [ ] Human approval required for actions
+- [ ] AI Work Playbook assembled
 
 ---
 
-## 🎯 Task (15 minutes)
+## 🎯 Task (30 minutes)
 
-1. **Assemble** your AI Work Playbook from your 21 outputs
-2. **Complete** the capstone checklist
-3. **Claim** your certificate
-4. **Join** the community and post your playbook or completion card
-5. **Invite** one colleague — send the invite, then both claim your bonus module
+Build and test the smallest useful version of your personal AI agent.
 
 ## 📤 Output
 
-Your **AI Work Playbook + certificate + one referral**. Then keep the streak: your daily briefing runs tomorrow at 8am, whether or not you're "in the course" anymore. That's the point. See you at the bonus module.
+Your **agent brief, test results and working prototype**. Complete the lesson to earn your certificate.

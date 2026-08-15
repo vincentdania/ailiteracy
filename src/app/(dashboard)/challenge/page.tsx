@@ -17,7 +17,7 @@ export default async function ChallengePage() {
   const completeCount = enrollment.completedDays.filter((day) => day <= 21).length;
 
   return <div className="mx-auto max-w-4xl">
-    <header><p className="eyebrow">The 21-Day AI Challenge</p><h1 className="display mt-3 text-5xl text-[#00261d] sm:text-6xl">Curriculum Roadmap</h1><p className="mt-4 max-w-2xl leading-7 text-[#414845]">Build practical confidence in four progressive phases. A new lesson unlocks each day in your timezone.</p><div className="mt-7 max-w-sm"><Progress value={(completeCount / 21) * 100} label={`${completeCount} of 21 complete`} /></div></header>
+    <header><p className="eyebrow">21-Day AI Challenge</p><h1 className="display mt-3 text-5xl text-[#00261d] sm:text-6xl">Your roadmap</h1><p className="mt-4 max-w-2xl leading-7 text-[#414845]">One lesson unlocks each day.</p><div className="mt-7 max-w-sm"><Progress value={(completeCount / 21) * 100} label={`${completeCount} of 21 complete`} /></div></header>
 
     <div className="relative mt-12 space-y-12 before:absolute before:bottom-10 before:left-5 before:top-5 before:w-px before:bg-[#d9dfdc] sm:before:left-6">
       {enrollment.course.modules.map((courseModule, moduleIndex) => {
