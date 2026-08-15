@@ -84,7 +84,7 @@ export default function HomePage() {
           <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-[#d6e3dc] bg-[#eef5e9] p-6 sm:flex-row sm:items-center sm:p-8">
             <div className="max-w-xl">
               <p className="eyebrow">Free preview</p>
-              <h2 className="display mt-2 text-3xl text-[#00261d] sm:text-4xl">Try Day 1 — What AI Can and Can't Do</h2>
+              <h2 className="display mt-2 text-3xl text-[#00261d] sm:text-4xl">Try Day 1 — What AI Can and Can&apos;t Do</h2>
               <p className="mt-3 leading-7 text-[#414845]">Read the full first lesson free, no account needed. See the standard before you commit to the 21-day path.</p>
             </div>
             <Link href="/challenge/day-01" className="inline-flex shrink-0 items-center rounded-full bg-[#00261d] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#123c31]">Read Day 1 free <ArrowRight className="ml-2" size={16} /></Link>
