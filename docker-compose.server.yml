@@ -1,0 +1,21 @@
+services:
+  app:
+    networks:
+      - default
+      - coolify
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: coolify
+      traefik.http.middlewares.ailiteracy-next-redirect.redirectscheme.scheme: https
+      traefik.http.routers.ailiteracy-next-http.entrypoints: http
+      traefik.http.routers.ailiteracy-next-http.middlewares: ailiteracy-next-redirect
+      traefik.http.routers.ailiteracy-next-http.rule: Host(`${APP_HOST}`)
+      traefik.http.routers.ailiteracy-next-https.entrypoints: https
+      traefik.http.routers.ailiteracy-next-https.rule: Host(`${APP_HOST}`)
+      traefik.http.routers.ailiteracy-next-https.tls: "true"
+      traefik.http.routers.ailiteracy-next-https.tls.certresolver: letsencrypt
+      traefik.http.services.ailiteracy-next.loadbalancer.server.port: "3000"
+
+networks:
+  coolify:
+    external: true

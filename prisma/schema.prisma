@@ -1,0 +1,363 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  COMPLETED
+  REFUNDED
+}
+
+enum PaymentProvider {
+  STRIPE
+  PAYSTACK
+}
+
+enum Currency {
+  NGN
+  USD
+}
+
+enum TransactionStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+enum LearningTrack {
+  CAREER_PRODUCTIVITY
+  BUSINESS_GROWTH
+  CREATIVE_CONTENT
+  DATA_DECISIONS
+  ENTREPRENEURSHIP
+  EDUCATION_RESEARCH
+}
+
+enum SkillLevel {
+  BEGINNER
+  EXPLORER
+  PRACTITIONER
+}
+
+enum LearningFormat {
+  PRACTICAL
+  VISUAL
+  READING
+  MIXED
+}
+
+enum GenerationSource {
+  CURATED
+  DEEPSEEK
+}
+
+enum SubmissionStatus {
+  DRAFT
+  SUBMITTED
+  REVIEWED
+}
+
+enum AiUsageStatus {
+  SUCCESS
+  FAILED
+  SKIPPED
+}
+
+model User {
+  id                 String                   @id @default(cuid())
+  name               String?
+  email              String                   @unique
+  emailVerified      DateTime?
+  image              String?
+  passwordHash       String?
+  role               UserRole                 @default(USER)
+  referralCode       String                   @unique
+  referredById       String?
+  referredBy         User?                    @relation("UserReferrals", fields: [referredById], references: [id], onDelete: SetNull)
+  referredUsers      User[]                   @relation("UserReferrals")
+  profile            UserProfile?
+  enrollments        Enrollment[]
+  streak             Streak?
+  transactions       Transaction[]
+  certificates       Certificate[]
+  referralsMade      Referral[]               @relation("ReferralsMade")
+  referralReceived   Referral?                @relation("ReferralReceived")
+  verificationTokens EmailVerificationToken[]
+  pushSubscriptions  PushSubscription[]
+  learningPlans      LearningPlan[]
+  projectSubmissions ProjectSubmission[]
+  aiUsageEvents      AiUsageEvent[]
+  createdAt          DateTime                 @default(now())
+  updatedAt          DateTime                 @updatedAt
+
+  @@index([role])
+  @@index([referredById])
+}
+
+model UserProfile {
+  id             String         @id @default(cuid())
+  userId         String         @unique
+  profession     String
+  industry       String?
+  primaryGoal    String
+  timezone       String         @default("Africa/Lagos")
+  country        String         @default("Nigeria")
+  skillLevel     SkillLevel     @default(BEGINNER)
+  weeklyMinutes  Int            @default(140)
+  learningFormat LearningFormat @default(PRACTICAL)
+  learningTrack  LearningTrack?
+  preferredTools String[]       @default([])
+  onboardingDone Boolean        @default(false)
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
+
+model Course {
+  id            String         @id @default(cuid())
+  slug          String         @unique
+  title         String
+  description   String
+  priceNgn      Decimal        @db.Decimal(12, 2)
+  priceUsd      Decimal        @db.Decimal(10, 2)
+  isPublished   Boolean        @default(false)
+  modules       Module[]
+  enrollments   Enrollment[]
+  transactions  Transaction[]
+  certificates  Certificate[]
+  learningPlans LearningPlan[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([isPublished])
+}
+
+model Module {
+  id         String   @id @default(cuid())
+  courseId   String
+  course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title      String
+  orderIndex Int
+  lessons    Lesson[]
+
+  @@unique([courseId, orderIndex])
+  @@index([courseId])
+}
+
+model Lesson {
+  id                  String               @id @default(cuid())
+  moduleId            String
+  module              Module               @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  dayNumber           Int
+  title               String
+  slug                String
+  summary             String?
+  contentMarkdown     String
+  heroImage           String?
+  isFreePreview       Boolean              @default(false)
+  isBonus             Boolean              @default(false)
+  personalizedLessons PersonalizedLesson[]
+  projectSubmissions  ProjectSubmission[]
+
+  @@unique([moduleId, slug])
+  @@unique([moduleId, dayNumber])
+  @@index([dayNumber])
+  @@index([isBonus])
+}
+
+model Enrollment {
+  id              String           @id @default(cuid())
+  userId          String
+  courseId        String
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course          Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  enrolledAt      DateTime         @default(now())
+  status          EnrollmentStatus @default(ACTIVE)
+  unlockedDay     Int              @default(1)
+  completedDays   Int[]            @default([])
+  bonusUnlocked   Boolean          @default(false)
+  previewOverride Boolean          @default(false)
+  completedAt     DateTime?
+  capstonePassed  Boolean          @default(false)
+  assessmentScore Int?
+
+  @@unique([userId, courseId])
+  @@index([courseId, status])
+  @@index([userId, status])
+}
+
+model LearningPlan {
+  id                  String               @id @default(cuid())
+  userId              String
+  courseId            String
+  user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course              Course               @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  track               LearningTrack
+  title               String
+  outcomeSummary      String
+  milestones          Json
+  recommendedTools    String[]             @default([])
+  caseStudySlugs      String[]             @default([])
+  source              GenerationSource     @default(CURATED)
+  model               String?
+  promptVersion       String               @default("plan-v1")
+  personalizedLessons PersonalizedLesson[]
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+
+  @@unique([userId, courseId])
+  @@index([track])
+}
+
+model PersonalizedLesson {
+  id              String           @id @default(cuid())
+  learningPlanId  String
+  lessonId        String
+  learningPlan    LearningPlan     @relation(fields: [learningPlanId], references: [id], onDelete: Cascade)
+  lesson          Lesson           @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  whyItMatters    String
+  tailoredExample String
+  practiceBrief   String
+  successCriteria String[]         @default([])
+  caseStudySlug   String?
+  source          GenerationSource @default(CURATED)
+  model           String?
+  inputHash       String
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@unique([learningPlanId, lessonId])
+  @@index([lessonId])
+}
+
+model ProjectSubmission {
+  id          String           @id @default(cuid())
+  userId      String
+  lessonId    String
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson      Lesson           @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  title       String
+  content     String
+  artifactUrl String?
+  status      SubmissionStatus @default(SUBMITTED)
+  score       Int?
+  aiFeedback  Json?
+  submittedAt DateTime         @default(now())
+  reviewedAt  DateTime?
+  updatedAt   DateTime         @updatedAt
+
+  @@unique([userId, lessonId])
+  @@index([userId, status])
+}
+
+model AiUsageEvent {
+  id               String        @id @default(cuid())
+  userId           String?
+  user             User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  operation        String
+  provider         String        @default("deepseek")
+  model            String
+  inputTokens      Int?
+  outputTokens     Int?
+  estimatedCostUsd Decimal?      @db.Decimal(12, 8)
+  cacheHit         Boolean       @default(false)
+  latencyMs        Int?
+  status           AiUsageStatus
+  errorCode        String?
+  createdAt        DateTime      @default(now())
+
+  @@index([userId, createdAt])
+  @@index([operation, status, createdAt])
+}
+
+model Streak {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  currentStreak   Int       @default(0)
+  longestStreak   Int       @default(0)
+  lastActiveDate  DateTime?
+  freezeAvailable Boolean   @default(true)
+  updatedAt       DateTime  @updatedAt
+}
+
+model Transaction {
+  id          String            @id @default(cuid())
+  userId      String
+  courseId    String
+  user        User              @relation(fields: [userId], references: [id], onDelete: Restrict)
+  course      Course            @relation(fields: [courseId], references: [id], onDelete: Restrict)
+  provider    PaymentProvider
+  referenceId String            @unique
+  amount      Decimal           @db.Decimal(12, 2)
+  currency    Currency
+  status      TransactionStatus @default(PENDING)
+  rawPayload  Json?
+  processedAt DateTime?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([userId, status])
+  @@index([provider, status])
+  @@index([courseId, status])
+}
+
+model Certificate {
+  id         String   @id @default(cuid())
+  uniqueHash String   @unique
+  userId     String
+  courseId   String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  issueDate  DateTime @default(now())
+  pdfUrl     String?
+
+  @@unique([userId, courseId])
+  @@index([issueDate])
+}
+
+model Referral {
+  id             String   @id @default(cuid())
+  referrerId     String
+  referredUserId String   @unique
+  referrer       User     @relation("ReferralsMade", fields: [referrerId], references: [id], onDelete: Cascade)
+  referredUser   User     @relation("ReferralReceived", fields: [referredUserId], references: [id], onDelete: Cascade)
+  rewardGranted  Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  @@index([referrerId, rewardGranted])
+}
+
+model EmailVerificationToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, expiresAt])
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}

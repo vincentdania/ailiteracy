@@ -1,208 +1,81 @@
-# AIliteracy Django MVP
+# AI Literacy LMS
 
-Django project for [ailiteracy.ng](https://ailiteracy.ng) using Django Templates + HTMX + Alpine.js.
+A mobile-first Next.js 15 learning platform for the 21-Day AI Challenge. The legacy Django source remains in the repository as migration reference; the production application is the Next.js app under `src/`.
 
-## Stack
-- Django 4.2 LTS (Python 3.9 compatible)
-- PostgreSQL (SQLite fallback for local quick start)
-- Django REST Framework (internal APIs)
-- django-allauth (email auth)
-- Celery + Redis (async emails/background jobs)
-- django-environ (environment config)
-- django-storages (S3-compatible media storage)
-- TailwindCSS (CDN for MVP UI)
+## Local stack
 
-## Apps
-- `apps.core`
-- `apps.accounts`
-- `apps.catalog`
-- `apps.orders`
-- `apps.learning`
-- `apps.content`
-- `apps.marketing`
-- `apps.quiz`
-- `apps.bootcamp`
-- `apps.certificates`
-- `apps.ai_index`
-- `apps.referrals`
+- Next.js 15 App Router, React 19, strict TypeScript and Tailwind CSS 4
+- PostgreSQL 16 with Prisma ORM
+- Redis 7 for streak activity and rate limits, with an in-memory test fallback
+- Auth.js v5 credentials and optional Google OAuth, JWT sessions and USER/ADMIN RBAC
+- Paystack NGN and Stripe USD checkout with signed, idempotent webhooks
+- Resend, PostHog and Web Push behind environment flags or local mock adapters
+- Serwist PWA caching and server-rendered PDF certificates
 
-## Local setup
-1. Create and activate a virtual env.
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Copy env file:
-   ```bash
-   cp .env.example .env
-   ```
-4. Run migrations:
-   ```bash
-   python manage.py migrate
-   ```
-5. Create superuser:
-   ```bash
-   python manage.py createsuperuser
-   ```
-6. Start server:
-   ```bash
-   python manage.py runserver
-   ```
+## Run locally with Docker
 
-## Docker setup
+Docker Compose starts PostgreSQL and Redis, bootstraps the schema, imports all 21 Markdown lessons, creates demo users, then starts the app.
+
 ```bash
+cp .env.example .env
 docker compose up --build
 ```
 
-## Celery
-Worker:
-```bash
-celery -A config worker -l info
-```
+Open [http://localhost:3000](http://localhost:3000). No cloud keys are required while `INTEGRATION_MODE=mock`.
 
-## Test
-```bash
-pytest
-# or: python manage.py test
-```
+Demo accounts (password `ChangeMe123!`):
 
-## The 21-Day AI Challenge
+- `learner@ailiteracy.local`
+- `admin@ailiteracy.local`
 
-The challenge is a text-and-graphics course that unlocks one lesson per day from each learner's enrollment date. Day 1 is a public preview. Enrolled learners can track their current day, lesson progress, and completion streak from `/dashboard/` or the dedicated challenge page.
+Change all demo credentials and secrets before exposing an instance publicly.
 
-Import or refresh the supplied course pack after migrations:
+Set `SEED_PASSWORD` to a strong instance-specific value before a public deployment; rerunning the seed rotates both demo account passwords.
+
+## Run without Docker
+
+Start PostgreSQL 16 and Redis 7, copy `.env.example` to `.env`, then:
 
 ```bash
-python manage.py migrate
-python manage.py import_21day_challenge
+pnpm install
+pnpm prisma migrate deploy
+pnpm db:seed
+pnpm dev
 ```
 
-The import creates 1 challenge course, 5 core modules, 21 daily lessons, 1 gated referral-bonus module, and 1 linked catalog product. The core progress calculation remains 21 days; the bonus lesson never changes the completion percentage.
-
-The importer is idempotent. Use a custom price or fully replace the existing imported challenge with:
+## Quality checks
 
 ```bash
-python manage.py import_21day_challenge --price 25000.00
-python manage.py import_21day_challenge --reset
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm test:e2e
 ```
 
-### Daily email cron
+The unit suite does not connect to PostgreSQL, Redis, payment providers, email providers, or analytics services.
 
-SMTP uses the existing `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`, `EMAIL_USE_TLS`, `EMAIL_USE_SSL`, and `DEFAULT_FROM_EMAIL` environment settings. Set `EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend` in production; development continues to use the console email backend.
+## Production configuration
 
-Run the idempotent reminder command every morning from shared-hosting cron (adjust paths to the deployed virtual environment and project):
+Set strong values for `AUTH_SECRET`, `POSTGRES_PASSWORD`, and `ADMIN_TRIGGER_SECRET`. Set `NEXTAUTH_URL` to the public HTTPS origin. Add provider keys only for the integrations you enable, then change `INTEGRATION_MODE` from `mock` to `live`.
 
-```cron
-0 7 * * * cd /home/ACCOUNT/ailiteracy && /home/ACCOUNT/venv/bin/python manage.py send_daily_challenge_emails >> /home/ACCOUNT/logs/challenge-email.log 2>&1
-```
+Production launch gates:
 
-Welcome mail is sent when a challenge enrollment is created. The daily command sends only the currently unlocked day's reminder and skips learners who already completed that lesson or were already sent its reminder.
+- Use a DNS hostname with HTTPS; do not use the direct HTTP IP address for a live payment deployment.
+- Keep PostgreSQL and Redis bound to loopback or a private container network.
+- Configure Resend, Stripe, Paystack, Google OAuth and VAPID credentials before enabling their respective features.
+- Register the exact HTTPS webhook URLs below and verify provider test events before accepting payments.
+- Run `pnpm audit --prod`, `pnpm check`, and the full-flow Playwright test before each release.
+- Back up the `postgres_data` volume and test restoration before launch.
 
-### Payments: Paystack and Stripe
+The protected reminder endpoint is `POST /api/push/reminders` with `x-admin-key: $ADMIN_TRIGGER_SECRET`. Payment webhooks are:
 
-The native checkout supports both currencies without changing the existing Paystack verification and fulfilment service:
+- `POST /api/webhooks/paystack`
+- `POST /api/webhooks/stripe`
 
-- NGN uses Paystack.
-- USD uses Stripe Checkout.
-- The challenge defaults to `₦20,000` and `$39` when imported.
-- Access is granted only after a verified callback or signed webhook marks the order paid.
-
-Configure these production environment variables:
-
-```env
-PAYSTACK_PUBLIC_KEY=pk_live_...
-PAYSTACK_SECRET_KEY=sk_live_...
-PAYSTACK_WEBHOOK_SECRET=sk_live_...
-PAYSTACK_CALLBACK_URL=https://ailiteracy.ng/orders/paystack/callback/
-PAYSTACK_ALLOW_LOCAL_FALLBACK=False
-
-STRIPE_SECRET_KEY=sk_live_...
-STRIPE_PUBLISHABLE_KEY=pk_live_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-STRIPE_PRICE_ID=price_...
-```
-
-Register these provider endpoints:
-
-- Paystack callback: `https://ailiteracy.ng/orders/paystack/callback/`
-- Paystack webhook: `https://ailiteracy.ng/orders/paystack/webhook/`
-- Stripe webhook: `https://ailiteracy.ng/orders/stripe/webhook/`
-- Stripe event: `checkout.session.completed`
-
-`STRIPE_PRICE_ID` is optional. When it is blank, checkout uses the product's `price_usd` value. Never enable `PAYSTACK_ALLOW_LOCAL_FALLBACK` in production.
-
-### Certificates and referrals
-
-Completing all 21 core lessons marks the course attempt complete and issues a PDF certificate. Certificates have a public verification page at `/certificates/<uuid>/`; the PDF download remains available to its owner.
-
-Graduates receive a single-use referral link under `/refer/<code>/`. When a new learner follows that link and then enrols in the challenge, the referral is rewarded and the gated bonus module unlocks for both accounts. Referral records and reward status are available in Django admin.
-
-### Shared-hosting production sequence
-
-Passenger hosts the WSGI application, so no long-running scheduler is required for the challenge. Deploy with:
+For the existing Hetzner Traefik network, use both Compose files with a unique project name and unused host ports:
 
 ```bash
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py import_21day_challenge
-python manage.py collectstatic --noinput
-python manage.py check --deploy
-pytest
+APP_HOST=learn.example.com APP_PORT=3100 POSTGRES_PORT=5434 REDIS_PORT=6381 \
+docker compose -p ailiteracy-next -f docker-compose.yml -f docker-compose.server.yml up -d --build
 ```
-
-Then configure the daily email cron shown above. Celery remains optional for asynchronous receipts; order fulfilment falls back to direct email calls when a worker is unavailable.
-
-## New Feature Modules (Quiz + Bootcamp + Micro-course)
-
-Run setup:
-
-```bash
-python manage.py migrate
-python manage.py seed_ai_literacy_quiz
-python manage.py seed_ai_fluency_microcourse
-```
-
-Main routes:
-
-- `/quiz/` (difficult timed AI literacy quiz)
-- `/bootcamp/interest/` (bootcamp interest form)
-- `/course/ai-fluency/` (Introduction to AI Literacy course)
-- `/certificates/my/` (logged-in certificate list)
-- `/ai-literacy-index/insights/` (public AI Literacy Index insights)
-
-Quiz behavior summary:
-
-- 10 questions total
-- Q1–Q8 single-select (choose one)
-- Q9–Q10 multi-select (choose exactly two; strict scoring)
-- 20-minute time limit with countdown and auto-submit
-- Questions and options are shuffled per attempt
-- Score is out of 10 (percent = score * 10), no score cap
-
-URL integration points:
-
-- Added in `config/urls.py`:
-  - `path("quiz/", include(("apps.quiz.urls", "quiz"), namespace="quiz"))`
-  - `path("bootcamp/", include(("apps.bootcamp.urls", "bootcamp"), namespace="bootcamp"))`
-  - `path("certificates/", include(("apps.certificates.urls", "certificates"), namespace="certificates"))`
-  - `path("ai-literacy-index/", include(("apps.ai_index.urls", "ai_index"), namespace="ai_index"))`
-  - Micro-course routes are integrated in `apps.learning.urls` under `/course/...`
-
-AI Literacy Funnel integration notes:
-
-- Deep-quiz result hook:
-  - `apps/quiz/views.py` now computes/loads ALI on `quiz:result`.
-  - `apps/quiz/templates/quiz/result.html` renders ALI score, percentile, and share links (WhatsApp/LinkedIn/X).
-- ALI model/admin:
-  - `apps/ai_index/models.py` stores weighted ALI history (one record per deep-quiz completion).
-  - `apps/ai_index/admin.py` provides filters and CSV export action.
-
-Template integration point:
-
-- Homepage prompt include added in `apps/core/templates/core/home.html`:
-  - `{% include "quiz/_prompt_banner.html" %}`
-  - You can move this include into `templates/base.html` if you want site-wide quiz CTA instead of homepage-only.
-
-## Notes
-- Configure Paystack keys in `.env` before using checkout.
-- Configure S3 variables and set `USE_S3=True` to store media on S3-compatible storage.

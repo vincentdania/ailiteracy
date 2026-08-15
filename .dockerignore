@@ -12,8 +12,15 @@ venv/
 env/
 .env
 .env.production
-db.sqlite3
+*.sqlite3
 media/
 staticfiles/
 tmp/
 login_details_
+node_modules/
+.next/
+coverage/
+test-results/
+playwright-report/
+Dockerfile*
+docker-compose*.yml
