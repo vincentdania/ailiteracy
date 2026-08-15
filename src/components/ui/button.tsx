@@ -6,5 +6,5 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & { asChild?: boolean; vari
 
 export function Button({ asChild, variant = "primary", size = "md", className, ...props }: Props) {
   const Component = asChild ? Slot : "button";
-  return <Component className={cn("focus-ring inline-flex items-center justify-center rounded-full font-bold transition duration-200 disabled:cursor-not-allowed disabled:opacity-55", variant === "primary" && "bg-[#123c31] text-white hover:-translate-y-0.5 hover:bg-[#1d604d]", variant === "secondary" && "border border-[#b9c6bf] bg-white text-[#123c31] hover:border-[#123c31]", variant === "ghost" && "text-[#123c31] hover:bg-[#e9eee9]", size === "sm" && "h-9 px-4 text-sm", size === "md" && "h-11 px-5", size === "lg" && "h-14 px-7 text-lg", className)} {...props} />;
+  return <Component className={cn("focus-ring inline-flex items-center justify-center rounded-xl font-bold transition duration-200 disabled:cursor-not-allowed disabled:opacity-55", variant === "primary" && "bg-[#00261d] text-white hover:-translate-y-0.5 hover:bg-[#123c31]", variant === "secondary" && "border border-[#9aa6a1] bg-transparent text-[#00261d] hover:bg-white", variant === "ghost" && "text-[#00261d] hover:bg-[#eef1ec]", size === "sm" && "h-10 px-4 text-sm", size === "md" && "h-11 px-5", size === "lg" && "h-13 px-7 text-sm", className)} {...props} />;
 }

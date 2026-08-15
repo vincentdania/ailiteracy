@@ -1,6 +1,6 @@
 /// <reference lib="webworker" />
 import { defaultCache } from "@serwist/next/worker";
-import { Serwist } from "serwist";
+import { NetworkOnly, Serwist } from "serwist";
 
 declare const self: ServiceWorkerGlobalScope & { __SW_MANIFEST: Array<unknown> };
 
@@ -9,7 +9,14 @@ const serwist = new Serwist({
   skipWaiting: true,
   clientsClaim: true,
   navigationPreload: true,
-  runtimeCaching: defaultCache,
+  runtimeCaching: [
+    {
+      matcher: ({ sameOrigin, url }) => sameOrigin && /^(\/api|\/admin|\/dashboard|\/challenge|\/checkout|\/onboarding|\/referrals|\/verify)/.test(url.pathname),
+      method: "GET",
+      handler: new NetworkOnly({ networkTimeoutSeconds: 12 }),
+    },
+    ...defaultCache,
+  ],
   fallbacks: { entries: [{ url: "/offline", matcher({ request }) { return request.destination === "document"; } }] },
 });
 
