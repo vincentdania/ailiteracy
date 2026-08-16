@@ -57,6 +57,16 @@ button, input, textarea, select { font: inherit; }
 .lesson-prose blockquote { margin: 1.5rem 0; border-left: 4px solid var(--amber); padding: .4rem 0 .4rem 1.2rem; color: var(--muted); }
 .lesson-prose hr { border: 0; border-top: 1px solid var(--line); margin: 2.5rem 0; }
 
+/* Overflow safety for lesson content */
+.lesson-prose p, .lesson-prose li, .lesson-prose a { overflow-wrap: break-word; }
+.lesson-prose pre { max-width: 100%; overflow-x: auto; padding: 1rem 1.1rem; border-radius: .8rem; background: #0f1c18; color: #e8efe9; font-size: .9rem; line-height: 1.6; white-space: pre; }
+.lesson-prose code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .9em; word-break: break-word; overflow-wrap: anywhere; }
+.lesson-prose pre code { word-break: normal; overflow-wrap: normal; white-space: pre; background: none; padding: 0; }
+.lesson-prose img { max-width: 100%; height: auto; border-radius: .8rem; display: block; margin: 1.5rem auto; }
+.lesson-prose table { display: block; width: 100%; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 1.5rem 0; }
+.lesson-prose th, .lesson-prose td { border: 1px solid var(--line); padding: .5rem .7rem; text-align: left; }
+.lesson-prose h1, .lesson-prose h2, .lesson-prose h3 { overflow-wrap: break-word; }
+
 @keyframes float { 50% { transform: translateY(-8px); } }
 @keyframes pop { 0% { transform: scale(.8); opacity: 0; } 70% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
 .float-slow { animation: float 5s ease-in-out infinite; }

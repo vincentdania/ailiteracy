@@ -60,6 +60,12 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
   const caseStudy = getCaseStudy(personalized?.caseStudySlug);
   const quiz = Array.isArray(lesson.quizJson) ? (lesson.quizJson as QuizQuestion[]) : null;
 
+  // Lessons in curriculum order for prev/next navigation
+  const lessonList = await db.lesson.findMany({ where: { module: { courseId: lesson.module.courseId } }, orderBy: [{ isBonus: "asc" }, { dayNumber: "asc" }], select: { slug: true, dayNumber: true, title: true, isBonus: true } });
+  const lessonIndex = lessonList.findIndex((l) => l.slug === lesson.slug);
+  const prevLesson = lessonIndex > 0 ? lessonList[lessonIndex - 1] : null;
+  const nextLesson = lessonIndex >= 0 && lessonIndex < lessonList.length - 1 ? lessonList[lessonIndex + 1] : null;
+
   return <article className="mx-auto max-w-3xl">
     <Link href="/challenge" className="mb-7 inline-flex items-center gap-2 text-sm font-bold text-[#414845]"><ArrowLeft size={17} />All lessons</Link>
     <header className="border-b border-[#e2e8f0] pb-8"><p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[.15em] text-[#717975]"><Clock3 size={14} />{Math.max(15, Math.round((enrollment.user.profile?.weeklyMinutes ?? 140) / 7))} min read</p><p className="eyebrow mt-6">{lesson.isBonus ? "Referral bonus" : `Day ${String(lesson.dayNumber).padStart(2, "0")} of 21`}</p><h1 className="display mt-3 text-5xl text-[#00261d] sm:text-6xl">{lesson.title}</h1><p className="mt-5 max-w-2xl text-lg leading-8 text-[#414845]">{lesson.summary}</p></header>
@@ -79,5 +85,20 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
 
     <PracticeSubmission lessonId={lesson.id} lessonTitle={lesson.title} isCapstone={lesson.dayNumber === 21} initial={submission} />
     <CompleteButton lessonId={lesson.id} completed={enrollment.completedDays.includes(lesson.dayNumber)} />
+
+    <nav className="mt-10 grid gap-3 border-t border-[#e2e8f0] pt-6 sm:grid-cols-2">
+      {prevLesson ? (
+        <Link href={`/challenge/${prevLesson.slug}`} className="group flex flex-col gap-1 rounded-xl border border-[#e2e8f0] p-4 transition hover:border-[#1d604d]/40 hover:bg-white">
+          <span className="text-xs font-bold uppercase tracking-[.12em] text-[#717975]">Previous</span>
+          <span className="font-bold text-[#00261d] group-hover:text-[#1d604d]">{prevLesson.isBonus ? "Bonus Lab" : `Day ${String(prevLesson.dayNumber).padStart(2, "0")}`}: {prevLesson.title}</span>
+        </Link>
+      ) : <span />}
+      {nextLesson ? (
+        <Link href={`/challenge/${nextLesson.slug}`} className="group flex flex-col gap-1 rounded-xl border border-[#1d604d] bg-[#1d604d] p-4 text-white transition hover:bg-[#174e3e]">
+          <span className="text-xs font-bold uppercase tracking-[.12em] text-white/60">Next lesson</span>
+          <span className="font-bold">{nextLesson.isBonus ? "Bonus Lab" : `Day ${String(nextLesson.dayNumber).padStart(2, "0")}`}: {nextLesson.title} →</span>
+        </Link>
+      ) : <span />}
+    </nav>
   </article>;
 }
