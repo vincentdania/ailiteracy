@@ -8,7 +8,7 @@ import { db } from "@/lib/db";
 const schema = z.object({
   lessonId: z.string().min(1),
   title: z.string().min(3).max(140),
-  content: z.string().min(80, "Add enough detail to show what you made and how you checked it.").max(8_000),
+  content: z.string().min(60, "Add enough detail to show what you made and how you checked it.").max(8_000),
   artifactUrl: z.union([z.literal(""), z.string().url()]).optional(),
 });
 
