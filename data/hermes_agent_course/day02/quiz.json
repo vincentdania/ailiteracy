@@ -1,0 +1,46 @@
+[
+  {
+    "q": "Which best describes Hermes Agent's position in the open-source landscape?",
+    "options": [
+      "A developer framework for coding agents, for engineers only",
+      "A closed chat app with no customisation",
+      "An agent you own and run yourself, between a chat app and a dev tool",
+      "A fork of a commercial enterprise platform"
+    ],
+    "answer": 2,
+    "explanation": "Hermes sits between a chat app (easy, closed) and a developer framework (powerful, code-heavy): an agent you own and run, no coding required."
+  },
+  {
+    "q": "Which of these is one of the reasons Hermes Agent stands out?",
+    "options": [
+      "It only runs on expensive enterprise servers",
+      "It self-improves by saving skills and remembering you across sessions",
+      "It cannot connect to any messaging app",
+      "It requires you to pay per message in naira only"
+    ],
+    "answer": 1,
+    "explanation": "A built-in learning loop writes reusable skills from your experience and remembers you, so the agent gets better at your work over time."
+  },
+  {
+    "q": "Where does Hermes keep your secrets?",
+    "options": [
+      "On a third-party public server",
+      "In your own environment — your machine or your VPS",
+      "On the model provider's servers only",
+      "In a public notebook on GitHub"
+    ],
+    "answer": 1,
+    "explanation": "Because it runs on your own machine or server, secrets stay in your environment. The code is open source so its behavior is auditable."
+  },
+  {
+    "q": "Which research organisation is behind Hermes Agent?",
+    "options": [
+      "OpenAI",
+      "Google DeepMind",
+      "Nous Research",
+      "Meta AI"
+    ],
+    "answer": 2,
+    "explanation": "Hermes Agent comes from Nous Research, the lab behind the Hermes open-source models."
+  }
+]

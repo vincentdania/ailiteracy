@@ -1,7 +1,7 @@
 {
-  "name": "AI Literacy — Personalized AI Certificate Program",
+  "name": "AI Literacy — Build Your Personal AI Agent",
   "short_name": "AI Literacy",
-  "description": "Build practical AI confidence in 20 focused minutes a day.",
+  "description": "Hands-on course: build a personal AI agent with Hermes Agent in 20 focused minutes a day, low bandwidth.",
   "id": "/",
   "start_url": "/dashboard",
   "scope": "/",

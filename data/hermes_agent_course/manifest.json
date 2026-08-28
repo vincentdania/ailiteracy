@@ -1,0 +1,15 @@
+{
+  "slug": "hermes-agent-masterclass",
+  "title": "Build Your Personal AI Agent with Hermes Agent",
+  "description": "The definitive, hands-on course: turn the open-source Hermes Agent into a personal agent that works for you — install it anywhere, teach it your tools and memory, connect it to Telegram and WhatsApp, automate with cron, and harden it for production. Built for low bandwidth, mobile-first, students worldwide.",
+  "priceNgn": 20000,
+  "priceUsd": 29,
+  "modules": [
+    { "orderIndex": 1, "title": "Foundations", "lessons": [1, 2, 3] },
+    { "orderIndex": 2, "title": "Install & Run Everywhere", "lessons": [4, 5, 6] },
+    { "orderIndex": 3, "title": "The Agent's Brain", "lessons": [7, 8, 9] },
+    { "orderIndex": 4, "title": "Connect & Automate", "lessons": [10, 11, 12] },
+    { "orderIndex": 5, "title": "Build It Yourself — Labs", "lessons": [13, 14, 15, 16] },
+    { "orderIndex": 6, "title": "Advanced & Extend", "lessons": [17, 18, 19] }
+  ]
+}

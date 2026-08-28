@@ -1,0 +1,35 @@
+[
+  {
+    "q": "What does a 'connected wall' mean in this course?",
+    "options": [
+      "A wall of monitors in your office",
+      "One agent reached through many surfaces, sharing the same memory and skills",
+      "A group of separate, disconnected bots",
+      "Hardware networking equipment"
+    ],
+    "answer": 1,
+    "explanation": "A connected wall is one coherent agent — same tools, memory and skills — reached from terminal, Telegram, email, and cron."
+  },
+  {
+    "q": "How do you prove surfaces share the same agent?",
+    "options": [
+      "Ask the Telegram agent to reproduce a skill you only saved on the laptop",
+      "Close the terminal and hope",
+      "Reboot your router",
+      "Buy a bigger VPS"
+    ],
+    "answer": 0,
+    "explanation": "If Telegram can call the skill you saved on your laptop, they share memory and it's truly one agent."
+  },
+  {
+    "q": "What is the recommended architecture for a personal agent?",
+    "options": [
+      "A fresh separate instance for every device",
+      "One instance (often on a VPS) as the source of truth; all surfaces connect to it",
+      "No instance, cloud only",
+      "Two competing agents on different devices"
+    ],
+    "answer": 1,
+    "explanation": "Run one instance as the source of truth. Separate per-device instances fragment memory and skills."
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "q": "What is the key rule that makes the 7-day plan succeed?",
+    "options": [
+      "Do every integration in one day",
+      "One thing per day — compounding beats cramming",
+      "Skip the security day entirely",
+      "Build in whatever order seems fun"
+    ],
+    "answer": 1,
+    "explanation": "One thing per day compounds: each small win builds on the last so by Day 7 you have a working, secure, automated agent."
+  },
+  {
+    "q": "On which day does the agent reach your phone?",
+    "options": [
+      "Day 1",
+      "Day 3 (Telegram/wallet-to-pocket)",
+      "Day 7",
+      "Day 5"
+    ],
+    "answer": 1,
+    "explanation": "By Day 3 you connect Telegram so the agent is genuinely useful on the move."
+  },
+  {
+    "q": "When should you apply the security checklist?",
+    "options": [
+      "Only if something breaks",
+      "On Day 7, before you finalise",
+      "Never — it's optional",
+      "After a year of use"
+    ],
+    "answer": 1,
+    "explanation": "Hardening belongs on Day 7 as the last step, so your always-on agent is secure before you rely on it."
+  },
+  {
+    "q": "What is the Week-1 plan best summed up as?",
+    "options": [
+      "Install, personalise, pocket, email, automate, scale, harden",
+      "Buy servers for seven days",
+      "Only chat, don't automate",
+      "Do all labs in an afternoon"
+    ],
+    "answer": 0,
+    "explanation": "The week is: install → make it yours → phone access → email → automate → real-scale work → harden and review."
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "q": "What is the first email-safety recommendation?",
+    "options": [
+      "Let the agent send directly to save time",
+      "Use a dedicated low-work mailbox, not your personal/bank inbox",
+      "Share your inbox password in plain text",
+      "Connect your password-reset email"
+    ],
+    "answer": 1,
+    "explanation": "Always use a dedicated, low-privilege mailbox for the agent — never your personal/bank/password-reset inbox."
+  },
+  {
+    "q": "The agent's email replies are always:",
+    "options": [
+      "Sent automatically without review",
+      "Drafted for you to review and approve before anything sends",
+      "Copied to all your contacts",
+      "Deleted after reading"
+    ],
+    "answer": 1,
+    "explanation": "Replies are drafted in your voice and you review before sending. Nothing sends automatically — that's the core safety rule."
+  },
+  {
+    "q": "What does allowlisting senders (EMAIL_ALLOWED_USERS) accomplish?",
+    "options": [
+      "Blocks all email permanently",
+      "Restricts who can reach the agent, reducing spam and abuse",
+      "Sends spam to your contacts",
+      "Charges per sender"
+    ],
+    "answer": 1,
+    "explanation": "Allowlisting approved addresses means only they can reach the agent — a strong spam and safety control."
+  },
+  {
+    "q": "A high-value daily email ask for a professional agent is:",
+    "options": [
+      "'Auto-reply to everyone with my ad'",
+      "'Triage my inbox for funding/fellowship/RFP/client emails and draft replies I can approve'",
+      "'Delete my entire inbox'",
+      "'Send my contacts list to the agent'"
+    ],
+    "answer": 1,
+    "explanation": "Morning triage for inbound opportunities plus drafted replies is the highest-value use for a professional."
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "q": "What are 'tools' in the context of a personal agent?",
+    "options": [
+      "Physical tools like screwdrivers",
+      "The actions the agent can take — search, extract, run code, read files",
+      "The buttons in the desktop app",
+      "Expensive add-ons you must buy"
+    ],
+    "answer": 1,
+    "explanation": "Tools are the agent's actions — web search, extraction, file access, code execution — that let it do real work."
+  },
+  {
+    "q": "What is a 'toolset'?",
+    "options": [
+      "A box of physical tools",
+      "A group of tools you can switch on or off together for a purpose",
+      "The model's training data",
+      "A subscription plan"
+    ],
+    "answer": 1,
+    "explanation": "A toolset is a set of related tools you can enable or disable, so you give the agent exactly what a task needs."
+  },
+  {
+    "q": "How do you view and manage available tools?",
+    "options": [
+      "hermes tools",
+      "npm tools",
+      "hermes setup --portal",
+      "cat ~/.hermes/.env"
+    ],
+    "answer": 0,
+    "explanation": "`hermes tools` shows what's available and lets you control which toolsets the agent can call."
+  },
+  {
+    "q": "Why is limiting which toolsets are active also a security practice?",
+    "options": [
+      "Because tools are expensive to run",
+      "Because giving the agent only what a task needs reduces risk of misuse",
+      "Because too many tools slow your internet",
+      "Because tools contain personal data"
+    ],
+    "answer": 1,
+    "explanation": "Limiting tools is a security step: the agent can only do what you enable. Give it only what the task requires."
+  }
+]

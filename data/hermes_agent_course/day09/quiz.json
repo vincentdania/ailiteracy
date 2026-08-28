@@ -1,0 +1,46 @@
+[
+  {
+    "q": "What is persistent memory in Hermes?",
+    "options": [
+      "A backup of your entire hard drive",
+      "Durable, high-signal facts about you injected into every turn",
+      "A cache of every image you've ever seen",
+      "A record of every website you visit"
+    ],
+    "answer": 1,
+    "explanation": "Persistent memory stores durable facts about you that load into every turn, so the agent always acts with your identity in mind."
+  },
+  {
+    "q": "Which context file sets the agent's personality — voice, values, boundaries?",
+    "options": [
+      "SOUL.md",
+      "requirements.txt",
+      "package.json",
+      "~/.hermes/.env"
+    ],
+    "answer": 0,
+    "explanation": "SOUL.md is the personality file — voice, values, and boundaries you want the agent to follow."
+  },
+  {
+    "q": "How do you resume a past conversation in Hermes?",
+    "options": [
+      "You cannot resume sessions",
+      "hermes --continue",
+      "Re-typing the whole conversation",
+      "hermes setup --portal"
+    ],
+    "answer": 1,
+    "explanation": "Sessions persist and can be continued with `hermes --continue`, searched, or exported."
+  },
+  {
+    "q": "Where should secrets and API keys be stored?",
+    "options": [
+      "In SOUL.md",
+      "In persistent memory",
+      "In ~/.hermes/.env",
+      "In a context file"
+    ],
+    "answer": 2,
+    "explanation": "Never store secrets in memory or context files. Keep API keys and tokens in ~/.hermes/.env."
+  }
+]

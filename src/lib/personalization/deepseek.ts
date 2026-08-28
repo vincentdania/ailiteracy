@@ -45,7 +45,7 @@ export async function enhancePlanWithDeepSeek(input: PersonalizationInput, track
           {
             role: "user",
             content: JSON.stringify({
-              instruction: "Personalize the wording of a 21-day learning plan. Make the outcome observable and specific. Do not invent personal facts.",
+              instruction: "Personalize the wording of the course's 19-lesson plan. Make the outcome observable and specific. Do not invent personal facts.",
               track: trackLabel,
               profession: input.profession,
               industry: input.industry,

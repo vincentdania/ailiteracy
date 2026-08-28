@@ -1,0 +1,46 @@
+[
+  {
+    "q": "Which command shows your provider, model, and enabled tools?",
+    "options": [
+      "hermes status",
+      "hermes gateway run",
+      "hermes --continue",
+      "hermes setup"
+    ],
+    "answer": 0,
+    "explanation": "`hermes status` is your daily confirmation of provider, model, and tools."
+  },
+  {
+    "q": "Which habit keeps your agent compounding?",
+    "options": [
+      "Using the agent only once a month",
+      "Saving a skill whenever you find a repeatable workflow",
+      "Never running hermes doctor",
+      "Ignoring the security checklist"
+    ],
+    "answer": 1,
+    "explanation": "Save skills for repeatable workflows and use the agent weekly with standing tasks; that's the loop that compounds."
+  },
+  {
+    "q": "The one-line security rule is:",
+    "options": [
+      "Share is caring — put keys in config.yaml",
+      "Secrets in .env, approvals for consequential actions, checkpoints before experiments, allowlist who can reach you",
+      "Turn off all security to go faster",
+      "Let the agent auto-send emails"
+    ],
+    "answer": 1,
+    "explanation": "Keep secrets in .env, gate consequential actions with approvals, keep checkpoints, and allowlist contacts."
+  },
+  {
+    "q": "Where is the authoritative reference for going deeper?",
+    "options": [
+      "hermes-agent.nousresearch.com/docs",
+      "A random YouTube video",
+      "An old forum post",
+      "The chat of a stranger"
+    ],
+    "answer": 0,
+    "explanation": "The official documentation at hermes-agent.nousresearch.com/docs, including the Learning Path, is the authoritative reference."
+  }
+]

@@ -23,24 +23,24 @@ import { CASE_STUDIES } from "@/lib/personalization/case-studies";
 const schema = {
   "@context": "https://schema.org",
   "@type": "Course",
-  name: "Personalized AI Certificate Program",
-  description: "A 21-day applied AI certificate programme personalized to each learner's role, goals and context.",
+  name: "Build Your Personal AI Agent with Hermes Agent",
+  description: "A hands-on, low-bandwidth course: install the open-source Hermes Agent anywhere, teach it your tools and memory, connect it to Telegram and WhatsApp, automate with cron, and harden it for production. Mobile-first, built for learners worldwide.",
   provider: { "@type": "Organization", name: "AI Literacy" },
   educationalLevel: "Beginner to practitioner",
-  timeRequired: "P21D",
+  timeRequired: "P19D",
   offers: [
     { "@type": "Offer", price: "20000", priceCurrency: "NGN" },
-    { "@type": "Offer", price: "39", priceCurrency: "USD" },
+    { "@type": "Offer", price: "29", priceCurrency: "USD" },
   ],
 };
 
 const tracks = [
-  [BriefcaseBusiness, "Career", "Work faster and stand out."],
-  [Store, "Business", "Improve operations and decisions."],
-  [Palette, "Creativity", "Create and iterate with confidence."],
-  [BarChart3, "Data", "Turn information into insight."],
-  [Lightbulb, "Entrepreneurship", "Test ideas and grow smarter."],
-  [GraduationCap, "Education", "Teach, learn and research better."],
+  [BriefcaseBusiness, "Work", "Summaries, reports and follow-ups on autopilot."],
+  [Store, "Business", "Monitor markets and respond faster."],
+  [Palette, "Creativity", "Draft, iterate and publish with your agent."],
+  [BarChart3, "Data", "Collect, clean and surface the numbers."],
+  [Lightbulb, "Entrepreneurship", "Test ideas and track what matters."],
+  [GraduationCap, "Education", "Teach, mark and research better."],
 ] as const;
 
 export default function HomePage() {
@@ -51,12 +51,12 @@ export default function HomePage() {
       <main>
         <section className="container-shell grid min-h-[calc(100svh-72px)] items-center gap-10 py-12 md:grid-cols-2 md:py-20">
           <div className="max-w-2xl">
-            <p className="eyebrow mb-5">21 days · Practical AI · Certificate</p>
+            <p className="eyebrow mb-5">19 lessons · Hands-on · Build a working agent</p>
             <h1 className="display text-[clamp(3.25rem,6vw,5.5rem)] text-[#00261d]">
-              Use AI better at work.
+              Build a personal AI agent that works for you.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-[#414845]">
-              Build useful skills, complete a capstone and earn a verified certificate.
+              Install the open-source Hermes Agent on your own device, teach it your tools and memory, connect it to Telegram and WhatsApp, and automate your day — hands-on, mobile-first, low bandwidth.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg"><Link href="/signup">Start learning <ArrowRight className="ml-2" size={18} /></Link></Button>
@@ -84,10 +84,10 @@ export default function HomePage() {
           <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-[#d6e3dc] bg-[#eef5e9] p-6 sm:flex-row sm:items-center sm:p-8">
             <div className="max-w-xl">
               <p className="eyebrow">Free preview</p>
-              <h2 className="display mt-2 text-3xl text-[#00261d] sm:text-4xl">Try Day 1 — What AI Can and Can&apos;t Do</h2>
-              <p className="mt-3 leading-7 text-[#414845]">Read the full first lesson free, no account needed. See the standard before you commit to the 21-day path.</p>
+              <h2 className="display mt-2 text-3xl text-[#00261d] sm:text-4xl">Try Lesson 1 — Meet Hermes Agent</h2>
+              <p className="mt-3 leading-7 text-[#414845]">Read the first lesson free, no account needed. See exactly what you&apos;ll build before you commit.</p>
             </div>
-            <Link href="/challenge/day-01" className="inline-flex shrink-0 items-center rounded-full bg-[#00261d] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#123c31]">Read Day 1 free <ArrowRight className="ml-2" size={16} /></Link>
+            <Link href="/challenge/hermes-01" className="inline-flex shrink-0 items-center rounded-full bg-[#00261d] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#123c31]">Read Lesson 1 free <ArrowRight className="ml-2" size={16} /></Link>
           </div>
         </section>
 
@@ -108,13 +108,13 @@ export default function HomePage() {
           <div className="grid gap-12 lg:grid-cols-[.78fr_1.22fr]">
             <div>
               <p className="eyebrow">How it works</p>
-              <h2 className="display mt-4 text-5xl text-[#00261d]">A plan built around your goal.</h2>
+              <h2 className="display mt-4 text-5xl text-[#00261d]">Your agent, built step by step.</h2>
             </div>
             <div className="grid gap-px overflow-hidden rounded-2xl border border-[#e2e8f0] bg-[#e2e8f0] md:grid-cols-3">
               {[
-                ["01", "Choose a goal", "Tell us what you want to improve."],
-                ["02", "Practise daily", "Use AI on realistic tasks."],
-                ["03", "Build and certify", "Finish a capstone and earn your certificate."],
+                ["01", "Install anywhere", "Get Hermes Agent running on your device or a low-cost VPS."],
+                ["02", "Teach and connect", "Add your tools and memory; connect Telegram and WhatsApp."],
+                ["03", "Automate and certify", "Put it on a schedule, harden it for production, earn your certificate."],
               ].map(([number, title, copy]) => <article key={number} className="bg-white p-7"><span className="font-serif text-4xl text-[#7da798]">{number}</span><h3 className="mt-8 font-serif text-2xl font-semibold text-[#00261d]">{title}</h3><p className="mt-3 text-sm leading-6 text-[#414845]">{copy}</p></article>)}
             </div>
           </div>
@@ -122,7 +122,7 @@ export default function HomePage() {
 
         <section id="outcomes" className="bg-[#f2f3ff] py-20 md:py-28">
           <div className="container-shell">
-            <div className="max-w-2xl"><p className="eyebrow">Choose your track</p><h2 className="display mt-4 text-5xl text-[#00261d]">Learn for the work you do.</h2></div>
+            <div className="max-w-2xl"><p className="eyebrow">Where you&apos;ll use it</p><h2 className="display mt-4 text-5xl text-[#00261d]">Put your agent to work on what you do.</h2></div>
             <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {tracks.map(([Icon, title, copy]) => <article key={title} className="editorial-card p-6 transition hover:-translate-y-0.5 hover:shadow-md"><span className="grid size-10 place-items-center rounded-lg bg-[#f2f3ff] text-[#00261d]"><Icon size={19} strokeWidth={1.7} /></span><h3 className="mt-5 font-serif text-2xl font-semibold text-[#00261d]">{title}</h3><p className="mt-2 text-sm leading-6 text-[#414845]">{copy}</p></article>)}
             </div>
@@ -136,9 +136,9 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="syllabus" className="container-shell py-20 md:py-28"><div className="mx-auto mb-12 max-w-2xl text-center"><p className="eyebrow">Course outline</p><h2 className="display mt-4 text-5xl text-[#00261d]">Your 21-day path.</h2></div><Syllabus /></section>
+        <section id="syllabus" className="container-shell py-20 md:py-28"><div className="mx-auto mb-12 max-w-2xl text-center"><p className="eyebrow">Course outline</p><h2 className="display mt-4 text-5xl text-[#00261d]">Six modules. One working agent.</h2></div><Syllabus /></section>
 
-        <section id="pricing" className="border-t border-[#e2e8f0] bg-white py-20 md:py-28"><div className="container-shell"><div className="mb-12 text-center"><p className="eyebrow">Simple pricing</p><h2 className="display mt-4 text-5xl text-[#00261d]">One programme. One payment.</h2></div><PricingToggle /></div></section>
+        <section id="pricing" className="border-t border-[#e2e8f0] bg-white py-20 md:py-28"><div className="container-shell"><div className="mb-12 text-center"><p className="eyebrow">Simple pricing</p><h2 className="display mt-4 text-5xl text-[#00261d]">One course. One payment.</h2></div><PricingToggle /></div></section>
       </main>
       <footer className="safe-bottom bg-[#00261d] py-10 text-white"><div className="container-shell flex flex-col justify-between gap-5 text-sm sm:flex-row sm:items-center"><strong className="font-serif text-xl">AI Literacy</strong><nav aria-label="Footer" className="flex gap-5 text-white/70"><Link href="/login">Sign in</Link><a href="mailto:support@ailiteracy.africa">Support</a></nav></div></footer>
     </>

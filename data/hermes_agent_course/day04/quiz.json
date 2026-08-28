@@ -1,0 +1,46 @@
+[
+  {
+    "q": "What is the official one-command install for Linux / macOS / WSL2?",
+    "options": [
+      "npm install -g hermes-agent",
+      "curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash",
+      "pip install hermes-agent",
+      "brew install hermes"
+    ],
+    "answer": 1,
+    "explanation": "The official install is `curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash`. Windows native uses the PowerShell installer instead."
+  },
+  {
+    "q": "What does the installer automatically handle for you?",
+    "options": [
+      "Your API payments",
+      "Python, Node, ripgrep and ffmpeg dependencies",
+      "Your email account password",
+      "A VPS purchase"
+    ],
+    "answer": 1,
+    "explanation": "The installer auto-handles Python, Node, ripgrep and ffmpeg so you mostly just run one command."
+  },
+  {
+    "q": "Which command starts the setup wizard after installation?",
+    "options": [
+      "hermes start",
+      "hermes setup --portal",
+      "hermes doctor",
+      "hermes"
+    ],
+    "answer": 3,
+    "explanation": "Simply running `hermes` launches the setup wizard. `hermes doctor` is a separate health-check command you use to keep a clean baseline."
+  },
+  {
+    "q": "What is the 'clean baseline' habit this lesson teaches?",
+    "options": [
+      "Reinstall every week to remove old features",
+      "Get one clean `hermes doctor` run before adding any feature",
+      "Never install anything new once set up",
+      "Only use the desktop app and never the CLI"
+    ],
+    "answer": 1,
+    "explanation": "A clean `hermes doctor` before each feature means that when something breaks later, you know the new feature caused it — not a mystery."
+  }
+]

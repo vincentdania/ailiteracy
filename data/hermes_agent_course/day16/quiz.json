@@ -1,0 +1,35 @@
+[
+  {
+    "q": "What does 'production' mean for a personal agent?",
+    "options": [
+      "Running only when you open your laptop",
+      "Always-on, reachable, remembering, scheduled and secure",
+      "Installed on a friend's machine",
+      "Using only free providers"
+    ],
+    "answer": 1,
+    "explanation": "Production means always-on, reachable from your daily apps, remembering you, running at least one scheduled job, and secure."
+  },
+  {
+    "q": "A reliable way to confirm your agent is truly in production is:",
+    "options": [
+      "The install finished without errors",
+      "It passes the 48-hour test (briefings arrive, phone access works, memory persists, nothing sent without approval)",
+      "You paid for a VPS",
+      "You see the logo in your terminal"
+    ],
+    "answer": 1,
+    "explanation": "The honest test is behavioural: does it deliver on schedule, answer from your phone, remember across 48 hours, and never act without approval."
+  },
+  {
+    "q": "What is the final discipline after the capstone build?",
+    "options": [
+      "Stop using the agent to save data",
+      "Put it to work weekly with standing tasks so it compounds",
+      "Delete the skills you saved",
+      "Reinstall everything monthly"
+    ],
+    "answer": 1,
+    "explanation": "A personal agent only compounds if used — commit to standing weekly tasks like briefings, triage, and synthesis."
+  }
+]

@@ -20,6 +20,7 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
   const { slug } = await params;
   const lesson = await db.lesson.findFirst({ where: { slug }, include: { module: { include: { course: true } } } });
   if (!lesson) notFound();
+  const courseLessonCount = await db.lesson.count({ where: { module: { courseId: lesson.module.courseId }, isBonus: false } });
 
   // Public free preview (e.g. Day 1) for visitors who are not signed in.
   if (!session?.user.id) {
@@ -28,17 +29,17 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
       <article className="mx-auto max-w-3xl">
         <Link href="/" className="mb-7 inline-flex items-center gap-2 text-sm font-bold text-[#414845]"><ArrowLeft size={17} />Back to home</Link>
         <header className="border-b border-[#e2e8f0] pb-8">
-          <p className="eyebrow mt-6">Free preview · Day {String(lesson.dayNumber).padStart(2, "0")} of 21</p>
+          <p className="eyebrow mt-6">Free preview · Lesson {String(lesson.dayNumber).padStart(2, "0")} of {courseLessonCount}</p>
           <h1 className="display mt-3 text-5xl text-[#00261d] sm:text-6xl">{lesson.title}</h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-[#414845]">{lesson.summary}</p>
         </header>
         <div className="mt-8"><div className="lesson-prose"><ReactMarkdown remarkPlugins={[remarkGfm]}>{lesson.contentMarkdown}</ReactMarkdown></div></div>
         <div className="mt-10 rounded-2xl bg-[#00261d] p-6 text-white sm:p-8">
-          <h2 className="display text-3xl">This is Day 1 of 21.</h2>
-          <p className="mt-3 leading-7 text-white/75">Join the challenge to get the full personalised course: your own practice briefs, African case studies, weekly rhythm, and a certificate — built around your goal.</p>
+          <h2 className="display text-3xl">This is your free preview.</h2>
+          <p className="mt-3 leading-7 text-white/75">Enroll in the Hermes Agent Masterclass to get all 19 hands-on lessons: install, skills, messaging, email, automation and a running agent — plus quizzes, labs and the cheat sheet.</p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/signup" className="inline-flex items-center rounded-full bg-[#fec24a] px-6 py-3 text-sm font-bold text-[#00261d]">Join the challenge</Link>
-            <Link href="/" className="inline-flex items-center rounded-full border border-white/30 px-6 py-3 text-sm font-bold text-white">Explore the course</Link>
+            <Link href="/hermes-agent" className="inline-flex items-center rounded-full bg-[#d9f99d] px-6 py-3 text-sm font-bold text-[#123c31]">Enroll — ₦20,000</Link>
+            <Link href="/challenge?course=hermes-agent-masterclass" className="inline-flex items-center rounded-full border border-white/30 px-6 py-3 text-sm font-bold text-white">View curriculum</Link>
           </div>
         </div>
       </article>
@@ -68,7 +69,7 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
 
   return <article className="mx-auto max-w-3xl">
     <Link href="/challenge" className="mb-7 inline-flex items-center gap-2 text-sm font-bold text-[#414845]"><ArrowLeft size={17} />All lessons</Link>
-    <header className="border-b border-[#e2e8f0] pb-8"><p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[.15em] text-[#717975]"><Clock3 size={14} />{Math.max(15, Math.round((enrollment.user.profile?.weeklyMinutes ?? 140) / 7))} min read</p><p className="eyebrow mt-6">{lesson.isBonus ? "Referral bonus" : `Day ${String(lesson.dayNumber).padStart(2, "0")} of 21`}</p><h1 className="display mt-3 text-5xl text-[#00261d] sm:text-6xl">{lesson.title}</h1><p className="mt-5 max-w-2xl text-lg leading-8 text-[#414845]">{lesson.summary}</p></header>
+    <header className="border-b border-[#e2e8f0] pb-8"><p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[.15em] text-[#717975]"><Clock3 size={14} />{Math.max(15, Math.round((enrollment.user.profile?.weeklyMinutes ?? 140) / 7))} min read</p><p className="eyebrow mt-6">{lesson.isBonus ? "Referral bonus" : `Lesson ${String(lesson.dayNumber).padStart(2, "0")} of ${courseLessonCount}`}</p><h1 className="display mt-3 text-5xl text-[#00261d] sm:text-6xl">{lesson.title}</h1><p className="mt-5 max-w-2xl text-lg leading-8 text-[#414845]">{lesson.summary}</p></header>
 
     {personalized && <section className="editorial-card mt-8 overflow-hidden">
       <div className="flex items-center justify-between border-b border-[#e2e8f0] px-6 py-4"><p className="flex items-center gap-2 text-sm font-bold text-[#00261d]"><Sparkles size={17} />Personalised for your outcome</p><span className="rounded-full bg-[#f2f3ff] px-3 py-1 text-xs font-bold text-[#414845]">{plan?.source === "DEEPSEEK" ? "AI-assisted plan" : "Curated plan"}</span></div>
@@ -90,13 +91,13 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
       {prevLesson ? (
         <Link href={`/challenge/${prevLesson.slug}`} className="group flex flex-col gap-1 rounded-xl border border-[#e2e8f0] p-4 transition hover:border-[#1d604d]/40 hover:bg-white">
           <span className="text-xs font-bold uppercase tracking-[.12em] text-[#717975]">Previous</span>
-          <span className="font-bold text-[#00261d] group-hover:text-[#1d604d]">{prevLesson.isBonus ? "Bonus Lab" : `Day ${String(prevLesson.dayNumber).padStart(2, "0")}`}: {prevLesson.title}</span>
+          <span className="font-bold text-[#00261d] group-hover:text-[#1d604d]">{prevLesson.isBonus ? "Bonus Lab" : `${lesson.module.course.slug === "hermes-agent-masterclass" ? "Lesson" : "Day"} ${String(prevLesson.dayNumber).padStart(2, "0")}`}: {prevLesson.title}</span>
         </Link>
       ) : <span />}
       {nextLesson ? (
         <Link href={`/challenge/${nextLesson.slug}`} className="group flex flex-col gap-1 rounded-xl border border-[#1d604d] bg-[#1d604d] p-4 text-white transition hover:bg-[#174e3e]">
           <span className="text-xs font-bold uppercase tracking-[.12em] text-white/60">Next lesson</span>
-          <span className="font-bold">{nextLesson.isBonus ? "Bonus Lab" : `Day ${String(nextLesson.dayNumber).padStart(2, "0")}`}: {nextLesson.title} →</span>
+          <span className="font-bold">{nextLesson.isBonus ? "Bonus Lab" : `${lesson.module.course.slug === "hermes-agent-masterclass" ? "Lesson" : "Day"} ${String(nextLesson.dayNumber).padStart(2, "0")}`}: {nextLesson.title} →</span>
         </Link>
       ) : <span />}
     </nav>

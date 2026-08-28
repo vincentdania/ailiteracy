@@ -5,18 +5,24 @@ import path from "node:path";
 
 const prisma = new PrismaClient();
 
-const moduleDefinitions = [
-  { orderIndex: 1, title: "AI Foundations", days: [1, 2, 3, 4] },
-  { orderIndex: 2, title: "Prompting for Real Work", days: [5, 6, 7, 8] },
-  { orderIndex: 3, title: "Documents, Decisions & Data", days: [9, 10, 11, 12] },
-  { orderIndex: 4, title: "Creative and Responsible AI", days: [13, 14, 15, 16] },
-  { orderIndex: 5, title: "Your AI Operating System", days: [17, 18, 19, 20] },
-  { orderIndex: 6, title: "Build Your Personal AI Agent with Open-Source Tools", days: [21] },
-];
+/**
+ * ARCHITECTURE NOTE (2026-08-28):
+ * ailiteracy.ng now ships ONE flagship course: "Build Your Personal AI Agent with
+ * Hermes Agent" (`hermes-agent-masterclass`). The former "21-Day AI Challenge"
+ * (`21-day-ai-challenge`) has been RETIRED. Seeding this file:
+ *   - hard-deletes the legacy 21-day course and ALL of its data (modules/lessons,
+ *     enrollments, learning plans, certificates, progress, submissions)
+ *   - provisions the Hermes Agent Masterclass as the sole course
+ * Running this on a fresh DB simply provisions the Hermes course; on an existing
+ * DB it migrates the product from the 21-day course to the agent course.
+ */
 
-function titleFromMarkdown(content: string, day: number) {
+const MANIFEST_PATH = path.join(process.cwd(), "data", "hermes_agent_course", "manifest.json");
+const LEGACY_SLUG = "21-day-ai-challenge";
+
+function titleFromMarkdown(content: string, lessonNo: number) {
   const heading = content.match(/^#\s+(.+)$/m)?.[1];
-  return heading?.replace(/^Day\s+\d+\s+[—-]\s+/, "") ?? `Day ${day}`;
+  return heading?.replace(/^Lesson\s+\d+\s+[—-]\s+/, "") ?? `Lesson ${lessonNo}`;
 }
 
 function parseLessonMarkdown(raw: string) {
@@ -29,8 +35,8 @@ function parseLessonMarkdown(raw: string) {
   return { title: value("title"), subtitle: value("subtitle"), summary: value("summary"), content: frontmatter ? raw.slice(frontmatter[0].length).trim() : raw.trim() };
 }
 
-async function readLesson(day: number) {
-  const dir = path.join(process.cwd(), "data", "21day_challenge", `day${String(day).padStart(2, "0")}`);
+async function readLesson(day: number, opts: { dir: string; heroPrefix: string; freePreviewDay?: number; slugPrefix?: string } = { dir: "hermes_agent_course", heroPrefix: "hermes-", freePreviewDay: 1, slugPrefix: "hermes-" }) {
+  const dir = path.join(process.cwd(), "data", opts.dir, `day${String(day).padStart(2, "0")}`);
   const file = path.join(dir, "lesson.md");
   const raw = await readFile(file, "utf8");
   const parsed = parseLessonMarkdown(raw);
@@ -43,37 +49,54 @@ async function readLesson(day: number) {
   return {
     dayNumber: day,
     title: parsed.title ?? titleFromMarkdown(parsed.content, day),
-    slug: `day-${String(day).padStart(2, "0")}`,
-    summary: parsed.subtitle ?? `A focused, practical AI skill for day ${day}.`,
+    slug: `${opts.slugPrefix ?? "hermes-"}${String(day).padStart(2, "0")}`,
+    summary: parsed.subtitle ?? `A focused, practical skill for lesson ${day}.`,
     contentMarkdown: parsed.content.trim(),
-    heroImage: `/lessons/day${String(day).padStart(2, "0")}_hero.png`,
+    heroImage: `/lessons/${opts.heroPrefix}day${String(day).padStart(2, "0")}_hero.png`,
     quizJson,
-    isFreePreview: day === 1,
+    isFreePreview: day === (opts.freePreviewDay ?? 0),
     isBonus: false,
   };
 }
 
-async function seed() {
+async function deleteLegacyTwentyDayCourse() {
+  const legacy = await prisma.course.findUnique({ where: { slug: LEGACY_SLUG } });
+  if (!legacy) {
+    console.info("No legacy 21-day course to remove (already clean).");
+    return;
+  }
+  // Transaction.courseId is onDelete.Restrict: clear it before deleting the course.
+  await prisma.transaction.deleteMany({ where: { courseId: legacy.id } });
+  // Course deletion cascades to modules/lessons, enrollments, learning plans,
+  // personalized lessons, lesson progress, quiz attempts, submissions, certificates.
+  await prisma.course.delete({ where: { id: legacy.id } });
+  console.info(`Removed legacy course "${LEGACY_SLUG}" and all its data (${legacy.id}).`);
+}
+
+async function seedHermesCourse() {
+  const manifestRaw = await readFile(MANIFEST_PATH, "utf8");
+  const manifest = JSON.parse(manifestRaw) as {
+    slug: string;
+    title: string;
+    description: string;
+    priceNgn: number;
+    priceUsd: number;
+    modules: { orderIndex: number; title: string; lessons: number[] }[];
+  };
+
   const course = await prisma.course.upsert({
-    where: { slug: "21-day-ai-challenge" },
-    update: { title: "Personalized AI Certificate Program", description: "Master practical AI fundamentals through a learning path built around your role, outcome and context.", isPublished: true, priceNgn: 20_000, priceUsd: 39 },
-    create: {
-      slug: "21-day-ai-challenge",
-      title: "Personalized AI Certificate Program",
-      description: "Master practical AI fundamentals through a learning path built around your role, outcome and context.",
-      priceNgn: 20_000,
-      priceUsd: 39,
-      isPublished: true,
-    },
+    where: { slug: manifest.slug },
+    update: { title: manifest.title, description: manifest.description, priceNgn: manifest.priceNgn, priceUsd: manifest.priceUsd, isPublished: true },
+    create: { slug: manifest.slug, title: manifest.title, description: manifest.description, priceNgn: manifest.priceNgn, priceUsd: manifest.priceUsd, isPublished: true },
   });
 
-  for (const definition of moduleDefinitions) {
+  for (const definition of manifest.modules) {
     const courseModule = await prisma.module.upsert({
       where: { courseId_orderIndex: { courseId: course.id, orderIndex: definition.orderIndex } },
       update: { title: definition.title },
       create: { courseId: course.id, title: definition.title, orderIndex: definition.orderIndex },
     });
-    for (const day of definition.days) {
+    for (const day of definition.lessons) {
       const lesson = await readLesson(day);
       const existingLesson = await prisma.lesson.findFirst({ where: { slug: lesson.slug, module: { courseId: course.id } } });
       if (existingLesson) {
@@ -84,38 +107,16 @@ async function seed() {
     }
   }
 
-  const bonusModule = await prisma.module.upsert({
-    where: { courseId_orderIndex: { courseId: course.id, orderIndex: 7 } },
-    update: { title: "Referral Bonus Lab" },
-    create: { courseId: course.id, title: "Referral Bonus Lab", orderIndex: 7 },
-  });
-  const bonusRaw = await readFile(path.join(process.cwd(), "data/21day_challenge/bonus/lesson.md"), "utf8");
-  const bonus = parseLessonMarkdown(bonusRaw);
-  let bonusQuiz: Prisma.InputJsonValue | undefined;
-  try {
-    bonusQuiz = JSON.parse(await readFile(path.join(process.cwd(), "data/21day_challenge/bonus/quiz.json"), "utf8")) as Prisma.InputJsonValue;
-  } catch {
-    bonusQuiz = undefined;
-  }
-  const existingBonus = await prisma.lesson.findFirst({ where: { slug: "bonus-ai-operating-system", module: { courseId: course.id } } });
-  if (existingBonus && existingBonus.moduleId !== bonusModule.id) {
-    await prisma.lesson.update({ where: { id: existingBonus.id }, data: { moduleId: bonusModule.id } });
-  }
-  await prisma.lesson.upsert({
-    where: { moduleId_slug: { moduleId: bonusModule.id, slug: "bonus-ai-operating-system" } },
-    update: { contentMarkdown: bonus.content.trim(), summary: bonus.summary ?? "Turn the challenge into a durable weekly practice.", quizJson: bonusQuiz },
-    create: {
-      moduleId: bonusModule.id,
-      dayNumber: 22,
-      title: bonus.title ?? "Build Your AI Operating System",
-      slug: "bonus-ai-operating-system",
-      summary: bonus.summary ?? "Turn the challenge into a durable weekly practice.",
-      contentMarkdown: bonus.content.trim(),
-      quizJson: bonusQuiz,
-      isFreePreview: false,
-      isBonus: true,
-    },
-  });
+  console.info(`Seeded flagship course: ${manifest.title} (${course.id})`);
+  return course;
+}
+
+async function seed() {
+  // 1) Retire the old 21-day course and its data.
+  await deleteLegacyTwentyDayCourse();
+
+  // 2) Provision the Hermes Agent Masterclass as the sole flagship.
+  const course = await seedHermesCourse();
 
   const seedPassword = process.env.SEED_PASSWORD ?? "ChangeMe123!";
   if (seedPassword.length < 12) throw new Error("SEED_PASSWORD must be at least 12 characters");
@@ -129,15 +130,8 @@ async function seed() {
       emailVerified: new Date(),
       passwordHash,
       role: UserRole.ADMIN,
-      referralCode: "ADMIN21",
-      profile: {
-        create: {
-          profession: "Programme Director",
-          industry: "Education",
-          primaryGoal: "Help more professionals become AI fluent",
-          onboardingDone: true,
-        },
-      },
+      referralCode: "AGENT21",
+      profile: { create: { profession: "Programme Director", industry: "Education", primaryGoal: "Help professionals build capable personal agents", onboardingDone: true } },
     },
   });
   const learner = await prisma.user.upsert({
@@ -148,15 +142,8 @@ async function seed() {
       email: "learner@ailiteracy.local",
       emailVerified: new Date(),
       passwordHash,
-      referralCode: "LEARN21",
-      profile: {
-        create: {
-          profession: "Operations Manager",
-          industry: "Professional Services",
-          primaryGoal: "Automate repetitive knowledge work",
-          onboardingDone: true,
-        },
-      },
+      referralCode: "AGENTLEARN",
+      profile: { create: { profession: "Operations Manager", industry: "Professional Services", primaryGoal: "Automate repetitive knowledge work", onboardingDone: true } },
     },
   });
   await prisma.enrollment.upsert({
@@ -164,11 +151,7 @@ async function seed() {
     update: {},
     create: { userId: learner.id, courseId: course.id },
   });
-  await prisma.streak.upsert({
-    where: { userId: learner.id },
-    update: {},
-    create: { userId: learner.id },
-  });
+  await prisma.streak.upsert({ where: { userId: learner.id }, update: {}, create: { userId: learner.id } });
   console.info(`Seeded ${course.title}; admin=${admin.email}; learner=${learner.email}`);
 }
 

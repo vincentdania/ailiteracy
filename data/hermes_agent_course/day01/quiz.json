@@ -1,0 +1,46 @@
+[
+  {
+    "q": "What is the main difference between a chatbot and an agent?",
+    "options": [
+      "A chatbot can read files, an agent cannot",
+      "An agent loops — it plans, calls tools, observes results, and iterates to finish a goal",
+      "A chatbot is paid, an agent is free",
+      "An agent only answers one question then stops"
+    ],
+    "answer": 1,
+    "explanation": "A chatbot answers and stops. An agent works toward a goal by calling tools and iterating until the task is done."
+  },
+  {
+    "q": "\"ChatGPT answers. An agent works.\" What does the phrase 'an agent works' mean in plain terms?",
+    "options": [
+      "It applies for jobs on your behalf automatically",
+      "It performs multi-step tasks in your environment using tools, not just text replies",
+      "It writes all your essays for you",
+      "It charges for every single word it produces"
+    ],
+    "answer": 1,
+    "explanation": "An agent executes tasks end-to-end in your environment — searching, reading files, running code, sending messages — rather than just replying with text."
+  },
+  {
+    "q": "Which of these is NOT part of a personal agent's environment?",
+    "options": [
+      "Files it can read and edit",
+      "The ability to run code",
+      "Web search and page access",
+      "A warranty from the app store"
+    ],
+    "answer": 3,
+    "explanation": "An agent's environment is made of the tools that let it act: files, code, the web, and messaging. A warranty is not part of that."
+  },
+  {
+    "q": "What makes an agent 'personal' rather than a generic chat tool?",
+    "options": [
+      "It remembers you, your tools, and your context across sessions",
+      "It only works on one specific topic",
+      "It is physically installed in your phone",
+      "It never connects to the internet"
+    ],
+    "answer": 0,
+    "explanation": "A personal agent is tuned to your life: your email, calendar, research, and way of working. It remembers and holds the context that makes it useful to *you*."
+  }
+]

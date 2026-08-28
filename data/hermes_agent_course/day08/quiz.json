@@ -1,0 +1,46 @@
+[
+  {
+    "q": "What is a 'skill' in Hermes Agent?",
+    "options": [
+      "A computer game you install",
+      "A stored, reusable procedure the agent follows to do a task consistently",
+      "A type of API key",
+      "A hardware performance setting"
+    ],
+    "answer": 1,
+    "explanation": "A skill is a stored procedure — how to do a recurring task — so you don't re-teach the agent each time."
+  },
+  {
+    "q": "What does the Curator do?",
+    "options": [
+      "Deletes your files without asking",
+      "Reviews completed work in the background and proposes saving reusable skills and other improvements",
+      "Sends your data to a third party",
+      "Charges you per skill created"
+    ],
+    "answer": 1,
+    "explanation": "The Curator is the self-improvement engine that reviews work and proposes capturing reusable skills automatically."
+  },
+  {
+    "q": "Why is 'progressive disclosure' good for low bandwidth?",
+    "options": [
+      "It shows every skill in full every time",
+      "A light skill index loads by default; full detail is pulled only when a skill is invoked, keeping sessions lean",
+      "It downloads all skills at startup",
+      "It converts skills to video"
+    ],
+    "answer": 1,
+    "explanation": "Progressive disclosure loads a light index by default and pulls full skill detail only when needed, keeping sessions small and fast."
+  },
+  {
+    "q": "A good first skill to save for a professional is:",
+    "options": [
+      "A skill that auto-sends emails without approval",
+      "A fixed-format daily briefing as a reusable procedure",
+      "A skill that re-installs your OS",
+      "A skill that logs into your bank"
+    ],
+    "answer": 1,
+    "explanation": "A fixed-format daily/weekly briefing is the classic first skill and saves real time every day."
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "q": "You want to message your agent from WhatsApp. Which layer does connecting WhatsApp touch?",
+    "options": [
+      "Interface layer",
+      "Capabilities layer",
+      "Provider layer",
+      "Core layer"
+    ],
+    "answer": 0,
+    "explanation": "Messaging is an interface — it is how you reach the agent. Whatsapp/Telegram sit at the interface layer."
+  },
+  {
+    "q": "Saving a reusable skill belongs to which layer?",
+    "options": [
+      "The application runtime",
+      "The capabilities layer",
+      "The backend",
+      "The provider network"
+    ],
+    "answer": 1,
+    "explanation": "Skills are a capability of the agent — part of the capabilities layer alongside tools, memory, and context files."
+  },
+  {
+    "q": "What drives the 'self-improving loop' in Hermes?",
+    "options": [
+      "Paying more per month automatically improves it",
+      "You use it, it records context, it saves skills, and it gets better next session",
+      "It downloads a new model every hour",
+      "It only improves when you manually edit code"
+    ],
+    "answer": 1,
+    "explanation": "The loop is: use the agent, it records context, it saves reusable skills, and it recalls them next session — that's how it improves at your work."
+  },
+  {
+    "q": "If a colleague asks 'which layer runs the brain?', the best answer is:",
+    "options": [
+      "The interface layer",
+      "The agent core — model, tools, memory and skills",
+      "The messaging gateway",
+      "The VPS provider"
+    ],
+    "answer": 1,
+    "explanation": "The agent core is the brain: the model, the tools it can call, persistent memory, and the skills it has learned."
+  }
+]

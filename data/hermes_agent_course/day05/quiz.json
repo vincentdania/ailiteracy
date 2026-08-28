@@ -1,0 +1,46 @@
+[
+  {
+    "q": "What is the fastest path to connect a model?",
+    "options": [
+      "hermes setup --portal",
+      "npm install a-model",
+      "Editing config.yaml by hand",
+      "Buying a GPU subscription"
+    ],
+    "answer": 0,
+    "explanation": "`hermes setup --portal` gives one OAuth login, 300+ models, and unlocks the Tool Gateway. It is the fastest and lowest-friction path."
+  },
+  {
+    "q": "Where should API keys and secrets be stored?",
+    "options": [
+      "In config.yaml",
+      "In ~/.hermes/.env",
+      "In a README file",
+      "In the public repository"
+    ],
+    "answer": 1,
+    "explanation": "Secrets go in `~/.hermes/.env`. Never paste a key into `config.yaml`, which is for settings."
+  },
+  {
+    "q": "What minimum context window does Hermes require for a model?",
+    "options": [
+      "8K",
+      "16K",
+      "64K",
+      "No minimum"
+    ],
+    "answer": 2,
+    "explanation": "Hermes requires at least a 64K context window; smaller models are rejected at startup."
+  },
+  {
+    "q": "After connecting a model, how do you confirm things are configured correctly?",
+    "options": [
+      "hermes status",
+      "hermes send --to telegram",
+      "hermes cron list",
+      "hermes doctor --portal"
+    ],
+    "answer": 0,
+    "explanation": "`hermes status` shows your configured provider, model, and enabled tools."
+  }
+]

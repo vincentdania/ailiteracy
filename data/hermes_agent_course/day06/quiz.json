@@ -1,0 +1,46 @@
+[
+  {
+    "q": "Why would you run your agent on a VPS instead of only your laptop?",
+    "options": [
+      "A VPS makes the agent smarter automatically",
+      "A VPS never sleeps, so your agent is reachable 24/7 even when your laptop is closed",
+      "A VPS gives you more model options",
+      "A laptop cannot run Hermes at all"
+    ],
+    "answer": 1,
+    "explanation": "A VPS never sleeps, so the gateway stays up and you can reach your agent from anywhere, any time."
+  },
+  {
+    "q": "Which is the cheapest sensible starting point for a Nigerian user?",
+    "options": [
+      "Oracle Cloud always-free Arm tier",
+      "A $100/month dedicated server",
+      "A personal laptop with no VPS",
+      "An expensive enterprise cloud"
+    ],
+    "answer": 0,
+    "explanation": "Oracle Cloud's always-free Arm tier is a genuinely free, reliable starting point. Recheck current pricing before purchase."
+  },
+  {
+    "q": "How do you keep the gateway running after you log out of the VPS?",
+    "options": [
+      "You cannot; it stops when you log out",
+      "Run it as a system service (systemd) via the gateway install command",
+      "Keep the SSH session open forever",
+      "Buy a second laptop"
+    ],
+    "answer": 1,
+    "explanation": "Running the gateway as a system service (systemd) makes it start on boot and restart if it crashes."
+  },
+  {
+    "q": "What is a minimum security step for a VPS exposed to the internet?",
+    "options": [
+      "Skip security; it's a personal agent",
+      "Use SSH keys and keep system updates applied",
+      "Use the default root password",
+      "Disable all security services"
+    ],
+    "answer": 1,
+    "explanation": "At minimum, use SSH keys, keep the system updated, and never expose secrets. A server on the internet must be hardened."
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "q": "What is the messaging gateway?",
+    "options": [
+      "A video call service",
+      "The always-on service connecting Hermes to 20+ messaging platforms",
+      "An email spam filter",
+      "A hardware router"
+    ],
+    "answer": 1,
+    "explanation": "The gateway is the always-on service that connects your agent to messenger platforms — Telegram, WhatsApp, Discord, Slack and more."
+  },
+  {
+    "q": "Where do you store the Telegram bot token?",
+    "options": [
+      "In SOUL.md",
+      "In ~/.hermes/.env as TELEGRAM_BOT_TOKEN=...",
+      "In your public bio",
+      "Pasted directly into Telegram chat"
+    ],
+    "answer": 1,
+    "explanation": "Tokens go in `~/.hermes/.env`. `TELEGRAM_BOT_TOKEN` is the documented env var."
+  },
+  {
+    "q": "What does TELEGRAM_ALLOWED_USERS do?",
+    "options": [
+      "Limits how many messages the bot can send per day",
+      "Restricts who is allowed to control the bot, so only you can talk to it",
+      "Sets the bot's display name",
+      "Pays for the Telegram API"
+    ],
+    "answer": 1,
+    "explanation": "Allowlisting your numeric user id means only you can control the bot — a key security setting."
+  },
+  {
+    "q": "Which route is usually the fit for a personal WhatsApp agent?",
+    "options": [
+      "Always the paid enterprise plan",
+      "A self-hosted bridge running for your own number",
+      "No WhatsApp route exists",
+      "The public Meta app"
+    ],
+    "answer": 1,
+    "explanation": "For a personal agent, a self-hosted bridge on your own number is usually the fit. The official API suits production/multi-user with approval."
+  }
+]

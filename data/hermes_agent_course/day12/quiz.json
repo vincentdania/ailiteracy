@@ -1,0 +1,46 @@
+[
+  {
+    "q": "What does a cron job let your agent do?",
+    "options": [
+      "Run a task automatically on a schedule, like a daily briefing at 08:00",
+      "Send spam to strangers",
+      "Disconnect from all messaging",
+      "Buy more VPS storage automatically"
+    ],
+    "answer": 0,
+    "explanation": "Cron runs jobs on a schedule — daily briefings, market opens, weekend digests, deadline reminders."
+  },
+  {
+    "q": "What is 'delegation' in Hermes?",
+    "options": [
+      "Deleting old chats",
+      "Spawning subagents that each focus on one slice of a task in isolated contexts",
+      "Posting to social media for you",
+      "Moving your files to another server"
+    ],
+    "answer": 1,
+    "explanation": "Delegation spawns subagents in isolated contexts so heavy or parallel work is split up and finishes faster."
+  },
+  {
+    "q": "Which feature is ideal for 'process these 20 documents' tasks?",
+    "options": [
+      "cron",
+      "Event hooks",
+      "Batch processing",
+      "MCP"
+    ],
+    "answer": 2,
+    "explanation": "Batch turns one instruction into a small factory that processes a whole set of inputs, like summarizing many documents."
+  },
+  {
+    "q": "Event hooks let your agent:",
+    "options": [
+      "Reply the same canned message to everyone",
+      "React to events (new email, file change, webhook) automatically rather than waiting for you",
+      "Only work when the laptop is open",
+      "Ignore your calendar entirely"
+    ],
+    "answer": 1,
+    "explanation": "Hooks make the agent respond to events through the always-on gateway, so actions fire automatically."
+  }
+]
