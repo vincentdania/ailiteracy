@@ -1,51 +1,54 @@
 ---
 day: 17
-title: Voice, Code Execution and Local Models
-subtitle: Three advanced powers — talk to your agent, let it run code safely, and run it fully offline.
+title: Your First 7 Days — A Practical Plan
+subtitle: A realistic rollout from day one to a fully working assistant, without trying to do everything at once.
 ---
 
-# Voice, Code Execution and Local Models
+# Your First 7 Days — A Practical Plan
 
-**Read time: 6 minutes · Task: optional, pick one**
+**Read time: 5 minutes · Task: apply over a week**
 
-These three advanced powers take your agent from useful to formidable. You don't need all three — master what serves you.
+The fastest way to fail is to try to build everything at once. Here is a realistic week that compounds — each day builds on the last.
 
-## 1. Voice mode
+## Day 1 — Get running
 
-Talk to your agent instead of typing.
+Install (Lab 1), connect a model (Lab 2), and chat once. Celebrate the win. Don't add anything else.
 
-- **Enter voice** with a command or /voice in a connected chat.
-- The agent transcribes your speech (including non-English queries), works, and replies — with **spoken text-to-speech** responses on the latest models.
-- Great on the move: walking to a meeting, dictating a memo, catching up on a briefing hands-free.
+## Day 2 — Make it yours
 
-## 2. Code execution
+Add memory (who you are), set your `SOUL.md` voice, and save your first skill (the daily briefing format). Now it starts to feel like *your* agent.
 
-A huge jump in capability: your agent can **run Python, SQL, or other code** to do the work.
+## Day 3 — Put it in your pocket
 
-- Use it to analyse a spreadsheet, process data, run calculations, generate visualisations.
-- **Run it safely.** Hermes supports sandboxed execution and **containers** (Docker) for isolated, high-risk work, so a misbehaving task stays contained and can't touch your real system.
-- For a personal user, sandboxed execution is the sweet spot: powerful enough for real analysis, safe enough to trust.
+Connect Telegram (Lab 4). Message it from your phone. This is the moment it becomes genuinely useful.
 
-## 3. Local models
+## Day 4 — Add email
 
-If privacy or cost pushes you that way, Hermes supports **fully local inference**:
+Set up a dedicated mailbox (Lab 5), use it to triage opportunities and draft replies — with approval before send.
 
-- **Ollama** — run open-weights models on your own machine.
-- Quantised (GGUF) models can run on modest hardware and even on phones.
-- A local model keeps every interaction on-device — the maximal privacy posture — at the cost of more capable cloud models.
+## Day 5 — Automate one thing
 
-**The trade-off.** Cloud models (via Nous Portal, etc.) are usually smarter and faster for complex agent work. Local models win on privacy and zero marginal cost. Most people use cloud for heavy reasoning and local for private/offline tasks.
+Create one cron job that runs while you sleep. A morning briefing is the perfect start.
+
+## Day 6 — Do real work at scale
+
+Use batch or delegation for a task that's actually on your plate—summarise a pile of documents, grade a class, draft a round of outreach. Observe how much faster it is.
+
+## Day 7 — Harden and review
+
+Apply the security checklist (Lab 15), review what you built, and write down the three tasks you'll hand it every week going forward.
+
+## The rule that makes it work
+
+**One thing per day.** Compounding beats cramming. Each day's win is small and fast, and by Day 7 you have a functioning, secure, automated personal agent.
 
 ## 🎯 Task
 
-Pick one to try today:
-- **Voice:** enter voice mode and produce a one-paragraph dictated memo.
-- **Code:** ask your agent to run a short Python script (e.g., compute a summary from a small CSV) in a sandbox.
-- **Local:** install Ollama and run a small quantised model locally.
+Print or save the 7-day plan. For today, do only today's step. If your course is already past day 1, catch up by doing the earliest undone step.
 
 ## 📤 Output
 
-A one-line note of which you tried and whether it worked.
+A one-line note of which day you're on and what you completed. Commit to repeating the plan from your current day.
 
 ---
-**Verified fact:** Voice mode with TTS, sandboxed/containerised code execution, and local inference via Ollama/quantised models are all documented Hermes Agent capabilities.
+**Verified fact:** All steps reference skills/labs taught earlier in this course. The one-thing-per-day rule is a proven habit-building approach, not a Hermes-specific feature.

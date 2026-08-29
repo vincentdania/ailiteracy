@@ -19,7 +19,7 @@ export default async function DashboardPage() {
     where: { userId: session.user.id, status: { in: ["ACTIVE", "COMPLETED"] } },
     include: { course: { include: { modules: { include: { lessons: true } } } }, user: { include: { profile: true, streak: true, certificates: true } } },
   });
-  if (!enrollment) return <div className="mx-auto max-w-4xl"><p className="eyebrow">Your learning home</p><h1 className="display mt-3 text-6xl text-[#00261d]">Ready when you are.</h1><div className="editorial-card mt-8 p-8"><h2 className="font-serif text-3xl font-semibold">Activate the Personal Agent Masterclass</h2><p className="my-4 max-w-xl leading-7 text-[#414845]">Complete checkout to activate 19 hands-on lessons, saved practice, capstone feedback and your certificate path.</p><Button asChild><Link href="/checkout">Choose your currency</Link></Button></div></div>;
+  if (!enrollment) return <div className="mx-auto max-w-4xl"><p className="eyebrow">Your learning home</p><h1 className="display mt-3 text-6xl text-[#00261d]">Ready when you are.</h1><div className="editorial-card mt-8 p-8"><h2 className="font-serif text-3xl font-semibold">Activate the Personal Agent Masterclass</h2><p className="my-4 max-w-xl leading-7 text-[#414845]">Complete checkout to activate 22 hands-on lessons, saved practice, capstone feedback and your certificate path.</p><Button asChild><Link href="/checkout">Choose your currency</Link></Button></div></div>;
 
   const timezone = enrollment.user.profile?.timezone ?? "Africa/Lagos";
   const available = unlockedDay(enrollment.enrolledAt, new Date(), timezone, enrollment.previewOverride);

@@ -1,35 +1,46 @@
 [
   {
-    "q": "What does 'production' mean for a personal agent?",
+    "q": "What does a cron job let your agent do?",
     "options": [
-      "Running only when you open your laptop",
-      "Always-on, reachable, remembering, scheduled and secure",
-      "Installed on a friend's machine",
-      "Using only free providers"
+      "Run a task automatically on a schedule, like a daily briefing at 08:00",
+      "Send spam to strangers",
+      "Disconnect from all messaging",
+      "Buy more VPS storage automatically"
     ],
-    "answer": 1,
-    "explanation": "Production means always-on, reachable from your daily apps, remembering you, running at least one scheduled job, and secure."
+    "answer": 0,
+    "explanation": "Cron runs jobs on a schedule — daily briefings, market opens, weekend digests, deadline reminders."
   },
   {
-    "q": "A reliable way to confirm your agent is truly in production is:",
+    "q": "What is 'delegation' in Hermes?",
     "options": [
-      "The install finished without errors",
-      "It passes the 48-hour test (briefings arrive, phone access works, memory persists, nothing sent without approval)",
-      "You paid for a VPS",
-      "You see the logo in your terminal"
+      "Deleting old chats",
+      "Spawning subagents that each focus on one slice of a task in isolated contexts",
+      "Posting to social media for you",
+      "Moving your files to another server"
     ],
     "answer": 1,
-    "explanation": "The honest test is behavioural: does it deliver on schedule, answer from your phone, remember across 48 hours, and never act without approval."
+    "explanation": "Delegation spawns subagents in isolated contexts so heavy or parallel work is split up and finishes faster."
   },
   {
-    "q": "What is the final discipline after the capstone build?",
+    "q": "Which feature is ideal for 'process these 20 documents' tasks?",
     "options": [
-      "Stop using the agent to save data",
-      "Put it to work weekly with standing tasks so it compounds",
-      "Delete the skills you saved",
-      "Reinstall everything monthly"
+      "cron",
+      "Event hooks",
+      "Batch processing",
+      "MCP"
+    ],
+    "answer": 2,
+    "explanation": "Batch turns one instruction into a small factory that processes a whole set of inputs, like summarizing many documents."
+  },
+  {
+    "q": "Event hooks let your agent:",
+    "options": [
+      "Reply the same canned message to everyone",
+      "React to events (new email, file change, webhook) automatically rather than waiting for you",
+      "Only work when the laptop is open",
+      "Ignore your calendar entirely"
     ],
     "answer": 1,
-    "explanation": "A personal agent only compounds if used — commit to standing weekly tasks like briefings, triage, and synthesis."
+    "explanation": "Hooks make the agent respond to events through the always-on gateway, so actions fire automatically."
   }
 ]

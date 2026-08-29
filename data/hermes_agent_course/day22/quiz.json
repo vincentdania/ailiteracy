@@ -1,0 +1,57 @@
+[
+  {
+    "q": "In the capstone brief, which one of these is a required section?",
+    "options": [
+      "The history of every model you tried",
+      "Two integrations you connected (e.g. Telegram, WhatsApp, email, GitHub)",
+      "A list of all 22 lesson titles",
+      "Your personal bio"
+    ],
+    "answer": 1,
+    "explanation": "The capstone requires you to demonstrate at least two real integrations you connected and configured yourself."
+  },
+  {
+    "q": "Which command checks the overall health of your Hermes installation?",
+    "options": [
+      "hermes setup",
+      "hermes config get",
+      "hermes doctor",
+      "hermes gateway run"
+    ],
+    "answer": 2,
+    "explanation": "'hermes doctor' verifies every dependency and configuration and reports anything that needs fixing — your baseline cleanliness check."
+  },
+  {
+    "q": "Where are your secret credentials stored by default?",
+    "options": [
+      "~/.hermes/config.yaml",
+      "~/.hermes/.env",
+      "~/.hermes/secrets.txt",
+      "~/.hermes/credentials.json"
+    ],
+    "answer": 1,
+    "explanation": "Secrets go in ~/.hermes/.env, never in config.yaml. Keep settings in config.yaml and secrets in .env."
+  },
+  {
+    "q": "What is the fastest way to complete initial Hermes setup?",
+    "options": [
+      "hermes doctor",
+      "hermes gateway setup",
+      "hermes setup",
+      "hermes setup --portal"
+    ],
+    "answer": 3,
+    "explanation": "'hermes setup --portal' logs you into Nous Portal and wires provider plus Tool Gateway tools in one step."
+  },
+  {
+    "q": "What does the one-page cheat sheet let you prove about your agent?",
+    "options": [
+      "That you can stand up a working agent from a clean machine",
+      "That you have artistic skills",
+      "That you are an expert in every integration",
+      "Nothing — it is decorative"
+    ],
+    "answer": 0,
+    "explanation": "The cheat sheet is your reproducible runbook: anyone (including you, later) can stand up a working agent from a clean machine by following it."
+  }
+]

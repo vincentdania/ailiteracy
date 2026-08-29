@@ -1,46 +1,46 @@
 [
   {
-    "q": "What is persistent memory in Hermes?",
+    "q": "What is a 'skill' in Hermes Agent?",
     "options": [
-      "A backup of your entire hard drive",
-      "Durable, high-signal facts about you injected into every turn",
-      "A cache of every image you've ever seen",
-      "A record of every website you visit"
+      "A computer game you install",
+      "A stored, reusable procedure the agent follows to do a task consistently",
+      "A type of API key",
+      "A hardware performance setting"
     ],
     "answer": 1,
-    "explanation": "Persistent memory stores durable facts about you that load into every turn, so the agent always acts with your identity in mind."
+    "explanation": "A skill is a stored procedure — how to do a recurring task — so you don't re-teach the agent each time."
   },
   {
-    "q": "Which context file sets the agent's personality — voice, values, boundaries?",
+    "q": "What does the Curator do?",
     "options": [
-      "SOUL.md",
-      "requirements.txt",
-      "package.json",
-      "~/.hermes/.env"
-    ],
-    "answer": 0,
-    "explanation": "SOUL.md is the personality file — voice, values, and boundaries you want the agent to follow."
-  },
-  {
-    "q": "How do you resume a past conversation in Hermes?",
-    "options": [
-      "You cannot resume sessions",
-      "hermes --continue",
-      "Re-typing the whole conversation",
-      "hermes setup --portal"
+      "Deletes your files without asking",
+      "Reviews completed work in the background and proposes saving reusable skills and other improvements",
+      "Sends your data to a third party",
+      "Charges you per skill created"
     ],
     "answer": 1,
-    "explanation": "Sessions persist and can be continued with `hermes --continue`, searched, or exported."
+    "explanation": "The Curator is the self-improvement engine that reviews work and proposes capturing reusable skills automatically."
   },
   {
-    "q": "Where should secrets and API keys be stored?",
+    "q": "Why is 'progressive disclosure' good for low bandwidth?",
     "options": [
-      "In SOUL.md",
-      "In persistent memory",
-      "In ~/.hermes/.env",
-      "In a context file"
+      "It shows every skill in full every time",
+      "A light skill index loads by default; full detail is pulled only when a skill is invoked, keeping sessions lean",
+      "It downloads all skills at startup",
+      "It converts skills to video"
     ],
-    "answer": 2,
-    "explanation": "Never store secrets in memory or context files. Keep API keys and tokens in ~/.hermes/.env."
+    "answer": 1,
+    "explanation": "Progressive disclosure loads a light index by default and pulls full skill detail only when needed, keeping sessions small and fast."
+  },
+  {
+    "q": "A good first skill to save for a professional is:",
+    "options": [
+      "A skill that auto-sends emails without approval",
+      "A fixed-format daily briefing as a reusable procedure",
+      "A skill that re-installs your OS",
+      "A skill that logs into your bank"
+    ],
+    "answer": 1,
+    "explanation": "A fixed-format daily/weekly briefing is the classic first skill and saves real time every day."
   }
 ]

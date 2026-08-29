@@ -1,50 +1,52 @@
 ---
 day: 10
-title: The Messaging Gateway — Telegram and WhatsApp
-subtitle: Exact steps to reach your agent from the apps you already use. The gateway is the always-on switchboard.
+title: Memory, Context Files and Sessions — What Your Agent Remembers
+subtitle: Persistent memory, per-turn context files, scripts and sessions — the difference between remembering and forgetting.
 ---
 
-# The Messaging Gateway — Telegram and WhatsApp
+# Memory, Context Files and Sessions — What Your Agent Remembers
 
-**Read time: 6 minutes · Task: 20 minutes (hands-on)**
+**Read time: 5 minutes · Task: 8 minutes**
 
-This is where the agent becomes genuinely yours: it reaches you in the apps you check daily. The key concept is the **messaging gateway** — the always-on service that connects Hermes to 20+ messaging platforms.
+A personal agent *remembers*. This lesson is about the three ways Hermes does that: persistent memory, context files, and sessions.
 
-## The gateway
+## 1. Persistent memory
 
-Run `hermes gateway setup` to pick your platforms, and `hermes gateway run` (or install it as a service) to keep it connected 24/7. With the gateway up, you can message your agent from Telegram, WhatsApp, Discord, Slack, Signal, Matrix, email and more — the *same* agent, same memory and skills.
+Your agent stores durable, high-signal facts about you — your name, role, goals, preferences, the tools you use. This is injected into **every** turn, so it's always acting with your identity in mind. It's kept compact on purpose (a limited character budget), so your agent prioritises what matters rather than drowning in detail.
 
-To send it a message from the CLI:
+You can also attach external memory providers for larger, searchable long-term recall if you outgrow the built-in store.
 
-```bash
-hermes send --to telegram "Good morning, brief me"
-```
+## 2. Context files — injected every turn
 
-## Connect Telegram — exact steps
+You can tell your agent how to *be* by dropping structured files into its context. Three stand out:
 
-1. **Create a bot.** In Telegram, message **@BotFather** → send `/newbot` → name it → copy the HTTP API token.
-2. **Store the token.** In `~/.hermes/.env`, set `TELEGRAM_BOT_TOKEN=...`.
-3. **Allowlist yourself.** Set `TELEGRAM_ALLOWED_USERS=123456789` (your numeric user id) so only you can control the bot.
-4. **Start the gateway.** `hermes gateway run` (or install as a service) — your bot goes online.
-5. **Set your home chat.** Message the bot once, then send `/sethome` so scheduled jobs deliver there.
-6. **Test it.** `hermes send --to telegram "Test from the course"`.
+- **`SOUL.md`** (personality) — voice, values, boundaries: "be blunt, no flattery, Nigerian/British English."
+- **`AGENTS.md`** — project/procedural context, loaded when working in a codebase or a specific working dir.
+- **`.hermes.md`** — extra agent instructions in your home directory.
 
-## Connect WhatsApp — the trade-off
+These load every turn, so they shape how your agent speaks and works without you repeating it.
 
-WhatsApp is the most-used app in Nigeria. Two routes:
+## 3. Sessions
 
-- **Official WhatsApp Business & Cloud API** — production-grade, multi-user, but requires Meta app approval and can cost money.
-- **Self-hosted bridge** — runs a WhatsApp Web-style session for *your own number*, free and private.
+When you close a session, the state doesn't have to vanish. Hermes lets you:
 
-For a personal agent, the self-hosted route on your own number is usually the fit. Put the credentials in `.env`, enable the adapter in gateway setup, restart the gateway. WhatsApp policy is stricter than Telegram — always use your own number and avoid anything that triggers spam flags.
+- **Continue** a session later (`hermes --continue`).
+- **Search** past sessions to recover work or decisions.
+- **Save/export** sessions when you need a durable record.
+
+This is your agent's memory of *what we were doing*, separate from the memory of *who you are*.
+
+## Memory ≠ privacy risk if configured right
+
+Because it runs on your machine, your memory and context stay with you. The main discipline: **don't store secrets** (API keys, passwords) in memory or context files — put those in `.env`. Keep memory for preferences and facts, and secrets for your secrets.
 
 ## 🎯 Task
 
-Connect Telegram end-to-end using the exact steps. Once it works, message your agent a real instruction ("Summarise today's priorities"). If you use WhatsApp heavily, attempt the self-hosted bridge too.
+Set the tone of your agent. Find or create a `SOUL.md` and add one line about how you'd like it to speak to you (your values, your deadlines, your bluntness preference). Then confirm your memory contains your name and role.
 
 ## 📤 Output
 
-A screenshot or note that you messaged your agent from Telegram/WhatsApp and it replied there. Note which platform you connected.
+The one-line personality rule you added to `SOUL.md`, and confirmation that memory knows who you are.
 
 ---
-**Verified fact:** The gateway, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_ALLOWED_USERS`, `/sethome`, and `hermes send` are documented Hermes Agent features/config. WhatsApp's two routes and stricter policy are accurate.
+**Verified fact:** The distinction between persistent memory, context files (SOUL.md, AGENTS.md, .hermes.md), and sessions with resume/search/export is documented in the official Hermes Agent guides for memory, context, and the CLI.

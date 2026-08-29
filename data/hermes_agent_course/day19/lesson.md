@@ -1,66 +1,45 @@
 ---
 day: 19
-title: Your One-Page Cheat Sheet and Next Steps
-subtitle: The commands you'll use daily, where to go deeper, and the habits that keep your agent compounding.
+title: The Connected Wall — One Agent Everywhere
+subtitle: Wire all your surfaces together so the same agent, memory and skills serve you from every app you use.
 ---
 
-# Your One-Page Cheat Sheet and Next Steps
+# The Connected Wall — One Agent Everywhere
 
-**Read time: 4 minutes · Task: save the cheat sheet**
+**Read time: 4 minutes · Task: 10 minutes (review/lab)**
 
-You've built, wired, automated, and hardened your agent. This final lesson is your day-to-day reference. **Save this page.**
+By now you have piecemeal integrations. This lesson is the wiring review that turns a collection of connected apps into one *connected wall* — a single agent you can reach from anywhere.
 
-## The everyday commands
+## The goal
 
-```bash
-hermes                # start the setup wizard (first run)
-hermes status         # see provider, model, and enabled tools
-hermes doctor         # full health check — keep a clean baseline
-hermes model          # change your main model
-hermes tools          # manage toolsets
-hermes gateway run    # keep messaging connected
-hermes --continue     # resume your last session
-```
+The point is coherence: your assistant on Telegram isn't a different assistant from the one on your laptop. It is the **same agent** — same tools, memory, skills, and cron jobs — reached through different doors. That's exactly what the messaging gateway delivers.
 
-## The quick email/message send
+## The surfaces you'll wire
 
-```bash
-hermes send --to telegram "message..."
-```
+- **Terminal / desktop** — deep work, big tasks.
+- **Telegram** — on-the-go instructions and replies.
+- **Email** — asynchronous triage and drafts.
+- **Cron to Telegram** — automated push briefings, no one watching.
 
-## The automation words
+## Verification ritual
 
-- **cron** — scheduled jobs ("every weekday 08:00 briefing").
-- **delegate** — spawn parallel subagents for heavy work.
-- **batch** — one instruction across many inputs.
-- **hooks** — react to events (new email, webhook).
-- **MCP** — connect external MCP servers.
+After wiring each surface, ask a question that would *only* make sense if they share memory:
 
-## The one-line security rule
+> "On my laptop I asked you to save a `daily_briefing` skill. Reproduce it here."
 
-> Secrets in `.env`. Approvals for anything consequential. Checkpoints before experiments. Allowlist who can reach you.
+If the Telegram assistant can call the same skill, your wall is genuinely connected. If not, check the gateway and that both surfaces point at the same instance/profile.
 
-## Where to go deeper
+## Keep it one instance
 
-- **Official docs:** hermes-agent.nousresearch.com/docs — the authoritative reference and Learning Path.
-- **model catalog:** `hermes model` / the docs' providers pages.
-- **Community:** the skills hub for shared, hard-won procedures.
+For a personal agent, run **one** Hermes instance (usually on your VPS) and treat it as the source of truth. All surfaces connect to it. Avoid running separate instances per device — that fragments memory and skills, destroying the "one agent everywhere" value.
 
-## The habits that make it compound
+## 🎯 Task
 
-1. **Use it weekly** with standing tasks — briefings, triage, synthesis.
-2. **Save a skill** whenever you find a workflow you'll repeat.
-3. **Keep the baseline clean** — run `hermes doctor` after each change.
-4. **Re-review security** monthly (allowlists, secrets, checkpoints).
-5. **Let it get better** — the Curator improves skills in the background; trust and feed that loop.
-
-## 🎯 Final task
-
-Save the cheat sheet (this page). Then write one-sentence answers to: What will my agent do for me this week? What will it do for me every week from now on?
+Test the connected wall: from Telegram, ask your agent to run a skill you saved earlier. Confirm it does. Then confirm your cron briefing delivers to the same chat.
 
 ## 📤 Output
 
-Your two sentences — your ongoing personal-agent charter.
+A note confirming that (1) Telegram can use your saved skill, and (2) your scheduled briefing arrives in your home chat.
 
 ---
-**Verified fact:** Every command listed here is used earlier in this course and is documented in the official Hermes Agent documentation.
+**Verified fact:** The gateway presents the same agent (shared memory and skills) across platforms. Running one instance as the source of truth is the recommended architecture for a personal setup.

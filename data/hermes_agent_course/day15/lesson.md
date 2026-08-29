@@ -1,52 +1,45 @@
 ---
 day: 15
-title: Secure and Harden Your Agent
-subtitle: An approval-based security model, secrets hygiene, checkpoints, and a field checklist for an always-on agent.
+title: 'Slack, Discord and Team Channels'
+subtitle: 'Put your agent where your team already talks'
 ---
 
-# Secure and Harden Your Agent
+# Slack, Discord and Team Channels
 
-**Read time: 6 minutes · Task: apply this week**
+Your team already lives in Slack or Discord — so that's where your agent should live too. Colleagues can tag it with a question in the channel, call it from a DM, and it posts updates without anyone chasing messages across apps. In this lesson, you'll wire Hermes into Slack and Discord as a bot.
 
-A personal agent touches your data and can act on your systems. Treating it as safe-by-default is a discipline — and Hermes is built around an **approval-based security model** to help.
+## Slack: the agent as a workspace bot
 
-## 1. Understand the security model
+Hermes connects to Slack as a **bot using Socket Mode** — WebSockets, not a public webhook. The big win: your agent does **not** need to be publicly reachable. Socket Mode works behind a firewall, on your laptop, or on a private server, because the bot opens an outbound connection to Slack. Classic Slack apps were deprecated in March 2025, so you use the modern Bolt SDK.
 
-Hermes is designed so the agent proposes and you approve for consequential, irreversible, or external actions. That means:
+You need three things:
 
-- **Approvals** gate sending messages, making purchases, applying, publishing, deleting — anything with a real consequence.
-- **No auto-sends** by default; drafts sit for your review.
-- **Isolation** for risky work (containers/backends) so a misbehaving task can't wreck your machine.
+```env
+SLACK_BOT_TOKEN=xoxb-...
+SLACK_APP_TOKEN=xapp-...
+SLACK_ALLOWED_USERS=U01ABC2DEF3
+```
 
-The model puts a hard boundary between *what the agent wants to do* and *what it's allowed to do without asking*.
+`SLACK_ALLOWED_USERS` — your team's Slack Member IDs — is the safety gate; only those people can use the agent. There's an optional `SLACK_HOME_CHANNEL` too.
 
-## 2. Secrets hygiene (non-negotiable)
+Quickest path: run `hermes slack manifest --agent-view --write`. It generates a manifest you paste into **api.slack.com/apps → Create New App → From an app manifest**. Then **Install to Workspace**, copy the tokens into `~/.hermes/.env`, run `hermes gateway setup`, then `hermes gateway`. Invite the bot with `/invite @Hermes Agent` — it won't join channels on its own.
 
-- Secrets live in `~/.hermes/.env`, **never** in `config.yaml`, memory, context files, or code.
-- Use unique credentials per service; use app passwords where available, never your real account password.
-- If you use a password manager, keep the master password out of the agent.
+## Discord: DMs and channels via a bot
 
-## 3. Checkpoints & rollback
+Hermes joins Discord the same way — a bot handling DMs and server channels, including text, voice messages, file attachments and slash commands.
 
-Hermes keeps **checkpoints** so you can roll back after a bad change — configuration, memory, or context updates that went wrong. Before experimenting, note your checkpoint; if a change breaks things, restore the last good one.
+Two behaviours to know. In DMs, Hermes answers every message, no @mention needed. In server channels it responds only when @mentioned by default — unless you put that channel in `DISCORD_FREE_RESPONSE_CHANNELS`. Sessions are isolated per user, and access is controlled with `DISCORD_ALLOWED_USERS`.
 
-## 4. Field checklist for an always-on agent
+## Other team channels
 
-- [ ] Exposed server? SSH keys only, no default passwords, keep updates applied.
-- [ ] `.env` permissions locked to your user; never committed to git.
-- [ ] Messaging platforms allowlisted (`TELEGRAM_ALLOWED_USERS`, `EMAIL_ALLOWED_USERS`).
-- [ ] Approval model intact — nothing auto-sends.
-- [ ] Least-privilege toolsets — only enable what you use.
-- [ ] Backups/checkpoints for memory and config.
-- [ ] A firewall on any VPS.
+Microsoft Teams is also supported via a plugin. **Safety first:** set `ALLOWED_USERS` so only your team can talk to the agent — lock that down before onboarding anyone.
 
-## 🎯 Task
+Now put it to work.
 
-Run the checklist. Fix at least one gap — e.g., lock `.env` permissions (`chmod 600 ~/.hermes/.env`), or confirm your first checkpoint/backup.
+## Task
 
-## 📤 Output
+Set up Slack or Discord for your agent: generate the manifest, create and install the app, add your Member ID to `ALLOWED_USERS`, run `hermes gateway setup`, then invite the bot to a channel and ask it a real work question.
 
-The checklist with your fixes checked off, and note the one change you made first.
+## Output
 
----
-**Verified fact:** The approval-based security model (gate consequential actions by default), secrets-in-`.env`, and checkpoints/rollback are documented Hermes Agent security features.
+Share a short note confirming the bot is live: which platform you chose, your `ALLOWED_USERS` value, and one question your team asked the agent plus the answer it gave.

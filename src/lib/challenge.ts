@@ -5,10 +5,10 @@ export function localDateKey(date: Date, timezone: string) {
 }
 
 export function unlockedDay(enrolledAt: Date, now: Date, timezone: string, adminOverride = false) {
-  if (adminOverride) return 21;
+  if (adminOverride) return 22;
   const enrolled = Date.parse(`${localDateKey(enrolledAt, timezone)}T00:00:00Z`);
   const current = Date.parse(`${localDateKey(now, timezone)}T00:00:00Z`);
-  return Math.min(21, Math.max(1, Math.floor((current - enrolled) / DAY_MS) + 1));
+  return Math.min(22, Math.max(1, Math.floor((current - enrolled) / DAY_MS) + 1));
 }
 
 export function canAccessLesson(input: { dayNumber: number; isBonus: boolean; bonusUnlocked: boolean; unlockedDay: number }) {

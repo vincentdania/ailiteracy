@@ -1,35 +1,46 @@
 [
   {
-    "q": "Which is an advanced capability of Hermes Agent?",
+    "q": "What is the key rule that makes the 7-day plan succeed?",
     "options": [
-      "Voice mode with text-to-speech replies",
-      "Deleting your VPS",
-      "Printing documents by default",
-      "Blocking all messaging"
+      "Do every integration in one day",
+      "One thing per day — compounding beats cramming",
+      "Skip the security day entirely",
+      "Build in whatever order seems fun"
+    ],
+    "answer": 1,
+    "explanation": "One thing per day compounds: each small win builds on the last so by Day 7 you have a working, secure, automated agent."
+  },
+  {
+    "q": "On which day does the agent reach your phone?",
+    "options": [
+      "Day 1",
+      "Day 3 (Telegram/wallet-to-pocket)",
+      "Day 7",
+      "Day 5"
+    ],
+    "answer": 1,
+    "explanation": "By Day 3 you connect Telegram so the agent is genuinely useful on the move."
+  },
+  {
+    "q": "When should you apply the security checklist?",
+    "options": [
+      "Only if something breaks",
+      "On Day 7, before you finalise",
+      "Never — it's optional",
+      "After a year of use"
+    ],
+    "answer": 1,
+    "explanation": "Hardening belongs on Day 7 as the last step, so your always-on agent is secure before you rely on it."
+  },
+  {
+    "q": "What is the Week-1 plan best summed up as?",
+    "options": [
+      "Install, personalise, pocket, email, automate, scale, harden",
+      "Buy servers for seven days",
+      "Only chat, don't automate",
+      "Do all labs in an afternoon"
     ],
     "answer": 0,
-    "explanation": "Voice mode lets you talk to the agent; it transcribes, works, and replies with spoken TTS on recent models."
-  },
-  {
-    "q": "How should code execution be run to be safe?",
-    "options": [
-      "Directly on your bare system at full access",
-      "In a sandbox or container (Docker) for isolation",
-      "Only on a machine you don't care about",
-      "Never run any code"
-    ],
-    "answer": 1,
-    "explanation": "Sandboxed/containerised execution keeps risky tasks isolated so they can't harm your real system."
-  },
-  {
-    "q": "What is the main advantage of running a local model via Ollama?",
-    "options": [
-      "Smarter reasoning than any cloud model",
-      "Privacy: everything stays on-device",
-      "Free more capable models",
-      "It never needs electricity"
-    ],
-    "answer": 1,
-    "explanation": "Local models keep all interactions on-device for maximum privacy, though cloud models stay smarter for heavy reasoning."
+    "explanation": "The week is: install → make it yours → phone access → email → automate → real-scale work → harden and review."
   }
 ]

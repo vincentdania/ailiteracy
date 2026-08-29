@@ -1,63 +1,73 @@
 ---
 day: 5
-title: Connect a Model and Talk to Your Agent
-subtitle: The fastest path with Nous Portal, or bring your own key — then chat for the first time.
+title: Local Setup — Laptop Requirements
+subtitle: What you actually need on your machine — then one command to install and verify.
 ---
 
-# Connect a Model and Talk to Your Agent
+# Local Setup — Laptop Requirements
 
 **Read time: 5 minutes · Task: 15 minutes (hands-on)**
 
-Your agent is installed but it has no brain yet. This lesson gives it one. Your single decision that shapes everything is the **model**.
+Time to get your hands dirty. The installer handles almost everything — Python, Node, ripgrep, ffmpeg — so you run **one command** and you're most of the way there.
 
-## The fastest path: Nous Portal
+## What you actually need
 
-For most people, the easiest route is a **Nous Portal** subscription. It gives you **one OAuth login, 300+ models**, and unlocks the **Tool Gateway** (which enables built-in web search, image, and TTS tools). One subscription, predictable cost.
+The good news: running Hermes is **light**. You do not need a gaming rig or a MacBook Pro.
 
-```bash
-hermes setup --portal
-```
+- **Operating system** — Linux, macOS, or Windows (use WSL2 on Windows for the smoothest setup; Termux works on Android).
+- **RAM** — 8 GB is comfortable; 4 GB will still do for a personal agent. The model usually runs in the cloud, so your machine mostly runs the agent loop, not the AI.
+- **Storage** — a few GB free (the install, tools, and history).
+- **Internet** — a connection good enough to browse the web; daily use is low-bandwidth text.
+- **Prerequisites** — `git`, plus `curl` and `xz-utils` on Linux. The installer handles Python, Node, ripgrep and ffmpeg for you.
 
-Sign in with your Nous account and the setup wires the provider for you.
+In short: **if you can comfortably browse the web and open a terminal, your machine can run a personal agent.**
 
-## Or bring your own key
+## Install by platform
 
-If you already hold keys, you can connect any major provider — pick via the interactive model selector:
-
-```bash
-hermes model
-```
-
-Options include OpenRouter, OpenAI, Anthropic, and Google Gemini, plus DeepSeek (`DEEPSEEK_API_KEY`) or a local Ollama model.
-
-## Where secrets live
-
-A critical habit from day one:
-
-- **Secrets** (API keys, tokens) go in `~/.hermes/.env`.
-- **Settings** go in `~/.hermes/config.yaml`.
-
-Never paste an API key into `config.yaml`. Keep keys in `.env`.
-
-## A model with the right context
-
-Hermes requires a model with at least **64K context**. Models with smaller context windows are rejected at startup. Your selected model should comfortably exceed that for multi-step agent work.
-
-## Chat for the first time
+**Linux / macOS / WSL2 / Termux**
 
 ```bash
-hermes status
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 ```
 
-Confirm your provider, model, and enabled tools are shown. Then just type a message in the terminal and your agent answers. That's your first working personal agent.
+**Windows native (PowerShell)**
+
+```powershell
+iex (irm https://hermes-agent.nousresearch.com/install.ps1)
+```
+
+Then reload your shell:
+
+```bash
+source ~/.bashrc
+```
+
+## Verify it's alive
+
+Run the command that starts the setup wizard:
+
+```bash
+hermes
+```
+
+If you see the wizard begin, the install worked. For a fuller health check, later in the course you'll run `hermes doctor` to confirm every dependency and config is clean before adding features.
+
+## A clean baseline rule
+
+Before you add *any* feature (a model, Telegram, email), get **one clean `hermes doctor` run** with nothing complaining. This is your single most useful habit. If the baseline is clean and something breaks later, you know the cause is the feature you just added — not a mystery.
+
+## Low bandwidth notes 📶
+
+- The installer and model downloads are the only big downloads. Day-to-day, Hermes exchanges small text payloads — ideal for mobile data and modest connections.
+- For a truly low-bandwidth setup, do the install once on a laptop or VPS with good internet, then connect to that instance remotely from your phone.
 
 ## 🎯 Task
 
-Connect a model (Portal is fastest). Run `hermes status` and confirm provider + model + tools. Ask your agent something real — e.g., "Draft a short memo summarising this week's naira exchange-rate news." Read the answer critically: an agent drafts fast, but you verify facts.
+Install Hermes on your primary machine. Run `hermes` and confirm the wizard starts. Then run `hermes doctor` and note anything it flags.
 
 ## 📤 Output
 
-A note of: (1) which provider/model you chose, (2) the `hermes status` confirmation, and (3) one thing the agent drafted well and one thing you had to correct.
+A screenshot or note of the `hermes` wizard launching, plus (if any) the list of things `hermes doctor` flagged so we can fix them in Lab 2.
 
 ---
-**Verified fact:** `hermes setup --portal`, `hermes model`, and the `~/.hermes/.env` + `~/.hermes/config.yaml` split, plus the 64K minimum context requirement, are all documented behaviours in the official Hermes Agent docs.
+**Verified fact:** These are the official installer commands from the Hermes Agent documentation (hermes-agent.nousresearch.com/docs/getting-started/installation). The installer automatically handles Python, Node, ripgrep, and ffmpeg.

@@ -1,46 +1,57 @@
 [
   {
-    "q": "What does a cron job let your agent do?",
+    "q": "What password should you give Hermes when connecting a Gmail account?",
     "options": [
-      "Run a task automatically on a schedule, like a daily briefing at 08:00",
-      "Send spam to strangers",
-      "Disconnect from all messaging",
-      "Buy more VPS storage automatically"
-    ],
-    "answer": 0,
-    "explanation": "Cron runs jobs on a schedule — daily briefings, market opens, weekend digests, deadline reminders."
-  },
-  {
-    "q": "What is 'delegation' in Hermes?",
-    "options": [
-      "Deleting old chats",
-      "Spawning subagents that each focus on one slice of a task in isolated contexts",
-      "Posting to social media for you",
-      "Moving your files to another server"
+      "Your normal Gmail password",
+      "The 16-character App Password you create under 2-Factor Authentication",
+      "Your bank account password",
+      "A password you invent for the email client"
     ],
     "answer": 1,
-    "explanation": "Delegation spawns subagents in isolated contexts so heavy or parallel work is split up and finishes faster."
+    "explanation": "Gmail requires you to enable 2-Factor Authentication and create an App Password at myaccount.google.com/apppasswords. You use that 16-character app password in place of your normal password."
   },
   {
-    "q": "Which feature is ideal for 'process these 20 documents' tasks?",
+    "q": "Which IMAP host do you use for a Microsoft 365 / Outlook account?",
     "options": [
-      "cron",
-      "Event hooks",
-      "Batch processing",
-      "MCP"
+      "imap.gmail.com",
+      "smtp.office365.com",
+      "outlook.office365.com",
+      "imap.yahoo.com"
     ],
     "answer": 2,
-    "explanation": "Batch turns one instruction into a small factory that processes a whole set of inputs, like summarizing many documents."
+    "explanation": "For Outlook / Microsoft 365 the IMAP host is outlook.office365.com, while smtp.office365.com is the SMTP host."
   },
   {
-    "q": "Event hooks let your agent:",
+    "q": "What is the typical default port for IMAP with SSL?",
     "options": [
-      "Reply the same canned message to everyone",
-      "React to events (new email, file change, webhook) automatically rather than waiting for you",
-      "Only work when the laptop is open",
-      "Ignore your calendar entirely"
+      "587",
+      "25",
+      "993",
+      "465"
+    ],
+    "answer": 2,
+    "explanation": "IMAP generally runs on port 993 with SSL; SMTP usually uses port 587 with STARTTLS."
+  },
+  {
+    "q": "Why should you connect your agent to a dedicated email account rather than your personal or bank address?",
+    "options": [
+      "It is technically required for the setup wizard to work",
+      "So the agent's replies are never seen by others",
+      "To protect your primary account and keep sensitive mail out of reach",
+      "Because personal accounts cannot read email via IMAP"
+    ],
+    "answer": 2,
+    "explanation": "A dedicated account keeps your primary and bank mail safe. The agent can read and draft mail, so restricting access to a low-stakes account is a core security habit."
+  },
+  {
+    "q": "What does the 'approve-before-send' habit mean for your agent?",
+    "options": [
+      "The agent sends replies automatically the moment mail arrives",
+      "The agent can read and draft, but nothing leaves without your approval",
+      "The agent only reads mail and never drafts replies",
+      "The agent needs a second email address to send from"
     ],
     "answer": 1,
-    "explanation": "Hooks make the agent respond to events through the always-on gateway, so actions fire automatically."
+    "explanation": "The safe professional habit is that the agent reads and drafts, but nothing sends until you approve it. You stay in control of every outgoing message."
   }
 ]

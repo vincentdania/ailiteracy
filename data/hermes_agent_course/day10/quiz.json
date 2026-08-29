@@ -1,46 +1,46 @@
 [
   {
-    "q": "What is the messaging gateway?",
+    "q": "What is persistent memory in Hermes?",
     "options": [
-      "A video call service",
-      "The always-on service connecting Hermes to 20+ messaging platforms",
-      "An email spam filter",
-      "A hardware router"
+      "A backup of your entire hard drive",
+      "Durable, high-signal facts about you injected into every turn",
+      "A cache of every image you've ever seen",
+      "A record of every website you visit"
     ],
     "answer": 1,
-    "explanation": "The gateway is the always-on service that connects your agent to messenger platforms — Telegram, WhatsApp, Discord, Slack and more."
+    "explanation": "Persistent memory stores durable facts about you that load into every turn, so the agent always acts with your identity in mind."
   },
   {
-    "q": "Where do you store the Telegram bot token?",
+    "q": "Which context file sets the agent's personality — voice, values, boundaries?",
+    "options": [
+      "SOUL.md",
+      "requirements.txt",
+      "package.json",
+      "~/.hermes/.env"
+    ],
+    "answer": 0,
+    "explanation": "SOUL.md is the personality file — voice, values, and boundaries you want the agent to follow."
+  },
+  {
+    "q": "How do you resume a past conversation in Hermes?",
+    "options": [
+      "You cannot resume sessions",
+      "hermes --continue",
+      "Re-typing the whole conversation",
+      "hermes setup --portal"
+    ],
+    "answer": 1,
+    "explanation": "Sessions persist and can be continued with `hermes --continue`, searched, or exported."
+  },
+  {
+    "q": "Where should secrets and API keys be stored?",
     "options": [
       "In SOUL.md",
-      "In ~/.hermes/.env as TELEGRAM_BOT_TOKEN=...",
-      "In your public bio",
-      "Pasted directly into Telegram chat"
+      "In persistent memory",
+      "In ~/.hermes/.env",
+      "In a context file"
     ],
-    "answer": 1,
-    "explanation": "Tokens go in `~/.hermes/.env`. `TELEGRAM_BOT_TOKEN` is the documented env var."
-  },
-  {
-    "q": "What does TELEGRAM_ALLOWED_USERS do?",
-    "options": [
-      "Limits how many messages the bot can send per day",
-      "Restricts who is allowed to control the bot, so only you can talk to it",
-      "Sets the bot's display name",
-      "Pays for the Telegram API"
-    ],
-    "answer": 1,
-    "explanation": "Allowlisting your numeric user id means only you can control the bot — a key security setting."
-  },
-  {
-    "q": "Which route is usually the fit for a personal WhatsApp agent?",
-    "options": [
-      "Always the paid enterprise plan",
-      "A self-hosted bridge running for your own number",
-      "No WhatsApp route exists",
-      "The public Meta app"
-    ],
-    "answer": 1,
-    "explanation": "For a personal agent, a self-hosted bridge on your own number is usually the fit. The official API suits production/multi-user with approval."
+    "answer": 2,
+    "explanation": "Never store secrets in memory or context files. Keep API keys and tokens in ~/.hermes/.env."
   }
 ]

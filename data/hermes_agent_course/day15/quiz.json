@@ -1,46 +1,57 @@
 [
   {
-    "q": "How does the Hermes security model gate consequential actions?",
+    "q": "Why does Socket Mode let the Slack bot work without being publicly reachable?",
     "options": [
-      "It never needs approval",
-      "On an approval basis — the agent proposes, you approve for send/buy/publish/delete etc.",
-      "It auto-sends everything instantly",
-      "It blocks all actions permanently"
+      "It listens on a public webhook endpoint",
+      "The bot opens an outbound WebSocket connection to Slack",
+      "It tunnels through a public proxy automatically",
+      "Slack hosts the bot for you"
     ],
     "answer": 1,
-    "explanation": "Hermes gates consequential, irreversible or external actions behind approvals: the agent proposes, you approve."
+    "explanation": "Socket Mode uses outbound WebSockets, so the agent only needs to open a connection to Slack \u2014 no inbound/public access required."
   },
   {
-    "q": "Where do secrets belong?",
+    "q": "Which two tokens does a Slack connection require?",
     "options": [
-      "In config.yaml",
-      "In ~/.hermes/.env only",
-      "In SOUL.md",
-      "In memory"
+      "SLACK_BOT_TOKEN and SLACK_APP_TOKEN",
+      "SLACK_API_KEY and SLACK_SECRET",
+      "SLACK_WEBHOOK and SLACK_AUTH",
+      "SLACK_TOKEN and SLACK_ID"
     ],
-    "answer": 1,
-    "explanation": "Secrets go in `.env`, never config.yaml, memory, context files, or code."
+    "answer": 0,
+    "explanation": "You need the bot token (xoxb-) and the app token (xapp-), plus SLACK_ALLOWED_USERS."
   },
   {
-    "q": "What are checkpoints used for?",
+    "q": "What does SLACK_ALLOWED_USERS do in this setup?",
     "options": [
-      "Saving screenshots of the chat",
-      "Rolling back to a known-good state after a bad change",
-      "Scheduling backups to someone else's server",
-      "Counting messages"
+      "Sets the default language of the bot",
+      "Names the channels the bot joins automatically",
+      "Restricts who can use the agent to listed Slack Member IDs",
+      "Defines the bot's display name"
     ],
-    "answer": 1,
-    "explanation": "Checkpoints let you roll back memory, config, or context after a bad change."
+    "answer": 2,
+    "explanation": "It's the safety gate \u2014 only the listed Member IDs (like U01ABC2DEF3) can use the agent."
   },
   {
-    "q": "Which is a correct security checklist item?",
+    "q": "In Discord server channels, when does Hermes respond by default?",
     "options": [
-      "Share your .env in git",
-      "Lock .env permissions (chmod 600) and never commit it",
-      "Disable the firewall",
-      "Use the default VPS password"
+      "To every message, no matter what",
+      "Only when it is @mentioned",
+      "Only in the first channel of the server",
+      "Only during business hours"
     ],
     "answer": 1,
-    "explanation": "Lock `.env` permissions (e.g. `chmod 600`) and never commit it. Add allowlists, least-privilege toolsets, and checkpoints."
+    "explanation": "By default Hermes responds only when @mentioned in server channels; you can make specific channels mention-free with DISCORD_FREE_RESPONSE_CHANNELS."
+  },
+  {
+    "q": "Which of these is a true statement about Slack channels?",
+    "options": [
+      "The bot auto-joins every channel on install",
+      "You must invite the bot with /invite to add it to a channel",
+      "The bot can only work in DMs, not channels",
+      "Classic Slack apps are the recommended approach in 2025"
+    ],
+    "answer": 1,
+    "explanation": "The bot will not auto-join; you invite it with /invite @Hermes Agent. Classic apps were deprecated in March 2025."
   }
 ]

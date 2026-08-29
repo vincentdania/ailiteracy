@@ -75,7 +75,7 @@ export async function createOrRefreshLearningPlan(userId: string, courseId: stri
   let source: GenerationSource = "CURATED";
   let model: string | undefined;
   let title = definition.label;
-  let outcomeSummary = `${definition.promise} By Day 21, you will have a portfolio-ready project tied to this outcome: ${input.primaryGoal}`;
+  let outcomeSummary = `${definition.promise} By Day 22, you will have a portfolio-ready project tied to this outcome: ${input.primaryGoal}`;
   let milestones = definition.milestones;
 
   if (deepSeekEnabled()) {

@@ -1,52 +1,52 @@
 ---
 day: 18
-title: Plugins, MCP and Extending Hermes
-subtitle: Three ways to add capabilities — packaged plugins, the modern tool-interop standard, and custom tools.
+title: Secure and Harden Your Agent
+subtitle: An approval-based security model, secrets hygiene, checkpoints, and a field checklist for an always-on agent.
 ---
 
-# Plugins, MCP and Extending Hermes
+# Secure and Harden Your Agent
 
-**Read time: 5 minutes · Task: 10 minutes (optional)**
+**Read time: 6 minutes · Task: apply this week**
 
-Hermes is designed to grow with you. When the built-in features aren't enough, you extend it — three escalating ways.
+A personal agent touches your data and can act on your systems. Treating it as safe-by-default is a discipline — and Hermes is built around an **approval-based security model** to help.
 
-## 1. Plugins — get features with one command
+## 1. Understand the security model
 
-> **Command:** this is the standard, low-code way to add capabilities.
+Hermes is designed so the agent proposes and you approve for consequential, irreversible, or external actions. That means:
 
-- A **plugin** bundles new features you can enable with a single command.
-- Examples: connect a specific external service, add a specialised tool, extend the gateway.
-- This is your first stop when you need something new — check for a plugin before building anything custom.
+- **Approvals** gate sending messages, making purchases, applying, publishing, deleting — anything with a real consequence.
+- **No auto-sends** by default; drafts sit for your review.
+- **Isolation** for risky work (containers/backends) so a misbehaving task can't wreck your machine.
 
-## 2. MCP — the modern interoperability standard
+The model puts a hard boundary between *what the agent wants to do* and *what it's allowed to do without asking*.
 
-The **Model Context Protocol** is the emerging standard for connecting AI to external tools and data.
+## 2. Secrets hygiene (non-negotiable)
 
-- If your favourite services expose **MCP servers**, Hermes can plug into them directly.
-- The gateway/proxy can also let other MCP clients reach the agent.
-- Think of MCP as the universal adapter: one protocol to connect many tools, rather than bespoke code per service.
+- Secrets live in `~/.hermes/.env`, **never** in `config.yaml`, memory, context files, or code.
+- Use unique credentials per service; use app passwords where available, never your real account password.
+- If you use a password manager, keep the master password out of the agent.
 
-## 3. Custom tools — build your own
+## 3. Checkpoints & rollback
 
-- For a unique need, you can author your own **tool** — with an explicit name, description, and input schema (MCP-style), telling the agent when and how to call it.
-- Documented and testable, this is how advanced users add precisely-tailored abilities.
-- **Rule of thumb:** plugin → MCP server → custom tool, in that order. Don't write custom code when a plugin or MCP bridge already exists.
+Hermes keeps **checkpoints** so you can roll back after a bad change — configuration, memory, or context updates that went wrong. Before experimenting, note your checkpoint; if a change breaks things, restore the last good one.
 
-## Choosing the right extension
+## 4. Field checklist for an always-on agent
 
-| Need | Use |
-|------|-----|
-| Common feature / service | Plugin |
-| External tool with an MCP server | MCP |
-| Truly unique to your workflow | Custom tool |
+- [ ] Exposed server? SSH keys only, no default passwords, keep updates applied.
+- [ ] `.env` permissions locked to your user; never committed to git.
+- [ ] Messaging platforms allowlisted (`TELEGRAM_ALLOWED_USERS`, `EMAIL_ALLOWED_USERS`).
+- [ ] Approval model intact — nothing auto-sends.
+- [ ] Least-privilege toolsets — only enable what you use.
+- [ ] Backups/checkpoints for memory and config.
+- [ ] A firewall on any VPS.
 
 ## 🎯 Task
 
-Browse the plugin directory/documentation for one plugin relevant to your work and note it. If you use a service that exposes MCP, sketch how you'd connect it.
+Run the checklist. Fix at least one gap — e.g., lock `.env` permissions (`chmod 600 ~/.hermes/.env`), or confirm your first checkpoint/backup.
 
 ## 📤 Output
 
-The plugin (or MCP server) you found and one sentence on how you'd use it.
+The checklist with your fixes checked off, and note the one change you made first.
 
 ---
-**Verified fact:** Plugins, MCP servers/clients, and authoring custom MCP-style tools are documented Hermes Agent extension mechanisms.
+**Verified fact:** The approval-based security model (gate consequential actions by default), secrets-in-`.env`, and checkpoints/rollback are documented Hermes Agent security features.

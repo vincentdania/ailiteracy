@@ -1,52 +1,50 @@
 ---
 day: 9
-title: Memory, Context Files and Sessions — What Your Agent Remembers
-subtitle: Persistent memory, per-turn context files, scripts and sessions — the difference between remembering and forgetting.
+title: Skills and the Curator — Your Agent Learns
+subtitle: Turn a one-off workflow into a reusable skill, powered by an automatic self-improvement engine.
 ---
 
-# Memory, Context Files and Sessions — What Your Agent Remembers
+# Skills and the Curator — Your Agent Learns
 
-**Read time: 5 minutes · Task: 8 minutes**
+**Read time: 5 minutes · Task: 15 minutes (hands-on)**
 
-A personal agent *remembers*. This lesson is about the three ways Hermes does that: persistent memory, context files, and sessions.
+Skills are how your agent *remembers how to do things*. While tools give it hands, **skills give it method** — a reusable procedure it can follow again and again.
 
-## 1. Persistent memory
+## What a skill is
 
-Your agent stores durable, high-signal facts about you — your name, role, goals, preferences, the tools you use. This is injected into **every** turn, so it's always acting with your identity in mind. It's kept compact on purpose (a limited character budget), so your agent prioritises what matters rather than drowning in detail.
+A skill is a stored procedure: "here is exactly how to produce the weekly donor report." Instead of re-teaching your agent every time, it loads the skill and executes it consistently. Over time, your agent accumulates skills for *your* most frequent work.
 
-You can also attach external memory providers for larger, searchable long-term recall if you outgrow the built-in store.
+## How skills form
 
-## 2. Context files — injected every turn
+Two ways:
 
-You can tell your agent how to *be* by dropping structured files into its context. Three stand out:
+1. **You ask it to remember.** After a good outcome, you tell the agent to capture the method as a skill.
+2. **The Curator does it automatically.** Hermes includes a **Curator** — a self-improvement engine that reviews completed work and proposes saving reusable skills and other improvements in the background.
 
-- **`SOUL.md`** (personality) — voice, values, boundaries: "be blunt, no flattery, Nigerian/British English."
-- **`AGENTS.md`** — project/procedural context, loaded when working in a codebase or a specific working dir.
-- **`.hermes.md`** — extra agent instructions in your home directory.
+That loop is the heart of "it gets better at your work": **you do a task, the pattern is saved, and next time it's faster and more consistent.**
 
-These load every turn, so they shape how your agent speaks and works without you repeating it.
+## A skill you can write today (Lab 6)
 
-## 3. Sessions
+The classic first skill: your **daily/weekly briefing format**. Large language models are great at following a fixed template. Tell your agent:
 
-When you close a session, the state doesn't have to vanish. Hermes lets you:
+1. "Read my email summary and the morning news."
+2. "Produce a briefing with sections for funding, social protection, and one innovation to replicate."
+3. "Save this exact format as a skill named `daily_briefing`."
 
-- **Continue** a session later (`hermes --continue`).
-- **Search** past sessions to recover work or decisions.
-- **Save/export** sessions when you need a durable record.
+From then on, one command produces your briefing in the format you defined.
 
-This is your agent's memory of *what we were doing*, separate from the memory of *who you are*.
+## The skills system
 
-## Memory ≠ privacy risk if configured right
+- Skills are organised for **progressive disclosure** — a light index loads by default; the full detail is pulled only when the skill is actually invoked. That keeps every session lean and fast on low bandwidth.
+- A **skills hub** lets them be shared, so the community's hard-won procedures become available to you (and yours to others).
 
-Because it runs on your machine, your memory and context stay with you. The main discipline: **don't store secrets** (API keys, passwords) in memory or context files — put those in `.env`. Keep memory for preferences and facts, and secrets for your secrets.
+## 🎯 Task (hands-on)
 
-## 🎯 Task
-
-Set the tone of your agent. Find or create a `SOUL.md` and add one line about how you'd like it to speak to you (your values, your deadlines, your bluntness preference). Then confirm your memory contains your name and role.
+Do the "daily briefing format" exercise above with your agent. Ask it to save `daily_briefing` as a skill, then run it once and confirm it reproduces your format.
 
 ## 📤 Output
 
-The one-line personality rule you added to `SOUL.md`, and confirmation that memory knows who you are.
+A note that the skill was saved, plus the one-command you now use to get your briefing.
 
 ---
-**Verified fact:** The distinction between persistent memory, context files (SOUL.md, AGENTS.md, .hermes.md), and sessions with resume/search/export is documented in the official Hermes Agent guides for memory, context, and the CLI.
+**Verified fact:** Skills with progressive disclosure (index first, detail on invoke) and the Curator self-improvement engine are documented Hermes Agent features.

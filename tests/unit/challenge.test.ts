@@ -8,14 +8,14 @@ describe("challenge drip", () => {
     expect(unlockedDay(enrolled, new Date("2026-08-11T23:01:00Z"), "Africa/Lagos")).toBe(2);
   });
 
-  it("caps at day 21 and supports the admin preview override", () => {
-    expect(unlockedDay(new Date("2026-01-01"), new Date("2026-12-01"), "UTC")).toBe(21);
-    expect(unlockedDay(new Date(), new Date(), "UTC", true)).toBe(21);
+  it("caps at day 22 and supports the admin preview override", () => {
+    expect(unlockedDay(new Date("2026-01-01"), new Date("2026-12-01"), "UTC")).toBe(22);
+    expect(unlockedDay(new Date(), new Date(), "UTC", true)).toBe(22);
   });
 
   it("gates bonus lessons separately from the drip", () => {
     expect(canAccessLesson({ dayNumber: 2, isBonus: false, bonusUnlocked: false, unlockedDay: 1 })).toBe(false);
-    expect(canAccessLesson({ dayNumber: 22, isBonus: true, bonusUnlocked: true, unlockedDay: 1 })).toBe(true);
+    expect(canAccessLesson({ dayNumber: 90, isBonus: true, bonusUnlocked: true, unlockedDay: 1 })).toBe(true);
   });
 });
 

@@ -1,0 +1,46 @@
+[
+  {
+    "q": "What is the first, lowest-code way to add a capability to Hermes?",
+    "options": [
+      "Write a custom tool from scratch",
+      "Install a plugin with a single command",
+      "Reinstall the whole system",
+      "Hire a developer"
+    ],
+    "answer": 1,
+    "explanation": "Plugins bundle features you enable with one command — check for a plugin before building anything custom."
+  },
+  {
+    "q": "What does MCP stand for and do?",
+    "options": [
+      "A payment standard for AI",
+      "Model Context Protocol — the standard for connecting AI to external tools and data",
+      "A hardware interface",
+      "A social media platform"
+    ],
+    "answer": 1,
+    "explanation": "The Model Context Protocol is the emerging standard for connecting agents to external tools and data sources."
+  },
+  {
+    "q": "What is the recommended order when choosing an extension?",
+    "options": [
+      "Custom tool → MCP → plugin",
+      "Plugin → MCP server → custom tool",
+      "MCP → custom tool → plugin",
+      "Always write custom code"
+    ],
+    "answer": 1,
+    "explanation": "Use a plugin first, then an MCP bridge, and only write a custom tool for something truly unique to your workflow."
+  },
+  {
+    "q": "Which of these best describes what an MCP connector can give your agent?",
+    "options": [
+      "A pre-trained memory of your whole life",
+      "Live, structured access to an external service's tools and data",
+      "A free cloud GPU forever",
+      "Automatic SEO for your website"
+    ],
+    "answer": 1,
+    "explanation": "MCP servers expose an external service's real tools and data to the agent, so it can act on live systems through one standard."
+  }
+]

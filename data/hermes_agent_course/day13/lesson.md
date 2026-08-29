@@ -1,54 +1,38 @@
 ---
 day: 13
-title: Your First 7 Days — A Practical Plan
-subtitle: A realistic rollout from day one to a fully working assistant, without trying to do everything at once.
+title: 'GitHub — Webhooks, Review and Automation'
+subtitle: Connect your agent to GitHub so it can watch repos, review pull requests and automate workflows.
 ---
 
-# Your First 7 Days — A Practical Plan
+# GitHub — Webhooks, Review and Automation
 
-**Read time: 5 minutes · Task: apply over a week**
+Think of GitHub as the place where code and projects live on the internet. Almost every software team keeps its working files there, in a folder called a **repository** (a "repo"). People don't edit the same file directly — they propose changes, and someone reviews those changes before they are accepted. This lesson shows you how to connect Hermes to GitHub so your agent can join that workflow.
 
-The fastest way to fail is to try to build everything at once. Here is a realistic week that compounds — each day builds on the last.
+## A simple mental model
 
-## Day 1 — Get running
+Your agent can live inside the GitHub life cycle in four steps:
 
-Install (Lab 1), connect a model (Lab 2), and chat once. Celebrate the win. Don't add anything else.
+1. **Your project lives in a repo** on GitHub, with your developer — or a client's developer — actively working on it.
+2. **GitHub notifies Hermes when something happens.** When someone opens a pull request (a "PR" — a proposed change), pushes new code, or files an issue, GitHub can send your agent a message about it. We call this a **webhook**: GitHub posts an event to a URL your agent listens on. When a new PR opens, Hermes hears about it and can act.
+3. **Hermes reviews the change.** Hermes can read the proposed change, spot bugs or style issues, and post a comment on the pull request with suggestions. There is even a dedicated GitHub PR Review Agent guide for this.
+4. **You approve before it merges.** Nothing gets merged into the real project without a human saying yes. The agent suggests and flags; the human decides and approves.
 
-## Day 2 — Make it yours
+## Being honest about the setup
 
-Add memory (who you are), set your `SOUL.md` voice, and save your first skill (the daily briefing format). Now it starts to feel like *your* agent.
+Webhooks work because GitHub reaches *out* to your agent. That means your agent needs a publicly reachable web address — one the internet can actually get to. If your Hermes runs on your own laptop, GitHub cannot knock on it directly. The common fix is to run your agent on a server on the internet, like a low-cost VPS. That is a one-time setup, and then your monitoring runs on its own.
 
-## Day 3 — Put it in your pocket
+## A real-world example
 
-Connect Telegram (Lab 4). Message it from your phone. This is the moment it becomes genuinely useful.
+Say you are a consultant keeping a client's GitHub repo tidy. Every time the developer opens a PR, your agent is notified, reviews the change, and leaves inline suggestions — freeing you up instead of babysitting a chat window. Or perhaps you are not a coder yourself, but you team up with a developer peer: they write the code, while your agent watches repo activity and flags anything odd for your review before you approve the merge. Either way, you stay in control.
 
-## Day 4 — Add email
+## Where to go deeper
 
-Set up a dedicated mailbox (Lab 5), use it to triage opportunities and draft replies — with approval before send.
+The official Hermes documentation has guides on **"Receive events from GitHub"**, **"Automated GitHub PR Comments with Webhooks"**, and the **GitHub PR Review Agent**. Hermes also has git and terminal tools, so it can work with a repo locally too. Read those guides when you're ready to wire it up.
 
-## Day 5 — Automate one thing
+## Task
 
-Create one cron job that runs while you sleep. A morning briefing is the perfect start.
+Describe one GitHub workflow you'd like your agent to watch for you — for example, monitoring a client's pull requests — and outline the four steps from this lesson applied to that scenario.
 
-## Day 6 — Do real work at scale
+## Output
 
-Use batch or delegation for a task that's actually on your plate—summarise a pile of documents, grade a class, draft a round of outreach. Observe how much faster it is.
-
-## Day 7 — Harden and review
-
-Apply the security checklist (Lab 15), review what you built, and write down the three tasks you'll hand it every week going forward.
-
-## The rule that makes it work
-
-**One thing per day.** Compounding beats cramming. Each day's win is small and fast, and by Day 7 you have a functioning, secure, automated personal agent.
-
-## 🎯 Task
-
-Print or save the 7-day plan. For today, do only today's step. If your course is already past day 1, catch up by doing the earliest undone step.
-
-## 📤 Output
-
-A one-line note of which day you're on and what you completed. Commit to repeating the plan from your current day.
-
----
-**Verified fact:** All steps reference skills/labs taught earlier in this course. The one-thing-per-day rule is a proven habit-building approach, not a Hermes-specific feature.
+Two or three short paragraphs: (1) the scenario, (2) which GitHub events you'd want to be notified about, and (3) the rule you would set for when you approve a merge.

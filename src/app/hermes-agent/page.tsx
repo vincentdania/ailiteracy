@@ -12,12 +12,12 @@ export const metadata: Metadata = {
 };
 
 const MODULES: { title: string; lessons: string }[] = [
-  { title: "Foundations", lessons: "What an agent is · Why Hermes · System architecture" },
-  { title: "Install & Run", lessons: "Install everywhere · Connect a model · Run 24/7 on a VPS" },
+  { title: "Foundations: Agents & Hermes", lessons: "What an agent is · Agent types · How agents work · What it can do" },
+  { title: "Install & Run", lessons: "Local setup · Connect a model · Run 24/7 on a VPS" },
   { title: "The Agent's Brain", lessons: "Tools & toolsets · Skills & the Curator · Memory & sessions" },
-  { title: "Connect & Automate", lessons: "Telegram & WhatsApp · Email · Cron, delegation & batch" },
-  { title: "Build It Yourself", lessons: "First 7 days · Connected wall · Security · Capstone" },
-  { title: "Advanced & Extend", lessons: "Voice & local models · Plugins & MCP · Cheat sheet" },
+  { title: "Connect Everything", lessons: "Telegram & WhatsApp · Gmail & Outlook email · GitHub · Browser · Slack & Discord" },
+  { title: "Build It Yourself", lessons: "Automation · First 7 days · Security" },
+  { title: "Advanced & Production", lessons: "Connected agent · Voice & local models · Plugins & MCP · Capstone" },
 ];
 
 const FEATURES: { icon: typeof Check; title: string; copy: string }[] = [
@@ -34,7 +34,7 @@ export default function HermesCourseLanding() {
 
       <main className="container-shell">
         <section className="py-14 sm:py-20">
-          <p className="eyebrow">Course · 6 modules · 19 lessons · Includes a running agent</p>
+          <p className="eyebrow">Course · 6 modules · 22 lessons · Includes a running agent</p>
           <h1 className="display mt-4 max-w-3xl text-5xl text-[#00261d] sm:text-6xl">
             Build Your Personal AI Agent <span className="text-[#1d604d]">and Make AI Work for You</span>
           </h1>
@@ -54,7 +54,7 @@ export default function HermesCourseLanding() {
               Try Lesson 1 free →
             </Link>
           </div>
-          <p className="mt-3 text-sm text-[#717975]">Pay in Naira (Paystack) or $29 in any currency (Stripe). 19 lessons, quizzes and labs included.</p>
+          <p className="mt-3 text-sm text-[#717975]">Pay in Naira (Paystack) or $29 in any currency (Stripe). 22 lessons, quizzes and labs included.</p>
         </section>
 
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -86,7 +86,7 @@ export default function HermesCourseLanding() {
         <section id="pricing" className="rounded-3xl bg-[#123c31] p-8 text-white card-shadow sm:p-10">
           <p className="eyebrow eyebrow-inverse">What you get</p>
           <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-            {["19 hands-on lessons with every command", "Per-lesson quizzes and a capstone lab", "A 24/7 personal agent running on a cheap VPS", "One-page cheat sheet and security checklist", "Downloadable, low-bandwidth course materials", "Nigerian and global payment options"].map((item) => (
+            {["22 hands-on lessons with every command", "Per-lesson quizzes and a capstone lab", "A 24/7 personal agent running on a cheap VPS", "One-page cheat sheet and security checklist", "Downloadable, low-bandwidth course materials", "Nigerian and global payment options"].map((item) => (
               <li key={item} className="flex items-center gap-3 text-white/90"><Check size={18} className="shrink-0 text-[#d9f99d]" /><span className="text-sm leading-6">{item}</span></li>
             ))}
           </ul>

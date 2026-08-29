@@ -1,50 +1,55 @@
 ---
 day: 8
-title: Skills and the Curator — Your Agent Learns
-subtitle: Turn a one-off workflow into a reusable skill, powered by an automatic self-improvement engine.
+title: Tools and Toolsets — Your Agent's Hands
+subtitle: The 60+ built-in capabilities that let your agent do real work, grouped into switchable sets.
 ---
 
-# Skills and the Curator — Your Agent Learns
+# Tools and Toolsets — Your Agent's Hands
 
-**Read time: 5 minutes · Task: 15 minutes (hands-on)**
+**Read time: 5 minutes · Task: 8 minutes**
 
-Skills are how your agent *remembers how to do things*. While tools give it hands, **skills give it method** — a reusable procedure it can follow again and again.
+This is where an agent stops being a chatbot. **Tools** are the actions your agent can take — searching the web, extracting a page, running code, reading a file. Grouped sets of tools are called **toolsets**, and you can turn them on and off.
 
-## What a skill is
+## What tools can do
 
-A skill is a stored procedure: "here is exactly how to produce the weekly donor report." Instead of re-teaching your agent every time, it loads the skill and executes it consistently. Over time, your agent accumulates skills for *your* most frequent work.
+Your agent's tools give it hands. A few you'll use constantly:
 
-## How skills form
+- **Web search & extract** — find information and pull the content of a page.
+- **File & code execution** — read, edit, and run scripts.
+- **Browser** — drive a real browser to get past bot-blocked or JavaScript-heavy pages.
+- **Vision** — look at an image.
+- **Developer tools** — the coding/CI tooling for building software.
+- **Media & creative** — generate audio, images, diagrams.
 
-Two ways:
+## Toolsets: the switch
 
-1. **You ask it to remember.** After a good outcome, you tell the agent to capture the method as a skill.
-2. **The Curator does it automatically.** Hermes includes a **Curator** — a self-improvement engine that reviews completed work and proposes saving reusable skills and other improvements in the background.
+You don't need every tool at once. Tools are organised into **toolsets** you can enable per purpose. Configuring which toolsets are available is part of setup:
 
-That loop is the heart of "it gets better at your work": **you do a task, the pattern is saved, and next time it's faster and more consistent.**
+```bash
+hermes tools
+```
 
-## A skill you can write today (Lab 6)
+This shows what's available and lets you control what your agent may call. Limiting tools is also a **security** practice: give the agent only what a task needs.
 
-The classic first skill: your **daily/weekly briefing format**. Large language models are great at following a fixed template. Tell your agent:
+## Why 60+ tools matters
 
-1. "Read my email summary and the morning news."
-2. "Produce a briefing with sections for funding, social protection, and one innovation to replicate."
-3. "Save this exact format as a skill named `daily_briefing`."
+A model can only do what its tools let it do. With a rich, correct toolset, one instruction can turn into a genuinely completed job:
 
-From then on, one command produces your briefing in the format you defined.
+> "Research funding for NGOs in Nigeria, summarise the top three deadlines, and save the list to a file."
 
-## The skills system
+That single instruction uses search, extract, and the file system — three tools working together.
 
-- Skills are organised for **progressive disclosure** — a light index loads by default; the full detail is pulled only when the skill is actually invoked. That keeps every session lean and fast on low bandwidth.
-- A **skills hub** lets them be shared, so the community's hard-won procedures become available to you (and yours to others).
+## Low bandwidth 📶
 
-## 🎯 Task (hands-on)
+Tool-based work is text-heavy and lightweight. Web pages are extracted to text before they enter the agent, so you are not downloading images and videos from every link — a big saving on mobile data.
 
-Do the "daily briefing format" exercise above with your agent. Ask it to save `daily_briefing` as a skill, then run it once and confirm it reproduces your format.
+## 🎯 Task
+
+Take the task you named in Lesson 1. Break it into the tools your agent would need to do it. Write the list. Example: if the task is a policy memo, you need web search (find sources), extract (read the report), and file tools (save the draft).
 
 ## 📤 Output
 
-A note that the skill was saved, plus the one-command you now use to get your briefing.
+Your task broken into 2–4 tools your agent would use.
 
 ---
-**Verified fact:** Skills with progressive disclosure (index first, detail on invoke) and the Curator self-improvement engine are documented Hermes Agent features.
+**Verified fact:** Hermes ships with 60+ built-in tools organised into toolsets, manageable with `hermes tools` (per the official documentation). Extracting page text before processing keeps data use low.

@@ -1,46 +1,46 @@
 [
   {
-    "q": "Which command shows your provider, model, and enabled tools?",
+    "q": "What does a 'connected wall' mean in this course?",
     "options": [
-      "hermes status",
-      "hermes gateway run",
-      "hermes --continue",
-      "hermes setup"
-    ],
-    "answer": 0,
-    "explanation": "`hermes status` is your daily confirmation of provider, model, and tools."
-  },
-  {
-    "q": "Which habit keeps your agent compounding?",
-    "options": [
-      "Using the agent only once a month",
-      "Saving a skill whenever you find a repeatable workflow",
-      "Never running hermes doctor",
-      "Ignoring the security checklist"
+      "A wall of monitors in your office",
+      "One agent reached through many surfaces, sharing the same memory and skills",
+      "A group of separate, disconnected bots",
+      "Hardware networking equipment"
     ],
     "answer": 1,
-    "explanation": "Save skills for repeatable workflows and use the agent weekly with standing tasks; that's the loop that compounds."
+    "explanation": "A connected wall is one coherent agent — same tools, memory and skills — reached from terminal, Telegram, email, and cron."
   },
   {
-    "q": "The one-line security rule is:",
+    "q": "How do you prove surfaces share the same agent?",
     "options": [
-      "Share is caring — put keys in config.yaml",
-      "Secrets in .env, approvals for consequential actions, checkpoints before experiments, allowlist who can reach you",
-      "Turn off all security to go faster",
-      "Let the agent auto-send emails"
-    ],
-    "answer": 1,
-    "explanation": "Keep secrets in .env, gate consequential actions with approvals, keep checkpoints, and allowlist contacts."
-  },
-  {
-    "q": "Where is the authoritative reference for going deeper?",
-    "options": [
-      "hermes-agent.nousresearch.com/docs",
-      "A random YouTube video",
-      "An old forum post",
-      "The chat of a stranger"
+      "Ask the Telegram agent to reproduce a skill you only saved on the laptop",
+      "Close the terminal and hope",
+      "Reboot your router",
+      "Buy a bigger VPS"
     ],
     "answer": 0,
-    "explanation": "The official documentation at hermes-agent.nousresearch.com/docs, including the Learning Path, is the authoritative reference."
+    "explanation": "If Telegram can call the skill you saved on your laptop, they share memory and it's truly one agent."
+  },
+  {
+    "q": "What is the recommended architecture for a personal agent?",
+    "options": [
+      "A fresh separate instance for every device",
+      "One instance (often on a VPS) as the source of truth; all surfaces connect to it",
+      "No instance, cloud only",
+      "Two competing agents on different devices"
+    ],
+    "answer": 1,
+    "explanation": "Run one instance as the source of truth. Separate per-device instances fragment memory and skills."
+  },
+  {
+    "q": "Which surface should you add FIRST to reach your agent from anywhere?",
+    "options": [
+      "A custom desktop widget",
+      "The messaging gateway, e.g. Telegram or WhatsApp",
+      "A second laptop",
+      "A spreadsheet"
+    ],
+    "answer": 1,
+    "explanation": "The messaging gateway is the highest-value first connection: it makes your always-on agent reachable from your phone, where you actually are."
   }
 ]

@@ -24,10 +24,10 @@ const schema = {
   "@context": "https://schema.org",
   "@type": "Course",
   name: "Build Your Personal AI Agent and Make AI Work for You",
-  description: "A hands-on, low-bandwidth course: install the open-source Hermes Agent anywhere, teach it your tools and memory, connect it to Telegram and WhatsApp, automate with cron, and harden it for production. Mobile-first, built for learners worldwide.",
+  description: "A hands-on, low-bandwidth course: install the open-source Hermes Agent anywhere, connect every major model, teach it your tools and memory, and connect it to Telegram, WhatsApp, Gmail, Outlook, GitHub, Slack and the browser. Mobile-first, built for learners worldwide.",
   provider: { "@type": "Organization", name: "AI Literacy" },
   educationalLevel: "Beginner to practitioner",
-  timeRequired: "P19D",
+  timeRequired: "P22D",
   offers: [
     { "@type": "Offer", price: "20000", priceCurrency: "NGN" },
     { "@type": "Offer", price: "29", priceCurrency: "USD" },
@@ -51,7 +51,7 @@ export default function HomePage() {
       <main>
         <section className="container-shell grid min-h-[calc(100svh-72px)] items-center gap-10 py-12 md:grid-cols-2 md:py-20">
           <div className="max-w-2xl">
-            <p className="eyebrow mb-5">19 lessons · Hands-on · Build a working agent</p>
+            <p className="eyebrow mb-5">22 lessons · Hands-on · Build a working agent</p>
             <h1 className="display text-[clamp(3.25rem,6vw,5.5rem)] text-[#00261d]">
               Build a personal AI agent that works for you.
             </h1>

@@ -1,45 +1,46 @@
 ---
 day: 14
-title: The Connected Wall — One Agent Everywhere
-subtitle: Wire all your surfaces together so the same agent, memory and skills serve you from every app you use.
+title: 'The Web Browser — Search, Extract and Browse'
+subtitle: Give your agent hands and eyes on the web
 ---
 
-# The Connected Wall — One Agent Everywhere
+# The Web Browser — Search, Extract and Browse
 
-**Read time: 4 minutes · Task: 10 minutes (review/lab)**
+So far your agent reads files and calls APIs. Today you give it a browser. **Read time: ~6 min. Task: ~10 min hands-on.**
 
-By now you have piecemeal integrations. This lesson is the wiring review that turns a collection of connected apps into one *connected wall* — a single agent you can reach from anywhere.
+From day 14 your agent can navigate real websites, click buttons, fill and submit forms, and pull out information you'd normally copy by hand. Just describe what you want: "Research this topic and summarise it," "Check if this site is down," "Extract the pricing from this competitor's page," "Fill and submit this form for me."
 
-## The goal
+## How the browser sees pages
 
-The point is coherence: your assistant on Telegram isn't a different assistant from the one on your laptop. It is the **same agent** — same tools, memory, skills, and cron jobs — reached through different doors. That's exactly what the messaging gateway delivers.
+Hermes doesn't "look" at a page the way you do. It reads the page as an **accessibility tree** — a clean, text-based snapshot of every element. Interactive bits (buttons, inputs, links) get **ref IDs** like `@e1`, `@e2`. The agent uses those IDs to click and type, so it never fumbles by guessing coordinates. It also supports **vision analysis** of screenshots, and each task runs in its **own isolated browser session**.
 
-## The surfaces you'll wire
+## Pick your browser: four ways
 
-- **Terminal / desktop** — deep work, big tasks.
-- **Telegram** — on-the-go instructions and replies.
-- **Email** — asynchronous triage and drafts.
-- **Cron to Telegram** — automated push briefings, no one watching.
+Here's the honest, non-coder version of your options.
 
-## Verification ritual
+- **Use the browser you already have.** Run `/browser connect` to attach the agent to your own Chrome, Brave, Edge, or Chromium. No new software, nothing to learn.
+- **A cloud browser.** Hermes can drive a remote browser for you: Browser Use (managed Chromium with stealth, residential proxies, CAPTCHA solving, and reusable profiles), Browserbase, or Firecrawl for scraping.
+- **A tiny local browser.** Lightpanda runs entirely on your machine with very low memory — good for lightweight jobs.
+- **Portal subscribers.** If you're on the paid Nous Portal, run `hermes setup --portal` and every gateway tool (browser included) just works with no browser API keys to hunt for.
 
-After wiring each surface, ask a question that would *only* make sense if they share memory:
+```bash
+hermes setup --portal
+```
 
-> "On my laptop I asked you to save a `daily_briefing` skill. Reproduce it here."
+Need a browser API key yourself? It lives in `~/.hermes/.env` (the real one is `BROWSER_USE_API_KEY`). No branch of this requires you to become a programmer.
 
-If the Telegram assistant can call the same skill, your wall is genuinely connected. If not, check the gateway and that both surfaces point at the same instance/profile.
+## A note for low-bandwidth users
 
-## Keep it one instance
+On a slow connection, a **cloud browser is your friend**. The work happens remotely, on the provider's fast pipes — your small link only carries back the finished result. Perfect for Nigerian networks where every megabyte counts.
 
-For a personal agent, run **one** Hermes instance (usually on your VPS) and treat it as the source of truth. All surfaces connect to it. Avoid running separate instances per device — that fragments memory and skills, destroying the "one agent everywhere" value.
+## Task
 
-## 🎯 Task
+Open a chat with your agent and ask it to **navigate to a real website of your choice** (a news site, a government portal, a competitor's pricing page) and **summarise the key information** for you. If you're brave, ask it to **fill and submit a simple form** on a non-sensitive site. Watch it read the page and act on the ref IDs.
 
-Test the connected wall: from Telegram, ask your agent to run a skill you saved earlier. Confirm it does. Then confirm your cron briefing delivers to the same chat.
+## Output
 
-## 📤 Output
-
-A note confirming that (1) Telegram can use your saved skill, and (2) your scheduled briefing arrives in your home chat.
+Note down: which backend you used, what you asked, and what the agent returned. In one line, say how this changes what you'd trust your agent to do next.
 
 ---
-**Verified fact:** The gateway presents the same agent (shared memory and skills) across platforms. Running one instance as the source of truth is the recommended architecture for a personal setup.
+
+**Key word to remember:** accessibility tree — the agent's eyes. Everything else is just choosing a browser.

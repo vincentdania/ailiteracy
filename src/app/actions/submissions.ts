@@ -48,14 +48,14 @@ export async function submitPracticeAction(_: { ok: boolean; message: string; sc
   if (!lesson) return { ok: false, message: "Lesson not found." };
   const enrollment = await db.enrollment.findUnique({ where: { userId_courseId: { userId: session.user.id, courseId: lesson.module.courseId } } });
   if (!enrollment) return { ok: false, message: "Enrollment required." };
-  const assessment = assessSubmission(result.data.content, lesson.dayNumber === 21);
+  const assessment = assessSubmission(result.data.content, lesson.dayNumber === 22);
   await db.$transaction([
     db.projectSubmission.upsert({
       where: { userId_lessonId: { userId: session.user.id, lessonId: lesson.id } },
       update: { title: result.data.title, content: result.data.content, artifactUrl: result.data.artifactUrl || null, status: "REVIEWED", score: assessment.score, aiFeedback: assessment.feedback, reviewedAt: new Date(), submittedAt: new Date() },
       create: { userId: session.user.id, lessonId: lesson.id, title: result.data.title, content: result.data.content, artifactUrl: result.data.artifactUrl || null, status: "REVIEWED", score: assessment.score, aiFeedback: assessment.feedback, reviewedAt: new Date() },
     }),
-    ...(lesson.dayNumber === 21 ? [db.enrollment.update({ where: { id: enrollment.id }, data: { capstonePassed: assessment.score >= 70, assessmentScore: assessment.score } })] : []),
+    ...(lesson.dayNumber === 22 ? [db.enrollment.update({ where: { id: enrollment.id }, data: { capstonePassed: assessment.score >= 70, assessmentScore: assessment.score } })] : []),
   ]);
   revalidatePath(`/challenge/${lesson.slug}`);
   revalidatePath("/dashboard");

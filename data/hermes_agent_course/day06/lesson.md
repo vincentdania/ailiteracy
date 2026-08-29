@@ -1,61 +1,70 @@
 ---
 day: 6
-title: Run It 24/7 on a VPS
-subtitle: Keep your agent alive while your laptop is closed — with low-cost VPS options that work in Nigeria.
+title: Connect a Model — GLM, DeepSeek, OpenAI, Claude
+subtitle: The fastest path with Nous Portal, or bring the model of your choice — then chat for the first time.
 ---
 
-# Run It 24/7 on a VPS
+# Connect a Model — GLM, DeepSeek, OpenAI, Claude
 
-**Read time: 5 minutes · Task: varies (registration)**
+**Read time: 5 minutes · Task: 15 minutes (hands-on)**
 
-Your agent is most powerful when it is *always on*. A laptop that sleeps at night means an agent that is unreachable. The fix: run it on a **VPS** (a small cloud server) that never sleeps, then talk to it from anywhere — including your phone.
+Your agent is installed but it has no brain yet. This lesson gives it one. Your single decision that shapes everything is the **model**.
 
-## What you need
+## The fastest path: Nous Portal
 
-A VPS is a rented Linux server. Hermes runs fine on a modest one; you don't need much CPU or RAM for a personal agent. This makes it cheap.
-
-## Pick a host (Verified pricing, Aug 2026 — re-check before buying)
-
-- **Oracle Cloud** — a genuinely free Arm tier (always free, generous specs). Best *free* starting point.
-- **Contabo** — very budget-friendly monthly plans, popular with Nigerian users.
-- **Hostinger** — cheap VPS plans, easy control panel.
-- **DigitalOcean** — reliable $5–7 droplets, huge community of tutorials.
-
-> **Nigerian tip:** the free Oracle tier is the smart start. Many Nigerian users also buy from local resellers who accept naira and provide `cPanel`. Always verify features and pricing before paying.
-
-## Provision and connect
-
-Create the server, then SSH into it:
+For most people, the easiest route is a **Nous Portal** subscription. It gives you **one OAuth login, 300+ models**, and unlocks the **Tool Gateway** (which enables built-in web search, image, and TTS tools). One subscription, predictable cost.
 
 ```bash
-ssh root@YOUR_SERVER_IP
+hermes setup --portal
 ```
 
-## Install and deamonise
+Sign in with your Nous account and the setup wires the provider for you.
 
-Run the normal installer on the VPS, connect your model, then start the gateway and make it survive reboots:
+## Or bring your own key
+
+If you already hold keys, you can connect any major provider — pick via the interactive model selector:
 
 ```bash
-# install (same one-command install as your laptop)
-curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
-
-# run the messaging gateway (keeps Telegram/email connected)
-hermes gateway run
+hermes model
 ```
 
-For always-on reliability, run the gateway as a **system service** (systemd) so it starts on boot and restarts if it crashes. The documentation covers `hermes gateway install` for this. Your agent becomes a background worker you can reach 24/7.
+**Your four biggest choices, all supported:**
 
-## Security reminder
+- **GLM** (Zhipu) — strong open-weight model, cost-effective. Add it via **OpenRouter** using a single key, or Zhipu's endpoint.
+- **DeepSeek** — the popular budget workhorse. Native `DEEPSEEK_API_KEY`, or via OpenRouter. Excellent power-per-naira.
+- **OpenAI** (GPT models) — the default many people know; familiar quality and tools.
+- **Claude** (Anthropic) — best-in-class for long, careful writing and reasoning; generous to agents.
 
-A server exposed to the internet must be protected. The full hardening steps come in Lab 15, but at minimum: use SSH keys, keep the system updated, and never expose secrets. Change the default password, and keep `.env` private.
+If you'd rather not manage several keys, **OpenRouter** is the clean move: one key, one selector, and access to GLM, DeepSeek, OpenAI, Claude and hundreds more from a single account. Google Gemini and a local **Ollama** model are also available offline or for privacy.
+
+## The 64K rule
+
+Hermes requires a model with at least **64K context**. Models with smaller windows are rejected at startup. All four providers above have 64K+ models; pick one that comfortably exceeds that for multi-step agent work.
+
+## Where secrets live
+
+A critical habit from day one:
+
+- **Secrets** (API keys, tokens) go in `~/.hermes/.env`.
+- **Settings** go in `~/.hermes/config.yaml`.
+
+Never paste an API key into `config.yaml`. Keep keys in `.env`.
+
+## Chat for the first time
+
+```bash
+hermes status
+```
+
+Confirm your provider, model, and enabled tools are shown. Then just type a message in the terminal and your agent answers. That's your first working personal agent.
 
 ## 🎯 Task
 
-Choose a VPS path (the free Oracle tier is a sensible default). Provision it, SSH in, install Hermes, connect your model, and start the gateway. Set it up so it survives a reboot.
+Connect a model (Portal is fastest). Run `hermes status` and confirm provider + model + tools. Ask your agent something real — e.g., "Draft a short memo summarising this week's naira exchange-rate news." Read the answer critically: an agent drafts fast, but you verify facts.
 
 ## 📤 Output
 
-A note of: your host, the monthly cost (or free), and confirmation that the gateway starts. If you didn't provision yet, write down the host and price you plan to use.
+A note of: (1) which provider/model you chose, (2) the `hermes status` confirmation, and (3) one thing the agent drafted well and one thing you had to correct.
 
 ---
-**Verified fact:** Oracle Cloud's always-free Arm tier and the ~$5–7 DigitalOcean/Contabo ranges are representative as of August 2026; always re-confirm current pricing before purchase. The gateway/service commands are from the official Hermes gateway documentation.
+**Verified fact:** `hermes setup --portal`, `hermes model`, and the `~/.hermes/.env` + `~/.hermes/config.yaml` split, plus the 64K minimum context requirement, are all documented behaviours in the official Hermes Agent docs.

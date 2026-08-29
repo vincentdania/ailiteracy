@@ -17,9 +17,9 @@ export async function completeLessonAction(lessonId: string) {
   const timezone = enrollment.user.profile?.timezone ?? "Africa/Lagos";
   const availableDay = unlockedDay(enrollment.enrolledAt, new Date(), timezone, enrollment.previewOverride);
   if (!canAccessLesson({ dayNumber: lesson.dayNumber, isBonus: lesson.isBonus, bonusUnlocked: enrollment.bonusUnlocked, unlockedDay: availableDay })) return { ok: false, message: "This lesson is still locked." };
-  if (lesson.dayNumber === 21) {
+  if (lesson.dayNumber === 22) {
     const capstone = await db.projectSubmission.findUnique({ where: { userId_lessonId: { userId: session.user.id, lessonId } }, select: { score: true } });
-    if (!capstone?.score || capstone.score < 70) return { ok: false, message: "Submit a capstone scoring at least 70 before completing Day 21." };
+    if (!capstone?.score || capstone.score < 70) return { ok: false, message: "Submit a capstone scoring at least 70 before completing Day 22." };
   }
   if (enrollment.completedDays.includes(lesson.dayNumber)) return { ok: true, message: "Already complete.", completed: enrollment.completedDays.length };
   const completedDays = [...enrollment.completedDays, lesson.dayNumber].sort((a, b) => a - b);
@@ -28,10 +28,10 @@ export async function completeLessonAction(lessonId: string) {
   await db.$transaction(async (tx) => {
     await tx.enrollment.update({
       where: { id: enrollment.id },
-      data: { completedDays, unlockedDay: Math.max(enrollment.unlockedDay, availableDay), ...(completedDays.filter((day) => day <= 21).length === 21 ? { status: "COMPLETED", completedAt: now, capstonePassed: true } : {}) },
+      data: { completedDays, unlockedDay: Math.max(enrollment.unlockedDay, availableDay), ...(completedDays.filter((day) => day <= 22).length === 22 ? { status: "COMPLETED", completedAt: now, capstonePassed: true } : {}) },
     });
     await tx.streak.upsert({ where: { userId: session.user.id }, update: { currentStreak: streak.current, longestStreak: streak.longest, lastActiveDate: now, freezeAvailable: streak.freezeAvailable }, create: { userId: session.user.id, currentStreak: streak.current, longestStreak: streak.longest, lastActiveDate: now, freezeAvailable: streak.freezeAvailable } });
-    if (completedDays.filter((day) => day <= 21).length === 21) {
+    if (completedDays.filter((day) => day <= 22).length === 22) {
       await tx.certificate.upsert({
         where: { userId_courseId: { userId: session.user.id, courseId: lesson.module.courseId } },
         update: {},

@@ -1,46 +1,57 @@
 [
   {
-    "q": "Which best describes Hermes Agent's position in the open-source landscape?",
+    "q": "What is the key difference between a chatbot and an autonomous agent?",
     "options": [
-      "A developer framework for coding agents, for engineers only",
-      "A closed chat app with no customisation",
-      "An agent you own and run yourself, between a chat app and a dev tool",
-      "A fork of a commercial enterprise platform"
-    ],
-    "answer": 2,
-    "explanation": "Hermes sits between a chat app (easy, closed) and a developer framework (powerful, code-heavy): an agent you own and run, no coding required."
-  },
-  {
-    "q": "Which of these is one of the reasons Hermes Agent stands out?",
-    "options": [
-      "It only runs on expensive enterprise servers",
-      "It self-improves by saving skills and remembering you across sessions",
-      "It cannot connect to any messaging app",
-      "It requires you to pay per message in naira only"
+      "Chatbots run faster than agents",
+      "Agents plan, call tools, observe and loop until a goal is done, while chatbots answer and stop",
+      "Chatbots can call tools but choose not to",
+      "Agents cannot send messages to messaging platforms"
     ],
     "answer": 1,
-    "explanation": "A built-in learning loop writes reusable skills from your experience and remembers you, so the agent gets better at your work over time."
+    "explanation": "Chatbots answer and stop. Autonomous agents plan, call tools, observe the results and keep looping until the goal is complete."
   },
   {
-    "q": "Where does Hermes keep your secrets?",
-    "options": [
-      "On a third-party public server",
-      "In your own environment — your machine or your VPS",
-      "On the model provider's servers only",
-      "In a public notebook on GitHub"
-    ],
-    "answer": 1,
-    "explanation": "Because it runs on your own machine or server, secrets stay in your environment. The code is open source so its behavior is auditable."
-  },
-  {
-    "q": "Which research organisation is behind Hermes Agent?",
+    "q": "Which company makes Claude Code?",
     "options": [
       "OpenAI",
-      "Google DeepMind",
       "Nous Research",
-      "Meta AI"
+      "Anthropic",
+      "Google"
     ],
     "answer": 2,
-    "explanation": "Hermes Agent comes from Nous Research, the lab behind the Hermes open-source models."
+    "explanation": "Claude Code is made by Anthropic. OpenAI makes the Codex CLI, and Nous Research makes Hermes Agent."
+  },
+  {
+    "q": "What was OpenClaw formerly called?",
+    "options": [
+      "Codex CLI",
+      "Clawdbot",
+      "OpenCode",
+      "Hermes"
+    ],
+    "answer": 1,
+    "explanation": "OpenClaw was previously called Clawdbot."
+  },
+  {
+    "q": "How can you bring an existing Claude Code or OpenAI Codex setup into Hermes?",
+    "options": [
+      "You cannot; you must start over from scratch",
+      "By copying files manually into the terminal",
+      "Using Hermes's 'Import from Other Agents' feature",
+      "By switching messaging platforms first"
+    ],
+    "answer": 2,
+    "explanation": "Hermes has an 'Import from Other Agents' feature that can import a Claude Code (~/.claude) or OpenAI Codex CLI (~/.codex) setup. There is also an official 'Migrate from OpenClaw' guide."
+  },
+  {
+    "q": "Which of these is NOT a feature of Hermes Agent?",
+    "options": [
+      "Persistent memory",
+      "Agent-created skills",
+      "A messaging gateway across 21+ platforms",
+      "Being closed-source and locked to a single model"
+    ],
+    "answer": 3,
+    "explanation": "Hermes is open-source, works with many LLM providers and backends, and is not locked to a single model. Persistent memory, agent-created skills and the messaging gateway are all real features."
   }
 ]

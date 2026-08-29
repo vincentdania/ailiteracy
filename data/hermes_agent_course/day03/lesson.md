@@ -1,10 +1,10 @@
 ---
 day: 3
-title: How Hermes Is Put Together
-subtitle: The five layers from interface to core — see where your agent's power lives.
+title: How Agents Work
+subtitle: The plan-tool-observe loop and the layers of an agent — see where your agent's power lives.
 ---
 
-# How Hermes Is Put Together
+# How Agents Work
 
 **Read time: 4 minutes · Task: 3 minutes**
 

@@ -1,47 +1,50 @@
 ---
 day: 11
-title: Integrate Your Email — Draft, Don't Auto-Send
-subtitle: Let your agent triage the inbox and draft replies, with a hard rule: nothing sends without your approval.
+title: The Messaging Gateway — Telegram and WhatsApp
+subtitle: Exact steps to reach your agent from the apps you already use. The gateway is the always-on switchboard.
 ---
 
-# Integrate Your Email — Draft, Don't Auto-Send
+# The Messaging Gateway — Telegram and WhatsApp
 
-**Read time: 5 minutes · Task: 15 minutes (hands-on)**
+**Read time: 6 minutes · Task: 20 minutes (hands-on)**
 
-For a professional, email integration is the single highest-value use. Your agent can read an inbox, flag what matters, and draft a reply — while **you** remain the only person who presses send.
+This is where the agent becomes genuinely yours: it reaches you in the apps you check daily. The key concept is the **messaging gateway** — the always-on service that connects Hermes to 20+ messaging platforms.
 
-## Set it up safely
+## The gateway
 
-1. **Use a dedicated mailbox.** Never point the agent at your personal/bank/password-reset inbox. Create a low-work mailbox for it — usually a separate Gmail/Zoho/Outlook address.
-2. **Connect it.** Use an app password (IMAP/SMTP) and store the credentials in `~/.hermes/.env`.
-3. **Allowlist senders.** Set an allowlist (e.g., `EMAIL_ALLOWED_USERS`) so only approved addresses can reach the agent — a strong spam and safety control.
+Run `hermes gateway setup` to pick your platforms, and `hermes gateway run` (or install it as a service) to keep it connected 24/7. With the gateway up, you can message your agent from Telegram, WhatsApp, Discord, Slack, Signal, Matrix, email and more — the *same* agent, same memory and skills.
 
-## What you can ask it to do
+To send it a message from the CLI:
 
-- **Inbox summary** — "Summarise my unread email and flag anything urgent."
-- **Opportunity triage** — "Highlight any funding, fellowship, job or consulting messages."
-- **Draft replies** — "Draft a reply to the funder deadline reminder in my voice."
-- **Schedule review** — turn an email thread into actions.
+```bash
+hermes send --to telegram "Good morning, brief me"
+```
 
-## The safety rule
+## Connect Telegram — exact steps
 
-The rule that keeps you in control: **replies are drafted and approved by you. Nothing is ever sent automatically.** Your agent drafts in your voice; you review, edit, and send. This is non-negotiable for a trustworthy setup — and it's how you use the power without the risk.
+1. **Create a bot.** In Telegram, message **@BotFather** → send `/newbot` → name it → copy the HTTP API token.
+2. **Store the token.** In `~/.hermes/.env`, set `TELEGRAM_BOT_TOKEN=...`.
+3. **Allowlist yourself.** Set `TELEGRAM_ALLOWED_USERS=123456789` (your numeric user id) so only you can control the bot.
+4. **Start the gateway.** `hermes gateway run` (or install as a service) — your bot goes online.
+5. **Set your home chat.** Message the bot once, then send `/sethome` so scheduled jobs deliver there.
+6. **Test it.** `hermes send --to telegram "Test from the course"`.
 
-## Hero use case for a Nigerian professional
+## Connect WhatsApp — the trade-off
 
-You run a consultancy or work your network. Ask your agent each morning:
+WhatsApp is the most-used app in Nigeria. Two routes:
 
-> "Read my inbox. List any funding, fellowship, RFP, or client emails. Draft replies that mention my one-line pitch. Show me before sending anything."
+- **Official WhatsApp Business & Cloud API** — production-grade, multi-user, but requires Meta app approval and can cost money.
+- **Self-hosted bridge** — runs a WhatsApp Web-style session for *your own number*, free and private.
 
-That's a personal chief-of-staff handling inbound opportunities while you keep final say.
+For a personal agent, the self-hosted route on your own number is usually the fit. Put the credentials in `.env`, enable the adapter in gateway setup, restart the gateway. WhatsApp policy is stricter than Telegram — always use your own number and avoid anything that triggers spam flags.
 
 ## 🎯 Task
 
-Set up email integration with a **dedicated mailbox** and app password. Ask your agent to summarise unread mail and draft one reply *to you* (so nothing external is involved) to see your voice reflected. Review the draft.
+Connect Telegram end-to-end using the exact steps. Once it works, message your agent a real instruction ("Summarise today's priorities"). If you use WhatsApp heavily, attempt the self-hosted bridge too.
 
 ## 📤 Output
 
-Confirmation the mailbox is connected, plus one drafted reply you reviewed. No external email sent.
+A screenshot or note that you messaged your agent from Telegram/WhatsApp and it replied there. Note which platform you connected.
 
 ---
-**Verified fact:** The approve-before-send model and allowlisting senders are the safe, documented pattern for agent email use. Always use a dedicated low-privilege mailbox with an app password.
+**Verified fact:** The gateway, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_ALLOWED_USERS`, `/sethome`, and `hermes send` are documented Hermes Agent features/config. WhatsApp's two routes and stricter policy are accurate.

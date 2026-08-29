@@ -1,35 +1,46 @@
 [
   {
-    "q": "What is the first, lowest-code way to add a capability to Hermes?",
+    "q": "How does the Hermes security model gate consequential actions?",
     "options": [
-      "Write a custom tool from scratch",
-      "Install a plugin with a single command",
-      "Reinstall the whole system",
-      "Hire a developer"
+      "It never needs approval",
+      "On an approval basis — the agent proposes, you approve for send/buy/publish/delete etc.",
+      "It auto-sends everything instantly",
+      "It blocks all actions permanently"
     ],
     "answer": 1,
-    "explanation": "Plugins bundle features you enable with one command — check for a plugin before building anything custom."
+    "explanation": "Hermes gates consequential, irreversible or external actions behind approvals: the agent proposes, you approve."
   },
   {
-    "q": "What does MCP stand for and do?",
+    "q": "Where do secrets belong?",
     "options": [
-      "A payment standard for AI",
-      "Model Context Protocol — the standard for connecting AI to external tools and data",
-      "A hardware interface",
-      "A social media platform"
+      "In config.yaml",
+      "In ~/.hermes/.env only",
+      "In SOUL.md",
+      "In memory"
     ],
     "answer": 1,
-    "explanation": "The Model Context Protocol is the emerging standard for connecting agents to external tools and data sources."
+    "explanation": "Secrets go in `.env`, never config.yaml, memory, context files, or code."
   },
   {
-    "q": "What is the recommended order when choosing an extension?",
+    "q": "What are checkpoints used for?",
     "options": [
-      "Custom tool → MCP → plugin",
-      "Plugin → MCP server → custom tool",
-      "MCP → custom tool → plugin",
-      "Always write custom code"
+      "Saving screenshots of the chat",
+      "Rolling back to a known-good state after a bad change",
+      "Scheduling backups to someone else's server",
+      "Counting messages"
     ],
     "answer": 1,
-    "explanation": "Use a plugin first, then an MCP bridge, and only write a custom tool for something truly unique to your workflow."
+    "explanation": "Checkpoints let you roll back memory, config, or context after a bad change."
+  },
+  {
+    "q": "Which is a correct security checklist item?",
+    "options": [
+      "Share your .env in git",
+      "Lock .env permissions (chmod 600) and never commit it",
+      "Disable the firewall",
+      "Use the default VPS password"
+    ],
+    "answer": 1,
+    "explanation": "Lock `.env` permissions (e.g. `chmod 600`) and never commit it. Add allowlists, least-privilege toolsets, and checkpoints."
   }
 ]

@@ -1,46 +1,46 @@
 [
   {
-    "q": "What is the first email-safety recommendation?",
+    "q": "What is the messaging gateway?",
     "options": [
-      "Let the agent send directly to save time",
-      "Use a dedicated low-work mailbox, not your personal/bank inbox",
-      "Share your inbox password in plain text",
-      "Connect your password-reset email"
+      "A video call service",
+      "The always-on service connecting Hermes to 20+ messaging platforms",
+      "An email spam filter",
+      "A hardware router"
     ],
     "answer": 1,
-    "explanation": "Always use a dedicated, low-privilege mailbox for the agent — never your personal/bank/password-reset inbox."
+    "explanation": "The gateway is the always-on service that connects your agent to messenger platforms — Telegram, WhatsApp, Discord, Slack and more."
   },
   {
-    "q": "The agent's email replies are always:",
+    "q": "Where do you store the Telegram bot token?",
     "options": [
-      "Sent automatically without review",
-      "Drafted for you to review and approve before anything sends",
-      "Copied to all your contacts",
-      "Deleted after reading"
+      "In SOUL.md",
+      "In ~/.hermes/.env as TELEGRAM_BOT_TOKEN=...",
+      "In your public bio",
+      "Pasted directly into Telegram chat"
     ],
     "answer": 1,
-    "explanation": "Replies are drafted in your voice and you review before sending. Nothing sends automatically — that's the core safety rule."
+    "explanation": "Tokens go in `~/.hermes/.env`. `TELEGRAM_BOT_TOKEN` is the documented env var."
   },
   {
-    "q": "What does allowlisting senders (EMAIL_ALLOWED_USERS) accomplish?",
+    "q": "What does TELEGRAM_ALLOWED_USERS do?",
     "options": [
-      "Blocks all email permanently",
-      "Restricts who can reach the agent, reducing spam and abuse",
-      "Sends spam to your contacts",
-      "Charges per sender"
+      "Limits how many messages the bot can send per day",
+      "Restricts who is allowed to control the bot, so only you can talk to it",
+      "Sets the bot's display name",
+      "Pays for the Telegram API"
     ],
     "answer": 1,
-    "explanation": "Allowlisting approved addresses means only they can reach the agent — a strong spam and safety control."
+    "explanation": "Allowlisting your numeric user id means only you can control the bot — a key security setting."
   },
   {
-    "q": "A high-value daily email ask for a professional agent is:",
+    "q": "Which route is usually the fit for a personal WhatsApp agent?",
     "options": [
-      "'Auto-reply to everyone with my ad'",
-      "'Triage my inbox for funding/fellowship/RFP/client emails and draft replies I can approve'",
-      "'Delete my entire inbox'",
-      "'Send my contacts list to the agent'"
+      "Always the paid enterprise plan",
+      "A self-hosted bridge running for your own number",
+      "No WhatsApp route exists",
+      "The public Meta app"
     ],
     "answer": 1,
-    "explanation": "Morning triage for inbound opportunities plus drafted replies is the highest-value use for a professional."
+    "explanation": "For a personal agent, a self-hosted bridge on your own number is usually the fit. The official API suits production/multi-user with approval."
   }
 ]

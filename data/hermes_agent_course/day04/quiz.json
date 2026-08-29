@@ -1,46 +1,57 @@
 [
   {
-    "q": "What is the official one-command install for Linux / macOS / WSL2?",
+    "q": "What is the key difference between a chat tool like ChatGPT and an agent like Hermes?",
     "options": [
-      "npm install -g hermes-agent",
-      "curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash",
-      "pip install hermes-agent",
-      "brew install hermes"
+      "An agent runs in a browser",
+      "A chat tool works, while an agent only answers",
+      "An agent takes an instruction, uses tools, and completes a job; a chat tool gives a reply and stops",
+      "An agent charges more than a chat tool"
     ],
-    "answer": 1,
-    "explanation": "The official install is `curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash`. Windows native uses the PowerShell installer instead."
+    "answer": 2,
+    "explanation": "ChatGPT answers; an agent works. An agent plans, calls tools, observes results, and repeats until the goal is done, rather than stopping after a single reply."
   },
   {
-    "q": "What does the installer automatically handle for you?",
+    "q": "Your agent reads and manages your email via IMAP/SMTP. What is the rule about sending?",
     "options": [
-      "Your API payments",
-      "Python, Node, ripgrep and ffmpeg dependencies",
-      "Your email account password",
-      "A VPS purchase"
+      "It sends anything it drafts automatically",
+      "Nothing sends without your approval",
+      "It can only read, never draft",
+      "It forwards everything to your boss first"
     ],
     "answer": 1,
-    "explanation": "The installer auto-handles Python, Node, ripgrep and ffmpeg so you mostly just run one command."
+    "explanation": "The agent drafts replies in your voice, but nothing sends without your approval, so you stay in control of what goes out."
   },
   {
-    "q": "Which command starts the setup wizard after installation?",
+    "q": "How does your agent reach you on Telegram, WhatsApp, Discord, and Slack?",
     "options": [
-      "hermes start",
-      "hermes setup --portal",
-      "hermes doctor",
-      "hermes"
+      "Through a separate app you must install",
+      "It can only email you",
+      "Through the messaging gateway connecting 21+ platforms",
+      "It cannot message you on any platform"
     ],
-    "answer": 3,
-    "explanation": "Simply running `hermes` launches the setup wizard. `hermes doctor` is a separate health-check command you use to keep a clean baseline."
+    "answer": 2,
+    "explanation": "Hermes has a messaging gateway that connects 21+ platforms, so the same agent delivers messages and scheduled briefings in the apps you already use."
   },
   {
-    "q": "What is the 'clean baseline' habit this lesson teaches?",
+    "q": "What makes Hermes improve at your work across sessions?",
     "options": [
-      "Reinstall every week to remove old features",
-      "Get one clean `hermes doctor` run before adding any feature",
-      "Never install anything new once set up",
-      "Only use the desktop app and never the CLI"
+      "It forgets everything after each task",
+      "Its persistent memory, its own reusable skills, and recall of past sessions",
+      "A bigger email inbox",
+      "More typing from you"
     ],
     "answer": 1,
-    "explanation": "A clean `hermes doctor` before each feature means that when something breaks later, you know the new feature caused it — not a mystery."
+    "explanation": "Hermes has persistent memory across sessions, creates its own reusable skills, and recalls past work, so it remembers who you are and gets better over time."
+  },
+  {
+    "q": "Which of these is a realistic task your agent could handle while you sleep?",
+    "options": [
+      "Running a scheduled job via cron that monitors funding and fellowship opportunities",
+      "Manually typing up yesterday's notes",
+      "Emptying your physical letter box",
+      "None of the above"
+    ],
+    "answer": 0,
+    "explanation": "The agent schedules via cron and can monitor opportunities, prepare briefings, or run workflows on a schedule, then message you the results in the morning."
   }
 ]

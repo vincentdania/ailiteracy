@@ -1,35 +1,57 @@
 [
   {
-    "q": "What does a 'connected wall' mean in this course?",
+    "q": "How does Hermes 'see' a webpage?",
     "options": [
-      "A wall of monitors in your office",
-      "One agent reached through many surfaces, sharing the same memory and skills",
-      "A group of separate, disconnected bots",
-      "Hardware networking equipment"
-    ],
-    "answer": 1,
-    "explanation": "A connected wall is one coherent agent — same tools, memory and skills — reached from terminal, Telegram, email, and cron."
-  },
-  {
-    "q": "How do you prove surfaces share the same agent?",
-    "options": [
-      "Ask the Telegram agent to reproduce a skill you only saved on the laptop",
-      "Close the terminal and hope",
-      "Reboot your router",
-      "Buy a bigger VPS"
+      "By reading the page as an accessibility tree, a text-based snapshot of every element",
+      "By taking screenshots and memorising the pixels",
+      "By guessing element coordinates from the URL",
+      "It cannot interact with web pages at all"
     ],
     "answer": 0,
-    "explanation": "If Telegram can call the skill you saved on your laptop, they share memory and it's truly one agent."
+    "explanation": "Pages are represented as accessibility trees — text-based snapshots ideal for an LLM agent. Interactive elements get ref IDs like @e1 the agent uses to click and type."
   },
   {
-    "q": "What is the recommended architecture for a personal agent?",
+    "q": "What are ref IDs like @e1 and @e2 used for?",
     "options": [
-      "A fresh separate instance for every device",
-      "One instance (often on a VPS) as the source of truth; all surfaces connect to it",
-      "No instance, cloud only",
-      "Two competing agents on different devices"
+      "Bookmarking pages for later",
+      "Identifying interactive elements so the agent can click and type",
+      "Logging the agent into sites automatically",
+      "Counting how many pages the agent visited"
     ],
     "answer": 1,
-    "explanation": "Run one instance as the source of truth. Separate per-device instances fragment memory and skills."
+    "explanation": "Ref IDs mark interactive elements on a page, so the agent can target a specific button or field to click and type."
+  },
+  {
+    "q": "Which of these lets you attach Hermes to a browser you already run on your own machine?",
+    "options": [
+      "hermes setup --portal",
+      "export BROWSER_USE_API_KEY=...",
+      "/browser connect",
+      "Lightpanda --local"
+    ],
+    "answer": 2,
+    "explanation": "'/browser connect' attaches the agent to your own running Chrome, Brave, Chromium or Edge instance via CDP — no cloud browser needed."
+  },
+  {
+    "q": "Why might a low-bandwidth user prefer a cloud browser like Browser Use?",
+    "options": [
+      "Cloud browsers work offline",
+      "The work runs remotely on fast pipes, so your small connection only receives the finished result",
+      "Cloud browsers are always free",
+      "They delete all the data so your device stays clean"
+    ],
+    "answer": 1,
+    "explanation": "Cloud browsers do the heavy lifting on fast remote connections; your device only receives the final result — ideal on modest data plans."
+  },
+  {
+    "q": "What does 'hermes setup --portal' do for a paid Nous Portal subscriber?",
+    "options": [
+      "Turns on every Tool Gateway tool, so browser automation works with no separate API keys",
+      "Connects to your local Chrome browser",
+      "Installs Lightpanda",
+      "Backs up your browser history"
+    ],
+    "answer": 0,
+    "explanation": "Nous Portal subscribers can run 'hermes setup --portal' to log in and enable every Tool Gateway tool, including browser automation, without separate API keys."
   }
 ]

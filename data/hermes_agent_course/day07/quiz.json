@@ -1,46 +1,46 @@
 [
   {
-    "q": "What are 'tools' in the context of a personal agent?",
+    "q": "Why would you run your agent on a VPS instead of only your laptop?",
     "options": [
-      "Physical tools like screwdrivers",
-      "The actions the agent can take — search, extract, run code, read files",
-      "The buttons in the desktop app",
-      "Expensive add-ons you must buy"
+      "A VPS makes the agent smarter automatically",
+      "A VPS never sleeps, so your agent is reachable 24/7 even when your laptop is closed",
+      "A VPS gives you more model options",
+      "A laptop cannot run Hermes at all"
     ],
     "answer": 1,
-    "explanation": "Tools are the agent's actions — web search, extraction, file access, code execution — that let it do real work."
+    "explanation": "A VPS never sleeps, so the gateway stays up and you can reach your agent from anywhere, any time."
   },
   {
-    "q": "What is a 'toolset'?",
+    "q": "Which is the cheapest sensible starting point for a Nigerian user?",
     "options": [
-      "A box of physical tools",
-      "A group of tools you can switch on or off together for a purpose",
-      "The model's training data",
-      "A subscription plan"
-    ],
-    "answer": 1,
-    "explanation": "A toolset is a set of related tools you can enable or disable, so you give the agent exactly what a task needs."
-  },
-  {
-    "q": "How do you view and manage available tools?",
-    "options": [
-      "hermes tools",
-      "npm tools",
-      "hermes setup --portal",
-      "cat ~/.hermes/.env"
+      "Oracle Cloud always-free Arm tier",
+      "A $100/month dedicated server",
+      "A personal laptop with no VPS",
+      "An expensive enterprise cloud"
     ],
     "answer": 0,
-    "explanation": "`hermes tools` shows what's available and lets you control which toolsets the agent can call."
+    "explanation": "Oracle Cloud's always-free Arm tier is a genuinely free, reliable starting point. Recheck current pricing before purchase."
   },
   {
-    "q": "Why is limiting which toolsets are active also a security practice?",
+    "q": "How do you keep the gateway running after you log out of the VPS?",
     "options": [
-      "Because tools are expensive to run",
-      "Because giving the agent only what a task needs reduces risk of misuse",
-      "Because too many tools slow your internet",
-      "Because tools contain personal data"
+      "You cannot; it stops when you log out",
+      "Run it as a system service (systemd) via the gateway install command",
+      "Keep the SSH session open forever",
+      "Buy a second laptop"
     ],
     "answer": 1,
-    "explanation": "Limiting tools is a security step: the agent can only do what you enable. Give it only what the task requires."
+    "explanation": "Running the gateway as a system service (systemd) makes it start on boot and restart if it crashes."
+  },
+  {
+    "q": "What is a minimum security step for a VPS exposed to the internet?",
+    "options": [
+      "Skip security; it's a personal agent",
+      "Use SSH keys and keep system updates applied",
+      "Use the default root password",
+      "Disable all security services"
+    ],
+    "answer": 1,
+    "explanation": "At minimum, use SSH keys, keep the system updated, and never expose secrets. A server on the internet must be hardened."
   }
 ]

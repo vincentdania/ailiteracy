@@ -1,56 +1,60 @@
 ---
 day: 16
-title: Capstone — Put Your Personal Agent in Production
-subtitle: Bring every part together and your agent to 24/7 production with the exact checklist to call it 'done'.
+title: Automate — Cron, Delegation, Batch and More
+subtitle: Making your agent run on its own schedule, spin up workers, process bulks, and react to events.
 ---
 
-# Capstone — Put Your Personal Agent in Production
+# Automate — Cron, Delegation, Batch and More
 
-**Read time: 5 minutes · Task: capstone project**
+**Read time: 6 minutes · Task: 10 minutes**
 
-This is the final integration. By the end of this lesson you can honestly say you run a personal agent in production.
+This is where your agent stops waiting for you and starts running on its own. Five automation powers, each useful in Nigeria and globally.
 
-## Production means
+## 1. Cron — scheduled jobs
 
-- **Always on** — running on a VPS or service that survives reboots.
-- **Reachable** — via Telegram/app you check daily.
-- **Remembering** — memory, skills, and context intact.
-- **Scheduled** — at least one cron job running without supervision.
-- **Secure** — the checklist from Lesson 15 done.
+You already set a time-of-day for your agent; now let it *start* at a time. Cron runs jobs on a schedule.
 
-## The capstone build
+```bash
+hermes cron add --schedule "0 8 * * 1-5" "Prepare my morning briefing"
+```
 
-Assemble what you've made into one living system. A model config:
+Every weekday at 08:00, the agent runs that task and delivers the result to your chosen home chat. Use it for daily briefings, market opens (a weekday naira/market briefing at 16:30 Lagos time — just like a real analyst), weekend digests, and deadline reminders.
 
-1. **Host**: Hermes on your VPS, gateway as a system service.
-2. **Brain**: model connected, memory populated, `SOUL.md` set.
-3. **Surfaces**: Telegram connected and allowlisted; email on a dedicated mailbox.
-4. **Skills**: your briefing format saved and tested from another surface.
-5. **Automation**: a cron morning briefing delivers to your home chat.
-6. **Security**: checklist complete, `.env` locked, checkpoints working.
+## 2. Delegation — subagents
 
-## The "is it really production?" test
+For heavy or parallel work, Hermes spawns **subagents** in isolated contexts. This is like hiring temporary staff: each focuses on one slice and reports back. Use it to split large research into parallel streams instead of one long, slow task.
 
-Leave it running for **48 hours**. Then answer honestly:
+## 3. Batch — many inputs, one instruction
 
-- Did my morning brief arrive every scheduled day?
-- Could I message it from my phone at 9pm and get a useful reply?
-- Did it remember who I am and my preferences across those 48 hours?
-- Was nothing sent or changed without my approval?
+**Batch** turns a single instruction into a small factory: "grade this class of assignments," "summarise these 20 documents," "draft a post from each research note." Give it the instruction once; it processes the whole set.
 
-Four "yes" answers = you have produced a working personal agent.
+## 4. Event hooks — react to things
 
-## Use it or lose it
+Hooks make your agent *respond to events* rather than wait for you: a new email, a file change, a webhook hitting the gateway, a cron change. The always-on gateway can fire connected actions automatically.
 
-The final discipline: **put it to work weekly.** A personal agent compounds only if used. Commit to one or more standing tasks — the morning briefing, opportunity triage, document synthesis — and run them every week.
+## 5. MCP — connect your tools
+
+The **Model Context Protocol** lets Hermes plug into external tools and data sources cleanly. If you use apps that expose MCP servers, your agent can drive them. It's the modern standard for tool interoperability.
+
+## The combo that runs your life
+
+These compose. For example:
+
+1. **Cron** fires at 07:00.
+2. **Delegation** sends subagents to check email, news, and your calendar in parallel.
+3. The agent **batches** the results into one briefing.
+4. The gateway **hooks** a new opportunity email to re-flag it.
+5. Everything lands in your **Telegram home chat**.
+
+That's a personal chief-of-staff running on a schedule you control.
 
 ## 🎯 Task
 
-Complete the capstone build. Run the 48-hour production test. Then write down your **standing weekly tasks** (the things it will do for you every week from now on).
+Create ONE cron job that would actually help you — a daily or weekday briefing delivered to Telegram. Use the schedule syntax from this lesson; adapt it to your timezone (Lagos = Africa/Lagos).
 
 ## 📤 Output
 
-A short "production report": your stack, the four test answers, and your standing weekly tasks. Save it — it's your achievement record.
+The `hermes cron add` command you wrote (or the equivalent UI), and which timezone/schedule you chose.
 
 ---
-**Verified fact:** All components are features taught in this course and documented in Hermes Agent. The production test is a sound, honest way to confirm readiness.
+**Verified fact:** Cron scheduling, subagent delegation, batch processing, event hooks, and MCP are all documented Hermes Agent capabilities.

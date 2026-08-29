@@ -1,46 +1,57 @@
 [
   {
-    "q": "What is the key rule that makes the 7-day plan succeed?",
+    "q": "On GitHub, what is a repository?",
     "options": [
-      "Do every integration in one day",
-      "One thing per day — compounding beats cramming",
-      "Skip the security day entirely",
-      "Build in whatever order seems fun"
+      "A live chat room for developers",
+      "The place where a project's code and files are stored",
+      "A type of computer virus",
+      "A backup of your email inbox"
     ],
     "answer": 1,
-    "explanation": "One thing per day compounds: each small win builds on the last so by Day 7 you have a working, secure, automated agent."
+    "explanation": "A repository ('repo') is the folder where a project's code and working files live on GitHub."
   },
   {
-    "q": "On which day does the agent reach your phone?",
+    "q": "What does a webhook allow GitHub to do?",
     "options": [
-      "Day 1",
-      "Day 3 (Telegram/wallet-to-pocket)",
-      "Day 7",
-      "Day 5"
+      "Create new repos automatically",
+      "Charge a fee for every code change",
+      "Post events (like a new pull request or push) to a URL your agent listens on",
+      "Replace the git command entirely"
+    ],
+    "answer": 2,
+    "explanation": "A webhook is GitHub reaching out to post an event to a URL, so Hermes can hear about and act on what happened."
+  },
+  {
+    "q": "What is a pull request (PR)?",
+    "options": [
+      "A request to delete the whole project",
+      "A proposed change that is reviewed before being merged",
+      "A message asking GitHub to increase your storage",
+      "A fee request from a developer"
     ],
     "answer": 1,
-    "explanation": "By Day 3 you connect Telegram so the agent is genuinely useful on the move."
+    "explanation": "A pull request is a proposed change to the code, which someone reviews and approves before it is merged in."
   },
   {
-    "q": "When should you apply the security checklist?",
+    "q": "Why must your agent be publicly reachable for webhooks to work?",
     "options": [
-      "Only if something breaks",
-      "On Day 7, before you finalise",
-      "Never — it's optional",
-      "After a year of use"
-    ],
-    "answer": 1,
-    "explanation": "Hardening belongs on Day 7 as the last step, so your always-on agent is secure before you rely on it."
-  },
-  {
-    "q": "What is the Week-1 plan best summed up as?",
-    "options": [
-      "Install, personalise, pocket, email, automate, scale, harden",
-      "Buy servers for seven days",
-      "Only chat, don't automate",
-      "Do all labs in an afternoon"
+      "Because GitHub reaches out to your agent over the internet",
+      "Because webhooks need a faster processor",
+      "Because GitHub only works with paid accounts",
+      "Because it's required by copyright law"
     ],
     "answer": 0,
-    "explanation": "The week is: install → make it yours → phone access → email → automate → real-scale work → harden and review."
+    "explanation": "Webhooks work when GitHub posts events to your agent's URL, so that URL must be reachable from the public internet — often by hosting Hermes on a server like a VPS."
+  },
+  {
+    "q": "In the workflows this lesson describes, who gives the final go-ahead to merge a change?",
+    "options": [
+      "GitHub itself",
+      "The agent, automatically",
+      "A human, after reviewing the agent's suggestions",
+      "Any webhook with enough votes"
+    ],
+    "answer": 2,
+    "explanation": "The agent reviews and suggests, but a human approves before anything merges. Approve-before-merge keeps you in control."
   }
 ]

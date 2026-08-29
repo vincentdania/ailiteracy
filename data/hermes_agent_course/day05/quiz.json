@@ -1,46 +1,46 @@
 [
   {
-    "q": "What is the fastest path to connect a model?",
+    "q": "What is the official one-command install for Linux / macOS / WSL2?",
     "options": [
-      "hermes setup --portal",
-      "npm install a-model",
-      "Editing config.yaml by hand",
-      "Buying a GPU subscription"
-    ],
-    "answer": 0,
-    "explanation": "`hermes setup --portal` gives one OAuth login, 300+ models, and unlocks the Tool Gateway. It is the fastest and lowest-friction path."
-  },
-  {
-    "q": "Where should API keys and secrets be stored?",
-    "options": [
-      "In config.yaml",
-      "In ~/.hermes/.env",
-      "In a README file",
-      "In the public repository"
+      "npm install -g hermes-agent",
+      "curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash",
+      "pip install hermes-agent",
+      "brew install hermes"
     ],
     "answer": 1,
-    "explanation": "Secrets go in `~/.hermes/.env`. Never paste a key into `config.yaml`, which is for settings."
+    "explanation": "The official install is `curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash`. Windows native uses the PowerShell installer instead."
   },
   {
-    "q": "What minimum context window does Hermes require for a model?",
+    "q": "What does the installer automatically handle for you?",
     "options": [
-      "8K",
-      "16K",
-      "64K",
-      "No minimum"
+      "Your API payments",
+      "Python, Node, ripgrep and ffmpeg dependencies",
+      "Your email account password",
+      "A VPS purchase"
     ],
-    "answer": 2,
-    "explanation": "Hermes requires at least a 64K context window; smaller models are rejected at startup."
+    "answer": 1,
+    "explanation": "The installer auto-handles Python, Node, ripgrep and ffmpeg so you mostly just run one command."
   },
   {
-    "q": "After connecting a model, how do you confirm things are configured correctly?",
+    "q": "Which command starts the setup wizard after installation?",
     "options": [
-      "hermes status",
-      "hermes send --to telegram",
-      "hermes cron list",
-      "hermes doctor --portal"
+      "hermes start",
+      "hermes setup --portal",
+      "hermes doctor",
+      "hermes"
     ],
-    "answer": 0,
-    "explanation": "`hermes status` shows your configured provider, model, and enabled tools."
+    "answer": 3,
+    "explanation": "Simply running `hermes` launches the setup wizard. `hermes doctor` is a separate health-check command you use to keep a clean baseline."
+  },
+  {
+    "q": "What is the 'clean baseline' habit this lesson teaches?",
+    "options": [
+      "Reinstall every week to remove old features",
+      "Get one clean `hermes doctor` run before adding any feature",
+      "Never install anything new once set up",
+      "Only use the desktop app and never the CLI"
+    ],
+    "answer": 1,
+    "explanation": "A clean `hermes doctor` before each feature means that when something breaks later, you know the new feature caused it — not a mystery."
   }
 ]

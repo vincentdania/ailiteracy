@@ -1,60 +1,63 @@
 ---
 day: 12
-title: Automate — Cron, Delegation, Batch and More
-subtitle: Making your agent run on its own schedule, spin up workers, process bulks, and react to events.
+title: 'Email — Gmail, Yahoo, Zoho and Outlook'
+subtitle: 'Connect your agent to a real inbox over IMAP and SMTP, and let it read and draft mail safely.'
 ---
 
-# Automate — Cron, Delegation, Batch and More
+# Email — Gmail, Yahoo, Zoho and Outlook
 
-**Read time: 6 minutes · Task: 10 minutes**
+Once connected, you can email your agent and it replies in-thread — no special client needed. Hermes uses standard **IMAP** (read) and **SMTP** (send) protocols, so it works with Gmail, Outlook, Yahoo, Zoho, Fastmail or any provider that exposes them.
 
-This is where your agent stops waiting for you and starts running on its own. Five automation powers, each useful in Nigeria and globally.
+## Pick your provider
 
-## 1. Cron — scheduled jobs
+- **Gmail**: turn on **2-Factor Authentication**, then create an **App Password** at `myaccount.google.com/apppasswords` (choose 'Mail' or 'Other'). Copy the 16-character password — use it in place of your normal password. IMAP host `imap.gmail.com`, SMTP host `smtp.gmail.com`.
+- **Outlook / Microsoft 365**: enable 2FA, then create an App Password under **Additional security options** at `account.microsoft.com/security`. IMAP host `outlook.office365.com`, SMTP host `smtp.office365.com`.
+- **Yahoo and Zoho**: both support IMAP/SMTP like the rest. Also enable IMAP in each provider's settings and use an app password where it's required. Don't guess the host strings — copy the current values from each provider's help page.
 
-You already set a time-of-day for your agent; now let it *start* at a time. Cron runs jobs on a schedule.
+A useful default: IMAP runs on port **993** with SSL, SMTP on port **587** with STARTTLS.
+
+## Connect it
+
+Easiest route is the setup wizard:
 
 ```bash
-hermes cron add --schedule "0 8 * * 1-5" "Prepare my morning briefing"
+hermes gateway setup   # choose Email, then answer the prompts
 ```
 
-Every weekday at 08:00, the agent runs that task and delivers the result to your chosen home chat. Use it for daily briefings, market opens (a weekday naira/market briefing at 16:30 Lagos time — just like a real analyst), weekend digests, and deadline reminders.
+It asks for your email address, the app password, the IMAP and SMTP hosts, and which senders are allowed. Or set `~/.hermes/.env` manually:
 
-## 2. Delegation — subagents
+```bash
+EMAIL_ADDRESS=you@example.com
+EMAIL_PASSWORD=xxxxxxxxxxxxxxxx   # app password, NOT your main one
+EMAIL_IMAP_HOST=imap.gmail.com
+EMAIL_SMTP_HOST=smtp.gmail.com
+# EMAIL_IMAP_PORT=993
+# EMAIL_SMTP_PORT=587
+EMAIL_ALLOWED_USERS=you@example.com,coach@example.com
+# EMAIL_HOME_ADDRESS=me@example.com
+```
 
-For heavy or parallel work, Hermes spawns **subagents** in isolated contexts. This is like hiring temporary staff: each focuses on one slice and reports back. Use it to split large research into parallel streams instead of one long, slow task.
+Then start it with `hermes gateway` (foreground) or `hermes gateway install` (as a service).
 
-## 3. Batch — many inputs, one instruction
+## Stay safe
 
-**Batch** turns a single instruction into a small factory: "grade this class of assignments," "summarise these 20 documents," "draft a post from each research note." Give it the instruction once; it processes the whole set.
+Use a **dedicated email account** for the agent — don't hand it your personal or bank address. Always use **app passwords**, never your main password. Restrict replies with `EMAIL_ALLOWED_USERS`, and protect `~/.hermes/.env` with `chmod 600`.
 
-## 4. Event hooks — react to things
+The rule that keeps you sane is the agent can **read and draft**, but nothing sends without your **approval before send**.
 
-Hooks make your agent *respond to events* rather than wait for you: a new email, a file change, a webhook hitting the gateway, a cron change. The always-on gateway can fire connected actions automatically.
+## Try it
 
-## 5. MCP — connect your tools
+The inbox is where funding calls, fellowship deadlines, RFPs and client replies appear. Ask your agent to do this:
 
-The **Model Context Protocol** lets Hermes plug into external tools and data sources cleanly. If you use apps that expose MCP servers, your agent can drive them. It's the modern standard for tool interoperability.
+> "Read my unread mail from this week. Summarise each thread in two lines, and flag anything that looks like a funding call, a fellowship deadline, an RFP, or a client message. Draft a short reply to the most urgent one, but don't send — show it to me first."
 
-## The combo that runs your life
+## Task
 
-These compose. For example:
+1. Create an app password for your chosen provider and enable IMAP where needed.
+2. Connect your agent to that inbox via `hermes gateway setup`.
+3. Ask it to summarise unread mail and flag funding, fellowship, RFP or client messages.
+4. Confirm the draft stays unsent until you approve it.
 
-1. **Cron** fires at 07:00.
-2. **Delegation** sends subagents to check email, news, and your calendar in parallel.
-3. The agent **batches** the results into one briefing.
-4. The gateway **hooks** a new opportunity email to re-flag it.
-5. Everything lands in your **Telegram home chat**.
+## Output
 
-That's a personal chief-of-staff running on a schedule you control.
-
-## 🎯 Task
-
-Create ONE cron job that would actually help you — a daily or weekday briefing delivered to Telegram. Use the schedule syntax from this lesson; adapt it to your timezone (Lagos = Africa/Lagos).
-
-## 📤 Output
-
-The `hermes cron add` command you wrote (or the equivalent UI), and which timezone/schedule you chose.
-
----
-**Verified fact:** Cron scheduling, subagent delegation, batch processing, event hooks, and MCP are all documented Hermes Agent capabilities.
+Confirm your agent is connected, the summary it produced, the flagged items, and your decision on the draft reply.
