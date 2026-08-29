@@ -23,7 +23,7 @@ import { CASE_STUDIES } from "@/lib/personalization/case-studies";
 const schema = {
   "@context": "https://schema.org",
   "@type": "Course",
-  name: "Build Your Personal AI Agent with Hermes Agent",
+  name: "Build Your Personal AI Agent and Make AI Work for You",
   description: "A hands-on, low-bandwidth course: install the open-source Hermes Agent anywhere, teach it your tools and memory, connect it to Telegram and WhatsApp, automate with cron, and harden it for production. Mobile-first, built for learners worldwide.",
   provider: { "@type": "Organization", name: "AI Literacy" },
   educationalLevel: "Beginner to practitioner",

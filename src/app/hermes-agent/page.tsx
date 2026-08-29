@@ -6,7 +6,7 @@ import { createCheckoutAction } from "@/app/actions/checkout";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Build Your Personal AI Agent with Hermes Agent",
+  title: "Build Your Personal AI Agent and Make AI Work for You",
   description:
     "The definitive hands-on course on the open-source Hermes Agent: turn it into a personal assistant that messages you, researches, emails, schedules and runs 24/7 — built and verified for Nigerian bandwidth.",
 };
@@ -36,7 +36,7 @@ export default function HermesCourseLanding() {
         <section className="py-14 sm:py-20">
           <p className="eyebrow">Course · 6 modules · 19 lessons · Includes a running agent</p>
           <h1 className="display mt-4 max-w-3xl text-5xl text-[#00261d] sm:text-6xl">
-            Build Your Personal AI Agent with <span className="text-[#1d604d]">Hermes Agent</span>
+            Build Your Personal AI Agent <span className="text-[#1d604d]">and Make AI Work for You</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[#414845]">
             ChatGPT <em>answers</em>. An agent <strong>works</strong>. Turn the free, open-source

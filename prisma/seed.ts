@@ -7,8 +7,8 @@ const prisma = new PrismaClient();
 
 /**
  * ARCHITECTURE NOTE (2026-08-28):
- * ailiteracy.ng now ships ONE flagship course: "Build Your Personal AI Agent with
- * Hermes Agent" (`hermes-agent-masterclass`). The former "21-Day AI Challenge"
+ * ailiteracy.ng now ships ONE flagship course: "Build Your Personal AI Agent and Make AI Work for You"
+ * (`hermes-agent-masterclass`). The former "21-Day AI Challenge"
  * (`21-day-ai-challenge`) has been RETIRED. Seeding this file:
  *   - hard-deletes the legacy 21-day course and ALL of its data (modules/lessons,
  *     enrollments, learning plans, certificates, progress, submissions)

@@ -27,7 +27,7 @@ export default async function ChallengePage({ searchParams }: { searchParams: Pr
   const isHermes = enrollment.course.slug === "hermes-agent-masterclass";
 
   return <div className="mx-auto max-w-4xl">
-    <header><p className="eyebrow">Build Your Personal AI Agent with Hermes Agent</p><h1 className="display mt-3 text-5xl text-[#00261d] sm:text-6xl">Your roadmap</h1><p className="mt-4 max-w-2xl leading-7 text-[#414845]">One lesson unlocks each day.</p><div className="mt-7 max-w-sm"><Progress value={totalLessons ? (completeCount / totalLessons) * 100 : 0} label={`${completeCount} of ${totalLessons} complete`} /></div></header>
+    <header><p className="eyebrow">Build Your Personal AI Agent and Make AI Work for You</p><h1 className="display mt-3 text-5xl text-[#00261d] sm:text-6xl">Your roadmap</h1><p className="mt-4 max-w-2xl leading-7 text-[#414845]">One lesson unlocks each day.</p><div className="mt-7 max-w-sm"><Progress value={totalLessons ? (completeCount / totalLessons) * 100 : 0} label={`${completeCount} of ${totalLessons} complete`} /></div></header>
 
     <div className="relative mt-12 space-y-12 before:absolute before:bottom-10 before:left-5 before:top-5 before:w-px before:bg-[#d9dfdc] sm:before:left-6">
       {enrollment.course.modules.map((courseModule, moduleIndex) => {
