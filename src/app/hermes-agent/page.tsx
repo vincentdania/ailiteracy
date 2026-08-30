@@ -8,12 +8,12 @@ import { Button } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Build Your Personal AI Agent and Make AI Work for You",
   description:
-    "The definitive hands-on course on the open-source Hermes Agent: turn it into a personal assistant that messages you, researches, emails, schedules and runs 24/7 — built and verified for Nigerian bandwidth.",
+    "A hands-on course for installing, configuring and securing the open-source Hermes Agent, connecting Telegram, scheduling useful work and completing a 48-hour reliability test.",
 };
 
 const MODULES: { title: string; lessons: string }[] = [
   { title: "Foundations", lessons: "What an agent is · Why Hermes · System architecture" },
-  { title: "Install & Run", lessons: "Install everywhere · Connect a model · Run 24/7 on a VPS" },
+  { title: "Install & Run", lessons: "Install on a supported system · Connect a model · Run 24/7 on a VPS" },
   { title: "The Agent's Brain", lessons: "Tools & toolsets · Skills & the Curator · Memory & sessions" },
   { title: "Connect & Automate", lessons: "Telegram & WhatsApp · Email · Cron, delegation & batch" },
   { title: "Build It Yourself", lessons: "First 7 days · Connected wall · Security · Capstone" },
@@ -21,10 +21,10 @@ const MODULES: { title: string; lessons: string }[] = [
 ];
 
 const FEATURES: { icon: typeof Check; title: string; copy: string }[] = [
-  { icon: Terminal, title: "No code, everything hands-on", copy: "Step-by-step labs with every command — not theory." },
-  { icon: Wallet, title: "Low-bandwidth friendly", copy: "Built for Nigeria's data prices. Text-first, tiny images, works on 3G." },
+  { icon: Terminal, title: "No programming required", copy: "You will still use a terminal. The course explains each command and what success looks like." },
+  { icon: Wallet, title: "Text-first lessons", copy: "Reading is light on data. Installation, model use and browser tools can use more." },
   { icon: ShieldCheck, title: "You stay in control", copy: "Security-first: approvals, secrets hygiene and checkpoints." },
-  { icon: Play, title: "Real 24/7 agent", copy: "Leave with a running agent on a cheap VPS — not a certificate in a drawer." },
+  { icon: Play, title: "A tested working setup", copy: "The capstone requires a 48-hour run, a Telegram check and one scheduled job." },
 ];
 
 export default function HermesCourseLanding() {
@@ -39,10 +39,9 @@ export default function HermesCourseLanding() {
             Build Your Personal AI Agent <span className="text-[#1d604d]">and Make AI Work for You</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[#414845]">
-            ChatGPT <em>answers</em>. An agent <strong>works</strong>. Turn the free, open-source
-            Hermes Agent into a personal assistant that messages you on Telegram, triages your email,
-            researches and writes, sends you your daily briefing, and runs 24/7 on a cheap VPS —
-            all in your pocket and on Nigerian-friendly bandwidth.
+            Build a Hermes Agent you can use for real work. You will install it, connect a model,
+            restrict its access, reach it on Telegram, schedule one useful task and test it for 48 hours.
+            Email and WhatsApp are covered with their limits and risks made clear.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <form action={createCheckoutAction}>
@@ -86,7 +85,7 @@ export default function HermesCourseLanding() {
         <section id="pricing" className="rounded-3xl bg-[#123c31] p-8 text-white card-shadow sm:p-10">
           <p className="eyebrow eyebrow-inverse">What you get</p>
           <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-            {["19 hands-on lessons with every command", "Per-lesson quizzes and a capstone lab", "A 24/7 personal agent running on a cheap VPS", "One-page cheat sheet and security checklist", "Downloadable, low-bandwidth course materials", "Nigerian and global payment options"].map((item) => (
+            {["19 practical lessons with tested command examples", "Per-lesson quizzes and a scored capstone", "A personal agent tested for 48 hours", "One-page operating note and security checklist", "Text-first lessons that work well on mobile", "Nigerian and global payment options"].map((item) => (
               <li key={item} className="flex items-center gap-3 text-white/90"><Check size={18} className="shrink-0 text-[#d9f99d]" /><span className="text-sm leading-6">{item}</span></li>
             ))}
           </ul>

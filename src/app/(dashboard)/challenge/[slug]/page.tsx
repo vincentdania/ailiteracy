@@ -5,7 +5,7 @@ import remarkGfm from "remark-gfm";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { canAccessLesson, unlockedDay } from "@/lib/challenge";
+import { canAccessLesson, isCapstoneLesson, unlockedDay } from "@/lib/challenge";
 import { getCaseStudy } from "@/lib/personalization/case-studies";
 import { CompleteButton } from "@/components/challenge/complete-button";
 import { PracticeSubmission } from "@/components/challenge/practice-submission";
@@ -48,7 +48,7 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
 
   const enrollment = await db.enrollment.findUnique({ where: { userId_courseId: { userId: session.user.id, courseId: lesson.module.courseId } }, include: { user: { include: { profile: true } } } });
   if (!enrollment) redirect("/checkout");
-  const available = unlockedDay(enrollment.enrolledAt, new Date(), enrollment.user.profile?.timezone ?? "Africa/Lagos", enrollment.previewOverride);
+  const available = unlockedDay(enrollment.enrolledAt, new Date(), enrollment.user.profile?.timezone ?? "Africa/Lagos", enrollment.previewOverride, courseLessonCount);
   const accessible = canAccessLesson({ dayNumber: lesson.dayNumber, isBonus: lesson.isBonus, bonusUnlocked: enrollment.bonusUnlocked, unlockedDay: available });
   if (!accessible) return <div className="mx-auto grid min-h-[65vh] max-w-xl place-items-center text-center"><div><span className="mx-auto grid size-16 place-items-center rounded-full bg-[#e7ece8]"><LockKeyhole /></span><h1 className="display mt-5 text-5xl">This lesson unlocks soon.</h1><p className="my-5 leading-7 text-[#5f6f67]">Daily lessons open at midnight in your local timezone. Keep your streak steady—Day {lesson.dayNumber} is worth the wait.</p><Link className="font-bold text-[#1d604d] underline" href="/challenge">Back to curriculum</Link></div></div>;
 
@@ -84,7 +84,7 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
 
     {quiz && <LessonQuiz lessonId={lesson.id} quiz={quiz} bestScore={quizAttempt?.score ?? null} />}
 
-    <PracticeSubmission lessonId={lesson.id} lessonTitle={lesson.title} isCapstone={lesson.dayNumber === 21} initial={submission} />
+    <PracticeSubmission lessonId={lesson.id} lessonTitle={lesson.title} isCapstone={isCapstoneLesson(lesson)} initial={submission} />
     <CompleteButton lessonId={lesson.id} completed={enrollment.completedDays.includes(lesson.dayNumber)} />
 
     <nav className="mt-10 grid gap-3 border-t border-[#e2e8f0] pt-6 sm:grid-cols-2">

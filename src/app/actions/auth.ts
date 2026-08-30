@@ -38,7 +38,14 @@ export async function signupAction(_previous: AuthActionState, formData: FormDat
     },
   });
   const verificationPath = `/verify-email?token=${encodeURIComponent(token)}`;
-  await sendEmail({ to: user.email, subject: "Verify your AI Literacy account", text: `Verify your email: ${process.env.NEXTAUTH_URL ?? "http://localhost:3000"}${verificationPath}` });
+  try {
+    await sendEmail({ to: user.email, subject: "Verify your AI Literacy account", text: `Verify your email: ${process.env.NEXTAUTH_URL ?? "http://localhost:3000"}${verificationPath}` });
+  } catch {
+    // The account is not useful without verification. Remove this new record so
+    // the learner can retry once the temporary delivery problem is resolved.
+    await db.user.delete({ where: { id: user.id } }).catch(() => undefined);
+    return { ok: false, message: "We could not send the verification email. Please try again." };
+  }
   return { ok: true, message: process.env.INTEGRATION_MODE === "mock" ? "Account created. You can sign in now." : "Check your inbox to verify your email.", verificationPath: process.env.INTEGRATION_MODE === "mock" ? verificationPath : undefined };
 }
 

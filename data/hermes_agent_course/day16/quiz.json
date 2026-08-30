@@ -25,11 +25,11 @@
     "q": "What is the final discipline after the capstone build?",
     "options": [
       "Stop using the agent to save data",
-      "Put it to work weekly with standing tasks so it compounds",
+      "Keep only standing tasks that produce useful, checked work",
       "Delete the skills you saved",
       "Reinstall everything monthly"
     ],
     "answer": 1,
-    "explanation": "A personal agent only compounds if used — commit to standing weekly tasks like briefings, triage, and synthesis."
+    "explanation": "Retain useful schedules, review their output and remove automations that create noise, risk or unnecessary cost."
   }
 ]

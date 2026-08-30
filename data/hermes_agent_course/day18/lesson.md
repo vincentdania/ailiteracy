@@ -8,45 +8,47 @@ subtitle: Three ways to add capabilities — packaged plugins, the modern tool-i
 
 **Read time: 5 minutes · Task: 10 minutes (optional)**
 
-Hermes is designed to grow with you. When the built-in features aren't enough, you extend it — three escalating ways.
+When the built-in tools are not enough, choose the smallest extension that fits the job.
 
-## 1. Plugins — get features with one command
+## 1. Skills — procedures before new code
 
-> **Command:** this is the standard, low-code way to add capabilities.
+A skill is usually the right choice when existing tools can do the work and the missing piece is a repeatable procedure. Skills can include instructions, scripts and templates.
 
-- A **plugin** bundles new features you can enable with a single command.
+## 2. Plugins — packaged code and configuration
+
+- A **plugin** can bundle tools, providers, gateway adapters or other code. Inspect its source and permissions before installing it.
 - Examples: connect a specific external service, add a specialised tool, extend the gateway.
-- This is your first stop when you need something new — check for a plugin before building anything custom.
+- Manage installed plugins with `hermes plugins`. Install only from a source and pinned revision you trust.
 
-## 2. MCP — the modern interoperability standard
+## 3. MCP — external tool servers
 
-The **Model Context Protocol** is the emerging standard for connecting AI to external tools and data.
+The **Model Context Protocol** connects Hermes to external tool servers.
 
 - If your favourite services expose **MCP servers**, Hermes can plug into them directly.
 - The gateway/proxy can also let other MCP clients reach the agent.
 - Think of MCP as the universal adapter: one protocol to connect many tools, rather than bespoke code per service.
 
-## 3. Custom tools — build your own
+## 4. Core tools — change Hermes itself only when necessary
 
-- For a unique need, you can author your own **tool** — with an explicit name, description, and input schema (MCP-style), telling the agent when and how to call it.
-- Documented and testable, this is how advanced users add precisely-tailored abilities.
-- **Rule of thumb:** plugin → MCP server → custom tool, in that order. Don't write custom code when a plugin or MCP bridge already exists.
+- Adding a built-in tool changes Hermes core and carries the highest maintenance cost. Reserve it for work that cannot be expressed as a skill, plugin or MCP server.
+- **Rule of thumb:** skill → trusted plugin or MCP server → core tool.
 
 ## Choosing the right extension
 
 | Need | Use |
 |------|-----|
-| Common feature / service | Plugin |
+| Repeatable method using existing tools | Skill |
+| Packaged Hermes feature or adapter | Plugin |
 | External tool with an MCP server | MCP |
-| Truly unique to your workflow | Custom tool |
+| Change to Hermes itself | Core tool |
 
 ## 🎯 Task
 
-Browse the plugin directory/documentation for one plugin relevant to your work and note it. If you use a service that exposes MCP, sketch how you'd connect it.
+Choose one missing capability from your work. Decide whether it needs a skill, plugin, MCP server or core change. If it needs third-party code, inspect the source and pin before installing.
 
 ## 📤 Output
 
 The plugin (or MCP server) you found and one sentence on how you'd use it.
 
 ---
-**Verified fact:** Plugins, MCP servers/clients, and authoring custom MCP-style tools are documented Hermes Agent extension mechanisms.
+**Official guides:** [Creating skills](https://hermes-agent.nousresearch.com/docs/developer-guide/creating-skills) and [CLI commands for plugins and MCP](https://hermes-agent.nousresearch.com/docs/reference/cli-commands).

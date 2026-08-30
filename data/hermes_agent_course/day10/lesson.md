@@ -8,11 +8,11 @@ subtitle: Exact steps to reach your agent from the apps you already use. The gat
 
 **Read time: 6 minutes · Task: 20 minutes (hands-on)**
 
-This is where the agent becomes genuinely yours: it reaches you in the apps you check daily. The key concept is the **messaging gateway** — the always-on service that connects Hermes to 20+ messaging platforms.
+The messaging gateway connects one Hermes profile to the platforms you configure. It must be running for adapters that keep a live connection.
 
 ## The gateway
 
-Run `hermes gateway setup` to pick your platforms, and `hermes gateway run` (or install it as a service) to keep it connected 24/7. With the gateway up, you can message your agent from Telegram, WhatsApp, Discord, Slack, Signal, Matrix, email and more — the *same* agent, same memory and skills.
+Run `hermes gateway setup` to pick your platforms. Use `hermes gateway` in the foreground while testing. For an always-on setup, use `hermes gateway install`, `hermes gateway start` and `hermes gateway status`. Platforms share memory and skills only when they point to the same Hermes profile.
 
 To send it a message from the CLI:
 
@@ -25,7 +25,7 @@ hermes send --to telegram "Good morning, brief me"
 1. **Create a bot.** In Telegram, message **@BotFather** → send `/newbot` → name it → copy the HTTP API token.
 2. **Store the token.** In `~/.hermes/.env`, set `TELEGRAM_BOT_TOKEN=...`.
 3. **Allowlist yourself.** Set `TELEGRAM_ALLOWED_USERS=123456789` (your numeric user id) so only you can control the bot.
-4. **Start the gateway.** `hermes gateway run` (or install as a service) — your bot goes online.
+4. **Start the gateway.** Run `hermes gateway` while testing, or start the installed service.
 5. **Set your home chat.** Message the bot once, then send `/sethome` so scheduled jobs deliver there.
 6. **Test it.** `hermes send --to telegram "Test from the course"`.
 
@@ -34,17 +34,17 @@ hermes send --to telegram "Good morning, brief me"
 WhatsApp is the most-used app in Nigeria. Two routes:
 
 - **Official WhatsApp Business & Cloud API** — production-grade, multi-user, but requires Meta app approval and can cost money.
-- **Self-hosted bridge** — runs a WhatsApp Web-style session for *your own number*, free and private.
+- **Self-hosted bridge** — runs a WhatsApp Web-style session. It is unofficial and carries an account-restriction risk.
 
-For a personal agent, the self-hosted route on your own number is usually the fit. Put the credentials in `.env`, enable the adapter in gateway setup, restart the gateway. WhatsApp policy is stricter than Telegram — always use your own number and avoid anything that triggers spam flags.
+If you test the self-hosted bridge, use a dedicated number, not the number you depend on for personal or business communication. The Cloud API is the supported route for a business bot but needs Meta setup and a public webhook.
 
 ## 🎯 Task
 
-Connect Telegram end-to-end using the exact steps. Once it works, message your agent a real instruction ("Summarise today's priorities"). If you use WhatsApp heavily, attempt the self-hosted bridge too.
+Connect Telegram end to end. Once it works, message your agent a real instruction such as “Summarise today's priorities.” Treat WhatsApp as an optional lab after you have read the official risk notice.
 
 ## 📤 Output
 
 A screenshot or note that you messaged your agent from Telegram/WhatsApp and it replied there. Note which platform you connected.
 
 ---
-**Verified fact:** The gateway, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_ALLOWED_USERS`, `/sethome`, and `hermes send` are documented Hermes Agent features/config. WhatsApp's two routes and stricter policy are accurate.
+**Official guides:** [Telegram](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/telegram/) and [WhatsApp](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/whatsapp/).

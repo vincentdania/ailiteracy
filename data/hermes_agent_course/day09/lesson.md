@@ -12,7 +12,7 @@ A personal agent *remembers*. This lesson is about the three ways Hermes does th
 
 ## 1. Persistent memory
 
-Your agent stores durable, high-signal facts about you — your name, role, goals, preferences, the tools you use. This is injected into **every** turn, so it's always acting with your identity in mind. It's kept compact on purpose (a limited character budget), so your agent prioritises what matters rather than drowning in detail.
+Hermes keeps durable facts in `USER.md` and `MEMORY.md` under `~/.hermes/memories/`. A snapshot is loaded when a session starts. If memory changes during a session, the file is updated immediately, but the new entry is fully reflected in the system prompt on the next session.
 
 You can also attach external memory providers for larger, searchable long-term recall if you outgrow the built-in store.
 
@@ -22,9 +22,9 @@ You can tell your agent how to *be* by dropping structured files into its contex
 
 - **`SOUL.md`** (personality) — voice, values, boundaries: "be blunt, no flattery, Nigerian/British English."
 - **`AGENTS.md`** — project/procedural context, loaded when working in a codebase or a specific working dir.
-- **`.hermes.md`** — extra agent instructions in your home directory.
+- **`.hermes.md` or `HERMES.md`** — Hermes-specific project instructions in a working directory. Hermes checks these before `AGENTS.md`.
 
-These load every turn, so they shape how your agent speaks and works without you repeating it.
+`SOUL.md` is global to the Hermes profile. Project files are discovered from the working directory. Editing `SOUL.md` does not update the facts stored about you.
 
 ## 3. Sessions
 
@@ -38,7 +38,7 @@ This is your agent's memory of *what we were doing*, separate from the memory of
 
 ## Memory ≠ privacy risk if configured right
 
-Because it runs on your machine, your memory and context stay with you. The main discipline: **don't store secrets** (API keys, passwords) in memory or context files — put those in `.env`. Keep memory for preferences and facts, and secrets for your secrets.
+The files stay in your Hermes home, but text sent to a cloud model still leaves the machine for inference. Local storage is not the same as fully local processing. Do not store API keys or passwords in memory or context files; keep them in `.env`.
 
 ## 🎯 Task
 
@@ -49,4 +49,4 @@ Set the tone of your agent. Find or create a `SOUL.md` and add one line about ho
 The one-line personality rule you added to `SOUL.md`, and confirmation that memory knows who you are.
 
 ---
-**Verified fact:** The distinction between persistent memory, context files (SOUL.md, AGENTS.md, .hermes.md), and sessions with resume/search/export is documented in the official Hermes Agent guides for memory, context, and the CLI.
+**Official guides:** [Which file does what](https://hermes-agent.nousresearch.com/docs/user-guide/which-file-does-what) and [SOUL.md](https://hermes-agent.nousresearch.com/docs/guides/use-soul-with-hermes).

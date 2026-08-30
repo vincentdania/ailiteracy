@@ -21,8 +21,8 @@ export default async function ChallengePage({ searchParams }: { searchParams: Pr
     if (anyEnrollment && anyEnrollment.course.slug !== targetSlug) redirect(`/challenge?course=${anyEnrollment.course.slug}`);
     redirect("/checkout");
   }
-  const available = unlockedDay(enrollment.enrolledAt, new Date(), enrollment.user.profile?.timezone ?? "Africa/Lagos", enrollment.previewOverride);
   const totalLessons = enrollment.course.modules.flatMap((module) => module.lessons).filter((lesson) => !lesson.isBonus).length;
+  const available = unlockedDay(enrollment.enrolledAt, new Date(), enrollment.user.profile?.timezone ?? "Africa/Lagos", enrollment.previewOverride, totalLessons);
   const completeCount = enrollment.completedDays.filter((day) => day !== 0 && enrollment.course.modules.some((module) => module.lessons.some((lesson) => lesson.dayNumber === day))).length;
   const isHermes = enrollment.course.slug === "hermes-agent-masterclass";
 

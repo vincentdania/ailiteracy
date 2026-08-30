@@ -1,61 +1,78 @@
 ---
 day: 6
 title: Run It 24/7 on a VPS
-subtitle: Keep your agent alive while your laptop is closed — with low-cost VPS options that work in Nigeria.
+subtitle: Put Hermes on a server, keep one gateway service running, and prove it survives a reboot.
 ---
 
 # Run It 24/7 on a VPS
 
-**Read time: 5 minutes · Task: varies (registration)**
+**Read time: 7 minutes · Task: 30–60 minutes**
 
-Your agent is most powerful when it is *always on*. A laptop that sleeps at night means an agent that is unreachable. The fix: run it on a **VPS** (a small cloud server) that never sleeps, then talk to it from anywhere — including your phone.
+If your laptop is asleep, its gateway is offline. A VPS is one way to keep Hermes available without leaving your own computer on.
 
-## What you need
+## Decide before you buy
 
-A VPS is a rented Linux server. Hermes runs fine on a modest one; you don't need much CPU or RAM for a personal agent. This makes it cheap.
+Check the current Hermes requirements and compare live provider prices. Look for:
 
-## Pick a host (Verified pricing, Aug 2026 — re-check before buying)
+- a current Linux image supported by Hermes;
+- SSH key access;
+- a region with acceptable latency;
+- enough memory and storage for the gateway and tools you will use; and
+- a monthly price and payment method you can sustain.
 
-- **Oracle Cloud** — a genuinely free Arm tier (always free, generous specs). Best *free* starting point.
-- **Contabo** — very budget-friendly monthly plans, popular with Nigerian users.
-- **Hostinger** — cheap VPS plans, easy control panel.
-- **DigitalOcean** — reliable $5–7 droplets, huge community of tutorials.
+Do not buy from a price quoted in a course. Cloud plans change. Include tax, storage, backups and bandwidth in your comparison. A cPanel hosting account is not the same thing as a VPS with shell access.
 
-> **Nigerian tip:** the free Oracle tier is the smart start. Many Nigerian users also buy from local resellers who accept naira and provide `cPanel`. Always verify features and pricing before paying.
+## Connect without using a password
 
-## Provision and connect
-
-Create the server, then SSH into it:
+Create the server with your public SSH key, then connect as the user supplied by the host:
 
 ```bash
-ssh root@YOUR_SERVER_IP
+ssh YOUR_USER@YOUR_SERVER_IP
 ```
 
-## Install and deamonise
+Keep root login and password authentication disabled where your host permits it. Apply system updates before installing anything else.
 
-Run the normal installer on the VPS, connect your model, then start the gateway and make it survive reboots:
+## Install Hermes and the gateway service
 
 ```bash
-# install (same one-command install as your laptop)
 curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
-
-# run the messaging gateway (keeps Telegram/email connected)
-hermes gateway run
+hermes setup --portal     # or configure another supported provider
+hermes gateway setup
+hermes gateway install
+hermes gateway start
+hermes gateway status
 ```
 
-For always-on reliability, run the gateway as a **system service** (systemd) so it starts on boot and restarts if it crashes. The documentation covers `hermes gateway install` for this. Your agent becomes a background worker you can reach 24/7.
+On a Linux VPS, a user service also needs lingering if it must survive logout:
 
-## Security reminder
+```bash
+sudo loginctl enable-linger $USER
+```
 
-A server exposed to the internet must be protected. The full hardening steps come in Lab 15, but at minimum: use SSH keys, keep the system updated, and never expose secrets. Change the default password, and keep `.env` private.
+The official guide also documents a system-wide service. Choose one service type. Running both creates confusing start, stop and status behaviour.
 
-## 🎯 Task
+## Prove it survives
 
-Choose a VPS path (the free Oracle tier is a sensible default). Provision it, SSH in, install Hermes, connect your model, and start the gateway. Set it up so it survives a reboot.
+Reboot the server once. Reconnect and run:
 
-## 📤 Output
+```bash
+hermes gateway status
+hermes status --deep
+```
 
-A note of: your host, the monthly cost (or free), and confirmation that the gateway starts. If you didn't provision yet, write down the host and price you plan to use.
+If the gateway is not running, check the service logs listed in the official gateway guide. Do not call the setup “24/7” until it has survived a reboot.
+
+## Security minimum
+
+Use SSH keys, apply updates, keep `~/.hermes/.env` private and expose no Hermes service port unless the feature requires it. Lesson 15 covers the full review.
+
+## Task
+
+Provision a VPS, install Hermes, install one gateway service and reboot the server.
+
+## Output
+
+Record the provider, current monthly cost, Linux distribution, service type and the status shown after reboot. Planning to do it later does not complete this lab.
 
 ---
-**Verified fact:** Oracle Cloud's always-free Arm tier and the ~$5–7 DigitalOcean/Contabo ranges are representative as of August 2026; always re-confirm current pricing before purchase. The gateway/service commands are from the official Hermes gateway documentation.
+**Official guide:** [Messaging gateway service management](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/). Re-check your host's live pricing and terms before paying.

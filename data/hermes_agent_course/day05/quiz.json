@@ -8,7 +8,7 @@
       "Buying a GPU subscription"
     ],
     "answer": 0,
-    "explanation": "`hermes setup --portal` gives one OAuth login, 300+ models, and unlocks the Tool Gateway. It is the fastest and lowest-friction path."
+    "explanation": "`hermes setup --portal` gives one OAuth login, access to 300+ models, and enables the Tool Gateway. It requires the fewest setup steps."
   },
   {
     "q": "Where should API keys and secrets be stored?",

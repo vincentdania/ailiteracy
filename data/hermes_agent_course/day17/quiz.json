@@ -11,15 +11,15 @@
     "explanation": "Voice mode lets you talk to the agent; it transcribes, works, and replies with spoken TTS on recent models."
   },
   {
-    "q": "How should code execution be run to be safe?",
+    "q": "When code should not have direct access to the host, what should you do?",
     "options": [
       "Directly on your bare system at full access",
-      "In a sandbox or container (Docker) for isolation",
+      "Use an isolated terminal backend such as Docker and mount only what the task needs",
       "Only on a machine you don't care about",
       "Never run any code"
     ],
     "answer": 1,
-    "explanation": "Sandboxed/containerised execution keeps risky tasks isolated so they can't harm your real system."
+    "explanation": "The execute_code tool is not automatically a security sandbox. Use an isolated backend and narrow mounts when the task requires separation."
   },
   {
     "q": "What is the main advantage of running a local model via Ollama?",
@@ -30,6 +30,6 @@
       "It never needs electricity"
     ],
     "answer": 1,
-    "explanation": "Local models keep all interactions on-device for maximum privacy, though cloud models stay smarter for heavy reasoning."
+    "explanation": "Local inference can keep model prompts on-device, but only if the workflow does not call hosted tools or services."
   }
 ]

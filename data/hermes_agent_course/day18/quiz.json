@@ -1,35 +1,26 @@
 [
   {
-    "q": "What is the first, lowest-code way to add a capability to Hermes?",
-    "options": [
-      "Write a custom tool from scratch",
-      "Install a plugin with a single command",
-      "Reinstall the whole system",
-      "Hire a developer"
-    ],
-    "answer": 1,
-    "explanation": "Plugins bundle features you enable with one command — check for a plugin before building anything custom."
+    "q": "A workflow can be built from existing tools and instructions. What should you try first?",
+    "options": ["A skill", "A Hermes core change", "A new operating system", "A public API key"],
+    "answer": 0,
+    "explanation": "Use a skill when instructions, scripts and existing tools are enough. It is easier to inspect and maintain than new core code."
   },
   {
-    "q": "What does MCP stand for and do?",
-    "options": [
-      "A payment standard for AI",
-      "Model Context Protocol — the standard for connecting AI to external tools and data",
-      "A hardware interface",
-      "A social media platform"
-    ],
+    "q": "What can a Hermes plugin add?",
+    "options": ["Only a writing prompt", "Packaged tools, providers, adapters or other code", "A larger hard drive", "A model's training data"],
     "answer": 1,
-    "explanation": "The Model Context Protocol is the emerging standard for connecting agents to external tools and data sources."
+    "explanation": "Plugins may run code and add integrations, so inspect the source and pin a trusted revision before installation."
   },
   {
-    "q": "What is the recommended order when choosing an extension?",
-    "options": [
-      "Custom tool → MCP → plugin",
-      "Plugin → MCP server → custom tool",
-      "MCP → custom tool → plugin",
-      "Always write custom code"
-    ],
+    "q": "What does MCP provide?",
+    "options": ["A payment plan", "A protocol for connecting external tool servers", "A VPS firewall", "A certificate format"],
     "answer": 1,
-    "explanation": "Use a plugin first, then an MCP bridge, and only write a custom tool for something truly unique to your workflow."
+    "explanation": "MCP is the protocol Hermes uses to connect to external tool servers and their capabilities."
+  },
+  {
+    "q": "What is the sensible extension order?",
+    "options": ["Core change first", "Skill, then a trusted plugin or MCP server, then a core change if still necessary", "Install every plugin", "Disable all tools"],
+    "answer": 1,
+    "explanation": "Choose the smallest maintainable extension and add new code only when the simpler options cannot do the job."
   }
 ]

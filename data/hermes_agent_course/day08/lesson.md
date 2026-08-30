@@ -21,7 +21,7 @@ Two ways:
 1. **You ask it to remember.** After a good outcome, you tell the agent to capture the method as a skill.
 2. **The Curator does it automatically.** Hermes includes a **Curator** — a self-improvement engine that reviews completed work and proposes saving reusable skills and other improvements in the background.
 
-That loop is the heart of "it gets better at your work": **you do a task, the pattern is saved, and next time it's faster and more consistent.**
+The agent may suggest or stage a skill after useful work. Review the proposed instructions before approving the write. A saved mistake becomes a repeatable mistake.
 
 ## A skill you can write today (Lab 6)
 
@@ -47,4 +47,4 @@ Do the "daily briefing format" exercise above with your agent. Ask it to save `d
 A note that the skill was saved, plus the one-command you now use to get your briefing.
 
 ---
-**Verified fact:** Skills with progressive disclosure (index first, detail on invoke) and the Curator self-improvement engine are documented Hermes Agent features.
+**Official guide:** [Skills](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills/).

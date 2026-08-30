@@ -1,6 +1,6 @@
 # AI Literacy LMS
 
-A mobile-first Next.js 15 learning platform for the 21-Day AI Challenge. The legacy Django source remains in the repository as migration reference; the production application is the Next.js app under `src/`.
+A Next.js 15 learning platform for *Build Your Personal AI Agent and Make AI Work for You*. The 19-lesson course takes learners from a supported Hermes Agent installation to a tested, production-ready personal agent. The legacy Django source remains in the repository as migration reference; the production application is the Next.js app under `src/`.
 
 ## Local stack
 
@@ -14,7 +14,7 @@ A mobile-first Next.js 15 learning platform for the 21-Day AI Challenge. The leg
 
 ## Run locally with Docker
 
-Docker Compose starts PostgreSQL and Redis, bootstraps the schema, imports all 21 Markdown lessons, creates demo users, then starts the app.
+Docker Compose starts PostgreSQL and Redis, bootstraps the schema, imports all 19 Markdown lessons, creates demo users, then starts the app.
 
 ```bash
 cp .env.example .env
@@ -63,7 +63,7 @@ Production launch gates:
 
 - Use a DNS hostname with HTTPS; do not use the direct HTTP IP address for a live payment deployment.
 - Keep PostgreSQL and Redis bound to loopback or a private container network.
-- Configure Resend, Stripe, Paystack, Google OAuth and VAPID credentials before enabling their respective features.
+- Configure Resend before launch. Configure at least one payment provider unless free enrollment is explicitly enabled. Google OAuth, reCAPTCHA and VAPID remain optional, but each must have its complete key pair before it is enabled.
 - Register the exact HTTPS webhook URLs below and verify provider test events before accepting payments.
 - Run `pnpm audit --prod`, `pnpm check`, and the full-flow Playwright test before each release.
 - Back up the `postgres_data` volume and test restoration before launch.

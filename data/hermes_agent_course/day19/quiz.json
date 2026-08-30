@@ -3,7 +3,7 @@
     "q": "Which command shows your provider, model, and enabled tools?",
     "options": [
       "hermes status",
-      "hermes gateway run",
+      "hermes gateway status",
       "hermes --continue",
       "hermes setup"
     ],
@@ -11,7 +11,7 @@
     "explanation": "`hermes status` is your daily confirmation of provider, model, and tools."
   },
   {
-    "q": "Which habit keeps your agent compounding?",
+    "q": "Which habit keeps the setup useful?",
     "options": [
       "Using the agent only once a month",
       "Saving a skill whenever you find a repeatable workflow",
@@ -19,7 +19,7 @@
       "Ignoring the security checklist"
     ],
     "answer": 1,
-    "explanation": "Save skills for repeatable workflows and use the agent weekly with standing tasks; that's the loop that compounds."
+    "explanation": "Save reviewed skills for repeatable work, check scheduled outputs and remove anything that no longer helps."
   },
   {
     "q": "The one-line security rule is:",

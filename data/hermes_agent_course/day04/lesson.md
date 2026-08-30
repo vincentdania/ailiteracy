@@ -8,11 +8,11 @@ subtitle: One command per platform — Linux, macOS, Windows, WSL2, Termux — a
 
 **Read time: 5 minutes · Task: 15 minutes (hands-on)**
 
-Time to get your hands dirty. The installer handles almost everything — Python, Node, ripgrep, ffmpeg — so you run **one command** and you're most of the way there.
+The installer handles the main runtime dependencies. Read the official installation page first, especially if the machine already has managed Python or Node installations.
 
 ## Before you start
 
-- A modern laptop or desktop (any recent machine you already use works).
+- A supported Linux, macOS, Windows/WSL2, Nix/NixOS or Android environment that meets the current requirements.
 - An internet connection (this install is a one-time download; daily use is lightweight).
 - `git` installed. On Linux you may also need `curl` and `xz-utils`.
 
@@ -33,7 +33,7 @@ iex (irm https://hermes-agent.nousresearch.com/install.ps1)
 Then reload your shell:
 
 ```bash
-source ~/.bashrc
+exec "$SHELL" -l
 ```
 
 ## Verify it's alive
@@ -52,7 +52,7 @@ Before you add *any* feature (a model, Telegram, email), get **one clean `hermes
 
 ## Low bandwidth notes 📶
 
-- The installer and model downloads are the only big downloads. Day-to-day, Hermes exchanges small text payloads — ideal for mobile data and modest connections.
+- Installation and local-model downloads can be large. Daily use varies: text chat is light, while browser, image, audio and file work can use much more data.
 - For a truly low-bandwidth setup, do the install once on a laptop or VPS with good internet, then connect to that instance remotely from your phone.
 
 ## 🎯 Task
@@ -64,4 +64,4 @@ Install Hermes on your primary machine. Run `hermes` and confirm the wizard star
 A screenshot or note of the `hermes` wizard launching, plus (if any) the list of things `hermes doctor` flagged so we can fix them in Lab 2.
 
 ---
-**Verified fact:** These are the official installer commands from the Hermes Agent documentation (hermes-agent.nousresearch.com/docs/getting-started/installation). The installer automatically handles Python, Node, ripgrep, and ffmpeg.
+**Official guide:** [Installation](https://hermes-agent.nousresearch.com/docs/getting-started/installation/).

@@ -1,46 +1,46 @@
 [
   {
-    "q": "What is the first email-safety recommendation?",
+    "q": "What does the Hermes email gateway do?",
     "options": [
-      "Let the agent send directly to save time",
-      "Use a dedicated low-work mailbox, not your personal/bank inbox",
-      "Share your inbox password in plain text",
-      "Connect your password-reset email"
+      "It creates drafts in every personal mailbox without permission",
+      "It lets allowed senders email a dedicated agent inbox and receive in-thread replies",
+      "It blocks all outbound email",
+      "It replaces your email provider"
     ],
     "answer": 1,
-    "explanation": "Always use a dedicated, low-privilege mailbox for the agent — never your personal/bank/password-reset inbox."
+    "explanation": "The gateway is an email interface to Hermes. It can reply to allowed senders, so it should use a dedicated inbox."
   },
   {
-    "q": "The agent's email replies are always:",
+    "q": "Which setup is safest for the email gateway?",
     "options": [
-      "Sent automatically without review",
-      "Drafted for you to review and approve before anything sends",
-      "Copied to all your contacts",
-      "Deleted after reading"
+      "Your banking and password-reset inbox",
+      "A dedicated inbox, app password and EMAIL_ALLOWED_USERS allowlist",
+      "Your main password shared in a lesson submission",
+      "EMAIL_ALLOW_ALL_USERS=true from the first day"
     ],
     "answer": 1,
-    "explanation": "Replies are drafted in your voice and you review before sending. Nothing sends automatically — that's the core safety rule."
+    "explanation": "A dedicated low-privilege inbox, app password and narrow allowlist reduce the impact of a mistake."
   },
   {
-    "q": "What does allowlisting senders (EMAIL_ALLOWED_USERS) accomplish?",
+    "q": "Which route should you investigate for managing an existing mailbox from terminal tools?",
     "options": [
-      "Blocks all email permanently",
-      "Restricts who can reach the agent, reducing spam and abuse",
-      "Sends spam to your contacts",
-      "Charges per sender"
+      "The documented Himalaya email skill",
+      "SOUL.md",
+      "The Telegram adapter",
+      "A public spreadsheet"
     ],
-    "answer": 1,
-    "explanation": "Allowlisting approved addresses means only they can reach the agent — a strong spam and safety control."
+    "answer": 0,
+    "explanation": "Mailbox management and the email gateway are different routes. Hermes documents the Himalaya skill for terminal-based mailbox work."
   },
   {
-    "q": "A high-value daily email ask for a professional agent is:",
+    "q": "What must never appear in a course submission?",
     "options": [
-      "'Auto-reply to everyone with my ad'",
-      "'Triage my inbox for funding/fellowship/RFP/client emails and draft replies I can approve'",
-      "'Delete my entire inbox'",
-      "'Send my contacts list to the agent'"
+      "A note that the test worked",
+      "The route you chose",
+      "A password, token or complete .env file",
+      "The name of your email provider"
     ],
-    "answer": 1,
-    "explanation": "Morning triage for inbound opportunities plus drafted replies is the highest-value use for a professional."
+    "answer": 2,
+    "explanation": "Submit evidence of the setup, never the credentials that make it work."
   }
 ]

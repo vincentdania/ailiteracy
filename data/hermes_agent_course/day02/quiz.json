@@ -30,7 +30,7 @@
       "In a public notebook on GitHub"
     ],
     "answer": 1,
-    "explanation": "Because it runs on your own machine or server, secrets stay in your environment. The code is open source so its behavior is auditable."
+    "explanation": "Hermes stores configured secrets in your environment. Cloud models and tools still receive the data required for their calls, so review every provider you enable."
   },
   {
     "q": "Which research organisation is behind Hermes Agent?",

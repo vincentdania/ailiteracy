@@ -1,7 +1,7 @@
 {
   "slug": "hermes-agent-masterclass",
   "title": "Build Your Personal AI Agent and Make AI Work for You",
-  "description": "The definitive, hands-on course: turn the open-source Hermes Agent into a personal agent that works for you — install it anywhere, teach it your tools and memory, connect it to Telegram and WhatsApp, automate with cron, and harden it for production. Built for low bandwidth, mobile-first, students worldwide.",
+  "description": "A practical course for building and testing a personal Hermes Agent. Install it on a supported computer or server, connect a model, control its tools and memory, add Telegram, schedule useful work, secure the setup, and prove it can run reliably for 48 hours. Lessons are text-first; the hands-on work requires a computer or VPS.",
   "priceNgn": 20000,
   "priceUsd": 29,
   "modules": [

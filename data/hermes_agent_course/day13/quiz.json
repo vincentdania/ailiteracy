@@ -3,12 +3,12 @@
     "q": "What is the key rule that makes the 7-day plan succeed?",
     "options": [
       "Do every integration in one day",
-      "One thing per day — compounding beats cramming",
+      "One tested change per day",
       "Skip the security day entirely",
       "Build in whatever order seems fun"
     ],
     "answer": 1,
-    "explanation": "One thing per day compounds: each small win builds on the last so by Day 7 you have a working, secure, automated agent."
+    "explanation": "Make one change, test it and keep a known-good setup before adding another integration."
   },
   {
     "q": "On which day does the agent reach your phone?",
@@ -19,7 +19,7 @@
       "Day 5"
     ],
     "answer": 1,
-    "explanation": "By Day 3 you connect Telegram so the agent is genuinely useful on the move."
+    "explanation": "By Day 3 you connect Telegram, restrict access and test the agent from your phone."
   },
   {
     "q": "When should you apply the security checklist?",

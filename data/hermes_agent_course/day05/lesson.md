@@ -8,11 +8,11 @@ subtitle: The fastest path with Nous Portal, or bring your own key — then chat
 
 **Read time: 5 minutes · Task: 15 minutes (hands-on)**
 
-Your agent is installed but it has no brain yet. This lesson gives it one. Your single decision that shapes everything is the **model**.
+Hermes needs a model provider before it can run an agent session. Your choice affects cost, speed, privacy, context length and tool use.
 
 ## The fastest path: Nous Portal
 
-For most people, the easiest route is a **Nous Portal** subscription. It gives you **one OAuth login, 300+ models**, and unlocks the **Tool Gateway** (which enables built-in web search, image, and TTS tools). One subscription, predictable cost.
+For most people, the simplest route is a **Nous Portal** subscription. One OAuth login covers 300+ models and eligible subscriptions can use the Tool Gateway. Check the current subscription terms and limits before choosing it.
 
 ```bash
 hermes setup --portal
@@ -60,4 +60,4 @@ Connect a model (Portal is fastest). Run `hermes status` and confirm provider + 
 A note of: (1) which provider/model you chose, (2) the `hermes status` confirmation, and (3) one thing the agent drafted well and one thing you had to correct.
 
 ---
-**Verified fact:** `hermes setup --portal`, `hermes model`, and the `~/.hermes/.env` + `~/.hermes/config.yaml` split, plus the 64K minimum context requirement, are all documented behaviours in the official Hermes Agent docs.
+**Official guides:** [Providers](https://hermes-agent.nousresearch.com/docs/integrations/providers/) and [Nous Portal](https://hermes-agent.nousresearch.com/docs/integrations/nous-portal/).

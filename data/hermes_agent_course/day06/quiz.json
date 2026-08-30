@@ -1,46 +1,26 @@
 [
   {
-    "q": "Why would you run your agent on a VPS instead of only your laptop?",
-    "options": [
-      "A VPS makes the agent smarter automatically",
-      "A VPS never sleeps, so your agent is reachable 24/7 even when your laptop is closed",
-      "A VPS gives you more model options",
-      "A laptop cannot run Hermes at all"
-    ],
+    "q": "Why put Hermes on a VPS?",
+    "options": ["It makes every model smarter", "It can keep the gateway available while your own computer is off", "Hermes cannot run on a laptop", "It removes all security work"],
     "answer": 1,
-    "explanation": "A VPS never sleeps, so the gateway stays up and you can reach your agent from anywhere, any time."
+    "explanation": "A VPS can remain online when your own computer is asleep, provided the gateway service is configured correctly."
   },
   {
-    "q": "Which is the cheapest sensible starting point for a Nigerian user?",
-    "options": [
-      "Oracle Cloud always-free Arm tier",
-      "A $100/month dedicated server",
-      "A personal laptop with no VPS",
-      "An expensive enterprise cloud"
-    ],
-    "answer": 0,
-    "explanation": "Oracle Cloud's always-free Arm tier is a genuinely free, reliable starting point. Recheck current pricing before purchase."
+    "q": "What should you do before choosing a VPS?",
+    "options": ["Trust an old price in the course", "Compare current requirements, full monthly cost, region and SSH access", "Buy cPanel hosting", "Choose the largest server"],
+    "answer": 1,
+    "explanation": "Cloud plans and prices change. Check the current Hermes requirements and the provider's live terms."
   },
   {
-    "q": "How do you keep the gateway running after you log out of the VPS?",
-    "options": [
-      "You cannot; it stops when you log out",
-      "Run it as a system service (systemd) via the gateway install command",
-      "Keep the SSH session open forever",
-      "Buy a second laptop"
-    ],
+    "q": "Which sequence verifies the gateway service?",
+    "options": ["Install it and assume it works", "Install, start, check status, reboot, then check status again", "Keep one SSH window open forever", "Run user and system services together"],
     "answer": 1,
-    "explanation": "Running the gateway as a system service (systemd) makes it start on boot and restart if it crashes."
+    "explanation": "A reboot test proves that the service returns without relying on your open terminal."
   },
   {
-    "q": "What is a minimum security step for a VPS exposed to the internet?",
-    "options": [
-      "Skip security; it's a personal agent",
-      "Use SSH keys and keep system updates applied",
-      "Use the default root password",
-      "Disable all security services"
-    ],
+    "q": "Which is a sound VPS security minimum?",
+    "options": ["Password login as root", "SSH keys, updates, private secrets and no unnecessary exposed ports", "Commit .env to Git", "Disable the firewall"],
     "answer": 1,
-    "explanation": "At minimum, use SSH keys, keep the system updated, and never expose secrets. A server on the internet must be hardened."
+    "explanation": "Use key-based access, updates, narrow network exposure and protected credentials."
   }
 ]

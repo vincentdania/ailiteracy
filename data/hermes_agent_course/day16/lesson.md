@@ -8,7 +8,7 @@ subtitle: Bring every part together and your agent to 24/7 production with the e
 
 **Read time: 5 minutes · Task: capstone project**
 
-This is the final integration. By the end of this lesson you can honestly say you run a personal agent in production.
+This is the integration test. Complete it before describing the setup as production-ready.
 
 ## Production means
 
@@ -36,13 +36,13 @@ Leave it running for **48 hours**. Then answer honestly:
 - Did my morning brief arrive every scheduled day?
 - Could I message it from my phone at 9pm and get a useful reply?
 - Did it remember who I am and my preferences across those 48 hours?
-- Was nothing sent or changed without my approval?
+- Did the agent stay within the access and approval rules I configured?
 
-Four "yes" answers = you have produced a working personal agent.
+Four “yes” answers show that the setup passed this course's minimum test. They do not prove enterprise reliability or security.
 
 ## Use it or lose it
 
-The final discipline: **put it to work weekly.** A personal agent compounds only if used. Commit to one or more standing tasks — the morning briefing, opportunity triage, document synthesis — and run them every week.
+After the test, keep only the standing tasks that produce work you can verify. Remove schedules that create noise or cost without a useful result.
 
 ## 🎯 Task
 
@@ -53,4 +53,4 @@ Complete the capstone build. Run the 48-hour production test. Then write down yo
 A short "production report": your stack, the four test answers, and your standing weekly tasks. Save it — it's your achievement record.
 
 ---
-**Verified fact:** All components are features taught in this course and documented in Hermes Agent. The production test is a sound, honest way to confirm readiness.
+**Course standard:** The 48-hour test is the minimum evidence required for the capstone. Keep the record with your submission.

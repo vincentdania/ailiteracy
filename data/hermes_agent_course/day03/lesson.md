@@ -8,9 +8,9 @@ subtitle: The five layers from interface to core — see where your agent's powe
 
 **Read time: 4 minutes · Task: 3 minutes**
 
-Before you install, grasp the one mental model that makes everything else click. Hermes is built in layers, from the face you touch down to the brain that thinks.
+Before you install, keep a simple map of the parts you will configure. This is a course map, not a claim that the source code has five strict layers.
 
-## The five layers
+## Five parts to track
 
 1. **Interfaces** — how you talk to it. The CLI, a desktop app, a TUI, voice, and the messaging gateway you reach through Telegram or WhatsApp. You will almost always use several.
 2. **Application** — the agent runtime and services that run on your machine or server: the core loop, the gateway, cron scheduler, and API.
@@ -47,4 +47,4 @@ Sketch the five layers on paper or in a note app. Next to each, write one exampl
 Your one-line-per-layer diagram.
 
 ---
-**Verified fact:** This five-layer model matches how the real system is organised in the official Hermes Agent documentation — interfaces, runtime/core, capabilities, and providers/backends. You'll explore each in depth in the modules ahead.
+**Official reference:** [Hermes Agent documentation](https://hermes-agent.nousresearch.com/docs/). Use the architecture pages when you need the source-level design; use this five-part map to keep the course setup clear.

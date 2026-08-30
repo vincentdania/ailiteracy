@@ -1,14 +1,14 @@
 ---
 day: 7
 title: Tools and Toolsets — Your Agent's Hands
-subtitle: The 60+ built-in capabilities that let your agent do real work, grouped into switchable sets.
+subtitle: Give the agent only the tools it needs, grouped into switchable toolsets.
 ---
 
 # Tools and Toolsets — Your Agent's Hands
 
 **Read time: 5 minutes · Task: 8 minutes**
 
-This is where an agent stops being a chatbot. **Tools** are the actions your agent can take — searching the web, extracting a page, running code, reading a file. Grouped sets of tools are called **toolsets**, and you can turn them on and off.
+**Tools** are the actions Hermes can take: searching the web, reading a file, running a command or using a connected service. Toolsets group related tools so you can control what is available in each session or platform.
 
 ## What tools can do
 
@@ -31,9 +31,9 @@ hermes tools
 
 This shows what's available and lets you control what your agent may call. Limiting tools is also a **security** practice: give the agent only what a task needs.
 
-## Why 60+ tools matters
+## More tools are not always better
 
-A model can only do what its tools let it do. With a rich, correct toolset, one instruction can turn into a genuinely completed job:
+A model can only act through the tools it has. With the right tools and a clear task, one instruction can cover several checked steps:
 
 > "Research funding for NGOs in Nigeria, summarise the top three deadlines, and save the list to a file."
 
@@ -52,4 +52,4 @@ Take the task you named in Lesson 1. Break it into the tools your agent would ne
 Your task broken into 2–4 tools your agent would use.
 
 ---
-**Verified fact:** Hermes ships with 60+ built-in tools organised into toolsets, manageable with `hermes tools` (per the official documentation). Extracting page text before processing keeps data use low.
+**Official guides:** [Tools and toolsets](https://hermes-agent.nousresearch.com/docs/user-guide/features/tools/) and the [current tool registry](https://hermes-agent.nousresearch.com/docs/reference/tools-reference/). Availability varies by platform and credentials.

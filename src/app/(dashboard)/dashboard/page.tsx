@@ -22,9 +22,9 @@ export default async function DashboardPage() {
   if (!enrollment) return <div className="mx-auto max-w-4xl"><p className="eyebrow">Your learning home</p><h1 className="display mt-3 text-6xl text-[#00261d]">Ready when you are.</h1><div className="editorial-card mt-8 p-8"><h2 className="font-serif text-3xl font-semibold">Activate the Personal Agent Masterclass</h2><p className="my-4 max-w-xl leading-7 text-[#414845]">Complete checkout to activate 19 hands-on lessons, saved practice, capstone feedback and your certificate path.</p><Button asChild><Link href="/checkout">Choose your currency</Link></Button></div></div>;
 
   const timezone = enrollment.user.profile?.timezone ?? "Africa/Lagos";
-  const available = unlockedDay(enrollment.enrolledAt, new Date(), timezone, enrollment.previewOverride);
   const lessons = enrollment.course.modules.flatMap((module) => module.lessons).filter((lesson) => !lesson.isBonus).sort((a, b) => a.dayNumber - b.dayNumber);
   const totalLessons = lessons.length;
+  const available = unlockedDay(enrollment.enrolledAt, new Date(), timezone, enrollment.previewOverride, totalLessons);
   const nextLesson = lessons.find((lesson) => lesson.dayNumber <= available && !enrollment.completedDays.includes(lesson.dayNumber)) ?? lessons[Math.min(available - 1, lessons.length - 1)];
   const completedCount = enrollment.completedDays.filter((day) => lessons.some((lesson) => lesson.dayNumber === day)).length;
   const progress = totalLessons ? (completedCount / totalLessons) * 100 : 0;

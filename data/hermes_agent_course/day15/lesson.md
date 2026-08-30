@@ -8,17 +8,18 @@ subtitle: An approval-based security model, secrets hygiene, checkpoints, and a 
 
 **Read time: 6 minutes · Task: apply this week**
 
-A personal agent touches your data and can act on your systems. Treating it as safe-by-default is a discipline — and Hermes is built around an **approval-based security model** to help.
+A personal agent can read data and run tools. Security comes from several controls working together, not from trusting one prompt or toggle.
 
 ## 1. Understand the security model
 
-Hermes is designed so the agent proposes and you approve for consequential, irreversible, or external actions. That means:
+Hermes checks terminal commands against dangerous patterns. In the default smart mode, low-risk commands may run, clearly dangerous commands may be denied, and uncertain cases may be sent to you for approval. This does not guarantee that every external action in every tool will ask first.
 
-- **Approvals** gate sending messages, making purchases, applying, publishing, deleting — anything with a real consequence.
-- **No auto-sends** by default; drafts sit for your review.
-- **Isolation** for risky work (containers/backends) so a misbehaving task can't wreck your machine.
+- Keep `approvals.mode` set to `smart` or `manual`; never use `off` on a normal work machine.
+- Keep `approvals.cron_mode` at `deny` unless a headless task has been designed and tested for broader access.
+- Use allowlists to control who can reach messaging adapters.
+- Use a Docker or other isolated terminal backend for work that should not touch the host directly.
 
-The model puts a hard boundary between *what the agent wants to do* and *what it's allowed to do without asking*.
+Approvals reduce risk; they do not replace least privilege, backups, review or good account separation.
 
 ## 2. Secrets hygiene (non-negotiable)
 
@@ -28,25 +29,25 @@ The model puts a hard boundary between *what the agent wants to do* and *what it
 
 ## 3. Checkpoints & rollback
 
-Hermes keeps **checkpoints** so you can roll back after a bad change — configuration, memory, or context updates that went wrong. Before experimenting, note your checkpoint; if a change breaks things, restore the last good one.
+Checkpoints are opt-in filesystem snapshots for supported working directories. Enable them with `hermes chat --checkpoints` or in `config.yaml`. Preview a restore with `/rollback diff N` before running `/rollback N`. Checkpoints do not replace a normal backup of `~/.hermes`.
 
 ## 4. Field checklist for an always-on agent
 
 - [ ] Exposed server? SSH keys only, no default passwords, keep updates applied.
 - [ ] `.env` permissions locked to your user; never committed to git.
 - [ ] Messaging platforms allowlisted (`TELEGRAM_ALLOWED_USERS`, `EMAIL_ALLOWED_USERS`).
-- [ ] Approval model intact — nothing auto-sends.
+- [ ] Approval mode checked; cron denies dangerous commands by default.
 - [ ] Least-privilege toolsets — only enable what you use.
-- [ ] Backups/checkpoints for memory and config.
+- [ ] A backup of Hermes state; checkpoints enabled where rollback is needed.
 - [ ] A firewall on any VPS.
 
 ## 🎯 Task
 
-Run the checklist. Fix at least one gap — e.g., lock `.env` permissions (`chmod 600 ~/.hermes/.env`), or confirm your first checkpoint/backup.
+Run the checklist. Fix every failed item before the capstone. At minimum, lock `.env` permissions (`chmod 600 ~/.hermes/.env`), run `hermes security audit`, and confirm a backup or rollback path.
 
 ## 📤 Output
 
 The checklist with your fixes checked off, and note the one change you made first.
 
 ---
-**Verified fact:** The approval-based security model (gate consequential actions by default), secrets-in-`.env`, and checkpoints/rollback are documented Hermes Agent security features.
+**Official guides:** [Security](https://hermes-agent.nousresearch.com/docs/user-guide/security/) and [Checkpoints and rollback](https://hermes-agent.nousresearch.com/docs/user-guide/checkpoints-and-rollback/).

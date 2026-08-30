@@ -1,14 +1,14 @@
 [
   {
-    "q": "How does the Hermes security model gate consequential actions?",
+    "q": "What does Hermes smart approval mode do for terminal commands?",
     "options": [
       "It never needs approval",
-      "On an approval basis — the agent proposes, you approve for send/buy/publish/delete etc.",
+      "It assesses command risk: low-risk may run, dangerous may be denied, and uncertain cases may be escalated",
       "It auto-sends everything instantly",
       "It blocks all actions permanently"
     ],
     "answer": 1,
-    "explanation": "Hermes gates consequential, irreversible or external actions behind approvals: the agent proposes, you approve."
+    "explanation": "Smart approval is risk-based command review. It is one security layer, not a promise that every tool action always asks first."
   },
   {
     "q": "Where do secrets belong?",
@@ -30,7 +30,7 @@
       "Counting messages"
     ],
     "answer": 1,
-    "explanation": "Checkpoints let you roll back memory, config, or context after a bad change."
+    "explanation": "Opt-in checkpoints snapshot supported working directories before certain file changes and allow previewed rollback. They do not replace backups."
   },
   {
     "q": "Which is a correct security checklist item?",

@@ -1,47 +1,60 @@
 ---
 day: 11
-title: Integrate Your Email — Draft, Don't Auto-Send
-subtitle: Let your agent triage the inbox and draft replies, with a hard rule: nothing sends without your approval.
+title: Integrate Email Without Losing Control
+subtitle: Know the difference between an email bot and mailbox work, then choose the safer setup.
 ---
 
-# Integrate Your Email — Draft, Don't Auto-Send
+# Integrate Email Without Losing Control
 
-**Read time: 5 minutes · Task: 15 minutes (hands-on)**
+**Read time: 7 minutes · Task: 20 minutes**
 
-For a professional, email integration is the single highest-value use. Your agent can read an inbox, flag what matters, and draft a reply — while **you** remain the only person who presses send.
+“Connect my email” can mean two different things in Hermes. Mixing them up creates both confusion and risk.
 
-## Set it up safely
+## Route 1: the email gateway
 
-1. **Use a dedicated mailbox.** Never point the agent at your personal/bank/password-reset inbox. Create a low-work mailbox for it — usually a separate Gmail/Zoho/Outlook address.
-2. **Connect it.** Use an app password (IMAP/SMTP) and store the credentials in `~/.hermes/.env`.
-3. **Allowlist senders.** Set an allowlist (e.g., `EMAIL_ALLOWED_USERS`) so only approved addresses can reach the agent — a strong spam and safety control.
+The email gateway gives the agent its own inbox. An allowed sender emails that address and Hermes can reply in the same thread. This is useful when you want to send tasks to your agent by email.
 
-## What you can ask it to do
+It is not a draft-only mailbox assistant. By design, the gateway can send a reply. Do not use it on your personal inbox.
 
-- **Inbox summary** — "Summarise my unread email and flag anything urgent."
-- **Opportunity triage** — "Highlight any funding, fellowship, job or consulting messages."
-- **Draft replies** — "Draft a reply to the funder deadline reminder in my voice."
-- **Schedule review** — turn an email thread into actions.
+The setup wizard is the safest starting point:
 
-## The safety rule
+```bash
+hermes gateway setup
+```
 
-The rule that keeps you in control: **replies are drafted and approved by you. Nothing is ever sent automatically.** Your agent drafts in your voice; you review, edit, and send. This is non-negotiable for a trustworthy setup — and it's how you use the power without the risk.
+Choose Email and supply a dedicated address, an app password, the IMAP and SMTP hosts, and an allowlist. Manual settings live in `~/.hermes/.env`:
 
-## Hero use case for a Nigerian professional
+```dotenv
+EMAIL_ADDRESS=hermes@example.com
+EMAIL_PASSWORD=APP_PASSWORD
+EMAIL_IMAP_HOST=imap.example.com
+EMAIL_SMTP_HOST=smtp.example.com
+EMAIL_ALLOWED_USERS=you@example.com
+EMAIL_HOME_ADDRESS=you@example.com
+```
 
-You run a consultancy or work your network. Ask your agent each morning:
+Protect the file with `chmod 600 ~/.hermes/.env`. Do not paste a real password into the course submission.
 
-> "Read my inbox. List any funding, fellowship, RFP, or client emails. Draft replies that mention my one-line pitch. Show me before sending anything."
+## Route 2: mailbox management
 
-That's a personal chief-of-staff handling inbound opportunities while you keep final say.
+If you want Hermes to inspect, organise or draft from an existing mailbox, use a mailbox tool such as the documented Himalaya skill. That route has its own command-line dependency and configuration. Keep sending behind your review process. Do not assume the email gateway provides draft-only behaviour.
 
-## 🎯 Task
+## Use the least access you can
 
-Set up email integration with a **dedicated mailbox** and app password. Ask your agent to summarise unread mail and draft one reply *to you* (so nothing external is involved) to see your voice reflected. Review the draft.
+- Create a dedicated, low-privilege inbox.
+- Use an app password, not the account's main password.
+- Set `EMAIL_ALLOWED_USERS`; unknown senders are ignored by default.
+- Keep bank, password-reset, legal and safeguarding mail out of the account.
+- Start by emailing the agent from your own allowlisted address.
+- Read the first reply carefully before widening access.
 
-## 📤 Output
+## Task
 
-Confirmation the mailbox is connected, plus one drafted reply you reviewed. No external email sent.
+Configure a dedicated email gateway inbox. Send it one harmless test message from your allowlisted address and confirm the reply threads correctly. If your real goal is mailbox triage, stop after documenting the Himalaya route; do not grant broader inbox access for the sake of finishing a lesson.
+
+## Output
+
+Record which route you chose, the provider, the allowed sender and whether the test worked. Never submit a password, token or full `.env` file.
 
 ---
-**Verified fact:** The approve-before-send model and allowlisting senders are the safe, documented pattern for agent email use. Always use a dedicated low-privilege mailbox with an app password.
+**Official guide:** [Email setup and security](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/email).

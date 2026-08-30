@@ -8,7 +8,7 @@ subtitle: A realistic rollout from day one to a fully working assistant, without
 
 **Read time: 5 minutes · Task: apply over a week**
 
-The fastest way to fail is to try to build everything at once. Here is a realistic week that compounds — each day builds on the last.
+Do not configure every integration on the first day. Use this seven-day sequence and test each addition before moving on.
 
 ## Day 1 — Get running
 
@@ -20,7 +20,7 @@ Add memory (who you are), set your `SOUL.md` voice, and save your first skill (t
 
 ## Day 3 — Put it in your pocket
 
-Connect Telegram (Lab 4). Message it from your phone. This is the moment it becomes genuinely useful.
+Connect Telegram (Lab 4) and message it from your phone. Confirm the allowlist blocks an unapproved account.
 
 ## Day 4 — Add email
 
@@ -40,7 +40,7 @@ Apply the security checklist (Lab 15), review what you built, and write down the
 
 ## The rule that makes it work
 
-**One thing per day.** Compounding beats cramming. Each day's win is small and fast, and by Day 7 you have a functioning, secure, automated personal agent.
+**One change per day.** Keep the last known-good setup, test the change and record the result.
 
 ## 🎯 Task
 
@@ -51,4 +51,4 @@ Print or save the 7-day plan. For today, do only today's step. If your course is
 A one-line note of which day you're on and what you completed. Commit to repeating the plan from your current day.
 
 ---
-**Verified fact:** All steps reference skills/labs taught earlier in this course. The one-thing-per-day rule is a proven habit-building approach, not a Hermes-specific feature.
+**Course note:** This is an adoption plan, not a Hermes requirement. Slow down when a lab needs more time.

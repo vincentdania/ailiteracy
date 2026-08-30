@@ -1,24 +1,25 @@
 ---
 day: 19
 title: Your One-Page Cheat Sheet and Next Steps
-subtitle: The commands you'll use daily, where to go deeper, and the habits that keep your agent compounding.
+subtitle: Daily commands, recovery references and maintenance habits that keep the setup useful.
 ---
 
 # Your One-Page Cheat Sheet and Next Steps
 
 **Read time: 4 minutes · Task: save the cheat sheet**
 
-You've built, wired, automated, and hardened your agent. This final lesson is your day-to-day reference. **Save this page.**
+This is the operating note you should keep after the course. Save it and add the details of your own setup.
 
 ## The everyday commands
 
 ```bash
-hermes                # start the setup wizard (first run)
+hermes                # start an interactive CLI session
+hermes setup          # open the setup wizard
 hermes status         # see provider, model, and enabled tools
 hermes doctor         # full health check — keep a clean baseline
 hermes model          # change your main model
 hermes tools          # manage toolsets
-hermes gateway run    # keep messaging connected
+hermes gateway status # check the installed messaging service
 hermes --continue     # resume your last session
 ```
 
@@ -46,13 +47,13 @@ hermes send --to telegram "message..."
 - **model catalog:** `hermes model` / the docs' providers pages.
 - **Community:** the skills hub for shared, hard-won procedures.
 
-## The habits that make it compound
+## Maintenance habits
 
 1. **Use it weekly** with standing tasks — briefings, triage, synthesis.
 2. **Save a skill** whenever you find a workflow you'll repeat.
 3. **Keep the baseline clean** — run `hermes doctor` after each change.
 4. **Re-review security** monthly (allowlists, secrets, checkpoints).
-5. **Let it get better** — the Curator improves skills in the background; trust and feed that loop.
+5. **Review suggested skill changes** — do not accept background changes without reading them.
 
 ## 🎯 Final task
 
@@ -63,4 +64,4 @@ Save the cheat sheet (this page). Then write one-sentence answers to: What will 
 Your two sentences — your ongoing personal-agent charter.
 
 ---
-**Verified fact:** Every command listed here is used earlier in this course and is documented in the official Hermes Agent documentation.
+**Official reference:** [Hermes CLI commands](https://hermes-agent.nousresearch.com/docs/reference/cli-commands).

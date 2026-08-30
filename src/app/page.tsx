@@ -24,7 +24,7 @@ const schema = {
   "@context": "https://schema.org",
   "@type": "Course",
   name: "Build Your Personal AI Agent and Make AI Work for You",
-  description: "A hands-on, low-bandwidth course: install the open-source Hermes Agent anywhere, teach it your tools and memory, connect it to Telegram and WhatsApp, automate with cron, and harden it for production. Mobile-first, built for learners worldwide.",
+  description: "A hands-on course for installing, configuring, securing and testing the open-source Hermes Agent. Build a personal agent you can reach on Telegram and validate it in a 48-hour production test.",
   provider: { "@type": "Organization", name: "AI Literacy" },
   educationalLevel: "Beginner to practitioner",
   timeRequired: "P19D",
@@ -35,12 +35,12 @@ const schema = {
 };
 
 const tracks = [
-  [BriefcaseBusiness, "Work", "Summaries, reports and follow-ups on autopilot."],
-  [Store, "Business", "Monitor markets and respond faster."],
-  [Palette, "Creativity", "Draft, iterate and publish with your agent."],
-  [BarChart3, "Data", "Collect, clean and surface the numbers."],
-  [Lightbulb, "Entrepreneurship", "Test ideas and track what matters."],
-  [GraduationCap, "Education", "Teach, mark and research better."],
+  [BriefcaseBusiness, "Work", "Prepare summaries, reports and follow-ups for your review."],
+  [Store, "Business", "Monitor selected signals and flag what needs attention."],
+  [Palette, "Creativity", "Draft and revise while you keep the final voice."],
+  [BarChart3, "Data", "Collect and structure information, then verify the numbers."],
+  [Lightbulb, "Entrepreneurship", "Test one useful workflow before investing further."],
+  [GraduationCap, "Education", "Support teaching and research without giving up judgement."],
 ] as const;
 
 export default function HomePage() {
@@ -56,7 +56,7 @@ export default function HomePage() {
               Build a personal AI agent that works for you.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-[#414845]">
-              Install the open-source Hermes Agent on your own device, teach it your tools and memory, connect it to Telegram and WhatsApp, and automate your day — hands-on, mobile-first, low bandwidth.
+              Install the open-source Hermes Agent, connect a model, set its tools and memory, add Telegram, schedule one useful job, and prove the setup works. The lessons are text-first; the practical work needs a computer or VPS.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg"><Link href="/signup">Start learning <ArrowRight className="ml-2" size={18} /></Link></Button>
@@ -94,7 +94,7 @@ export default function HomePage() {
         <section aria-label="Programme benefits" className="border-y border-[#c0c8c4]/45 bg-white/60">
           <div className="container-shell grid gap-6 py-9 sm:grid-cols-3">
             {[
-              [Clock3, "10–20 mins/day", "Fits your schedule"],
+              [Clock3, "15–30 mins most days", "Allow longer for the VPS and capstone labs"],
               [BookOpenCheck, "Learn by doing", "Complete real tasks"],
               [ShieldCheck, "Verified certificate", "Show what you built"],
             ].map(([Icon, title, copy]) => {
@@ -112,9 +112,9 @@ export default function HomePage() {
             </div>
             <div className="grid gap-px overflow-hidden rounded-2xl border border-[#e2e8f0] bg-[#e2e8f0] md:grid-cols-3">
               {[
-                ["01", "Install anywhere", "Get Hermes Agent running on your device or a low-cost VPS."],
-                ["02", "Teach and connect", "Add your tools and memory; connect Telegram and WhatsApp."],
-                ["03", "Automate and certify", "Put it on a schedule, harden it for production, earn your certificate."],
+                ["01", "Install and verify", "Get Hermes Agent running on a supported computer or Linux VPS."],
+                ["02", "Configure and connect", "Choose a model, limit its tools, set memory and connect Telegram."],
+                ["03", "Schedule and test", "Run one useful scheduled job, secure the setup and complete a 48-hour test."],
               ].map(([number, title, copy]) => <article key={number} className="bg-white p-7"><span className="font-serif text-4xl text-[#7da798]">{number}</span><h3 className="mt-8 font-serif text-2xl font-semibold text-[#00261d]">{title}</h3><p className="mt-3 text-sm leading-6 text-[#414845]">{copy}</p></article>)}
             </div>
           </div>

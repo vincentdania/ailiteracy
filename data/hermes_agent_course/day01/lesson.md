@@ -8,24 +8,24 @@ subtitle: The plain-English difference between a chatbot and an agent — and wh
 
 **Read time: 5 minutes · Task: 8 minutes**
 
-You already use ChatGPT or Claude. This course is about the *next* step up: an agent that doesn't just answer — it **works**.
+If you already use a chat tool, this course adds tools, saved context and scheduled work. Those additions let an agent attempt multi-step tasks instead of returning text alone.
 
 ## Chatbot vs agent
 
-A chatbot answers a question and stops. You type, it replies, you copy the answer into your Word document yourself.
+A basic chat exchange returns text. An agent can also use tools and continue through several steps, subject to the access and approval rules you set.
 
-An agent loops. Give it a goal — "research Nigerian child-marriage statistics and draft a policy memo" — and it will:
+An agent loop can take a goal such as “research Nigerian child-marriage statistics and draft a policy memo” and then:
 
 1. **Plan** the steps it needs to take.
 2. **Call tools** to do them (search the web, read files, run code, send a message).
 3. **Observe the results** and correct course.
-4. **Repeat** until the goal is done.
+4. **Repeat** until it finishes, reaches a limit or needs your input.
 
-The difference is captured in one line: **ChatGPT answers. An agent works.**
+The practical difference is tool use: a chat reply tells you; an agent can attempt the authorised steps.
 
 ## Personal means yours
 
-The word *personal* matters. A public web chat forgets you between tabs. A **personal** agent is tuned to your life: your email, your calendar, your research, your deadlines, your way of writing. It remembers you, holds the tools you care about, and runs on your schedule.
+The word *personal* means the setup is configured around your work: selected tools, saved context, schedules and the interfaces you choose. It does not mean giving the agent unrestricted access to your email, calendar or files.
 
 ## The environment of an agent
 
@@ -36,7 +36,7 @@ To "work," an agent needs an environment it can act on. That means:
 - **Web** — search, extract, and browse pages.
 - **Messages** — send a note to your phone or email.
 
-When a model is given that environment plus memory and the freedom to act, it stops being a chat window and becomes a worker.
+Tools let a model take actions. Whether those actions are useful or safe depends on the task, permissions, model and your checks.
 
 ## 🎯 Task
 
@@ -47,4 +47,4 @@ Write a short paragraph answering: **If I gave you a personal agent today, what 
 One clear paragraph. You'll keep this list across the course; by the end, you'll know exactly how to build each item you named.
 
 ---
-**Verified fact:** This course is built on the official, open-source project **Hermes Agent** (Nous Research). Every command and feature you will learn is real and current. You'll find the full documentation at hermes-agent.nousresearch.com/docs.
+**Official reference:** [Hermes Agent documentation](https://hermes-agent.nousresearch.com/docs/). Commands can change, so check the linked page when your installed version behaves differently.
