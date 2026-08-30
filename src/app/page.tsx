@@ -55,9 +55,6 @@ export default function HomePage() {
             <h1 className="display text-[clamp(3.25rem,6vw,5.5rem)] text-[#00261d]">
               Build a personal AI agent that works for you.
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-[#414845]">
-              Install the open-source Hermes Agent, connect a model, set its tools and memory, add Telegram, schedule one useful job, and prove the setup works. The lessons are text-first; the practical work needs a computer or VPS.
-            </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg"><Link href="/signup">Start learning <ArrowRight className="ml-2" size={18} /></Link></Button>
               <Button asChild size="lg" variant="secondary"><a href="#how-it-works">See how it works</a></Button>
