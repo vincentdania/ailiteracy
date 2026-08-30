@@ -25,6 +25,7 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
   // Public free preview (e.g. Day 1) for visitors who are not signed in.
   if (!session?.user.id) {
     if (!lesson.isFreePreview) redirect("/login");
+    const freeEnrollment = process.env.FREE_ENROLLMENT_ENABLED === "true";
     return (
       <article className="mx-auto max-w-3xl">
         <Link href="/" className="mb-7 inline-flex items-center gap-2 text-sm font-bold text-[#414845]"><ArrowLeft size={17} />Back to home</Link>
@@ -36,9 +37,9 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
         <div className="mt-8"><div className="lesson-prose"><ReactMarkdown remarkPlugins={[remarkGfm]}>{lesson.contentMarkdown}</ReactMarkdown></div></div>
         <div className="mt-10 rounded-2xl bg-[#00261d] p-6 text-white sm:p-8">
           <h2 className="display text-3xl">This is your free preview.</h2>
-          <p className="mt-3 leading-7 text-white/75">Enroll in the Hermes Agent Masterclass to get all 19 hands-on lessons: install, skills, messaging, email, automation and a running agent — plus quizzes, labs and the cheat sheet.</p>
+          <p className="mt-3 leading-7 text-white/75">{freeEnrollment ? "Create your account to continue with all 19 hands-on lessons" : "Enroll in the full course for all 19 hands-on lessons"}: installation, skills, messaging, email, automation and a running agent — plus quizzes, labs and the cheat sheet.</p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/hermes-agent" className="inline-flex items-center rounded-full bg-[#d9f99d] px-6 py-3 text-sm font-bold text-[#123c31]">Enroll — ₦20,000</Link>
+            <Link href={freeEnrollment ? "/signup" : "/hermes-agent"} className="inline-flex items-center rounded-full bg-[#d9f99d] px-6 py-3 text-sm font-bold text-[#123c31]">{freeEnrollment ? "Start learning free" : "Enroll — ₦20,000"}</Link>
             <Link href="/challenge?course=hermes-agent-masterclass" className="inline-flex items-center rounded-full border border-white/30 px-6 py-3 text-sm font-bold text-white">View curriculum</Link>
           </div>
         </div>
