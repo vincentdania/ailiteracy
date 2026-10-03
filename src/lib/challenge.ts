@@ -4,11 +4,15 @@ export function localDateKey(date: Date, timezone: string) {
   return new Intl.DateTimeFormat("en-CA", { timeZone: timezone, year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
 }
 
-export function unlockedDay(enrolledAt: Date, now: Date, timezone: string, adminOverride = false) {
-  if (adminOverride) return 22;
+export function unlockedDay(enrolledAt: Date, now: Date, timezone: string, adminOverride = false, totalLessons = 22) {
+  if (adminOverride) return totalLessons;
   const enrolled = Date.parse(`${localDateKey(enrolledAt, timezone)}T00:00:00Z`);
   const current = Date.parse(`${localDateKey(now, timezone)}T00:00:00Z`);
-  return Math.min(22, Math.max(1, Math.floor((current - enrolled) / DAY_MS) + 1));
+  return Math.min(totalLessons, Math.max(1, Math.floor((current - enrolled) / DAY_MS) + 1));
+}
+
+export function isCapstoneLesson(lesson: { title: string; isBonus?: boolean }) {
+  return !lesson.isBonus && /^capstone\b/i.test(lesson.title.trim());
 }
 
 export function canAccessLesson(input: { dayNumber: number; isBonus: boolean; bonusUnlocked: boolean; unlockedDay: number }) {

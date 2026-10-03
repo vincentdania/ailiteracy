@@ -14,7 +14,9 @@ export async function setPreviewOverrideAction(formData: FormData) {
   await requireAdmin();
   const enrollmentId = String(formData.get("enrollmentId") ?? "");
   const enabled = formData.get("enabled") === "true";
-  await db.enrollment.update({ where: { id: enrollmentId }, data: { previewOverride: enabled, unlockedDay: enabled ? 21 : 1 } });
+  const enrollment = await db.enrollment.findUniqueOrThrow({ where: { id: enrollmentId }, select: { courseId: true } });
+  const totalLessons = await db.lesson.count({ where: { module: { courseId: enrollment.courseId }, isBonus: false } });
+  await db.enrollment.update({ where: { id: enrollmentId }, data: { previewOverride: enabled, unlockedDay: enabled ? totalLessons : 1 } });
   revalidatePath("/admin");
 }
 

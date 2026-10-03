@@ -5,27 +5,25 @@ import { enhancePlanWithDeepSeek, deepSeekEnabled } from "./deepseek";
 import { chooseTrack, TRACKS, type PersonalizationInput } from "./tracks";
 
 const DAILY_OUTPUTS = [
-  "an AI opportunity map for five tasks you regularly handle",
-  "a plain-language explanation of how one AI tool produces an answer",
-  "a risk-and-verification checklist for your work",
-  "a one-page responsible-use agreement for your context",
-  "a reusable prompt with role, context, task and quality criteria",
-  "three improved prompt versions and notes on what changed",
-  "a worked example that includes constraints and source requirements",
-  "a prompt test comparing weak and strong outputs",
-  "a first-draft document grounded in your own source material",
-  "a concise summary with claims checked against the original",
-  "a structured table or small analysis with calculations verified",
-  "a decision brief separating evidence, assumptions and recommendation",
-  "an original concept brief that protects your voice and audience",
-  "a culturally aware visual or content brief with explicit exclusions",
-  "a before-and-after editing record showing your human contribution",
-  "a responsible publishing checklist covering consent, bias and disclosure",
-  "a multi-step workflow with a clear human checkpoint",
-  "a lightweight automation design with failure and recovery paths",
-  "a personal tool stack chosen for value, privacy and connectivity",
-  "a measurement plan for time saved, quality and user impact",
-  "a capstone showing the problem, workflow, evidence, safeguards and result",
+  "a one-sentence job for your personal agent and the boundary it must not cross",
+  "a short reason for choosing Hermes Agent over a browser-only chat tool",
+  "a map of your agent's instance, model provider, tools, memory and messaging surfaces",
+  "an installation record with the command used and any error you fixed",
+  "a provider record showing the model you chose, its cost basis and a successful test task",
+  "a VPS decision with host, monthly cost, login method and gateway service status",
+  "a least-privilege toolset for one real task",
+  "one reusable skill tested twice with the same output structure",
+  "a SOUL.md rule, a saved user fact and proof that both load in a new session",
+  "a Telegram connection restricted to your user ID and tested end to end",
+  "a safe email setup using a dedicated inbox, allowlist and a draft-only workflow",
+  "a scheduled task with an explicit timezone, delivery target and test run",
+  "a seven-day adoption plan built around work you already do",
+  "a cross-surface test proving that Telegram and the terminal use the same Hermes profile",
+  "a completed security review covering access, approvals, secrets, isolation and backups",
+  "a production report from a 48-hour reliability test",
+  "one tested advanced feature: voice, code execution or a local model",
+  "an extension decision explaining whether a skill, plugin, MCP server or core tool fits the need",
+  "a one-page operating note with daily commands, recovery steps and standing weekly tasks",
 ] as const;
 
 function inputHash(value: unknown) {
@@ -42,7 +40,7 @@ function tailoredExample(track: LearningTrack, input: PersonalizationInput, day:
     ENTREPRENEURSHIP: `Imagine a ${context} testing a painful customer problem with a small AI-assisted service before investing in a full product.`,
     EDUCATION_RESEARCH: `Imagine a ${context} using AI to generate questions or organise sources, then checking every citation and explaining the learning in their own words.`,
   };
-  return `${examples[track]} On Day ${day}, the evidence of learning is the artefact—not time spent watching content.`;
+  return `${examples[track]} For Lesson ${day}, show what you configured, how you tested it and what you kept under human control.`;
 }
 
 function lessonOverlay(track: LearningTrack, input: PersonalizationInput, lesson: { id: string; dayNumber: number; title: string }, caseStudySlugs: string[]) {
@@ -51,9 +49,9 @@ function lessonOverlay(track: LearningTrack, input: PersonalizationInput, lesson
   const caseIndex = caseStudyDays.indexOf(lesson.dayNumber);
   return {
     lessonId: lesson.id,
-    whyItMatters: `For your goal—${input.primaryGoal}—${lesson.title.toLowerCase().replace(/\bai\b/g, "AI")} is a building block for ${definition.buildingBlock}`,
+    whyItMatters: `Your goal is ${input.primaryGoal}. This lesson helps by ${definition.buildingBlock}.`,
     tailoredExample: tailoredExample(track, input, lesson.dayNumber),
-    practiceBrief: `Using a real but non-sensitive situation from your work or life, create ${DAILY_OUTPUTS[Math.min(lesson.dayNumber - 1, DAILY_OUTPUTS.length - 1)]}. You have about ${Math.max(15, Math.round(input.weeklyMinutes / 7))} minutes. Save the prompt, the result and the changes you made.`,
+    practiceBrief: `Using a real but non-sensitive situation from your work, create ${DAILY_OUTPUTS[Math.min(lesson.dayNumber - 1, DAILY_OUTPUTS.length - 1)]}. Set aside about ${Math.max(15, Math.round(input.weeklyMinutes / 7))} minutes and keep enough evidence to repeat the setup.`,
     successCriteria: [
       "The output addresses a real need connected to your stated goal.",
       "Important facts, calculations or sources are checked independently.",
@@ -75,7 +73,7 @@ export async function createOrRefreshLearningPlan(userId: string, courseId: stri
   let source: GenerationSource = "CURATED";
   let model: string | undefined;
   let title = definition.label;
-  let outcomeSummary = `${definition.promise} By Day 22, you will have a portfolio-ready project tied to this outcome: ${input.primaryGoal}`;
+  let outcomeSummary = `${definition.promise} By Lesson 19, you will have a tested personal agent and a short production record tied to this outcome: ${input.primaryGoal}`;
   let milestones = definition.milestones;
 
   if (deepSeekEnabled()) {

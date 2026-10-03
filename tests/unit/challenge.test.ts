@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { canAccessLesson, localDateKey, nextStreak, unlockedDay } from "@/lib/challenge";
+import { canAccessLesson, isCapstoneLesson, localDateKey, nextStreak, unlockedDay } from "@/lib/challenge";
 
 describe("challenge drip", () => {
   it("unlocks one day per learner-local calendar day", () => {
@@ -11,6 +11,16 @@ describe("challenge drip", () => {
   it("caps at day 22 and supports the admin preview override", () => {
     expect(unlockedDay(new Date("2026-01-01"), new Date("2026-12-01"), "UTC")).toBe(22);
     expect(unlockedDay(new Date(), new Date(), "UTC", true)).toBe(22);
+  });
+
+  it("caps a 19-lesson course at lesson 19", () => {
+    expect(unlockedDay(new Date("2026-01-01"), new Date("2026-12-01"), "UTC", false, 19)).toBe(19);
+    expect(unlockedDay(new Date(), new Date(), "UTC", true, 19)).toBe(19);
+  });
+
+  it("identifies capstones by curriculum role rather than a legacy day number", () => {
+    expect(isCapstoneLesson({ title: "Capstone — Put Your Personal Agent in Production" })).toBe(true);
+    expect(isCapstoneLesson({ title: "Your One-Page Cheat Sheet and Next Steps" })).toBe(false);
   });
 
   it("gates bonus lessons separately from the drip", () => {
