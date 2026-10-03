@@ -73,11 +73,11 @@ Then publish on a simple weekly rhythm: offer Monday, tip Wednesday, proof Frida
 
 Look around you: small businesses everywhere need these messages weekly, and most owners do not do them well — replies come late, prices are confusing, adverts are noise. "Packaging this as a service" means, in practice: a monthly arrangement with one or two businesses where you produce their customer replies and content pack each week, using exactly the prompts you built today.
 
-That is a description of how to offer it, not an income promise. Whether anyone pays you depends on your market, your quality and your follow-through. What is true regardless: the skill is scarce where you live, and outputs are visible — people will notice who writes clearly.
+That is a description of how to offer it, not an income promise. Whether anyone pays you depends on your market, your quality and your follow-through. Test demand locally: show a sample to a business owner and ask whether it solves a problem they would pay to fix.
 
 ## An illustrative story
 
-*(Composite, illustrative — not a real named person.)* Chidinma, a tailor, used to handle order enquiries in long back-and-forth chats: price negotiated fresh each time, delivery dates vague. She turned her typical replies into clear price-and-delivery messages — fabric, style, price, pickup date, in four lines. Fewer back-and-forth chats, more completed orders, and her customers started forwarding her messages.
+*(Composite, illustrative — not a real named person.)* Chidinma, a tailor, used to handle order enquiries in long back-and-forth chats: price negotiated fresh each time, delivery dates vague. She turned her typical replies into clear price-and-delivery messages — fabric, style, price, pickup date, in four lines. The aim is to make the offer easier to understand. This scenario does not demonstrate increased orders or measured time savings.
 
 ## 🎯 Task — pick your lane
 

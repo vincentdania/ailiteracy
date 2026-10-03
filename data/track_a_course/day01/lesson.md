@@ -8,7 +8,7 @@ subtitle: Your first real work output with AI — a clean, formatted report from
 
 **Read time: 10–12 minutes · Task: 10 minutes**
 
-This course is not about AI theory. It is about your work. By the end of today you will have turned rough notes into a finished, formatted report — the kind of thing that normally takes you an hour of careful typing.
+This course is not about AI theory. It is about your work. By the end of today you will have turned rough notes into a finished, formatted report — a useful draft you can check against your notes.
 
 ## What this course is and is not
 
@@ -34,7 +34,7 @@ Everything else in this course is these three ideas, repeated with more skill.
 
 ## The worked demo
 
-Below are messy notes from a real meeting, followed by the exact prompt used — word for word — and what came back.
+Below is an illustrative meeting scenario, a reusable prompt and a sample result. It is not a documented real meeting.
 
 **The messy notes:**
 
@@ -71,6 +71,22 @@ One template serves every role. The notes change; the structure does not.
 - **NGO officer:** paste field-visit notes → an activity report for your programme officer.
 - **Banker:** paste branch meeting notes → a formatted update for your team lead.
 - **Jobseeker:** paste notes from a career fair → a summary of who you met, what they said, and your follow-ups.
+
+## On a phone and a limited data budget
+
+Draft notes offline first. Connect when you are ready to paste. Start with plain text rather than large photos or PDFs; copy longer documents in labelled sections. Save useful prompts and outputs in your notes app. Free services may have usage limits or outages: if you hit a limit, save your work and return later. Internet access and data still cost money, even when the AI service is free. A paid subscription is not required for the exercises; features and availability can change.
+
+## Illustrative sample report — not an actual meeting record
+
+**Staff meeting — 14 August**
+
+**Attendance:** Nine people; names not recorded in the notes.
+
+**Matters arising:** September resumption time will be 8 am. The borehole quotation is ₦380,000; a second quotation is pending. Friday clean-ups continue. Six staff have not submitted training forms. The electricity bill remains unpaid.
+
+**Actions:** Circulate the resumption memo — Mrs Eze. Follow up on training forms — Ada. Follow up on the electricity bill — Mr Bala. Obtain a second borehole quotation — owner not recorded.
+
+**Check:** The source does not identify all nine attendees or an owner for the quotation. Do not invent either. Remove identifying details before practising with workplace notes.
 
 ## 🎯 Task
 

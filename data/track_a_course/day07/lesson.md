@@ -1,7 +1,7 @@
 ---
 day: 7
 title: Your Personal AI Playbook (Capstone)
-subtitle: Assemble, test and organise every prompt you have built into one reusable Playbook — and get your verified certificate.
+subtitle: Assemble, test and organise every prompt you have built into one reusable Playbook — the capstone of the course.
 ---
 
 # Your Personal AI Playbook
@@ -41,6 +41,24 @@ You will hear about a new AI tool every few weeks. Ignore most of it. The tools 
 
 One short section, honestly: the only thing between you and mastery now is **practice** — the ritual above, run weekly, on your real work. The next three days (Days 8–10, Agents Week — included in this course, no extra payment) show you how to turn the Playbook into an assistant with instructions, memory and a routine that produces work on a schedule.
 
+## A filled Playbook page you can adapt
+
+*Illustrative example for a small stationery shop; replace it with your own work.*
+
+**Reports:** “From my weekly notes, list completed orders, unresolved issues and next actions. Do not invent sales or customer feedback.”
+
+**Emails and messages:** “Write a polite reply under 60 words using only my confirmed stock, prices and collection arrangements. Ask for missing details; never promise delivery I have not confirmed.”
+
+**Numbers:** “Create Item, Quantity, Unit price and Total columns. Explain the formulas. Flag missing costs and distinguish sales revenue from profit.”
+
+**My-role documents:** “Draft a quotation with item, quantity, price, validity and collection terms. Use only the supplied details; mark missing fields as not supplied.”
+
+**Privacy rules:** No customer phone numbers, addresses, payment details or private conversations. Use fictional records for practice.
+
+**Verification checklist:** Check every price, quantity and deadline against my records. Verify any external source. Remove invented claims. Approve the message myself before sending.
+
+Test the customer-reply prompt with one enquiry and the spreadsheet prompt with two rows. Save the corrected versions, not just the first answers.
+
 ## 🎯 Task
 
 1. Assemble your Playbook from the week's work — all six sections, your real prompts.
@@ -49,4 +67,6 @@ One short section, honestly: the only thing between you and mastery now is **pra
 
 ## 📤 Output
 
-Your submitted Playbook. The verified certificate is issued on submission — it attests to course completion and a submitted playbook, and says exactly that, nothing more.
+Your submitted Playbook. Save your submitted Playbook.
+
+**Certificate gate, stated plainly:** the capstone submission must score **70 or above** before Day 7 can be marked complete, and the completion certificate is issued only once **all ten days** are complete. Day 7 is the milestone, Day 10 is the finish line.

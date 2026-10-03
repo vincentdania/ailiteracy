@@ -12,7 +12,7 @@ export function unlockedDay(enrolledAt: Date, now: Date, timezone: string, admin
 }
 
 export function isCapstoneLesson(lesson: { title: string; isBonus?: boolean }) {
-  return !lesson.isBonus && /^capstone\b/i.test(lesson.title.trim());
+  return !lesson.isBonus && /(?:^|\()\s*capstone\b/i.test(lesson.title.trim());
 }
 
 export function canAccessLesson(input: { dayNumber: number; isBonus: boolean; bonusUnlocked: boolean; unlockedDay: number }) {

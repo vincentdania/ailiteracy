@@ -8,7 +8,7 @@ subtitle: Summarise a 30-page document in minutes — and build a working spread
 
 **Read time: 12–15 minutes · Task: 10 minutes**
 
-Two things bury professionals in work: documents too long to read fully, and spreadsheets too tedious to build. Today, both fall. You will summarise a long document in minutes, and get a working spreadsheet by describing what you want — AI writes the formulas, you type none.
+Two things bury professionals in work: documents too long to read fully, and spreadsheets too tedious to build. Today you practise a more structured way to handle both. You will summarise a long document in minutes, and get a working spreadsheet by describing what you want — AI writes the formulas, you type none.
 
 ## Summarising long documents
 
@@ -62,7 +62,15 @@ The AI summarises exactly what you paste — no more. Three rules carry over fro
 
 1. **Confidential documents do not go into free tools.** If the document is confidential, summarise a public one for practice today instead.
 2. **Anonymise first.** Strip names, account numbers and identifying details before pasting. If figures are sensitive, round or replace them — you are testing structure, not leaking data.
-3. **Check every total yourself.** AI arithmetic is usually right and occasionally confidently wrong. Add one row by hand and compare.
+3. **Check every total yourself.** AI-generated calculations and formulas can be wrong. Add one row by hand and compare.
+
+## Worked example: a small trader's sales sheet
+
+*Illustrative figures, not a real business's sales.* Input: two notebooks at ₦1,500 each and three pens at ₦200 each. Ask: “Create columns Item, Quantity, Unit price and Total. Give row formulas and a grand-total formula. Do not add sales I have not supplied.”
+
+Expected rows: Notebooks | 2 | 1500 | `=B2*C2`; Pens | 3 | 200 | `=B3*C3`. Grand total: `=SUM(D2:D3)`. Independently check the multiplication and addition with a calculator before using the sheet. Revenue is not profit: stock costs and other expenses are not included.
+
+On a phone, enter the two sample rows first and confirm that the formulas calculate before pasting a full table. If data is limited, practise with a short public extract rather than uploading a large PDF.
 
 ## 🎯 Task
 

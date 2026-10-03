@@ -30,17 +30,17 @@
       "Wait for the platform to do it automatically"
     ],
     "answer": 0,
-    "explanation": "The paste-the-persona method is always free and always works, so it is taught as primary. Platform features like custom instructions or Saved Info are optional extras to use only if available on your tier."
+    "explanation": "The paste-the-persona method costs nothing and works on any phone, so it is taught as primary. Platform features like custom instructions or Saved Info are optional extras to use only if available on your tier."
   },
   {
-    "q": "How is the instructor's recorded agent run presented in the lesson?",
+    "q": "How does the lesson have you see an agent working, given you are on a free phone?",
     "options": [
-      "As a promise that every learner will build the same on a free phone today",
-      "As a demonstration of what is possible — not as what learners will build on free phones",
-      "As the main task learners must complete",
-      "As proof that free phones cannot use AI at all"
+      "By watching the instructor's screen recording of a paid agent",
+      "By building the demonstration yourself — the same request with and without the persona block, then comparing the two answers",
+      "By buying a subscription before Day 9 starts",
+      "You cannot see an agent working without paying for one"
     ],
     "answer": 1,
-    "explanation": "The recording is shown as a demonstration of what is possible. The free-tools version you build today is simpler — the same four parts, on your own phone."
+    "explanation": "The lesson replaces any recording with a five-minute comparison you run yourself: the briefed chat against the unbriefed one. What you build is the free-tools version — the same four parts, on your own phone."
   }
 ]

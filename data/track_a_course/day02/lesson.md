@@ -52,9 +52,9 @@ Here is a reproducible example you can run yourself. Ask ChatGPT or Gemini:
 What percentage of Nigerian adults have a bank account? Cite your source.
 ```
 
-It will answer confidently — a specific number, sometimes even a "source". Run that check yourself: search for the actual figure from the CBN or EFInA. The AI's number is frequently wrong, and its "source" may not exist at all.
+It will answer confidently — a specific number, sometimes even a "source". Run that check yourself: search for the actual figure from the CBN or EFInA. Check the year, definition and original publication. The answer may be correct, outdated, unsupported or incorrect; do not assume an error in advance.
 
-This is not a malfunction. The AI predicts likely-sounding text; it does not check facts. Experts call it *hallucination*. You should call it what it is: **a confident guess.** The more specific the number or citation, the more you must verify it.
+AI can produce plausible but inaccurate text. Some services can search or use tools, but that does not make every answer reliable. Experts call it *hallucination*. You should call it what it is: **a confident guess.** The more specific the number or citation, the more you must verify it.
 
 ## The 4-question check
 
@@ -78,11 +78,11 @@ You are sending that text to another company's computers. Send it nothing you wo
 Two parts today:
 
 1. **Rewrite one poor prompt from your own work using R-C-F.** Take a request you recently asked AI (or would ask) in one line, rewrite it with Role, Context and Format, and run both versions. Compare the two answers side by side.
-2. **Catch one lie.** Ask the AI a specific, checkable question in your field — a statistic, a regulation, a date. Verify its answer using the 4-question check. Find the error and write down what it got wrong.
+2. **Verify one claim.** Ask the AI a specific, checkable question in your field — a statistic, a regulation, a date. Verify its answer using the 4-question check. Record whether it is supported, unsupported, outdated or incorrect, with your evidence.
 
 ## 📤 Output
 
-Your R-C-F rewrite (keep the better answer) and one caught error, written down in your own words. Both go into your Playbook on Day 7 — the caught error is worth more than ten good answers, because it taught you distrust.
+Your R-C-F rewrite (keep the better answer) and one verification record, written down in your own words. Both go into your Playbook on Day 7 — the verification record shows how you checked rather than merely trusted an answer.
 
 ---
 **Verified practice:** the checklist above is how professionals who use AI daily actually work. They trust the structure, and verify the facts. Never confuse the two.

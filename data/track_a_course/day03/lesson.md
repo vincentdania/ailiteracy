@@ -92,4 +92,4 @@ Switch with one line appended to any prompt: "Rewrite this more official / more 
 A saved template in your notes plus one finished, ready-to-send document. Both go in your Playbook. The template is the single most reusable thing you will build this week.
 
 ---
-**Privacy note:** your old example is yours to paste — but strip out other people's personal details and confidential figures first. The Day 2 privacy card applies every day.
+**Privacy note:** use an old example only if you are authorised to share it externally; remove identifying details and confidential information first. The Day 2 privacy card applies every day.

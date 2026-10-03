@@ -30,10 +30,12 @@ export async function completeLessonAction(lessonId: string) {
   await db.$transaction(async (tx) => {
     await tx.enrollment.update({
       where: { id: enrollment.id },
-      data: { completedDays, unlockedDay: Math.max(enrollment.unlockedDay, availableDay), ...(courseComplete ? { status: "COMPLETED", completedAt: now, capstonePassed: true } : {}) },
+      data: { completedDays, unlockedDay: Math.max(enrollment.unlockedDay, availableDay), ...(courseComplete ? { status: "COMPLETED", completedAt: now } : {}) },
     });
     await tx.streak.upsert({ where: { userId: session.user.id }, update: { currentStreak: streak.current, longestStreak: streak.longest, lastActiveDate: now, freezeAvailable: streak.freezeAvailable }, create: { userId: session.user.id, currentStreak: streak.current, longestStreak: streak.longest, lastActiveDate: now, freezeAvailable: streak.freezeAvailable } });
-    if (courseComplete && enrollment.capstonePassed) {
+    // courseComplete already implies the capstone gate passed: a capstone lesson
+    // cannot be marked complete without a submission scoring >= 70 (see above).
+    if (courseComplete) {
       await tx.certificate.upsert({
         where: { userId_courseId: { userId: session.user.id, courseId: lesson.module.courseId } },
         update: {},

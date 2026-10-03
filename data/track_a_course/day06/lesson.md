@@ -58,6 +58,14 @@ Everything you have learned this week — give real material, say who it's for, 
 
 **4. Revision questions and marking guides.** Paste your syllabus or scheme of work and ask for revision questions with answers — then verify each answer before you teach it. The Day 2 four-question check is not optional in a classroom.
 
+## Worked examples for the three branches
+
+*These are illustrative teaching examples, not learner results.*
+
+- **Jobseeker:** Input: “Filed weekly stock records and followed up missing entries; no measured improvement recorded.” Prompt: “Write one truthful CV bullet. Do not invent a percentage.” Sample: “Maintained weekly stock records and followed up missing entries.” Check that you actually performed both actions; an honest duty is better than a fabricated achievement.
+- **Programme officer:** Input: “Two sessions held; 18 attendees at the first and 16 at the second; repeat attendance unknown.” Prompt: “Draft one results sentence and identify the counting limitation.” Sample: “Two sessions recorded 34 attendances; the number of unique participants has not been established.” Check attendance registers before claiming 34 people reached.
+- **Teacher:** Input: “Primary 4; fractions; 35 minutes; bottle tops available.” Prompt: “Create an introduction, guided activity and three assessment questions using bottle tops. Do not assume internet access.” Sample activity: arrange eight tops and identify one-half and one-quarter. Check the answers yourself and match the activity to your approved scheme of work.
+
 ## 🎯 Task
 
 Follow your track:

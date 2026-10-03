@@ -18,7 +18,7 @@ Decide, now, in writing:
 - **Which time** — a time you are reliably free, even if only fifteen minutes.
 - **Which job** — your Day 9 agent's single recurring job.
 
-Put it in your calendar or reminder app as a repeating reminder. This is free, works on every phone, and needs no platform feature — the reminder is the trigger, and *you* are the one tap that runs the agent. That is the routine. It will feel almost too simple; the simplicity is why it survives.
+Put it in your calendar or reminder app as a repeating reminder. This is free, works on phones with a reminder app, and needs no platform feature — the reminder is the trigger, and *you* are the one tap that runs the agent. That is the routine. It will feel almost too simple; the simplicity is why it survives.
 
 ## Quality control at scale
 
@@ -37,7 +37,7 @@ This week you have produced genuinely useful things — a clean report, a conten
 
 1. Pick **one** output you are proud of.
 2. Show it to **one person who needs that skill** — a colleague drowning in reports, a business owner whose messages are unclear, a teacher preparing next term.
-3. Show them the free Lesson 1 of this course, which is a complete 10-minute win on its own — they finish with a finished report and a template.
+3. Show them the free Day 1 of this course, which is a complete 10-minute win on its own — they finish with a finished report and a template.
 4. Log, in your Playbook, whom you showed and what happened.
 
 That is the whole share step. One person, one real output, one honest demonstration. The built-in referral reward is explained in one line on the course page. There are **no spam scripts and no pressure tactics** here — deliberately. A pushy share reads as scam and dies; people share what made them look competent, not what made them feel sold to. Your output travels on its own: a cleaner report in a colleague's hand gets asked about, and the answer is your course.
@@ -45,6 +45,25 @@ That is the whole share step. One person, one real output, one honest demonstrat
 ## Where this road leads (honest)
 
 Phone agents have a ceiling — the paste-the-persona method and one-tap runs are powerful, but they wait for you. Real autonomous agents that run on their own computer, on their own schedule, with full tools, exist — that is Track B of this programme, for those who want it later. One line. No pressure, and nothing in this course requires it.
+
+## Worked weekly run
+
+*Illustrative continuation of Day 9, not a real programme report.*
+
+**Input:** “Two visits completed. Transport receipts total ₦12,000. Third visit postponed; no new date. Amina to confirm venue.”
+
+**Prompt:** “Use my Day 9 assistant file. First extract facts and missing details, then draft the weekly update. Do not invent a deadline.”
+
+**Sample output:**
+
+- Completed work: Two visits completed; transport receipts total ₦12,000.
+- Unresolved issues: Third visit postponed; replacement date not agreed.
+- Next actions: Confirm the venue — Amina; deadline not recorded.
+- Checks: Verify the visit count and receipt total. Confirm the next visit date and action deadline.
+
+**Your verification:** Compare the draft with notes and receipts. Correct any error, save the approved update, then decide whether to send it yourself. The AI has not sent it.
+
+**Measure usefulness:** Record how long the task took before and after using this workflow, corrections needed and whether the recipient found it useful. One successful run is not evidence of guaranteed savings for everyone.
 
 ## 🎯 Task
 
