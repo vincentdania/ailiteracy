@@ -1,0 +1,46 @@
+[
+  {
+    "q": "What are the three ideas this lesson says you need to get good output from AI?",
+    "options": [
+      "Give it your real material, say who the output is for, and specify the format you want",
+      "Pay for a subscription, install an app, and learn to code",
+      "Ask short questions, use English only, and type fast",
+      "Give it a role, wait 24 hours, then ask again"
+    ],
+    "answer": 0,
+    "explanation": "The lesson's three core moves: paste your real material, name the audience, and state the exact format. Everything else in the course builds on these."
+  },
+  {
+    "q": "Which of these do you need to complete this course?",
+    "options": [
+      "A paid ChatGPT subscription",
+      "A laptop with Microsoft Office installed",
+      "The free tier of ChatGPT or Gemini on a phone or laptop you already own",
+      "Permission from your employer"
+    ],
+    "answer": 2,
+    "explanation": "The course uses free tools only: ChatGPT free tier or Gemini free tier, on the device you already have. No code, no installations, no payment."
+  },
+  {
+    "q": "Why does the demo prompt include 'Do not invent anything that is not in the notes'?",
+    "options": [
+      "To make the report shorter",
+      "To stop the AI from adding made-up details to your official record",
+      "Because AI works faster with shorter prompts",
+      "It is just polite phrasing with no effect"
+    ],
+    "answer": 1,
+    "explanation": "AI fills gaps with plausible-sounding invention. For a report that carries your name, you must tell it to stick to the material you gave it — and still check the output yourself."
+  },
+  {
+    "q": "Which of these is safest to paste into a free AI tool?",
+    "options": [
+      "A payroll sheet with staff names and salaries",
+      "Patient or customer records with full names",
+      "Rough notes you wrote yourself, with confidential details removed",
+      "An unpublished contract document"
+    ],
+    "answer": 2,
+    "explanation": "Notes you wrote yourself, with confidential details stripped out, are safe. Salaries, personal data of others and unpublished documents should never go into a free AI tool."
+  }
+]

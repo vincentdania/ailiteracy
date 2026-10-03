@@ -1,0 +1,46 @@
+[
+  {
+    "q": "What are the five sections of an agent file?",
+    "options": [
+      "Role, Rules, Memory, Output, Checks",
+      "Title, Date, Body, Footer, Signature",
+      "Username, Password, Email, Phone, Address",
+      "Prompt, Reply, Edit, Copy, Paste"
+    ],
+    "answer": 0,
+    "explanation": "The agent file is a document with ROLE (who it is), RULES (tone, format, privacy red lines), MEMORY (context and templates), OUTPUT (exact format) and CHECKS (verification questions)."
+  },
+  {
+    "q": "Which trigger method does the course teach as primary?",
+    "options": [
+      "Waiting for the platform to start the run by itself",
+      "Self-triggered: you run the agent at a fixed time with one tap, on a phone reminder",
+      "Hiring a person to run the prompts",
+      "Leaving the chat open all day"
+    ],
+    "answer": 1,
+    "explanation": "The self-triggered one-tap run is always free and works on every phone, so it is the primary method. Scheduled platform features (ChatGPT Tasks, Gemini scheduled actions) are optional extras whose free-tier availability varies."
+  },
+  {
+    "q": "What does 'chaining two steps' mean in an agent run?",
+    "options": [
+      "Sending the same prompt to two different apps",
+      "One run that does a first step (extract the action points) and then a second step (draft the report from them)",
+      "Copying the output twice",
+      "Asking two people to check the work"
+    ],
+    "answer": 1,
+    "explanation": "Chaining means one run does multiple steps in sequence — first extract, then draft — which is the learner's first multi-step agent run."
+  },
+  {
+    "q": "Why does the CHECKS section belong inside the agent file?",
+    "options": [
+      "To make the file look longer",
+      "So verification is built in — the AI must flag sources, uncertainty and every number before you use the output",
+      "To charge the user for each check",
+      "Because platforms require it"
+    ],
+    "answer": 1,
+    "explanation": "The Day 2 verification questions are built into the agent itself: name sources, flag uncertainty, list every number to check. Quality control is part of the design, not an afterthought."
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "slug": "ai-for-your-work",
+  "title": "AI for Your Work — in 10 Days",
+  "description": "A no-code course for working people: use free AI tools on your phone to finish reports, emails, documents and numbers faster — then turn your own playbook into a working agent. Step by step, Nigerian examples throughout, nothing technical assumed. Days 1–7 put AI to work on your job; the 3-day Agents Week turns it into an assistant with instructions, memory and a weekly routine.",
+  "priceNgn": 20000,
+  "priceUsd": 29,
+  "modules": [
+    { "orderIndex": 1, "title": "Week One: AI on Your Job", "lessons": [1, 2, 3, 4, 5] },
+    { "orderIndex": 2, "title": "Your Playbook and Your Role", "lessons": [6, 7] },
+    { "orderIndex": 3, "title": "Agents Week: Your First Agent", "lessons": [8, 9, 10] }
+  ]
+}

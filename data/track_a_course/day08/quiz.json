@@ -1,0 +1,46 @@
+[
+  {
+    "q": "What are the four parts that make an agent different from a chatbot?",
+    "options": [
+      "Speed, price, colour and internet access",
+      "Standing instructions, memory, tools, and a trigger",
+      "A subscription, an app, a laptop and a password",
+      "Search, code, files and messages"
+    ],
+    "answer": 1,
+    "explanation": "An agent has (1) standing instructions — role and rules, (2) memory — your context and templates, (3) tools — what it may use, (4) a trigger — when it works. A chatbot just answers and stops."
+  },
+  {
+    "q": "What is a 'harness', in plain words?",
+    "options": [
+      "The paid subscription that unlocks agents",
+      "The scaffolding around the AI that holds its instructions, memory and routine together",
+      "The physical cable connecting your phone to the internet",
+      "A type of chatbot error"
+    ],
+    "answer": 1,
+    "explanation": "The harness is the scaffolding holding the instructions, memory and loop together. Your Playbook is the beginnings of one — you have been building it all week."
+  },
+  {
+    "q": "Which is the PRIMARY method taught for installing your persona, on any free phone?",
+    "options": [
+      "Paste-the-persona: paste your persona block at the start of each new work chat",
+      "Buy a ChatGPT subscription",
+      "Write the persona into your email signature",
+      "Wait for the platform to do it automatically"
+    ],
+    "answer": 0,
+    "explanation": "The paste-the-persona method is always free and always works, so it is taught as primary. Platform features like custom instructions or Saved Info are optional extras to use only if available on your tier."
+  },
+  {
+    "q": "How is the instructor's recorded agent run presented in the lesson?",
+    "options": [
+      "As a promise that every learner will build the same on a free phone today",
+      "As a demonstration of what is possible — not as what learners will build on free phones",
+      "As the main task learners must complete",
+      "As proof that free phones cannot use AI at all"
+    ],
+    "answer": 1,
+    "explanation": "The recording is shown as a demonstration of what is possible. The free-tools version you build today is simpler — the same four parts, on your own phone."
+  }
+]

@@ -12,7 +12,7 @@ export async function createCheckoutAction(formData: FormData) {
   const session = await auth();
   if (!session?.user.id || !session.user.email) redirect("/login?next=/checkout");
   const currency = formData.get("currency") === "USD" ? "USD" : "NGN";
-  const courseSlug = (formData.get("course") as string) || "hermes-agent-masterclass";
+  const courseSlug = (formData.get("course") as string) || "ai-for-your-work";
   const course = await db.course.findUniqueOrThrow({ where: { slug: courseSlug } });
   if (process.env.INTEGRATION_MODE === "mock" && process.env.ALLOW_MOCK_CHECKOUT === "true") {
     await processSuccessfulPayment({ userId: session.user.id, courseId: course.id, provider: currency === "USD" ? "STRIPE" : "PAYSTACK", referenceId: `mock-${randomUUID()}`, amount: Number(currency === "USD" ? course.priceUsd : course.priceNgn), currency, rawPayload: { mock: true } });

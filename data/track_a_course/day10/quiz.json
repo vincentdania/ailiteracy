@@ -1,0 +1,46 @@
+[
+  {
+    "q": "What makes up the weekly agent routine?",
+    "options": [
+      "A paid scheduling subscription",
+      "Which day, which time, which job — set as a repeating reminder, with you running the agent in one tap",
+      "Asking the AI to remind you every hour",
+      "Leaving the app open overnight"
+    ],
+    "answer": 1,
+    "explanation": "The routine is free and works on every phone: a repeating calendar reminder fixes the day and time, and the one tap that runs the agent is yours. No platform scheduling feature is required."
+  },
+  {
+    "q": "What does the Day 10 share challenge ask you to do?",
+    "options": [
+      "Send a promotional message to your entire contact list",
+      "Show one real output you produced to one person who needs that skill, and show them the free Lesson 1",
+      "Post your certificate on social media every day for a week",
+      "Promise people they will earn money from AI"
+    ],
+    "answer": 1,
+    "explanation": "The share step is a natural act: one genuine output, one person who needs it, plus the free Lesson 1. No spam scripts, no pressure tactics — pushy sharing reads as scam and kills word of mouth."
+  },
+  {
+    "q": "How is the course's honesty rule kept in the share step and the certificate?",
+    "options": [
+      "There are no income or spam promises anywhere, and the certificate attests only to completion and submitted work",
+      "The certificate guarantees future income",
+      "Learners must recruit five people each",
+      "The share step is optional but heavily paid"
+    ],
+    "answer": 0,
+    "explanation": "No income, employment or placement promises appear anywhere, and the certificate is truthful by design: completion of the ten days plus the submitted Playbook and agent file — exactly that, nothing more."
+  },
+  {
+    "q": "What does the lesson say about where this road leads?",
+    "options": [
+      "Phone agents are the final destination of AI",
+      "Phone agents have a ceiling; real autonomous agents on their own computer exist and are Track B, for those who want it later — one line, no pressure",
+      "Learners must upgrade immediately to keep their certificate",
+      "Autonomous agents are a myth"
+    ],
+    "answer": 1,
+    "explanation": "Stated honestly in one line: the phone-based methods taught here wait for you; fully autonomous agents on a computer are Track B, available for anyone who wants it later. No pressure, nothing in this course requires it."
+  }
+]

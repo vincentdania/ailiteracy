@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
   const [course, learnerCount, completedCount, revenue, enrollments] = await Promise.all([
-    db.course.findUniqueOrThrow({ where: { slug: "hermes-agent-masterclass" } }),
+    db.course.findUniqueOrThrow({ where: { slug: "ai-for-your-work" } }),
     db.enrollment.count({ where: { status: { in: ["ACTIVE", "COMPLETED"] } } }),
     db.enrollment.count({ where: { status: "COMPLETED" } }),
     db.transaction.groupBy({ by: ["currency"], where: { status: "SUCCESS" }, _sum: { amount: true } }),

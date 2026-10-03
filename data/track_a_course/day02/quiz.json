@@ -1,0 +1,57 @@
+[
+  {
+    "q": "What does the C in R-C-F stand for?",
+    "options": [
+      "Code — write a program for the AI to run",
+      "Context — who the output is for and what happened",
+      "Confidence — ask the AI to be certain",
+      "Cost — state your budget"
+    ],
+    "answer": 1,
+    "explanation": "R-C-F means Role, Context, Format. Context is the situation and the real material: who the output is for, what has happened, what you already know."
+  },
+  {
+    "q": "Why does giving the AI a role ('You are an experienced admin officer...') improve the output?",
+    "options": [
+      "It unlocks a hidden paid mode",
+      "It sets the vocabulary, tone and judgement the AI uses",
+      "It makes the AI answer faster",
+      "It stops the AI from ever making mistakes"
+    ],
+    "answer": 1,
+    "explanation": "A role anchors the voice and standard of the answer. It does not make the AI accurate — verification (Day 2's checks) is still your job."
+  },
+  {
+    "q": "You ask the AI for a statistic and it gives a specific number with a named report. What should you do?",
+    "options": [
+      "Use it — specific numbers with sources are reliable",
+      "Use it if the answer sounds confident",
+      "Verify: does the source exist and does the number match it?",
+      "Ask the AI if it is sure, and use it if it says yes"
+    ],
+    "answer": 2,
+    "explanation": "AI produces confident guesses, including invented citations. Check whether the source actually exists and whether the number matches it before repeating it anywhere."
+  },
+  {
+    "q": "Which of these is safe to paste into a free AI tool?",
+    "options": [
+      "A payroll list with names and salaries",
+      "A customer's details including phone number",
+      "Your own rough notes with confidential details removed",
+      "An unpublished draft contract"
+    ],
+    "answer": 2,
+    "explanation": "Notes you wrote yourself, anonymised, are safe. Payroll data, personal details of others and unpublished documents must never go into a free AI tool."
+  },
+  {
+    "q": "Which is NOT one of the 4-question verification check?",
+    "options": [
+      "Does it name a source?",
+      "Does the source exist?",
+      "Do the numbers add up?",
+      "Is the answer longer than 200 words?"
+    ],
+    "answer": 3,
+    "explanation": "The four questions are: source named? source exists? numbers add up? would I say this to my boss with my name on it? Length has nothing to do with truthfulness."
+  }
+]

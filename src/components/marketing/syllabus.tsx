@@ -6,40 +6,28 @@ import { Check } from "lucide-react";
 
 const modules = [
   {
-    title: "Foundations: Agents & Hermes",
-    days: "Lessons 1–4",
+    title: "Start: Your First Win",
+    days: "Days 1–2",
     start: 1,
-    lessons: ["What a Personal AI Agent Is", "The Agent Landscape — Hermes, OpenClaw and Others", "How Agents Work", "What Your Agent Can Do for You"],
+    lessons: ["Rough Notes to Finished Report", "Talking to AI — and Checking When It Lies"],
   },
   {
-    title: "Install & Run Everywhere",
-    days: "Lessons 5–7",
-    start: 5,
-    lessons: ["Local Setup — Laptop Requirements", "Connect a Model — GLM, DeepSeek, OpenAI, Claude", "Run It 24/7 on an Affordable VPS"],
+    title: "The Documents of Your Job",
+    days: "Days 3–5",
+    start: 3,
+    lessons: ["Reports, Memos and Templates", "Emails, Customer Replies and a Month of Posts", "Long Documents and Spreadsheets Without Formulas"],
   },
   {
-    title: "The Agent's Brain",
-    days: "Lessons 8–10",
+    title: "Your Role, Your Playbook",
+    days: "Days 6–7",
+    start: 6,
+    lessons: ["Your Role Branch: Jobseeker, Programme Staff or Teacher", "Your Personal AI Playbook"],
+  },
+  {
+    title: "Agents Week",
+    days: "Days 8–10",
     start: 8,
-    lessons: ["Tools and Toolsets — Your Agent's Hands", "Skills and the Curator — Your Agent Learns", "Memory, Context Files and Sessions"],
-  },
-  {
-    title: "Connect Everything",
-    days: "Lessons 11–15",
-    start: 11,
-    lessons: ["The Messaging Gateway — Telegram and WhatsApp", "Email — Gmail, Yahoo, Zoho and Outlook", "GitHub — Webhooks, Review and Automation", "The Web Browser — Search, Extract and Browse", "Slack, Discord and Team Channels"],
-  },
-  {
-    title: "Build It Yourself",
-    days: "Lessons 16–18",
-    start: 16,
-    lessons: ["Automate — Cron, Delegation and Batch", "Your First 7 Days — A Practical Plan", "Secure and Harden Your Agent"],
-  },
-  {
-    title: "Advanced & Production",
-    days: "Lessons 19–22",
-    start: 19,
-    lessons: ["The Connected Agent — One Brain, Everywhere", "Voice, Code Execution and Local Models", "Plugins, MCP and Extending Hermes", "Capstone + Your One-Page Cheat Sheet"],
+    lessons: ["What an Agent Actually Is — No Code", "Build Your First Agent: Instructions, Memory, Trigger", "Your Agent's Routine — and Pass It On"],
   },
 ];
 

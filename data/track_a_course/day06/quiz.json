@@ -1,0 +1,46 @@
+[
+  {
+    "q": "Day 6 branches into three tracks. What decides which track a learner follows?",
+    "options": [
+      "Their favourite AI tool",
+      "Their own work situation — jobseekers, NGO/programme staff, or teachers",
+      "How much money they paid for the course",
+      "Which day of the week they started"
+    ],
+    "answer": 1,
+    "explanation": "The lesson branches by role: Track A for jobseekers and professionals, Track B for NGO and programme staff, Track C for teachers and lecturers. Each learner follows the one that matches their real work."
+  },
+  {
+    "q": "In the job-scam check, which of these is a definite red flag?",
+    "options": [
+      "The company has a website",
+      "The employer asks you to pay a recruitment or training fee",
+      "The interview is scheduled for a weekday",
+      "The job description asks for two years of experience"
+    ],
+    "answer": 1,
+    "explanation": "No genuine employer charges you to apply, pays for training materials, or collects any fee at all. Any recruitment fee means walk away — and verify the company registration separately."
+  },
+  {
+    "q": "What is the correct way to use AI when drafting a proposal section against a donor's call?",
+    "options": [
+      "Let the AI invent activities and figures to make the proposal look bigger",
+      "Paste the donor's language and rewrite your draft using it — without inventing activities or figures you do not have",
+      "Copy another organisation's proposal and change the name",
+      "Ask the AI to write the whole proposal from its own imagination"
+    ],
+    "answer": 1,
+    "explanation": "AI should match your draft to the donor's own priority language — but every activity and figure must come from your real plan. AI proposes; you decide and verify."
+  },
+  {
+    "q": "A teacher asks AI for revision questions with answers. What must happen before those answers are taught?",
+    "options": [
+      "Nothing — AI answers are always correct for school topics",
+      "The teacher verifies each answer using the Day 2 four-question check",
+      "The students check each other's answers",
+      "The answers are printed as they are"
+    ],
+    "answer": 1,
+    "explanation": "The Day 2 verification check is not optional in a classroom. AI generates plausible-but-wrong answers often enough that every answer must be checked before it reaches students."
+  }
+]

@@ -1,7 +1,7 @@
 {
-  "name": "AI Literacy — Build Your Personal AI Agent",
+  "name": "AI Literacy — AI for Your Work",
   "short_name": "AI Literacy",
-  "description": "Hands-on course: build a personal AI agent with Hermes Agent in 20 focused minutes a day, low bandwidth.",
+  "description": "No-code AI-for-work course: 20–30 focused minutes a day, free tools, phone or laptop, low bandwidth.",
   "id": "/",
   "start_url": "/dashboard",
   "scope": "/",

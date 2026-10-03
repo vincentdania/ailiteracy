@@ -1,0 +1,46 @@
+[
+  {
+    "q": "What are the six sections of the Personal AI Playbook?",
+    "options": [
+      "Reports, Emails & messages, Numbers, My-role documents, My privacy rules, My verification checklist",
+      "ChatGPT, Gemini, Sheets, Canva, WhatsApp, Calendar",
+      "Goals, Budget, Timetable, Contacts, Passwords, Notes",
+      "Day 1 to Day 7, in order, with no other sections"
+    ],
+    "answer": 0,
+    "explanation": "The Playbook holds your real prompts under six headings: Reports, Emails & messages, Numbers, My-role documents, plus your privacy rules and verification checklist."
+  },
+  {
+    "q": "What is the weekly Playbook review ritual?",
+    "options": [
+      "Rebuild the Playbook from scratch every week",
+      "Ten minutes: review this week's AI output, keep what worked, fix one weak prompt",
+      "Ask AI to rewrite the whole Playbook daily",
+      "Delete prompts you have not used this week"
+    ],
+    "answer": 1,
+    "explanation": "Once a week, ten minutes: look at what AI produced, keep what worked, fix one weak prompt. Fixing prompts weekly is the habit that makes the course permanent."
+  },
+  {
+    "q": "A new AI tool is trending every few weeks. What does the lesson advise?",
+    "options": [
+      "Chase every new tool and master each one",
+      "Ignore all new tools forever",
+      "The moves do not change — test new tools against your Playbook using give real material, specify role and format, verify the output",
+      "Only use tools your friends recommend"
+    ],
+    "answer": 2,
+    "explanation": "Tools change monthly; the moves — real material, role and format, verification — do not. New tools are tested against your Playbook, not against hype."
+  },
+  {
+    "q": "What does the verified certificate attest to?",
+    "options": [
+      "Mastery of AI engineering and employment readiness",
+      "Course completion and a submitted playbook — exactly that, nothing more",
+      "Accreditation equivalent to a university diploma",
+      "A guaranteed income from AI services"
+    ],
+    "answer": 1,
+    "explanation": "The certificate is truthful by design: it attests to completing the course and submitting the Playbook. No competencies beyond that, no hours claimed, no accreditation claimed."
+  }
+]

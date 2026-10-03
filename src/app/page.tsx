@@ -23,11 +23,11 @@ import { CASE_STUDIES } from "@/lib/personalization/case-studies";
 const schema = {
   "@context": "https://schema.org",
   "@type": "Course",
-  name: "Build Your Personal AI Agent and Make AI Work for You",
-  description: "A hands-on, low-bandwidth course: install the open-source Hermes Agent anywhere, connect every major model, teach it your tools and memory, and connect it to Telegram, WhatsApp, Gmail, Outlook, GitHub, Slack and the browser. Mobile-first, built for learners worldwide.",
+  name: "AI for Your Work — in 10 Days",
+  description: "A step-by-step, no-code course: use free AI tools on your phone to finish reports, emails, documents and decisions faster — then turn your Personal AI Playbook into a working agent. Built for Nigerian working people; nothing technical assumed.",
   provider: { "@type": "Organization", name: "AI Literacy" },
-  educationalLevel: "Beginner to practitioner",
-  timeRequired: "P22D",
+  educationalLevel: "Beginner",
+  timeRequired: "P10D",
   offers: [
     { "@type": "Offer", price: "20000", priceCurrency: "NGN" },
     { "@type": "Offer", price: "29", priceCurrency: "USD" },
@@ -35,12 +35,12 @@ const schema = {
 };
 
 const tracks = [
-  [BriefcaseBusiness, "Work", "Summaries, reports and follow-ups on autopilot."],
-  [Store, "Business", "Monitor markets and respond faster."],
-  [Palette, "Creativity", "Draft, iterate and publish with your agent."],
-  [BarChart3, "Data", "Collect, clean and surface the numbers."],
-  [Lightbulb, "Entrepreneurship", "Test ideas and track what matters."],
-  [GraduationCap, "Education", "Teach, mark and research better."],
+  [BriefcaseBusiness, "Work", "Reports, briefs and follow-ups in minutes."],
+  [Store, "Business", "Customer replies, quotes and adverts on demand."],
+  [Palette, "Creativity", "Draft, iterate and publish in your voice."],
+  [BarChart3, "Numbers", "Spreadsheets built by describing them — no formulas."],
+  [Lightbulb, "Entrepreneurship", "Content packs and business documents in one sitting."],
+  [GraduationCap, "Education", "Lesson plans, marking feedback and research."],
 ] as const;
 
 export default function HomePage() {
@@ -51,12 +51,12 @@ export default function HomePage() {
       <main>
         <section className="container-shell grid min-h-[calc(100svh-72px)] items-center gap-10 py-12 md:grid-cols-2 md:py-20">
           <div className="max-w-2xl">
-            <p className="eyebrow mb-5">22 lessons · Hands-on · Build a working agent</p>
+            <p className="eyebrow mb-5">10 days · No code · Free tools · Phone or laptop</p>
             <h1 className="display text-[clamp(3.25rem,6vw,5.5rem)] text-[#00261d]">
-              Build a personal AI agent that works for you.
+              Put AI to work on your job — in 10 days.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-[#414845]">
-              Install the open-source Hermes Agent on your own device, teach it your tools and memory, connect it to Telegram and WhatsApp, and automate your day — hands-on, mobile-first, low bandwidth.
+              Use free AI tools to finish reports, emails, documents and decisions faster — step by step, on your phone, nothing technical assumed. Finish with outputs you can show and your first working agent.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg"><Link href="/signup">Start learning <ArrowRight className="ml-2" size={18} /></Link></Button>
@@ -84,10 +84,10 @@ export default function HomePage() {
           <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-[#d6e3dc] bg-[#eef5e9] p-6 sm:flex-row sm:items-center sm:p-8">
             <div className="max-w-xl">
               <p className="eyebrow">Free preview</p>
-              <h2 className="display mt-2 text-3xl text-[#00261d] sm:text-4xl">Try Lesson 1 — Meet Hermes Agent</h2>
-              <p className="mt-3 leading-7 text-[#414845]">Read the first lesson free, no account needed. See exactly what you&apos;ll build before you commit.</p>
+              <h2 className="display mt-2 text-3xl text-[#00261d] sm:text-4xl">Try Day 1 — free</h2>
+              <p className="mt-3 leading-7 text-[#414845]">Read the first day free, no account needed. Turn rough meeting notes into a polished report in 10 minutes before you commit.</p>
             </div>
-            <Link href="/challenge/hermes-01" className="inline-flex shrink-0 items-center rounded-full bg-[#00261d] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#123c31]">Read Lesson 1 free <ArrowRight className="ml-2" size={16} /></Link>
+            <Link href="/challenge/tracka-01" className="inline-flex shrink-0 items-center rounded-full bg-[#00261d] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#123c31]">Read Day 1 free <ArrowRight className="ml-2" size={16} /></Link>
           </div>
         </section>
 
@@ -108,13 +108,13 @@ export default function HomePage() {
           <div className="grid gap-12 lg:grid-cols-[.78fr_1.22fr]">
             <div>
               <p className="eyebrow">How it works</p>
-              <h2 className="display mt-4 text-5xl text-[#00261d]">Your agent, built step by step.</h2>
+              <h2 className="display mt-4 text-5xl text-[#00261d]">Your work, done by AI — step by step.</h2>
             </div>
             <div className="grid gap-px overflow-hidden rounded-2xl border border-[#e2e8f0] bg-[#e2e8f0] md:grid-cols-3">
               {[
-                ["01", "Install anywhere", "Get Hermes Agent running on your device or a low-cost VPS."],
-                ["02", "Teach and connect", "Add your tools and memory; connect Telegram and WhatsApp."],
-                ["03", "Automate and certify", "Put it on a schedule, harden it for production, earn your certificate."],
+                ["01", "Start free", "Day 1 turns rough notes into a finished report in 10 minutes — free, no account."],
+                ["02", "Seven days to results", "Reports, emails, documents, a month of content — one real task from your own work each day."],
+                ["03", "Agents Week", "Turn your Personal AI Playbook into a working agent with instructions, memory and a weekly routine. Certificate on completion."],
               ].map(([number, title, copy]) => <article key={number} className="bg-white p-7"><span className="font-serif text-4xl text-[#7da798]">{number}</span><h3 className="mt-8 font-serif text-2xl font-semibold text-[#00261d]">{title}</h3><p className="mt-3 text-sm leading-6 text-[#414845]">{copy}</p></article>)}
             </div>
           </div>
@@ -122,7 +122,7 @@ export default function HomePage() {
 
         <section id="outcomes" className="bg-[#f2f3ff] py-20 md:py-28">
           <div className="container-shell">
-            <div className="max-w-2xl"><p className="eyebrow">Where you&apos;ll use it</p><h2 className="display mt-4 text-5xl text-[#00261d]">Put your agent to work on what you do.</h2></div>
+            <div className="max-w-2xl"><p className="eyebrow">Where you&apos;ll use it</p><h2 className="display mt-4 text-5xl text-[#00261d]">Put AI to work on what you do.</h2></div>
             <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {tracks.map(([Icon, title, copy]) => <article key={title} className="editorial-card p-6 transition hover:-translate-y-0.5 hover:shadow-md"><span className="grid size-10 place-items-center rounded-lg bg-[#f2f3ff] text-[#00261d]"><Icon size={19} strokeWidth={1.7} /></span><h3 className="mt-5 font-serif text-2xl font-semibold text-[#00261d]">{title}</h3><p className="mt-2 text-sm leading-6 text-[#414845]">{copy}</p></article>)}
             </div>
@@ -136,7 +136,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="syllabus" className="container-shell py-20 md:py-28"><div className="mx-auto mb-12 max-w-2xl text-center"><p className="eyebrow">Course outline</p><h2 className="display mt-4 text-5xl text-[#00261d]">Six modules. One working agent.</h2></div><Syllabus /></section>
+        <section id="syllabus" className="container-shell py-20 md:py-28"><div className="mx-auto mb-12 max-w-2xl text-center"><p className="eyebrow">Course outline</p><h2 className="display mt-4 text-5xl text-[#00261d]">Seven days to results. Three days to your first agent.</h2></div><Syllabus /></section>
 
         <section id="pricing" className="border-t border-[#e2e8f0] bg-white py-20 md:py-28"><div className="container-shell"><div className="mb-12 text-center"><p className="eyebrow">Simple pricing</p><h2 className="display mt-4 text-5xl text-[#00261d]">One course. One payment.</h2></div><PricingToggle /></div></section>
       </main>

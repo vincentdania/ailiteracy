@@ -1,0 +1,57 @@
+[
+  {
+    "q": "Why paste one old real example of a document into the prompt?",
+    "options": [
+      "To give the AI your office's exact format, vocabulary and house style",
+      "To make the AI reply faster",
+      "Because AI cannot write unless you paste something long",
+      "To check if the AI can remember the document"
+    ],
+    "answer": 0,
+    "explanation": "A generic prompt produces a generic internet document. Your old accepted example carries the correct headings, order and tone — so the AI follows your format, not its guess."
+  },
+  {
+    "q": "What does the template-extraction prompt produce?",
+    "options": [
+      "A shorter summary of your document",
+      "A reusable fill-in version with slots like [DATE] and [RECIPIENT]",
+      "A list of spelling errors in the document",
+      "A new document on a different topic"
+    ],
+    "answer": 1,
+    "explanation": "It keeps the document's exact structure but replaces specifics with marked fill-in slots — a template every future document of that type can start from."
+  },
+  {
+    "q": "Which tone register fits formal correspondence to a permanent secretary?",
+    "options": [
+      "Warm — greetings and friendly phrasing",
+      "Concise — bullets and a direct ask",
+      "Official — full phrases, no contractions",
+      "Casual — as if messaging a friend"
+    ],
+    "answer": 2,
+    "explanation": "Official tone for formal correspondence and regulators; concise for busy colleagues; warm for customers, parents and community members."
+  },
+  {
+    "q": "Before pasting an old example that mentions named colleagues and salary figures, you should:",
+    "options": [
+      "Paste it as is — it is your own document",
+      "Strip out other people's personal details and confidential figures first",
+      "Delete the whole document instead",
+      "Ask the AI for permission first"
+    ],
+    "answer": 1,
+    "explanation": "Even your own documents may carry other people's personal data or confidential figures. Anonymise before pasting — the Day 2 privacy rule applies every day."
+  },
+  {
+    "q": "What is today's target document?",
+    "options": [
+      "The most impressive document you have ever written",
+      "The ONE document you write most often",
+      "Any document the AI suggests",
+      "A CV for every learner"
+    ],
+    "answer": 1,
+    "explanation": "The lesson targets the document that repeats most in your job — that is where minutes of work saved per use compounds into hours per year."
+  }
+]

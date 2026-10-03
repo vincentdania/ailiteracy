@@ -1,0 +1,57 @@
+[
+  {
+    "q": "Why ask 'What does this require ME to do, by when, at what cost?' instead of 'summarise this'?",
+    "options": [
+      "It produces a shorter summary",
+      "A summary lists everything; a decisions-relevant summary extracts only what matters for action",
+      "It stops the AI from making mistakes",
+      "Longer prompts are always better"
+    ],
+    "answer": 1,
+    "explanation": "A generic summary reports the document. A decisions-relevant summary converts it into actions, deadlines and costs — the only part a busy professional needs."
+  },
+  {
+    "q": "For a document too long to paste at once, the lesson says to:",
+    "options": [
+      "Give up and read it fully",
+      "Paste it in sections, summarise each, then combine the summaries",
+      "Ask the AI to guess the missing parts",
+      "Only paste the last page"
+    ],
+    "answer": 1,
+    "explanation": "Paste section by section with the same four questions, then combine. The AI only knows what you paste — never let it guess the missing sections."
+  },
+  {
+    "q": "What does 'numbers without formulas' mean in practice?",
+    "options": [
+      "AI does arithmetic in chat only, no spreadsheet",
+      "You describe the table and what to calculate; AI writes the spreadsheet formulas and explains them",
+      "You must memorise Excel formulas first",
+      "Spreadsheets cannot be built without paid software"
+    ],
+    "answer": 1,
+    "explanation": "You describe columns, rows and calculations in plain language; the AI produces the layout and formulas and explains each in one sentence. You type no formulas."
+  },
+  {
+    "q": "A document you must summarise is confidential. What does the lesson say?",
+    "options": [
+      "Paste it — confidentiality does not matter for summaries",
+      "Summarise a public policy document for practice instead",
+      "Type the whole document from memory instead",
+      "Ask the AI to promise confidentiality"
+    ],
+    "answer": 1,
+    "explanation": "Confidential documents never go into free AI tools. Practise on a public document; the skill transfers unchanged."
+  },
+  {
+    "q": "After the AI builds your spreadsheet totals, you should:",
+    "options": [
+      "Trust it — spreadsheets are always accurate",
+      "Add one row by hand and compare against the AI's total",
+      "Delete the formulas to be safe",
+      "Rebuild it from scratch in Excel"
+    ],
+    "answer": 1,
+    "explanation": "AI arithmetic is usually right and occasionally confidently wrong. One hand-checked row catches that — the Day 2 verification habit applied to numbers."
+  }
+]

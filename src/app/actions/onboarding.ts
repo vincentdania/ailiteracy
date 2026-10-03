@@ -27,7 +27,7 @@ export async function saveOnboardingAction(formData: FormData) {
     update: { ...parsed, preferredTools, onboardingDone: false },
     create: { userId: session.user.id, ...parsed, preferredTools, onboardingDone: false },
   });
-  const course = await db.course.findUniqueOrThrow({ where: { slug: "hermes-agent-masterclass" }, select: { id: true } });
+  const course = await db.course.findUniqueOrThrow({ where: { slug: "ai-for-your-work" }, select: { id: true } });
   await createOrRefreshLearningPlan(session.user.id, course.id, { ...parsed, preferredTools });
   await db.userProfile.update({ where: { userId: session.user.id }, data: { onboardingDone: true } });
   await updateSession({ user: { onboardingDone: true } });

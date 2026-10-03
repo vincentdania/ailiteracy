@@ -1,0 +1,57 @@
+[
+  {
+    "q": "Where should the ask appear in an email that gets answered?",
+    "options": [
+      "In the final paragraph, after full background",
+      "In the first two lines",
+      "Only in the subject line",
+      "In a separate follow-up email"
+    ],
+    "answer": 1,
+    "explanation": "Busy readers decide within seconds whether to keep reading. State what you want in the first two lines; background comes after."
+  },
+  {
+    "q": "What is the rule about email purpose?",
+    "options": [
+      "One email, one purpose — three asks in one email get one thing or nothing",
+      "Pack as many requests as possible into each email",
+      "Never state a purpose directly",
+      "Send a separate email for every sentence"
+    ],
+    "answer": 0,
+    "explanation": "One email, one purpose. Multiple asks dilute attention and make it easy for the reader to answer none of them."
+  },
+  {
+    "q": "The 8-post month pack is built from:",
+    "options": [
+      "Eight copied posts from other pages",
+      "One real business story turned into 2 offers, 2 proof, 2 tips, 2 behind-the-scenes",
+      "Eight different businesses",
+      "Whatever the AI invents about your industry"
+    ],
+    "answer": 1,
+    "explanation": "One real story feeds all eight posts — offers, proof, tips, behind-the-scenes — which keeps the month's content truthful and consistent."
+  },
+  {
+    "q": "How does the lesson describe turning these skills into a service?",
+    "options": [
+      "As a guaranteed income if you follow the steps",
+      "As a get-rich scheme requiring many clients immediately",
+      "As how to offer it — a monthly arrangement with one or two businesses — with no income promise",
+      "As something only agency staff can do"
+    ],
+    "answer": 2,
+    "explanation": "The course describes honestly how to offer the service and refuses to promise income. Whether anyone pays depends on your market, quality and follow-through."
+  },
+  {
+    "q": "Which customer message structure closes orders with less back-and-forth?",
+    "options": [
+      "Long friendly chats where price is negotiated fresh each time",
+      "A clear message: item, price, what's included, delivery date, how to order",
+      "Replying only when the customer messages three times",
+      "Withholding the price until the customer visits"
+    ],
+    "answer": 1,
+    "explanation": "Chidinma's story: clear price-and-delivery messages — fabric, style, price, pickup date — reduced back-and-forth and increased completed orders."
+  }
+]
