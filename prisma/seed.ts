@@ -60,7 +60,15 @@ async function readLesson(day: number, opts: { dir: string; heroPrefix: string; 
   };
 }
 
+// Explicitly opt-in retirement of the legacy 21-day course.
+// Destructive on prod data (cascades enrollments/progress/certificates), so it
+// only runs when RETIRE_LEGACY_21DAY=1 is set in the deploy environment.
+// Default OFF: seeding MUST NOT delete any existing course.
 async function deleteLegacyTwentyDayCourse() {
+  if (process.env.RETIRE_LEGACY_21DAY !== "1") {
+    console.info("RETIRE_LEGACY_21DAY not set — legacy 21-day course left in place.");
+    return;
+  }
   const legacy = await prisma.course.findUnique({ where: { slug: LEGACY_SLUG } });
   if (!legacy) {
     console.info("No legacy 21-day course to remove (already clean).");
