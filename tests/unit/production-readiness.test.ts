@@ -7,7 +7,7 @@ const ready = {
   ADMIN_TRIGGER_SECRET: "a-separate-production-admin-secret",
   NEXTAUTH_URL: "https://ailiteracy.ng",
   RESEND_API_KEY: "re_live_configured",
-  EMAIL_FROM: "AI Literacy <noreply@learn.ailiteracy.ng>",
+  EMAIL_FROM: "Hyrax AI Academy <noreply@learn.ailiteracy.ng>",
   ALLOW_MOCK_CHECKOUT: "false",
   SHOW_DEMO_CREDENTIALS: "false",
   ADMIN_PREVIEW_ENABLED: "false",
