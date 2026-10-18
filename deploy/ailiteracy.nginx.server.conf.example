@@ -1,5 +1,5 @@
 server {
-    server_name ailiteracy.ng www.ailiteracy.ng;
+    server_name learn.hyrax.ng;
     client_max_body_size 20M;
 
     location / {
@@ -11,6 +11,14 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_redirect off;
     }
+
+    listen 80;
+}
+
+# Previous domain: permanent redirect, keeping path and query string.
+server {
+    server_name ailiteracy.ng www.ailiteracy.ng;
+    return 301 https://learn.hyrax.ng$request_uri;
 
     listen 80;
 }
