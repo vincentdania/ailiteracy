@@ -11,7 +11,7 @@ const { PrismaClient } = require("@prisma/client");
 const { Resend } = require("resend");
 
 const db = new PrismaClient();
-const COURSE_URL = process.env.NEXTAUTH_URL ?? "https://ailiteracy.ng";
+const COURSE_URL = process.env.NEXTAUTH_URL ?? "https://learn.hyrax.ng";
 const FROM = process.env.EMAIL_FROM ?? "AI Literacy <noreply@ailiteracy.ng>";
 
 function mockOrSend(message) {

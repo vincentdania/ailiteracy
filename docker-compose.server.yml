@@ -7,24 +7,27 @@ services:
       traefik.enable: "true"
       traefik.docker.network: coolify
       traefik.http.middlewares.ailiteracy-next-redirect.redirectscheme.scheme: https
-      traefik.http.middlewares.ailiteracy-next-www.redirectregex.regex: ^https://www\.${APP_HOST}/(.*)
-      traefik.http.middlewares.ailiteracy-next-www.redirectregex.replacement: https://${APP_HOST}/$${1}
-      traefik.http.middlewares.ailiteracy-next-www.redirectregex.permanent: "true"
+      traefik.http.middlewares.ailiteracy-next-old-domain.redirectregex.regex: ^https?://(?:www\.)?${OLD_HOST:-ailiteracy.ng}/(.*)
+      traefik.http.middlewares.ailiteracy-next-old-domain.redirectregex.replacement: https://${APP_HOST}/$${1}
+      traefik.http.middlewares.ailiteracy-next-old-domain.redirectregex.permanent: "true"
       traefik.http.middlewares.ailiteracy-next-legacy.redirectregex.regex: ^https?://${LEGACY_HOST:-ai-literacy.65-109-8-231.sslip.io}/(.*)
       traefik.http.middlewares.ailiteracy-next-legacy.redirectregex.replacement: https://${APP_HOST}/$${1}
       traefik.http.middlewares.ailiteracy-next-legacy.redirectregex.permanent: "true"
       traefik.http.routers.ailiteracy-next-http.entrypoints: http
       traefik.http.routers.ailiteracy-next-http.middlewares: ailiteracy-next-redirect
-      traefik.http.routers.ailiteracy-next-http.rule: Host(`${APP_HOST}`) || Host(`www.${APP_HOST}`)
+      traefik.http.routers.ailiteracy-next-http.rule: Host(`${APP_HOST}`)
       traefik.http.routers.ailiteracy-next-https.entrypoints: https
       traefik.http.routers.ailiteracy-next-https.rule: Host(`${APP_HOST}`)
       traefik.http.routers.ailiteracy-next-https.tls: "true"
       traefik.http.routers.ailiteracy-next-https.tls.certresolver: letsencrypt
-      traefik.http.routers.ailiteracy-next-www.entrypoints: https
-      traefik.http.routers.ailiteracy-next-www.middlewares: ailiteracy-next-www
-      traefik.http.routers.ailiteracy-next-www.rule: Host(`www.${APP_HOST}`)
-      traefik.http.routers.ailiteracy-next-www.tls: "true"
-      traefik.http.routers.ailiteracy-next-www.tls.certresolver: letsencrypt
+      traefik.http.routers.ailiteracy-next-old-http.entrypoints: http
+      traefik.http.routers.ailiteracy-next-old-http.middlewares: ailiteracy-next-old-domain
+      traefik.http.routers.ailiteracy-next-old-http.rule: Host(`${OLD_HOST:-ailiteracy.ng}`) || Host(`www.${OLD_HOST:-ailiteracy.ng}`)
+      traefik.http.routers.ailiteracy-next-old-https.entrypoints: https
+      traefik.http.routers.ailiteracy-next-old-https.middlewares: ailiteracy-next-old-domain
+      traefik.http.routers.ailiteracy-next-old-https.rule: Host(`${OLD_HOST:-ailiteracy.ng}`) || Host(`www.${OLD_HOST:-ailiteracy.ng}`)
+      traefik.http.routers.ailiteracy-next-old-https.tls: "true"
+      traefik.http.routers.ailiteracy-next-old-https.tls.certresolver: letsencrypt
       traefik.http.routers.ailiteracy-next-legacy-http.entrypoints: http
       traefik.http.routers.ailiteracy-next-legacy-http.middlewares: ailiteracy-next-legacy
       traefik.http.routers.ailiteracy-next-legacy-http.rule: Host(`${LEGACY_HOST:-ai-literacy.65-109-8-231.sslip.io}`)
