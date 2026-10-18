@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Weekly progress summary email for active AI Literacy learners.
+ * Weekly progress summary email for active Hyrax AI Academy learners.
  * Run inside the app container: node scripts/send-weekly-progress.mjs
  * Scheduled weekly (e.g. Mon 08:00 server time) via cron.
  * Uses the container's DATABASE_URL + RESEND_API_KEY env vars.
@@ -12,7 +12,7 @@ const { Resend } = require("resend");
 
 const db = new PrismaClient();
 const COURSE_URL = process.env.NEXTAUTH_URL ?? "https://learn.hyrax.ng";
-const FROM = process.env.EMAIL_FROM ?? "AI Literacy <noreply@ailiteracy.ng>";
+const FROM = process.env.EMAIL_FROM ?? "Hyrax AI Academy <noreply@ailiteracy.ng>";
 
 function mockOrSend(message) {
   if (process.env.INTEGRATION_MODE === "mock" || !process.env.RESEND_API_KEY) {
@@ -46,15 +46,15 @@ async function main() {
 
     const progressBar = "▓".repeat(Math.round(pct / 10)) + "░".repeat(10 - Math.round(pct / 10));
     const subject = completed === 0
-      ? "Your AI Literacy journey starts with Day 1"
+      ? "Your Hyrax AI Academy journey starts with Day 1"
       : completed >= total
         ? `You finished the 21-day AI challenge 🎉`
-        : `Your AI Literacy progress: ${completed}/21 lessons complete`;
+        : `Your Hyrax AI Academy progress: ${completed}/21 lessons complete`;
 
     const text = `Hi ${name},
 
 ${completed === 0
-  ? "Welcome to the AI Literacy 21-day challenge. Your first lesson is waiting."
+  ? "Welcome to the Hyrax AI Academy 21-day challenge. Your first lesson is waiting."
   : completed >= total
     ? "Congratulations — you have completed all 21 lessons. Your certificate is ready in your dashboard."
     : `You have completed ${completed} of ${total} lessons.`}
@@ -69,7 +69,7 @@ ${COURSE_URL}/challenge
 
 Keep the streak alive — one focused lesson a day is enough.
 
-— The AI Literacy team`;
+— The Hyrax AI Academy team`;
 
     try {
       await mockOrSend({ to: email, subject, text });

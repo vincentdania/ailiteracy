@@ -39,7 +39,7 @@ export async function signupAction(_previous: AuthActionState, formData: FormDat
   });
   const verificationPath = `/verify-email?token=${encodeURIComponent(token)}`;
   try {
-    await sendEmail({ to: user.email, subject: "Verify your AI Literacy account", text: `Verify your email: ${process.env.NEXTAUTH_URL ?? "http://localhost:3000"}${verificationPath}` });
+    await sendEmail({ to: user.email, subject: "Verify your Hyrax AI Academy account", text: `Verify your email: ${process.env.NEXTAUTH_URL ?? "http://localhost:3000"}${verificationPath}` });
   } catch {
     // The account is not useful without verification. Remove this new record so
     // the learner can retry once the temporary delivery problem is resolved.
