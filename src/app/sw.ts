@@ -22,7 +22,7 @@ const serwist = new Serwist({
 
 self.addEventListener("push", (event) => {
   const payload = event.data?.json() as { title?: string; body?: string; url?: string } | undefined;
-  event.waitUntil(self.registration.showNotification(payload?.title ?? "AI Literacy", { body: payload?.body ?? "Your next lesson is ready.", icon: "/icons/icon-192.png", badge: "/icons/icon-192.png", data: { url: payload?.url ?? "/dashboard" } }));
+  event.waitUntil(self.registration.showNotification(payload?.title ?? "Hyrax AI Academy", { body: payload?.body ?? "Your next lesson is ready.", icon: "/icons/icon-192.png", badge: "/icons/icon-192.png", data: { url: payload?.url ?? "/dashboard" } }));
 });
 
 self.addEventListener("notificationclick", (event) => {
