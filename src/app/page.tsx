@@ -25,7 +25,7 @@ const schema = {
   "@type": "Course",
   name: "AI for Your Work — in 10 Days",
   description: "A step-by-step, no-code course: use free AI tools on your phone to finish reports, emails, documents and decisions faster — then turn your Personal AI Playbook into a working agent. Built for Nigerian working people; nothing technical assumed.",
-  provider: { "@type": "Organization", name: "AI Literacy" },
+  provider: { "@type": "Organization", name: "Hyrax AI Academy" },
   educationalLevel: "Beginner",
   timeRequired: "P10D",
   offers: [
@@ -140,7 +140,7 @@ export default function HomePage() {
 
         <section id="pricing" className="border-t border-[#e2e8f0] bg-white py-20 md:py-28"><div className="container-shell"><div className="mb-12 text-center"><p className="eyebrow">Simple pricing</p><h2 className="display mt-4 text-5xl text-[#00261d]">One course. One payment.</h2></div><PricingToggle /></div></section>
       </main>
-      <footer className="safe-bottom bg-[#00261d] py-10 text-white"><div className="container-shell flex flex-col justify-between gap-5 text-sm sm:flex-row sm:items-center"><strong className="font-serif text-xl">AI Literacy</strong><nav aria-label="Footer" className="flex gap-5 text-white/70"><Link href="/login">Sign in</Link><a href="mailto:support@ailiteracy.africa">Support</a></nav></div></footer>
+      <footer className="safe-bottom bg-[#00261d] py-10 text-white"><div className="container-shell flex flex-col justify-between gap-5 text-sm sm:flex-row sm:items-center"><strong className="font-serif text-xl">Hyrax AI Academy</strong><nav aria-label="Footer" className="flex gap-5 text-white/70"><Link href="/login">Sign in</Link><a href="mailto:support@ailiteracy.africa">Support</a></nav></div></footer>
     </>
   );
 }

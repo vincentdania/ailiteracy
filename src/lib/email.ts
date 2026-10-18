@@ -10,7 +10,7 @@ export async function sendEmail(message: EmailMessage) {
   if (!process.env.RESEND_API_KEY) throw new Error("Email delivery is not configured");
   const resend = new Resend(process.env.RESEND_API_KEY);
   const result = await resend.emails.send({
-    from: process.env.EMAIL_FROM ?? "AI Literacy <noreply@ailiteracy.ng>",
+    from: process.env.EMAIL_FROM ?? "Hyrax AI Academy <noreply@ailiteracy.ng>",
     ...message,
   });
   if (result.error) throw new Error(result.error.message);

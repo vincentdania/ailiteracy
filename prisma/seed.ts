@@ -166,7 +166,7 @@ async function seed() {
     where: { email: "admin@ailiteracy.local" },
     update: { passwordHash },
     create: {
-      name: "AI Literacy Admin",
+      name: "Hyrax AI Academy Admin",
       email: "admin@ailiteracy.local",
       emailVerified: new Date(),
       passwordHash,

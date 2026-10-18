@@ -14,7 +14,7 @@ export function AppNav({ role, name }: { role: "USER" | "ADMIN"; name: string })
   return <>
     <aside className="border-b border-[#e2e8f0] bg-[#f2f3ff] lg:fixed lg:inset-y-0 lg:left-0 lg:z-30 lg:w-72 lg:border-b-0 lg:border-r">
       <div className="container-shell flex h-[72px] items-center justify-between lg:h-full lg:w-auto lg:flex-col lg:items-stretch lg:p-5">
-        <Link href="/dashboard" className="font-serif text-2xl font-bold text-[#00261d]">AI Literacy</Link>
+        <Link href="/dashboard" className="font-serif text-2xl font-bold text-[#00261d]">Hyrax AI Academy</Link>
         <nav className="hidden flex-1 gap-2 pt-14 lg:grid lg:content-start" aria-label="Learning navigation">
           {navItems.map(([Icon, label, href], index) => <Link key={label} href={href} className={`flex items-center gap-4 rounded-r-full px-5 py-4 text-sm font-bold transition ${index === 0 ? "bg-[#00261d] text-white" : "text-[#414845] hover:bg-white hover:text-[#00261d]"}`}><Icon size={20} strokeWidth={1.7} />{label}</Link>)}
           {role === "ADMIN" && <Link href="/admin" className="mt-3 rounded-xl bg-[#00261d] px-4 py-3 text-sm font-bold text-white">Admin control plane</Link>}
