@@ -1,5 +1,6 @@
 import { Currency, PaymentProvider, TransactionStatus } from "@prisma/client";
 import { db } from "@/lib/db";
+import { accessExpiryFrom } from "@/lib/access";
 import { captureServerEvent } from "@/lib/analytics";
 
 export type SuccessfulPayment = {
@@ -38,11 +39,14 @@ export async function processSuccessfulPayment(payment: SuccessfulPayment) {
         processedAt: new Date(),
       },
     });
-    const enrollment = await tx.enrollment.upsert({
-      where: { userId_courseId: { userId: payment.userId, courseId: payment.courseId } },
-      update: { status: "ACTIVE" },
-      create: { userId: payment.userId, courseId: payment.courseId },
-    });
+    // Each successful payment buys a fresh access period from the payment date. Paying again
+    // after access ends keeps all progress; a completed course stays completed.
+    const where = { userId_courseId: { userId: payment.userId, courseId: payment.courseId } };
+    const current = await tx.enrollment.findUnique({ where, select: { status: true } });
+    const expiresAt = accessExpiryFrom(new Date());
+    const enrollment = current
+      ? await tx.enrollment.update({ where, data: { status: current.status === "COMPLETED" ? "COMPLETED" : "ACTIVE", expiresAt } })
+      : await tx.enrollment.create({ data: { userId: payment.userId, courseId: payment.courseId, expiresAt } });
     await tx.streak.upsert({ where: { userId: payment.userId }, update: {}, create: { userId: payment.userId } });
 
     const referral = await tx.referral.findUnique({ where: { referredUserId: payment.userId } });

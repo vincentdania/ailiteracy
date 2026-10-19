@@ -208,20 +208,27 @@ model QuizAttempt {
 }
 
 model Enrollment {
-  id              String           @id @default(cuid())
-  userId          String
-  courseId        String
-  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  course          Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  enrolledAt      DateTime         @default(now())
-  status          EnrollmentStatus @default(ACTIVE)
-  unlockedDay     Int              @default(1)
-  completedDays   Int[]            @default([])
-  bonusUnlocked   Boolean          @default(false)
-  previewOverride Boolean          @default(false)
-  completedAt     DateTime?
-  capstonePassed  Boolean          @default(false)
-  assessmentScore Int?
+  id                String           @id @default(cuid())
+  userId            String
+  courseId          String
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course            Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  enrolledAt        DateTime         @default(now())
+  status            EnrollmentStatus @default(ACTIVE)
+  unlockedDay       Int              @default(1)
+  completedDays     Int[]            @default([])
+  bonusUnlocked     Boolean          @default(false)
+  previewOverride   Boolean          @default(false)
+  completedAt       DateTime?
+  capstonePassed    Boolean          @default(false)
+  assessmentScore   Int?
+  /// When paid access ends. Set to the payment (or enrolment) date plus ACCESS_DAYS.
+  expiresAt         DateTime?
+  /// Granted by an admin: access never ends while this is true.
+  lifetimeAccess    Boolean          @default(false)
+  lifetimeGrantedAt DateTime?
+  /// Id of the admin who granted lifetime access.
+  lifetimeGrantedBy String?
 
   @@unique([userId, courseId])
   @@index([courseId, status])

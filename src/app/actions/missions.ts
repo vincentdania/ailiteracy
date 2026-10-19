@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { ACCESS_ENDED_MESSAGE, hasActiveAccess } from "@/lib/access";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { canAccessLesson, unlockedDay } from "@/lib/challenge";
@@ -30,6 +31,7 @@ export async function attemptMissionAction(lessonId: string, missionKey: string,
 
   const enrollment = await db.enrollment.findUnique({ where: { userId_courseId: { userId, courseId: lesson.module.courseId } }, include: { user: { include: { profile: true } } } });
   if (!enrollment) return { ok: false, error: "Enrolment required. Enrol in the course to continue." };
+  if (!hasActiveAccess(enrollment, new Date(), enrollment.user.role)) return { ok: false, error: ACCESS_ENDED_MESSAGE };
   const total = await db.lesson.count({ where: { module: { courseId: lesson.module.courseId }, isBonus: false } });
   const available = unlockedDay(enrollment.enrolledAt, new Date(), enrollment.user.profile?.timezone ?? "Africa/Lagos", enrollment.previewOverride, total);
   if (!canAccessLesson({ dayNumber: lesson.dayNumber, isBonus: lesson.isBonus, bonusUnlocked: enrollment.bonusUnlocked, unlockedDay: available })) return { ok: false, error: "This lesson is still locked." };

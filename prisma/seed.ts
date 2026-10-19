@@ -170,7 +170,7 @@ async function seed() {
   await prisma.enrollment.upsert({
     where: { userId_courseId: { userId: learner.id, courseId: course.id } },
     update: {},
-    create: { userId: learner.id, courseId: course.id },
+    create: { userId: learner.id, courseId: course.id, expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000) },
   });
   await prisma.streak.upsert({ where: { userId: learner.id }, update: {}, create: { userId: learner.id } });
   console.info(`Seeded ${course.title}; admin=${admin.email}; learner=${learner.email}`);

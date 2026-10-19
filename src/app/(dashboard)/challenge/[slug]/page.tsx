@@ -15,6 +15,7 @@ import { XP } from "@/lib/learning/rewards";
 import { CompleteButton } from "@/components/challenge/complete-button";
 import { PracticeSubmission } from "@/components/challenge/practice-submission";
 import { LessonQuiz } from "@/components/challenge/lesson-quiz";
+import { AccessEndedNotice } from "@/components/learning/access-notice";
 import { MissionCard } from "@/components/learning/mission-card";
 import { LessonBeats } from "@/components/learning/lesson-beats";
 
@@ -62,6 +63,7 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
 
   const state = await loadCourseState(session.user.id, lesson.module.courseId);
   if (!state) redirect("/checkout");
+  if (!state.access.active) return <div className="mx-auto max-w-3xl"><Link href="/dashboard" className="mb-7 inline-flex items-center gap-2 text-sm font-bold text-[#4d5768]"><ArrowLeft size={17} />Back to your dashboard</Link><AccessEndedNotice endedAt={state.access.endsAt} timeZone={state.enrollment.user.profile?.timezone ?? undefined} /></div>;
   const courseModule = state.modules.find((m) => m.id === lesson.moduleId)!;
   const mastery = courseModule.lessons.find((l) => l.id === lesson.id)!;
   if (!mastery.unlocked) return <div className="mx-auto grid min-h-[65vh] max-w-xl place-items-center text-center"><div><span className="mx-auto grid size-16 place-items-center rounded-full bg-[#edf1f6]"><LockKeyhole /></span><h1 className="display mt-5 text-4xl">This lesson isn’t open yet.</h1><p className="my-5 leading-7 text-[#4d5768]">A new lesson opens each day at midnight in your time zone. Until then, you can replay missions from earlier lessons.</p><Link className="font-bold text-[#0058be] underline" href="/challenge">Back to all lessons</Link></div></div>;

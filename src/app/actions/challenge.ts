@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { ACCESS_ENDED_MESSAGE, hasActiveAccess } from "@/lib/access";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { canAccessLesson, isCapstoneLesson, nextStreak, unlockedDay } from "@/lib/challenge";
@@ -16,6 +17,7 @@ export async function completeLessonAction(lessonId: string) {
   if (!lesson) return { ok: false, message: "Lesson not found." };
   const enrollment = await db.enrollment.findUnique({ where: { userId_courseId: { userId: session.user.id, courseId: lesson.module.courseId } }, include: { user: { include: { profile: true, streak: true } } } });
   if (!enrollment) return { ok: false, message: "Enrolment required. Enrol in the course to continue." };
+  if (!hasActiveAccess(enrollment, new Date(), enrollment.user.role)) return { ok: false, message: ACCESS_ENDED_MESSAGE };
   const timezone = enrollment.user.profile?.timezone ?? "Africa/Lagos";
   const requiredLessons = await db.lesson.findMany({ where: { module: { courseId: lesson.module.courseId }, isBonus: false }, select: { dayNumber: true } });
   const availableDay = unlockedDay(enrollment.enrolledAt, new Date(), timezone, enrollment.previewOverride, requiredLessons.length);

@@ -5,9 +5,13 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { sendPushToUser } from "@/lib/push";
 
+/** Checks the session and the database, so a stale session cannot act after an admin is demoted. */
 async function requireAdmin() {
   const session = await auth();
   if (!session?.user.id || session.user.role !== "ADMIN") throw new Error("Admin access required");
+  const user = await db.user.findUnique({ where: { id: session.user.id }, select: { id: true, role: true } });
+  if (user?.role !== "ADMIN") throw new Error("Admin access required");
+  return user.id;
 }
 
 export async function setPreviewOverrideAction(formData: FormData) {
@@ -36,5 +40,22 @@ export async function broadcastPushAction(formData: FormData) {
   const body = String(formData.get("body") ?? "Open the course to pick up where you left off.").slice(0, 180);
   const users = await db.user.findMany({ where: { pushSubscriptions: { some: {} } }, select: { id: true } });
   await Promise.all(users.map((user) => sendPushToUser(user.id, { title, body, url: "/dashboard" })));
+  revalidatePath("/admin");
+}
+
+export async function grantLifetimeAccessAction(formData: FormData) {
+  const adminId = await requireAdmin();
+  const enrollmentId = String(formData.get("enrollmentId") ?? "");
+  if (!enrollmentId) throw new Error("Enrolment required");
+  await db.enrollment.update({ where: { id: enrollmentId }, data: { lifetimeAccess: true, lifetimeGrantedAt: new Date(), lifetimeGrantedBy: adminId } });
+  revalidatePath("/admin");
+}
+
+/** Undo a lifetime grant: the learner falls back to their paid access end date. */
+export async function removeLifetimeAccessAction(formData: FormData) {
+  await requireAdmin();
+  const enrollmentId = String(formData.get("enrollmentId") ?? "");
+  if (!enrollmentId) throw new Error("Enrolment required");
+  await db.enrollment.update({ where: { id: enrollmentId }, data: { lifetimeAccess: false, lifetimeGrantedAt: null, lifetimeGrantedBy: null } });
   revalidatePath("/admin");
 }

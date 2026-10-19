@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { ACCESS_ENDED_MESSAGE, hasActiveAccess } from "@/lib/access";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { isCapstoneLesson } from "@/lib/challenge";
@@ -22,8 +23,9 @@ export async function submitPracticeAction(_: { ok: boolean; message: string; sc
   if (!result.success) return { ok: false, message: result.error.issues[0]?.message ?? "Check your submission." };
   const lesson = await db.lesson.findUnique({ where: { id: result.data.lessonId }, include: { module: true } });
   if (!lesson) return { ok: false, message: "Lesson not found." };
-  const enrollment = await db.enrollment.findUnique({ where: { userId_courseId: { userId: session.user.id, courseId: lesson.module.courseId } } });
+  const enrollment = await db.enrollment.findUnique({ where: { userId_courseId: { userId: session.user.id, courseId: lesson.module.courseId } }, include: { user: { select: { role: true } } } });
   if (!enrollment) return { ok: false, message: "Enrolment required. Enrol in the course to continue." };
+  if (!hasActiveAccess(enrollment, new Date(), enrollment.user.role)) return { ok: false, message: ACCESS_ENDED_MESSAGE };
   const isCapstone = isCapstoneLesson(lesson);
   const assessment = assessSubmission(result.data.content, isCapstone);
   await db.$transaction([
