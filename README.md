@@ -8,7 +8,7 @@ A Next.js 15 learning platform for the Hyrax AI Academy at learn.hyrax.ng. Its c
 - PostgreSQL 16 with Prisma ORM
 - Redis 7 for streak activity and rate limits, with an in-memory test fallback
 - Auth.js v5 credentials and optional Google OAuth, JWT sessions and USER/ADMIN RBAC
-- Paystack NGN and Stripe USD checkout with signed, idempotent webhooks
+- Paystack checkout in NGN and USD, confirmed by a signed, idempotent webhook and a verify call when the learner returns
 - Resend, PostHog and Web Push behind environment flags or local mock adapters
 - Serwist PWA caching and server-rendered PDF certificates
 
@@ -71,7 +71,6 @@ Production launch gates:
 The protected reminder endpoint is `POST /api/push/reminders` with `x-admin-key: $ADMIN_TRIGGER_SECRET`. Payment webhooks are:
 
 - `POST /api/webhooks/paystack`
-- `POST /api/webhooks/stripe`
 
 For the existing Hetzner Traefik network, use both Compose files with a unique project name and unused host ports:
 
