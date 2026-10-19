@@ -1,56 +1,56 @@
 ---
 day: 9
 title: Build Your First Agent
-subtitle: Instructions + memory + tools + trigger — one real recurring job in your week, built on your phone with free features.
+subtitle: "Instructions, memory, tools and a trigger: one real recurring job in your week, built on your phone with free features."
 ---
 
 # Build Your First Agent
 
-**Read time: 10 minutes · Task: 12 minutes**
+**Read time: 6 minutes · Task: 20 minutes**
 
-Yesterday your AI arrived briefed. Today you give it a standing job: one recurring piece of work in your week, done by an agent you built — using only free features.
+Yesterday your AI arrived briefed. Today you give it a standing job: one recurring piece of work in your week, done by an agent you built using only free features.
 
-## Pick ONE recurring job
+## Pick one recurring job
 
-Choose the job you actually do again and again. Examples of recurring work tasks:
+Choose a job you really do again and again. For example:
 
 - A weekly report written from raw notes
-- Daily customer-message replies for your business
-- A weekly content pack (posts for WhatsApp status and Facebook)
+- Daily replies to customer messages for your business
+- A weekly content pack (posts for WhatsApp Status and Facebook)
 - Lesson materials for the coming week
 - A Monday workplan
 
-One job. Not three. A small agent that runs beats a grand one that doesn't.
+Pick one job, not three. A small agent that runs is better than a grand one that never does.
 
 ## Build the agent file
 
-The harness is a document. Open your notes app and write your agent file with these five sections:
+The agent lives in a document. Open your notes app, start a new note called "Agent file" and write these five sections:
 
-- **ROLE** — who it is. *"You are my work assistant, an experienced admin officer writing in official Nigerian English."*
-- **RULES** — tone, format, privacy red lines. *"Never invent figures. Use my ministry memo format. I never paste confidential material."*
-- **MEMORY** — your context and templates. Paste in the relevant section of your Playbook: your report template, your customer-reply set, your lesson-plan format.
-- **OUTPUT** — the exact format, every time. *"Produce: heading, 3-sentence summary, action points with owners, next steps."*
-- **CHECKS** — the Day 2 verification questions, built in. *"Before I use your output: name your sources, flag anything uncertain, list every number so I can check it."*
+- **ROLE:** who it is. *"You are my work assistant, an experienced admin officer writing in official Nigerian English."*
+- **RULES:** tone, format and privacy red lines. *"Never invent figures. Use my ministry memo format. I never paste confidential material."*
+- **MEMORY:** your context and templates. Paste in the relevant section of your Playbook, such as your report template, your customer-reply set or your lesson-plan format.
+- **OUTPUT:** the exact format, every time. *"Produce: heading, 3-sentence summary, action points with owners, next steps."*
+- **CHECKS:** the Day 2 verification questions, built in. *"Before I use your output: name your sources, flag anything uncertain, list every number so I can check it."*
 
-That is your reusable assistant specification: five sections in one note. You still trigger the chat and check its work.
+That is your reusable assistant: five sections in one note. You still start each run and check its work.
 
-## Trigger options — taught honestly, free tier first
+## How to start a run: free method first
 
-**(a) Self-triggered (primary method — manual fallback, subject to service availability):** the learner — you — runs the agent at a fixed time with one tap. Open the agent file, copy it, paste into a new chat, paste your raw material, send. Set a reminder on your phone so the time is fixed. This is the method the course teaches, because it works on a compatible phone with internet access, subject to service limits.
+**(a) Run it yourself (the course method).** You start the agent at a fixed time each week. Open the agent file, copy all of it, paste it into a new chat, paste your raw material underneath and send. Set a repeating reminder on your phone so the time stays fixed. This works on any phone with internet access and a free AI account, within the app's usual limits.
 
-**(b) Scheduled platform features (optional, if available):** ChatGPT has *Tasks* and Gemini has *scheduled actions* — features where the platform itself triggers a run. Whether these are available on the free tier varies and must be checked in your own app. If you have the feature and it is free for you, you may use it later. If it is paid-only or absent, that changes nothing: method (a) is the course method, and the lesson says so plainly. No autonomous scheduled AI runs on your phone are promised by this course.
+**(b) Scheduled features (optional).** ChatGPT has *Tasks* and Gemini has *scheduled actions*: features where the app starts a run for you at a set time. Whether they are free for you varies, so check in your own app. If you have one and it is free, you may try it later. If it is paid-only or missing, nothing changes: method (a) is the course method. This course does not promise that any AI will run on its own on your phone.
 
-## Chain two steps into one run
+## Chain two steps in one run
 
-Your first multi-step run: give the agent file, then paste your raw material with a chained prompt:
+For your first multi-step run, paste the agent file, then your raw material, then this prompt:
 
 > First, extract the action points and key figures from these notes. Then, using them, draft the report in my template. Show me both steps.
 
-The agent works inside one conversation — extract, then draft. That chaining is what makes it feel like an assistant rather than a machine for answers.
+The agent does both steps in one conversation: extract, then draft. Chaining steps like this is what makes it feel like an assistant rather than a question-and-answer machine.
 
-## Complete example: weekly programme-update assistant
+## Complete example: weekly programme update
 
-*Illustrative setup. This is a manually triggered workflow, not autonomous software.*
+*An illustrative setup. You start this workflow by hand; it is not software that runs on its own.*
 
 ```text
 ROLE
@@ -74,17 +74,17 @@ List figures to verify and missing information. Distinguish planned work
 from completed work. I check the draft and approve it before use.
 ```
 
-Test input: “Two visits completed. Transport receipt total ₦12,000. Third visit postponed; new date not agreed. Amina to confirm the venue.” Expected output includes two completed visits, the postponed visit and Amina's action with the deadline marked “not recorded”. Check receipts and visit records independently.
+Test input: “Two visits completed. Transport receipts total ₦12,000. Third visit postponed; new date not agreed. Amina to confirm the venue.” A good output lists the two completed visits, the postponed visit, and Amina's action with the deadline marked “not recorded”. Check the receipts and visit records yourself.
 
-Keep this file offline in your notes. Paste it and fresh notes when connected. Copying instructions does not give the AI access to files, email or a calendar.
+Keep this file in your notes app, where it works offline. When you are connected, paste it with your fresh notes. Pasting instructions does not give the AI access to your files, email or calendar.
 
 ## 🎯 Task
 
-1. Choose your ONE recurring job.
-2. Write the agent file — ROLE, RULES, MEMORY, OUTPUT, CHECKS — in your notes app.
-3. Run it once end-to-end on real material (the notes, messages, syllabus or figures you actually have).
-4. Save the file — it goes into the Playbook.
+1. Choose your one recurring job.
+2. In your notes app, write the agent file with all five sections: ROLE, RULES, MEMORY, OUTPUT, CHECKS.
+3. Run it once from start to finish on real material (the notes, messages, syllabus or figures you have this week), using the two-step prompt above.
+4. Check the output against your material, then copy the agent file into your Playbook note under the heading "Agent file".
 
 ## 📤 Output
 
-A working single-purpose agent file and one real run of its output — the recurring job in your week, done in minutes, with the checks built in.
+One working agent file for a single job, saved in your Playbook, and the checked output of one real run.

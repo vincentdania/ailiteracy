@@ -6,7 +6,7 @@ export async function sendPushToUser(userId: string, payload: { title: string; b
     console.info(`[push:mock] user=${userId} title=${payload.title}`);
     return { sent: 0, mocked: true };
   }
-  webpush.setVapidDetails(process.env.VAPID_SUBJECT ?? "mailto:admin@ailiteracy.ng", process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY, process.env.VAPID_PRIVATE_KEY);
+  webpush.setVapidDetails(process.env.VAPID_SUBJECT ?? "mailto:team@hyrax.ng", process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY, process.env.VAPID_PRIVATE_KEY);
   const subscriptions = await db.pushSubscription.findMany({ where: { userId } });
   let sent = 0;
   for (const subscription of subscriptions) {

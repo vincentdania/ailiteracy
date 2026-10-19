@@ -2,17 +2,17 @@
   "objectives": {
     "understand": "How a five-part agent file (role, rules, memory, output, checks) turns one recurring job into a repeatable run.",
     "do": "Write an agent file for one recurring job and run it with a two-step chained prompt.",
-    "demonstrate": "Assemble an agent file, choose the right job to automate, and see what a manual trigger means.",
+    "demonstrate": "Choose the right first job, put an agent file in order, and check a run against the rules.",
     "apply": "Run your agent once end to end on real material and save the file in your Playbook."
   },
   "discover": {
-    "title": "Mission briefing: Monday's report, every Monday",
-    "scenario": "Every Friday, Amina, a programme officer in Maiduguri, spends an hour turning field notes into the weekly update. Same headings, same checks, same manager. It's the perfect first job for an agent: one task, done again and again, with rules that never change."
+    "title": "Mission briefing: Friday's update, every Friday",
+    "scenario": "Every Friday, Amina, a programme officer in Maiduguri, spends an hour turning field notes into the weekly update. Same headings, same checks, same manager. It is an ideal first job for an agent: one task, done again and again, with rules that never change."
   },
   "keyIdeas": [
     "Pick ONE recurring job. A small agent that runs beats a grand one that doesn't.",
     "The agent file has five sections: ROLE, RULES, MEMORY, OUTPUT, CHECKS.",
-    "Self-triggered is the course method: a reminder, one tap, paste the file and your material. You check every run."
+    "Running it yourself is the course method: a reminder goes off, you paste the file and your material, and you check every run."
   ],
   "device": "phone",
   "missions": [
@@ -24,7 +24,7 @@
       "options": [
         {
           "text": "Run her whole programme: reports, budgets, donor emails and staff schedules.",
-          "feedback": "Too many jobs. One job, not three, is the rule for a first agent."
+          "feedback": "Too many jobs. A first agent should do one job, not several."
         },
         {
           "text": "The weekly programme update she writes every Friday from field notes.",
@@ -57,7 +57,7 @@
         "CHECKS: List figures to verify and missing information. I approve the draft before use."
       ],
       "hint": "The lesson's order is ROLE, RULES, MEMORY, OUTPUT, CHECKS.",
-      "support": "Who it is, what it must never do, what it knows, what it produces, and how you'll check it.",
+      "support": "Who it is, what it must never do, what it knows, what it produces and how you will check it.",
       "explain": "Each section answers one question, and CHECKS sits at the end so every run finishes with a list of what you must verify."
     }
   ],
@@ -65,16 +65,16 @@
     "key": "advanced",
     "type": "choice",
     "title": "Advanced: read the run",
-    "scenario": "Test input: 'Two visits completed. Transport receipts total ₦12,000. Third visit postponed; new date not agreed. Amina to confirm the venue.' The agent produced four next actions.",
-    "prompt": "Which next action shows the agent file is working?",
+    "scenario": "Test input: 'Two visits completed. Transport receipts total ₦12,000. Third visit postponed; new date not agreed. Amina to confirm the venue.' The agent produced these four lines, among others.",
+    "prompt": "Which line shows the agent file is working?",
     "options": [
       {
-        "text": "Confirm the venue — Amina — by Wednesday.",
+        "text": "Amina to confirm the venue by Wednesday.",
         "feedback": "The deadline 'Wednesday' was never supplied. The agent invented it."
       },
       {
-        "text": "Confirm the venue — Amina; deadline not recorded.",
-        "feedback": "Yes. The OUTPUT rule says owners and deadlines only if supplied, so it says 'not recorded' instead of guessing."
+        "text": "Amina to confirm the venue; deadline not recorded.",
+        "feedback": "Yes. The OUTPUT rule says owners and deadlines only if supplied, so it writes 'not recorded' instead of guessing."
       },
       {
         "text": "Third visit rescheduled for next Tuesday.",
@@ -86,7 +86,7 @@
       }
     ],
     "correct": 1,
-    "hint": "Which output follows the rules exactly, adding nothing that wasn't in the notes?",
+    "hint": "Which line follows the rules exactly and adds nothing that wasn't in the notes?",
     "support": "Check each line against the four facts in the test input. Anything extra was invented, even if it sounds sensible.",
     "explain": "Writing 'not recorded' rather than inventing is the RULES and OUTPUT sections doing their job. That is how you know the file is safe to run every week."
   }

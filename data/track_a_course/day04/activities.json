@@ -2,12 +2,12 @@
   "objectives": {
     "understand": "What makes an email or customer message get a fast, clear response.",
     "do": "Draft emails with the ask in the first two lines, and customer messages that answer the real question first.",
-    "demonstrate": "Repair a weak email, structure a customer reply, and plan a week of posts from one story.",
+    "demonstrate": "Fix a weak email, put a customer reply in the right order, and plan a week of posts from one story.",
     "apply": "Produce one lane of finished messages for your job or business, ready to send."
   },
   "discover": {
     "title": "Mission briefing: the unanswered email",
-    "scenario": "Tunde sent his manager an email about the training budget two weeks ago. Subject: 'Important matter'. The ask was in paragraph three. No reply, and the vendor's quotation expires on Friday. Today you rewrite messages so the reader knows what you need in five seconds."
+    "scenario": "Two weeks ago, Tunde emailed his manager about the training budget. The subject was 'Important matter' and the ask was in paragraph three. He has had no reply, and the vendor's quotation expires on Friday. Today you learn to write messages that tell the reader what you need within five seconds."
   },
   "keyIdeas": [
     "The subject line is the headline: name the decision and the date.",
@@ -36,13 +36,13 @@
         },
         {
           "text": "Subject: URGENT!!! Please respond. Dear Ma, kindly treat as urgent.",
-          "feedback": "Urgency without content. She still doesn't know what decision you need or by when."
+          "feedback": "Urgency without content. She still does not know what decision you need or by when."
         }
       ],
       "correct": 1,
       "hint": "Apply the three rules: a headline subject, the ask in two lines, one purpose.",
       "support": "Picture your manager reading only the subject line and the first sentence on her phone between meetings. Which option tells her exactly what to do?",
-      "explain": "A specific subject, an ask in the first two lines with the amount and the deadline, and a single purpose. The background (quotation expiry, schedule) can follow underneath."
+      "explain": "A specific subject, an ask in the first two lines with the amount and the deadline, and a single purpose. The background (when the quotation expires, the training dates) can follow underneath."
     },
     {
       "key": "customer-reply",
@@ -56,16 +56,16 @@
         "That price includes fitting and one adjustment.",
         "To start, send your measurements and a ₦5,000 deposit by Wednesday. Shall I reserve a Saturday pickup for you?"
       ],
-      "hint": "Answer the actual question first, then price, then what's included, then how to order.",
-      "support": "The customer asked two things: price and timing. The lesson says answer their question in the first line, give a clear price, state what's included, and finish with one next step.",
-      "explain": "Answering the real question first keeps the customer reading, a clear price avoids back-and-forth, stating what's included prevents disputes, and one specific next step with a deadline closes the order."
+      "hint": "Answer the actual question first, then give the price, then what is included, then how to order.",
+      "support": "The customer asked two things: the price and the timing. The lesson says to answer their question in the first line, give a clear price, say what is included, and finish with one next step.",
+      "explain": "Answering the real question first keeps the customer reading, a clear price avoids back-and-forth, stating what is included prevents disputes, and one specific next step with a deadline closes the order."
     }
   ],
   "advanced": {
     "key": "advanced",
     "type": "sort",
     "title": "Advanced: plan the 8-post pack",
-    "scenario": "From one story (you delivered 200 branded notebooks to a school in Ibadan on time), the AI drafted posts. Sort each into the right slot of the 8-post pack.",
+    "scenario": "Your story: you delivered 200 branded notebooks to a school in Ibadan on time. The AI drafted posts from it. Sort each one into the right slot of the 8-post pack.",
     "prompt": "Sort each post into its type.",
     "categories": [
       "Offer",
@@ -97,6 +97,6 @@
     ],
     "hint": "Offer = something to buy. Proof = completed work or results. Tip = useful advice. Behind the scenes = how you work.",
     "support": "Ask what the reader gets from each post: a deal, evidence you deliver, something useful to know, or a look at your process.",
-    "explain": "The 8-post pack mixes 2 of each so your feed isn't just adverts. Proof and tips build trust, which makes the offers work."
+    "explain": "The 8-post pack has 2 of each type, so your feed is not only adverts. Proof and tips build trust, and trust makes the offers work."
   }
 }

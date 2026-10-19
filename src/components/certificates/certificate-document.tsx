@@ -47,7 +47,7 @@ export function CertificateDocument(input: CertificatePdfInput) {
         <Text style={styles.copy}>This certifies that</Text>
         <Text style={styles.name}>{input.learnerName}</Text>
         <View style={styles.rule} />
-        <Text style={styles.copy}>{input.kind === "module" ? "has successfully completed and demonstrated the learning outcomes of" : "has successfully completed the course"}</Text>
+        <Text style={styles.copy}>{input.kind === "module" ? "has successfully completed the module" : "has successfully completed the course"}</Text>
         <Text style={styles.title}>{heading}</Text>
         {input.kind === "module" && <Text style={styles.sub}>Module {input.moduleOrder} of {input.courseTitle}</Text>}
         <View style={styles.footer}>

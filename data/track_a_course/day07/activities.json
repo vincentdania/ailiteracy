@@ -7,12 +7,12 @@
   },
   "discover": {
     "title": "Mission briefing: don't lose the week",
-    "scenario": "Six days of your best prompts are buried in chat history. Open a new chat and they're gone. Amaka, a bank officer in Lagos, rebuilt the same report prompt from memory three times last month. Today you build the one document that keeps every win: your Personal AI Playbook. It's the capstone, and it counts."
+    "scenario": "Six days of your best prompts are buried in your chat history. Open a new chat and they are out of sight. Amaka, a bank officer in Lagos, rebuilt the same report prompt from memory three times last month. Today you build one document that keeps all your best prompts: your Personal AI Playbook. It is the course capstone, and it is scored."
   },
   "keyIdeas": [
     "Six sections: Reports, Emails & messages, Numbers, My-role documents, My privacy rules, My verification checklist.",
-    "Weekly ritual, ten minutes: keep what worked and fix one weak prompt.",
-    "Tools change; the moves don't. Test new tools against your Playbook, not against hype."
+    "Weekly ritual: ten minutes to keep what worked and fix one weak prompt.",
+    "Tools change, but the moves stay the same. Test new tools with your Playbook prompts, not on the strength of hype."
   ],
   "device": "phone",
   "missions": [
@@ -55,19 +55,19 @@
         }
       ],
       "hint": "Each prompt belongs with the kind of work it produces.",
-      "support": "Ask 'what does this help me make?' A report, a message, a spreadsheet, or a rule for keeping data safe?",
-      "explain": "Filed by the work it produces, every prompt is findable in seconds. That is what turns a week of chats into a toolkit you keep."
+      "support": "Ask: what does this help me make? A report, a message, a spreadsheet, or a rule for keeping data safe?",
+      "explain": "When each prompt is filed by the work it produces, you can find it in seconds. That turns a week of chats into a toolkit you keep."
     },
     {
       "key": "fix-prompt",
       "type": "choice",
       "title": "Run the weekly review",
-      "scenario": "During your Friday review you see your customer-reply prompt keeps promising delivery dates you haven't confirmed.",
+      "scenario": "During your Friday review, you notice that your customer-reply prompt keeps promising delivery dates you have not confirmed.",
       "prompt": "What is the right fix?",
       "options": [
         {
           "text": "Switch to a different AI tool.",
-          "feedback": "The problem is the instruction, not the tool. A new tool with the same prompt will do the same."
+          "feedback": "The problem is the instruction. A new tool given the same prompt will make the same mistake."
         },
         {
           "text": "Add one sentence to the prompt: 'Never promise a delivery date I have not confirmed; ask me if one is needed.' Save it in the Playbook.",
@@ -79,13 +79,13 @@
         },
         {
           "text": "Correct each reply by hand every time, and leave the prompt as it is.",
-          "feedback": "That works today, but the problem returns every time. The ritual fixes the prompt once."
+          "feedback": "That works today, but the problem comes back every time. The ritual fixes the prompt once."
         }
       ],
       "correct": 1,
       "hint": "The review ritual has three steps. The third is the one that matters here.",
-      "support": "Look at what went wrong (unconfirmed promises) and find the option that changes the instruction so it can't happen again.",
-      "explain": "Fixing one weak prompt per week with one sentence is the habit that compounds. The Playbook keeps the corrected version, not the first draft."
+      "support": "Look at what went wrong (unconfirmed promises) and find the option that changes the instruction so it does not happen again.",
+      "explain": "Fixing one weak prompt a week with one sentence is a habit that adds up. The Playbook keeps the corrected version, not the first draft."
     }
   ],
   "advanced": {
@@ -104,8 +104,8 @@
         "feedback": "Yes. Your privacy rules travel with you to every tool."
       },
       {
-        "text": "Run the 4-question check on its output, just as before.",
-        "feedback": "Yes. A new tool doesn't change the need to verify."
+        "text": "Run the 4-question check on its output, as you would with any tool.",
+        "feedback": "Yes. A new tool does not remove the need to verify."
       },
       {
         "text": "Drop your Playbook and learn the new tool's way of working.",
@@ -113,7 +113,7 @@
       },
       {
         "text": "Pay for it quickly before the offer ends.",
-        "feedback": "No. That is hype, not evidence. Test first."
+        "feedback": "No. A deadline is pressure, not evidence. Test first."
       }
     ],
     "correct": [
@@ -123,6 +123,6 @@
     ],
     "hint": "New tools get tested against your Playbook, not the other way round.",
     "support": "Your Playbook already contains your best prompts, your privacy rules and your checklist. Which options use them?",
-    "explain": "Every new tool runs on the same three moves. Testing it with your own prompts, privacy rules and checks tells you in ten minutes whether it is actually better."
+    "explain": "The same three moves work in every new tool. Testing it with your own prompts, privacy rules and checks tells you in ten minutes whether it is any better."
   }
 }

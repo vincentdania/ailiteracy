@@ -51,10 +51,10 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
       {activities && <div className="surface-dark p-6 sm:p-8"><p className="eyebrow !text-[#ffd36b]">{activities.discover.title}</p><p className="mt-3 text-lg leading-8 text-white/85">{activities.discover.scenario}</p></div>}
       <div className="lesson-prose mt-8">{md([sections.intro, ...sections.beats.map((b) => `## ${b.title}\n\n${b.markdown}`), sections.task ? `## 🎯 Task\n\n${sections.task}` : ""].join("\n\n"))}</div>
       <div className="surface-dark mt-10 p-6 sm:p-8">
-        <h2 className="display text-3xl">Missions, XP and a certificate are waiting.</h2>
-        <p className="mt-3 leading-7 text-white/75">{freeEnrollment ? "Create your free account" : "Enroll"} to play this lesson’s missions, master the knowledge check, and earn a verifiable certificate for every module you complete.</p>
+        <h2 className="display text-3xl">There’s more in the full course.</h2>
+        <p className="mt-3 leading-7 text-white/75">{freeEnrollment ? "Create your free account" : "Enrol"} to do this lesson’s missions, take the knowledge check and earn a certificate for each module you complete.</p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link href={freeEnrollment ? "/signup" : "/checkout"} className="tap inline-flex items-center rounded-full bg-[#f2b01e] px-6 py-3 text-sm font-bold text-[#0b1c30]">{freeEnrollment ? "Start learning free" : "Enroll now"}</Link>
+          <Link href={freeEnrollment ? "/signup" : "/checkout"} className="tap inline-flex items-center rounded-full bg-[#f2b01e] px-6 py-3 text-sm font-bold text-[#0b1c30]">{freeEnrollment ? "Start learning free" : "Enrol now"}</Link>
           <Link href="/" className="tap inline-flex items-center rounded-full border border-white/30 px-6 py-3 text-sm font-bold text-white">See the course</Link>
         </div>
       </div>
@@ -66,7 +66,7 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
   if (!state.access.active) return <div className="mx-auto max-w-3xl"><Link href="/dashboard" className="mb-7 inline-flex items-center gap-2 text-sm font-bold text-[#4d5768]"><ArrowLeft size={17} />Back to your dashboard</Link><AccessEndedNotice endedAt={state.access.endsAt} timeZone={state.enrollment.user.profile?.timezone ?? undefined} /></div>;
   const courseModule = state.modules.find((m) => m.id === lesson.moduleId)!;
   const mastery = courseModule.lessons.find((l) => l.id === lesson.id)!;
-  if (!mastery.unlocked) return <div className="mx-auto grid min-h-[65vh] max-w-xl place-items-center text-center"><div><span className="mx-auto grid size-16 place-items-center rounded-full bg-[#edf1f6]"><LockKeyhole /></span><h1 className="display mt-5 text-4xl">This stage unlocks soon.</h1><p className="my-5 leading-7 text-[#4d5768]">A new lesson opens each day at midnight in your timezone. Meanwhile, you can replay earlier missions to sharpen your skills.</p><Link className="font-bold text-[#0058be] underline" href="/challenge">Back to your journey</Link></div></div>;
+  if (!mastery.unlocked) return <div className="mx-auto grid min-h-[65vh] max-w-xl place-items-center text-center"><div><span className="mx-auto grid size-16 place-items-center rounded-full bg-[#edf1f6]"><LockKeyhole /></span><h1 className="display mt-5 text-4xl">This lesson isn’t open yet.</h1><p className="my-5 leading-7 text-[#4d5768]">A new lesson opens each day at midnight in your time zone. Until then, you can replay missions from earlier lessons.</p><Link className="font-bold text-[#0058be] underline" href="/challenge">Back to all lessons</Link></div></div>;
 
   const [plan, submission, quizAttempt] = await Promise.all([
     db.learningPlan.findUnique({ where: { userId_courseId: { userId: session.user.id, courseId: lesson.module.courseId } }, include: { personalizedLessons: { where: { lessonId: lesson.id }, take: 1 } } }),
@@ -91,16 +91,16 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
     activities && { id: "discover", label: "Discover", done: true },
     { id: "understand", label: "Understand", done: true },
     activities && { id: "practise", label: "Practise", done: mastery.missions.every((m) => m.solved) },
-    quiz && { id: "challenge", label: "Challenge", done: !!mastery.quiz?.passed },
-    { id: "master", label: "Master", done: mastery.practical.passed },
-    { id: "celebrate", label: "Celebrate", done: mastery.completed },
+    quiz && { id: "challenge", label: "Check", done: !!mastery.quiz?.passed },
+    { id: "master", label: "Apply", done: mastery.practical.passed },
+    { id: "celebrate", label: "Finish", done: mastery.completed },
   ].filter((s): s is { id: string; label: string; done: boolean } => !!s);
 
   return <article className="mx-auto max-w-3xl">
-    <nav className="flex items-center justify-between gap-3 text-sm" aria-label="Breadcrumb"><Link href="/challenge" className="tap inline-flex items-center gap-2 font-bold text-[#4d5768] hover:text-[#0b1c30]"><ArrowLeft size={17} />Journey</Link><span className="truncate text-[#677284]">Level {moduleIndex + 1} · {courseModule.title}</span></nav>
+    <nav className="flex items-center justify-between gap-3 text-sm" aria-label="Breadcrumb"><Link href="/challenge" className="tap inline-flex items-center gap-2 font-bold text-[#4d5768] hover:text-[#0b1c30]"><ArrowLeft size={17} />All lessons</Link><span className="truncate text-[#677284]">Module {moduleIndex + 1} · {courseModule.title}</span></nav>
 
     <header className="pt-4">
-      <p className="eyebrow">{label} · Stage {stageIndex + 1} of {courseModule.lessons.length}</p>
+      <p className="eyebrow">{label} · Lesson {stageIndex + 1} of {courseModule.lessons.length} in this module</p>
       <h1 className="display mt-3 text-[2.2rem] text-[#0b1c30] sm:text-5xl">{lesson.title}</h1>
       <p className="mt-4 max-w-2xl text-lg leading-8 text-[#4d5768]">{lesson.summary}</p>
       <div className="mt-5 flex flex-wrap gap-2">
@@ -120,24 +120,24 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
       <div className="mt-4 grid gap-3 sm:grid-cols-2">{([["Understand", activities.objectives.understand, Brain], ["Do", activities.objectives.do, Hammer], ["Demonstrate", activities.objectives.demonstrate, Target], ["Apply", activities.objectives.apply, Trophy]] as const).map(([title, text, Icon]) => <div key={title} className="surface p-4"><p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[.12em] text-[#0058be]"><Icon size={14} />You will {title.toLowerCase()}</p><p className="mt-2 text-[15px] leading-6 text-[#26324a]">{text}</p></div>)}</div>
     </Stage>}
 
-    <Stage id="understand" step={`Step ${activities ? 2 : 1} · Understand and explore`} icon={<Lightbulb size={19} />} title="The ideas, one at a time">
+    <Stage id="understand" step={`Step ${activities ? 2 : 1} · Understand`} icon={<Lightbulb size={19} />} title="The ideas, one at a time">
       {personalized && <div className="surface mb-5 overflow-hidden"><p className="flex items-center gap-2 border-b border-[#dfe5ee] px-5 py-3 text-sm font-bold text-[#0b1c30]"><Sparkles size={16} className="text-[#0058be]" />Personalised for you</p><div className="grid gap-5 p-5 md:grid-cols-2"><div><h3 className="font-display text-lg font-semibold">Why this matters to you</h3><p className="mt-2 leading-7 text-[#4d5768]">{personalized.whyItMatters}</p></div><div><h3 className="font-display text-lg font-semibold">In your context</h3><p className="mt-2 leading-7 text-[#4d5768]">{personalized.tailoredExample}</p></div></div></div>}
       {sections.intro && <div className="lesson-prose mb-5">{md(sections.intro)}</div>}
-      <LessonBeats beats={sections.beats.map((beat) => ({ title: beat.title, content: md(beat.markdown) }))} nextHref={activities ? "#practise" : quiz ? "#challenge" : "#master"} nextLabel={activities ? "Start your missions" : quiz ? "Take the knowledge check" : "Do the real-world task"} />
-      {activities && <aside className="mt-5 rounded-2xl border border-[#f2b01e]/50 bg-[#fff9e8] p-5"><p className="flex items-center gap-2 font-display font-bold text-[#8a5300]"><Lightbulb size={17} />Remember these {activities.keyIdeas.length}</p><ul className="mt-3 grid gap-2">{activities.keyIdeas.map((idea) => <li key={idea} className="flex gap-2.5 text-[15px] leading-6 text-[#26324a]"><Check size={16} className="mt-1 shrink-0 text-[#8a5300]" />{idea}</li>)}</ul></aside>}
+      <LessonBeats beats={sections.beats.map((beat) => ({ title: beat.title, content: md(beat.markdown) }))} nextHref={activities ? "#practise" : quiz ? "#challenge" : "#master"} nextLabel={activities ? "Start your missions" : quiz ? "Take the knowledge check" : "Go to today’s task"} />
+      {activities && <aside className="mt-5 rounded-2xl border border-[#f2b01e]/50 bg-[#fff9e8] p-5"><p className="flex items-center gap-2 font-display font-bold text-[#8a5300]"><Lightbulb size={17} />Key ideas to remember</p><ul className="mt-3 grid gap-2">{activities.keyIdeas.map((idea) => <li key={idea} className="flex gap-2.5 text-[15px] leading-6 text-[#26324a]"><Check size={16} className="mt-1 shrink-0 text-[#8a5300]" />{idea}</li>)}</ul></aside>}
       {caseStudy && <aside className="surface-dark mt-6 p-6 sm:p-8"><div className="flex flex-wrap items-center justify-between gap-3"><p className="eyebrow !text-[#ffd36b]">African case study · {caseStudy.sector}</p><span className="flex items-center gap-1 text-xs font-bold text-white/60"><MapPin size={14} />{caseStudy.region}</span></div><h3 className="display mt-3 text-3xl">{caseStudy.name}</h3><p className="mt-4 leading-7 text-white/75">{caseStudy.summary}</p><div className="mt-5 rounded-xl bg-white/10 p-5"><p className="flex items-center gap-2 font-bold text-[#ffd36b]"><Lightbulb size={18} />What to notice</p><p className="mt-2 leading-7 text-white/75">{caseStudy.lesson}</p></div><a href={caseStudy.sourceUrl} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-white underline decoration-white/40 underline-offset-4">Read the original source: {caseStudy.sourceLabel} <ExternalLink size={15} /></a></aside>}
     </Stage>
 
-    {activities && <Stage id="practise" step="Step 3 · Practise" icon={<Target size={19} />} title={`Your missions · ${missionsDone} of ${activities.missions.length} solved`} lead="Real situations, instant feedback. Get one wrong and you'll get a hint, then a simpler explanation. Every mission must be solved to complete the lesson.">
+    {activities && <Stage id="practise" step="Step 3 · Practise" icon={<Target size={19} />} title={`Your missions · ${missionsDone} of ${activities.missions.length} solved`} lead="Each mission is a short situation from everyday work. If you get one wrong, you’ll see a hint, then a simpler explanation, and after three tries the answer. Solve every mission to complete the lesson.">
       <div className="grid gap-5">{activities.missions.map((mission, i) => { const s = mastery.missions.find((m) => m.key === mission.key); return <MissionCard key={mission.key} lessonId={lesson.id} index={i} mission={toPublicMission(lesson.id, mission)} initial={{ solved: !!s?.solved, attempts: s?.attempts ?? 0 }} />; })}</div>
     </Stage>}
 
-    {quiz && <Stage id="challenge" step={`Step ${activities ? 4 : 2} · Challenge`} icon={<Brain size={19} />} title="Knowledge check">
+    {quiz && <Stage id="challenge" step={`Step ${activities ? 4 : 2} · Check`} icon={<Brain size={19} />} title="Knowledge check">
       <LessonQuiz lessonId={lesson.id} quiz={quiz.map(({ q, options }) => ({ q, options }))} bestScore={quizAttempt?.score ?? null} passMark={quizPassMark(quiz.length)} />
       {activities?.advanced && <div className="mt-5"><MissionCard lessonId={lesson.id} index={0} advanced locked={!mastery.advanced?.available} mission={toPublicMission(lesson.id, activities.advanced)} initial={{ solved: !!mastery.advanced?.solved, attempts: mastery.advanced?.solved ? 1 : 0 }} /></div>}
     </Stage>}
 
-    <Stage id="master" step={`Step ${steps.findIndex((s) => s.id === "master") + 1} · Master`} icon={<Hammer size={19} />} title="Apply it to your real work" lead="Missions prove you understand. This proves you can do it, on material from your own job.">
+    <Stage id="master" step={`Step ${steps.findIndex((s) => s.id === "master") + 1} · Apply`} icon={<Hammer size={19} />} title="Apply it to your real work" lead="Now use what you’ve learned on real material from your own job.">
       {(sections.task || personalized) && <div className="surface p-5 sm:p-7">
         {personalized && <><p className="eyebrow">Your personalised brief</p><p className="mt-2 text-lg leading-8 text-[#26324a]">{personalized.practiceBrief}</p>{personalized.successCriteria.length > 0 && <ul className="mt-4 grid gap-2">{personalized.successCriteria.map((c) => <li key={c} className="flex gap-2.5 text-sm leading-6 text-[#4d5768]"><Check size={16} className="mt-0.5 shrink-0 text-[#0058be]" />{c}</li>)}</ul>}</>}
         {sections.task && <div className={personalized ? "mt-6 border-t border-[#dfe5ee] pt-5" : ""}><p className="eyebrow">Today’s task</p><div className="lesson-prose mt-1">{md(sections.task)}</div></div>}
@@ -147,9 +147,9 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
       {sections.footnote && <div className="lesson-prose mt-5 rounded-2xl border border-[#dfe5ee] bg-white p-4 !text-sm">{md(sections.footnote)}</div>}
     </Stage>
 
-    <Stage id="celebrate" step={`Step ${steps.length} · Celebrate`} icon={<Award size={19} />} title={mastery.completed ? "Stage complete" : "Finish the stage"}>
+    <Stage id="celebrate" step={`Step ${steps.length} · Finish`} icon={<Award size={19} />} title={mastery.completed ? "Lesson complete" : "Finish the lesson"}>
       <div className="surface p-5 sm:p-6">
-        <div className="flex items-center justify-between gap-3"><p className="font-display font-semibold text-[#0b1c30]">Level {moduleIndex + 1} certificate · {courseModule.title}</p><span className="text-sm font-bold text-[#0058be]">{courseModule.progress}%</span></div>
+        <div className="flex items-center justify-between gap-3"><p className="font-display font-semibold text-[#0b1c30]">Module {moduleIndex + 1} certificate · {courseModule.title}</p><span className="text-sm font-bold text-[#0058be]">{courseModule.progress}%</span></div>
         <div className="xp-bar mt-3"><span style={{ width: `${courseModule.progress}%` }} /></div>
         <ul className="mt-4 grid gap-2 text-sm">{courseModule.requirements.map((r) => <li key={r.key} className="flex items-center gap-2.5"><span className={`grid size-5 shrink-0 place-items-center rounded-full ${r.met ? "bg-[#146c43] text-white" : "border border-[#cbd5e1]"}`}>{r.met && <Check size={12} />}</span><span className={r.met ? "text-[#0b1c30]" : "text-[#4d5768]"}>{r.label}</span><span className="ml-auto text-xs font-semibold text-[#677284]">{r.done}/{r.total}</span></li>)}</ul>
         {courseModule.certificate && <Link href={`/verify/${courseModule.certificate.credentialId}`} className="tap mt-5 inline-flex items-center gap-2 rounded-full bg-[#fff4d6] px-5 py-2.5 text-sm font-bold text-[#8a5300]"><Award size={16} />View your module certificate</Link>}
@@ -160,7 +160,7 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
 
     <nav className="no-print mt-8 grid gap-3 sm:grid-cols-2" aria-label="Lesson navigation">
       {prevLesson ? <Link href={`/challenge/${prevLesson.slug}`} className="group flex flex-col gap-1 rounded-2xl border border-[#dfe5ee] bg-white p-4 transition hover:border-[#8fb0e0]"><span className="text-xs font-bold uppercase tracking-[.12em] text-[#677284]">Previous</span><span className="font-bold text-[#0b1c30]">{prevLesson.isBonus ? "Bonus" : `Day ${prevLesson.dayNumber}`}: {prevLesson.title}</span></Link> : <span />}
-      {nextLesson ? <Link href={nextLesson.unlocked ? `/challenge/${nextLesson.slug}` : "/challenge"} className="group flex flex-col gap-1 rounded-2xl bg-[#0b1c30] p-4 text-white transition hover:bg-[#214889]"><span className="text-xs font-bold uppercase tracking-[.12em] text-white/60">{nextLesson.unlocked ? "Next stage" : "Next stage · unlocks soon"}</span><span className="flex items-center justify-between gap-2 font-bold">{nextLesson.isBonus ? "Bonus" : `Day ${nextLesson.dayNumber}`}: {nextLesson.title}<ArrowRight size={17} className="shrink-0" /></span></Link> : <span />}
+      {nextLesson ? <Link href={nextLesson.unlocked ? `/challenge/${nextLesson.slug}` : "/challenge"} className="group flex flex-col gap-1 rounded-2xl bg-[#0b1c30] p-4 text-white transition hover:bg-[#214889]"><span className="text-xs font-bold uppercase tracking-[.12em] text-white/60">{nextLesson.unlocked ? "Next lesson" : "Next lesson · opens soon"}</span><span className="flex items-center justify-between gap-2 font-bold">{nextLesson.isBonus ? "Bonus" : `Day ${nextLesson.dayNumber}`}: {nextLesson.title}<ArrowRight size={17} className="shrink-0" /></span></Link> : <span />}
     </nav>
   </article>;
 }

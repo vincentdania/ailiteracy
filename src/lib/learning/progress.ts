@@ -87,13 +87,13 @@ function awardsFor(state: CourseState): Award[] {
     for (const lesson of courseModule.lessons) {
       const name = lesson.isBonus ? lesson.title : `Day ${lesson.dayNumber}`;
       if (lesson.completed) awards.push({ sourceKey: `lesson:${lesson.id}:complete`, kind: "lesson", label: `Completed ${name}`, xp: XP.lessonComplete, courseId, lessonId: lesson.id });
-      if (lesson.quiz?.passed) awards.push({ sourceKey: `quiz:${lesson.id}:pass`, kind: "quiz", label: `Mastered the ${name} knowledge check`, xp: XP.quizPassed, courseId, lessonId: lesson.id });
-      if (lesson.quiz && lesson.quiz.best === lesson.quiz.total) awards.push({ sourceKey: `quiz:${lesson.id}:perfect`, kind: "quiz", label: `Full marks on the ${name} check`, xp: XP.quizPerfect, courseId, lessonId: lesson.id });
+      if (lesson.quiz?.passed) awards.push({ sourceKey: `quiz:${lesson.id}:pass`, kind: "quiz", label: `Passed the ${name} knowledge check`, xp: XP.quizPassed, courseId, lessonId: lesson.id });
+      if (lesson.quiz && lesson.quiz.best === lesson.quiz.total) awards.push({ sourceKey: `quiz:${lesson.id}:perfect`, kind: "quiz", label: `Full marks on the ${name} knowledge check`, xp: XP.quizPerfect, courseId, lessonId: lesson.id });
       for (const mission of lesson.missions) if (mission.solved) awards.push({ sourceKey: `mission:${lesson.id}:${mission.key}`, kind: "mission", label: `Solved “${mission.title}”`, xp: missionXp(mission.attempts, false), courseId, lessonId: lesson.id });
       if (lesson.advanced?.solved) awards.push({ sourceKey: `mission:${lesson.id}:${ADVANCED_KEY}`, kind: "advanced", label: `Advanced mission: “${lesson.advanced.title}”`, xp: XP.advancedMission, courseId, lessonId: lesson.id });
-      if (lesson.practical.passed) awards.push({ sourceKey: `practical:${lesson.id}`, kind: "practical", label: lesson.isCapstone ? `Capstone passed (${name})` : `Practical challenge passed (${name})`, xp: lesson.isCapstone ? XP.capstonePassed : XP.practicalPassed, courseId, lessonId: lesson.id });
+      if (lesson.practical.passed) awards.push({ sourceKey: `practical:${lesson.id}`, kind: "practical", label: lesson.isCapstone ? `Capstone passed (${name})` : `Practical task passed (${name})`, xp: lesson.isCapstone ? XP.capstonePassed : XP.practicalPassed, courseId, lessonId: lesson.id });
     }
-    if (courseModule.certificate) awards.push({ sourceKey: `module:${courseModule.id}`, kind: "module", label: `Module mastered: ${courseModule.title}`, xp: XP.moduleMastered, courseId });
+    if (courseModule.certificate) awards.push({ sourceKey: `module:${courseModule.id}`, kind: "module", label: `Module certificate earned: ${courseModule.title}`, xp: XP.moduleMastered, courseId });
   }
   if (state.enrollment.status === "COMPLETED") awards.push({ sourceKey: `course:${courseId}`, kind: "course", label: `Course complete: ${state.course.title}`, xp: XP.courseComplete, courseId });
   return awards;

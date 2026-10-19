@@ -21,7 +21,7 @@ export default async function DashboardPage() {
   if (!session?.user.id) redirect("/login");
   const userId = session.user.id;
   const enrollment = await db.enrollment.findFirst({ where: { userId, status: { in: ["ACTIVE", "COMPLETED"] } }, orderBy: { enrolledAt: "desc" }, include: { user: { include: { profile: true } } } });
-  if (!enrollment) return <div className="mx-auto max-w-3xl"><p className="eyebrow">Your learning home</p><h1 className="display mt-3 text-5xl text-[#0b1c30]">Ready when you are.</h1><div className="surface mt-8 p-8"><h2 className="font-display text-2xl font-bold">Start your first course</h2><p className="my-4 max-w-xl leading-7 text-[#4d5768]">Activate your course to unlock hands-on missions, knowledge checks, XP, badges and a verifiable certificate for every module you master.</p><Button asChild><Link href="/checkout">Get started</Link></Button></div></div>;
+  if (!enrollment) return <div className="mx-auto max-w-3xl"><p className="eyebrow">Your learning home</p><h1 className="display mt-3 text-5xl text-[#0b1c30]">Ready when you are.</h1><div className="surface mt-8 p-8"><h2 className="font-display text-2xl font-bold">Start your first course</h2><p className="my-4 max-w-xl leading-7 text-[#4d5768]">Enrol to get hands-on missions, knowledge checks, XP, badges and a certificate for each module you complete.</p><Button asChild><Link href="/checkout">Get started</Link></Button></div></div>;
 
   // Also backfills XP, badges and certificates for progress made before gamification.
   await syncAchievements(userId);
@@ -52,7 +52,7 @@ export default async function DashboardPage() {
 
   return <div className="mx-auto max-w-[1180px]">
     <header className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
-      <div><p className="eyebrow">Welcome back</p><h1 className="display mt-2 text-4xl text-[#0b1c30] sm:text-5xl">Hello, {firstName}.</h1><p className="mt-3 max-w-xl leading-7 text-[#4d5768]">{completed === 0 ? "Your first mission is waiting. Ten minutes from now you'll have something real to show for it." : progress === 100 ? "You've completed the course. Replay missions any time to stay sharp." : `You're ${progress}% through ${state.course.title}. Keep the momentum going.`}</p><div className="mt-3"><AccessChip access={state.access} timeZone={timeZone} /></div></div>
+      <div><p className="eyebrow">Welcome back</p><h1 className="display mt-2 text-4xl text-[#0b1c30] sm:text-5xl">Hello, {firstName}.</h1><p className="mt-3 max-w-xl leading-7 text-[#4d5768]">{completed === 0 ? "Your first lesson is ready. Start with its first mission." : progress === 100 ? "You’ve completed the course. You can replay any mission or retake any knowledge check whenever you like." : `You’ve completed ${progress}% of ${state.course.title}.`}</p><div className="mt-3"><AccessChip access={state.access} timeZone={timeZone} /></div></div>
       <Link href="/achievements" className="surface flex min-w-[17rem] items-center gap-4 p-4 transition hover:-translate-y-0.5">
         <span className="relative grid size-16 shrink-0 place-items-center rounded-full" style={{ background: `conic-gradient(#0058be ${level.progress * 3.6}deg, #e6edf6 0)` }}><span className="grid size-[3.25rem] place-items-center rounded-full bg-white font-display text-xl font-bold text-[#0b1c30]">{level.level}</span></span>
         <span className="min-w-0"><span className="block text-xs font-bold uppercase tracking-[.12em] text-[#677284]">Level {level.level}</span><strong className="block font-display text-xl text-[#0b1c30]">{level.title}</strong><span className="text-sm text-[#4d5768]">{level.xp.toLocaleString()} XP{level.nextTitle ? ` · ${level.toNext} to ${level.nextTitle}` : ""}</span></span>
@@ -63,23 +63,23 @@ export default async function DashboardPage() {
       <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
         <div className="min-w-0">
           <p className="eyebrow !text-[#ffd36b]">{next ? next.label : "Course complete"}</p>
-          <h2 id="continue-title" className="display mt-3 text-3xl leading-tight sm:text-4xl">{next ? next.lesson.title : "You've finished every stage."}</h2>
-          <p className="mt-3 text-white/70">{next ? `${next.moduleTitle} · ${next.lesson.isBonus ? "Bonus" : `Day ${next.lesson.dayNumber}`}` : "Download your certificates and share what you've achieved."}</p>
-          {currentModule && <div className="mt-6 max-w-md"><div className="flex justify-between text-xs font-bold text-white/70"><span>Level progress · {currentModule.title}</span><span>{currentModule.progress}%</span></div><div className="mt-2 h-2.5 overflow-hidden rounded-full bg-white/15"><div className="h-full rounded-full bg-[#f2b01e] transition-all" style={{ width: `${currentModule.progress}%` }} /></div></div>}
+          <h2 id="continue-title" className="display mt-3 text-3xl leading-tight sm:text-4xl">{next ? next.lesson.title : "You’ve finished every lesson."}</h2>
+          <p className="mt-3 text-white/70">{next ? `${next.moduleTitle} · ${next.lesson.isBonus ? "Bonus" : `Day ${next.lesson.dayNumber}`}` : "Download your certificates and share them."}</p>
+          {currentModule && <div className="mt-6 max-w-md"><div className="flex justify-between text-xs font-bold text-white/70"><span>Module progress · {currentModule.title}</span><span>{currentModule.progress}%</span></div><div className="mt-2 h-2.5 overflow-hidden rounded-full bg-white/15"><div className="h-full rounded-full bg-[#f2b01e] transition-all" style={{ width: `${currentModule.progress}%` }} /></div></div>}
         </div>
-        {next ? (next.reason === "next" ? <Link href="/challenge" className="tap inline-flex items-center justify-center gap-2 rounded-full bg-white/10 px-7 py-4 font-bold text-white">See your journey <ArrowRight size={18} /></Link>
+        {next ? (next.reason === "next" ? <Link href="/challenge" className="tap inline-flex items-center justify-center gap-2 rounded-full bg-white/10 px-7 py-4 font-bold text-white">See all lessons <ArrowRight size={18} /></Link>
           : <Link href={`/challenge/${next.lesson.slug}${next.reason === "mission" ? "#practise" : next.reason === "check" ? "#challenge" : next.reason === "practical" ? "#master" : ""}`} className="tap inline-flex items-center justify-center gap-2 rounded-full bg-[#f2b01e] px-8 py-4 text-lg font-bold text-[#0b1c30] shadow-[0_10px_30px_-10px_rgba(242,176,30,.8)] transition hover:-translate-y-0.5 hover:bg-[#ffc23d]">Continue learning <ArrowRight size={20} /></Link>)
           : <Link href="/certificates" className="tap inline-flex items-center justify-center gap-2 rounded-full bg-[#f2b01e] px-8 py-4 font-bold text-[#0b1c30]">My certificates <Award size={18} /></Link>}
       </div>
     </section>}
 
     <section className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-5" aria-label="Your progress">
-      {([[Sparkles, "XP earned", level.xp.toLocaleString(), "#f2b01e"], [Flag, "Stages complete", `${completed}/${lessons.length}`, "#0058be"], [Target, "Missions solved", missionsSolved, "#0058be"], [Trophy, "Badges", `${earned.size}/${allBadges.length}`, "#f2b01e"], [Award, "Certificates", certificateCount, "#214889"]] as const).map(([Icon, label, value, colour]) => <div key={label} className="surface p-4"><Icon size={18} style={{ color: colour }} /><strong className="mt-3 block font-display text-2xl text-[#0b1c30]">{value}</strong><span className="text-xs font-semibold text-[#677284]">{label}</span></div>)}
+      {([[Sparkles, "XP earned", level.xp.toLocaleString(), "#f2b01e"], [Flag, "Lessons complete", `${completed}/${lessons.length}`, "#0058be"], [Target, "Missions solved", missionsSolved, "#0058be"], [Trophy, "Badges", `${earned.size}/${allBadges.length}`, "#f2b01e"], [Award, "Certificates", certificateCount, "#214889"]] as const).map(([Icon, label, value, colour]) => <div key={label} className="surface p-4"><Icon size={18} style={{ color: colour }} /><strong className="mt-3 block font-display text-2xl text-[#0b1c30]">{value}</strong><span className="text-xs font-semibold text-[#677284]">{label}</span></div>)}
     </section>
 
     <div className="mt-8 grid gap-6 xl:grid-cols-[1fr_24rem]">
       <section aria-labelledby="levels-title">
-        <div className="mb-4 flex items-end justify-between"><h2 id="levels-title" className="font-display text-2xl font-bold text-[#0b1c30]">Your levels</h2><Link href="/challenge" className="text-sm font-bold text-[#0058be]">Full journey</Link></div>
+        <div className="mb-4 flex items-end justify-between"><h2 id="levels-title" className="font-display text-2xl font-bold text-[#0b1c30]">Your modules</h2><Link href="/challenge" className="text-sm font-bold text-[#0058be]">All lessons</Link></div>
         <JourneyMap modules={state.modules} compact />
       </section>
 
@@ -90,7 +90,7 @@ export default async function DashboardPage() {
         </section>
 
         <section id="certificates" className="surface scroll-mt-24 p-5 sm:p-6" aria-labelledby="certs-title">
-          <div className="flex items-center justify-between"><h2 id="certs-title" className="font-display text-xl font-bold text-[#0b1c30]">My certificates</h2><Link href="/certificates" className="text-sm font-bold text-[#0058be]">Gallery</Link></div>
+          <div className="flex items-center justify-between"><h2 id="certs-title" className="font-display text-xl font-bold text-[#0b1c30]">My certificates</h2><Link href="/certificates" className="text-sm font-bold text-[#0058be]">View all</Link></div>
           {certificateCount ? <ul className="mt-4 grid gap-2">{moduleCertificates.slice(0, 3).map((c) => <li key={c.id}><Link href={`/verify/${c.credentialId}`} className="flex items-center gap-3 rounded-2xl border border-[#dfe5ee] p-3 hover:border-[#f2b01e]"><span className="grid size-10 place-items-center rounded-xl bg-[#fff4d6] text-[#8a5300]"><Award size={18} /></span><span className="min-w-0"><strong className="block truncate text-sm">{c.moduleTitle}</strong><span className="text-xs text-[#677284]">{c.credentialId}</span></span></Link></li>)}{courseCertificates.map((c) => <li key={c.id}><Link href={`/verify/${c.uniqueHash}`} className="flex items-center gap-3 rounded-2xl border border-[#dfe5ee] p-3 hover:border-[#f2b01e]"><span className="grid size-10 place-items-center rounded-xl bg-[#f2b01e] text-[#0b1c30]"><Trophy size={18} /></span><span className="min-w-0"><strong className="block truncate text-sm">{c.course.title}</strong><span className="text-xs text-[#677284]">Course certificate</span></span></Link></li>)}</ul>
             : <div className="mt-4 rounded-2xl bg-[#f6f8fb] p-4 text-sm leading-6 text-[#4d5768]"><p className="font-semibold text-[#0b1c30]">Your first certificate: {currentModule?.title}</p><ul className="mt-2 grid gap-1.5">{currentModule?.requirements.map((r) => <li key={r.key} className="flex items-center gap-2">{r.met ? <CheckCircle2 size={15} className="text-[#146c43]" /> : <span className="size-[15px] rounded-full border border-[#cbd5e1]" />}{r.label}</li>)}</ul></div>}
         </section>
@@ -98,7 +98,7 @@ export default async function DashboardPage() {
     </div>
 
     {plan && <section className="surface mt-8 overflow-hidden" aria-labelledby="plan-title">
-      <div className="grid gap-4 p-6 sm:p-8 md:grid-cols-[1fr_auto]"><div><p className="eyebrow flex items-center gap-2"><Compass size={15} />Your personalised path</p><h2 id="plan-title" className="display mt-2 text-3xl text-[#0b1c30]">{plan.title}</h2><p className="mt-3 max-w-3xl leading-7 text-[#4d5768]">{plan.outcomeSummary}</p></div><span className="chip h-fit bg-[#eaf2ff] text-[#214889]">{plan.source === "DEEPSEEK" ? "AI-assisted" : "Curated"}</span></div>
+      <div className="grid gap-4 p-6 sm:p-8 md:grid-cols-[1fr_auto]"><div><p className="eyebrow flex items-center gap-2"><Compass size={15} />Your personalised plan</p><h2 id="plan-title" className="display mt-2 text-3xl text-[#0b1c30]">{plan.title}</h2><p className="mt-3 max-w-3xl leading-7 text-[#4d5768]">{plan.outcomeSummary}</p></div><span className="chip h-fit bg-[#eaf2ff] text-[#214889]">{plan.source === "DEEPSEEK" ? "AI-assisted" : "Curated"}</span></div>
       {plan.recommendedTools.length > 0 && <div id="resources" className="flex flex-wrap items-center gap-2 border-t border-[#dfe5ee] px-6 py-4 text-sm sm:px-8"><Wrench size={16} /><strong>Suggested tools:</strong>{plan.recommendedTools.map((tool) => <span key={tool} className="chip bg-[#edf1f6] text-[#4d5768]">{tool}</span>)}</div>}
     </section>}
 

@@ -37,7 +37,7 @@ export async function updatePricingAction(formData: FormData) {
 export async function broadcastPushAction(formData: FormData) {
   await requireAdmin();
   const title = String(formData.get("title") ?? "Your lesson is ready").slice(0, 80);
-  const body = String(formData.get("body") ?? "Keep your streak alive 🔥").slice(0, 180);
+  const body = String(formData.get("body") ?? "Open the course to pick up where you left off.").slice(0, 180);
   const users = await db.user.findMany({ where: { pushSubscriptions: { some: {} } }, select: { id: true } });
   await Promise.all(users.map((user) => sendPushToUser(user.id, { title, body, url: "/dashboard" })));
   revalidatePath("/admin");

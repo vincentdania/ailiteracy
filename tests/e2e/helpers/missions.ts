@@ -52,12 +52,12 @@ export async function solveMission(page: Page, mission: Mission) {
 }
 
 export async function passQuiz(page: Page, quiz: { q: string; options: string[]; answer: number }[]) {
-  const check = page.getByRole("region", { name: "Show you’ve mastered it" });
+  const check = page.getByRole("region", { name: "Check your understanding" });
   for (let i = 0; i < quiz.length; i++) {
     const question = check.locator("fieldset").nth(i);
     await question.getByLabel(quiz[i]!.options[quiz[i]!.answer]!, { exact: true }).check();
   }
   await check.getByRole("button", { name: "Check my answers" }).click();
-  await expect(check.getByText(/Mastered/).first()).toBeVisible();
+  await expect(check.getByText(/Passed/).first()).toBeVisible();
   await dismissCelebration(page);
 }
