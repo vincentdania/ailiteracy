@@ -150,6 +150,17 @@ describe("module certificate eligibility", () => {
     expect(lessonReadyToComplete(lesson({ quiz: null, missions: [] }))).toBe(true);
   });
 
+  it("blocks a capstone until its submission scores 70 or more, matching completeLessonAction", () => {
+    for (const practical of [{ score: null, passed: false }, { score: 0, passed: false }, { score: 69, passed: false }]) {
+      const capstone = lesson({ isCapstone: true, completed: false, practical });
+      expect(lessonReadyToComplete(capstone)).toBe(false);
+      expect(lessonBlockers(capstone)).toEqual(["Submit your capstone and score 70 or more"]);
+    }
+    expect(lessonReadyToComplete(lesson({ isCapstone: true, completed: false, practical: { score: 70, passed: true } }))).toBe(true);
+    // An ordinary lesson's practical stays optional.
+    expect(lessonReadyToComplete(lesson({ completed: false, practical: { score: null, passed: false } }))).toBe(true);
+  });
+
   it("points the learner at the most useful next step", () => {
     const modules = [{ title: "M1", lessons: [lesson(), lesson({ id: "l2", dayNumber: 2, completed: false })] }];
     expect(nextActivity(modules)).toMatchObject({ reason: "resume", lesson: { id: "l2" } });

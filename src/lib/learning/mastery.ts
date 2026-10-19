@@ -24,16 +24,20 @@ export type LessonMastery = {
 
 export type Requirement = { key: string; label: string; met: boolean; done: number; total: number };
 
-export function lessonReadyToComplete(lesson: Pick<LessonMastery, "quiz" | "missions">) {
-  return (!lesson.quiz || lesson.quiz.passed) && lesson.missions.every((mission) => mission.solved);
+type CompletionInput = Pick<LessonMastery, "quiz" | "missions" | "isCapstone" | "practical">;
+
+export function lessonReadyToComplete(lesson: CompletionInput) {
+  return lessonBlockers(lesson).length === 0;
 }
 
 /** What still stands between the learner and marking this lesson complete. */
-export function lessonBlockers(lesson: Pick<LessonMastery, "quiz" | "missions">) {
+export function lessonBlockers(lesson: CompletionInput) {
   const blockers: string[] = [];
   const open = lesson.missions.filter((mission) => !mission.solved).length;
   if (open) blockers.push(`Solve ${open === 1 ? "the remaining mission" : `the ${open} remaining missions`}`);
   if (lesson.quiz && !lesson.quiz.passed) blockers.push("Master the knowledge check (75% or better)");
+  // Same rule as completeLessonAction: a capstone needs a submission scoring PRACTICAL_PASS or more.
+  if (lesson.isCapstone && !lesson.practical.passed) blockers.push(`Submit your capstone and score ${PRACTICAL_PASS} or more`);
   return blockers;
 }
 
