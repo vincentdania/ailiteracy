@@ -27,9 +27,7 @@ export function productionReadinessIssues(environment: Environment = process.env
   if (environment.ADMIN_PREVIEW_ENABLED === "true") issues.push("ADMIN_PREVIEW_ENABLED");
 
   if (environment.FREE_ENROLLMENT_ENABLED !== "true") {
-    const paystackReady = Boolean(environment.PAYSTACK_SECRET_KEY);
-    const stripeReady = Boolean(environment.STRIPE_SECRET_KEY && environment.STRIPE_WEBHOOK_SECRET);
-    if (!paystackReady && !stripeReady) issues.push("PAYMENT_PROVIDER");
+    if (!environment.PAYSTACK_SECRET_KEY) issues.push("PAYMENT_PROVIDER");
   }
 
   return [...new Set(issues)];
