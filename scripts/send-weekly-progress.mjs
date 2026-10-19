@@ -29,7 +29,7 @@ function mockOrSend(message) {
 async function main() {
   const enrollments = await db.enrollment.findMany({
     where: { status: "ACTIVE" },
-    include: { user: { select: { email: true, name: true } } },
+    include: { user: { select: { email: true, name: true } }, course: { select: { title: true, modules: { select: { _count: { select: { lessons: { where: { isBonus: false } } } } } } } } },
   });
 
   let sent = 0;
@@ -38,7 +38,7 @@ async function main() {
     const email = enrollment.user.email;
     if (!email) { skipped++; continue; }
     const completed = enrollment.completedDays.length;
-    const total = 21;
+    const total = enrollment.course.modules.reduce((sum, m) => sum + m._count.lessons, 0) || 1;
     const nextDay = Math.min(enrollment.unlockedDay + 1, total);
     const remaining = Math.max(total - completed, 0);
     const pct = Math.round((completed / total) * 100);
@@ -48,15 +48,15 @@ async function main() {
     const subject = completed === 0
       ? "Your Hyrax AI Academy journey starts with Day 1"
       : completed >= total
-        ? `You finished the 21-day AI challenge 🎉`
-        : `Your Hyrax AI Academy progress: ${completed}/21 lessons complete`;
+        ? `You finished ${enrollment.course.title} 🎉`
+        : `Your Hyrax AI Academy progress: ${completed}/${total} lessons complete`;
 
     const text = `Hi ${name},
 
 ${completed === 0
-  ? "Welcome to the Hyrax AI Academy 21-day challenge. Your first lesson is waiting."
+  ? `Welcome to ${enrollment.course.title}. Your first lesson is waiting.`
   : completed >= total
-    ? "Congratulations — you have completed all 21 lessons. Your certificate is ready in your dashboard."
+    ? `Congratulations — you have completed all ${total} lessons. Your certificate is ready in your dashboard.`
     : `You have completed ${completed} of ${total} lessons.`}
 
 Progress: ${progressBar} ${pct}%

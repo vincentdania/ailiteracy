@@ -15,7 +15,6 @@ import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 
 export const COURSES = [
-  { dir: "hermes_agent_course", heroPrefix: "hermes-", slugPrefix: "hermes-", expectedLessons: 22 },
   { dir: "track_a_course", heroPrefix: "tracka-", slugPrefix: "tracka-", expectedLessons: 10, requireActivities: true },
 ];
 

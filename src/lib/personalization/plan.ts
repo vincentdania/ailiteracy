@@ -5,25 +5,16 @@ import { enhancePlanWithDeepSeek, deepSeekEnabled } from "./deepseek";
 import { chooseTrack, TRACKS, type PersonalizationInput } from "./tracks";
 
 const DAILY_OUTPUTS = [
-  "a one-sentence job for your personal agent and the boundary it must not cross",
-  "a short reason for choosing Hermes Agent over a browser-only chat tool",
-  "a map of your agent's instance, model provider, tools, memory and messaging surfaces",
-  "an installation record with the command used and any error you fixed",
-  "a provider record showing the model you chose, its cost basis and a successful test task",
-  "a VPS decision with host, monthly cost, login method and gateway service status",
-  "a least-privilege toolset for one real task",
-  "one reusable skill tested twice with the same output structure",
-  "a SOUL.md rule, a saved user fact and proof that both load in a new session",
-  "a Telegram connection restricted to your user ID and tested end to end",
-  "a safe email setup using a dedicated inbox, allowlist and a draft-only workflow",
-  "a scheduled task with an explicit timezone, delivery target and test run",
-  "a seven-day adoption plan built around work you already do",
-  "a cross-surface test proving that Telegram and the terminal use the same Hermes profile",
-  "a completed security review covering access, approvals, secrets, isolation and backups",
-  "a production report from a 48-hour reliability test",
-  "one tested advanced feature: voice, code execution or a local model",
-  "an extension decision explaining whether a skill, plugin, MCP server or core tool fits the need",
-  "a one-page operating note with daily commands, recovery steps and standing weekly tasks",
+  "a finished, formatted report made from your own rough notes",
+  "one R-C-F prompt and the 4-question check applied to its answer",
+  "your job's most common document, plus a template made from an old example",
+  "this week's emails or customer messages, drafted and checked in one sitting",
+  "a summary of a long document and a spreadsheet built by describing what you need",
+  "the next-move output for your branch: application, programme report or lesson material",
+  "your Personal AI Playbook with every prompt tested and organised",
+  "a plain-language map of the four parts of the agent you will build",
+  "a working agent for one recurring job, with instructions, memory, tools and a trigger",
+  "a weekly routine for your agent and one genuine output shown to someone who needs it",
 ] as const;
 
 function inputHash(value: unknown) {
@@ -45,7 +36,7 @@ function tailoredExample(track: LearningTrack, input: PersonalizationInput, day:
 
 function lessonOverlay(track: LearningTrack, input: PersonalizationInput, lesson: { id: string; dayNumber: number; title: string }, caseStudySlugs: string[]) {
   const definition = TRACKS[track];
-  const caseStudyDays = [3, 8, 14, 18];
+  const caseStudyDays = [2, 5, 8, 10];
   const caseIndex = caseStudyDays.indexOf(lesson.dayNumber);
   return {
     lessonId: lesson.id,
@@ -73,7 +64,7 @@ export async function createOrRefreshLearningPlan(userId: string, courseId: stri
   let source: GenerationSource = "CURATED";
   let model: string | undefined;
   let title = definition.label;
-  let outcomeSummary = `${definition.promise} By Lesson 19, you will have a tested personal agent and a short production record tied to this outcome: ${input.primaryGoal}`;
+  let outcomeSummary = `${definition.promise} By the end of the course, you will have a tested Playbook and a working agent tied to this outcome: ${input.primaryGoal}`;
   let milestones = definition.milestones;
 
   if (deepSeekEnabled()) {
