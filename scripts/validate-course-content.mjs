@@ -16,7 +16,7 @@ import path from "node:path";
 
 export const COURSES = [
   { dir: "hermes_agent_course", heroPrefix: "hermes-", slugPrefix: "hermes-", expectedLessons: 22 },
-  { dir: "track_a_course", heroPrefix: "tracka-", slugPrefix: "tracka-", expectedLessons: 10 },
+  { dir: "track_a_course", heroPrefix: "tracka-", slugPrefix: "tracka-", expectedLessons: 10, requireActivities: true },
 ];
 
 export const MIN_CAPSTONE_SCORE = 70; // must match src/app/actions/submissions.ts
@@ -169,6 +169,20 @@ export function validateCourse(root, course) {
       if (!rule.re.test(fm.body)) continue;
       if (rule.id === "premature-certificate" && isFinal) continue;
       errors.push(`${tag}/lesson.md: ${rule.why}`);
+    }
+
+    // interactive missions (activities.json); the full schema is checked by tests/unit/activities.test.ts
+    const activitiesPath = path.join(dir, "activities.json");
+    if (existsSync(activitiesPath)) {
+      try {
+        const activities = JSON.parse(readFileSync(activitiesPath, "utf8"));
+        if (!Array.isArray(activities.missions) || activities.missions.length === 0) errors.push(`${tag}/activities.json: needs at least one mission`);
+        if (!activities.objectives?.understand || !activities.objectives?.do || !activities.objectives?.demonstrate || !activities.objectives?.apply) errors.push(`${tag}/activities.json: needs all four learning objectives`);
+      } catch (error) {
+        errors.push(`${tag}/activities.json: invalid JSON (${error.message})`);
+      }
+    } else if (course.requireActivities) {
+      errors.push(`${tag}: missing activities.json (missions and learning objectives)`);
     }
 
     // quizzes (optional per lesson, every present one must be valid)

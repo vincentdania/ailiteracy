@@ -69,4 +69,4 @@ Test the customer-reply prompt with one enquiry and the spreadsheet prompt with 
 
 Your submitted Playbook. Save your submitted Playbook.
 
-**Certificate gate, stated plainly:** the capstone submission must score **70 or above** before Day 7 can be marked complete, and the completion certificate is issued only once **all ten days** are complete. Day 7 is the milestone, Day 10 is the finish line.
+**Certificate gate, stated plainly:** the capstone submission must score **70 or above** before Day 7 can be marked complete. Passing it, with Day 6 mastered too, earns the certificate for this module (Your Playbook and Your Role). The course completion certificate is issued only once **all ten days** are complete. Day 7 is the milestone, Day 10 is the finish line.

@@ -47,6 +47,13 @@ async function readLesson(day: number, opts: { dir: string; heroPrefix: string; 
   } catch {
     quizJson = undefined;
   }
+  // Optional interactive missions, objectives and briefing for the lesson player.
+  let activitiesJson: Prisma.InputJsonValue | typeof Prisma.DbNull = Prisma.DbNull;
+  try {
+    activitiesJson = JSON.parse(await readFile(path.join(dir, "activities.json"), "utf8")) as Prisma.InputJsonValue;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+  }
   return {
     dayNumber: day,
     title: parsed.title ?? titleFromMarkdown(parsed.content, day),
@@ -55,6 +62,7 @@ async function readLesson(day: number, opts: { dir: string; heroPrefix: string; 
     contentMarkdown: parsed.content.trim(),
     heroImage: `/lessons/${opts.heroPrefix}day${String(day).padStart(2, "0")}_hero.png`,
     quizJson,
+    activitiesJson,
     isFreePreview: day === (opts.freePreviewDay ?? 0),
     isBonus: false,
   };

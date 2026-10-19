@@ -49,7 +49,7 @@ export function RecaptchaWidget({ siteKey }: { siteKey?: string }) {
   }, [renderWidget]);
   if (!siteKey) return null;
 
-  return <div className="overflow-hidden rounded-xl border border-[#dce2dd] bg-white p-3">
+  return <div className="overflow-hidden rounded-xl border border-[#dfe5ee] bg-white p-3">
     <Script src="https://www.google.com/recaptcha/api.js?render=explicit" strategy="afterInteractive" onLoad={() => { renderWidget(); }} onReady={() => { renderWidget(); }} />
     <div ref={containerRef} className="min-h-[78px]" />
     <input ref={tokenRef} type="hidden" name="recaptchaToken" />

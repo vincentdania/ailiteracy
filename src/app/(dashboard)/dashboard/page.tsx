@@ -1,13 +1,16 @@
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Award, BarChart3, Check, Compass, Flame, Lightbulb, Wrench } from "lucide-react";
+import { ArrowRight, Award, CheckCircle2, Compass, Flag, Sparkles, Target, Trophy, Wrench } from "lucide-react";
 import { redirect } from "next/navigation";
 import { NotificationSettings } from "@/components/dashboard/notification-settings";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
+import { BadgeIcon } from "@/components/learning/badge-icon";
+import { JourneyMap } from "@/components/learning/journey-map";
+import { LearningSettings } from "@/components/learning/learning-settings";
 import { auth } from "@/lib/auth";
-import { unlockedDay } from "@/lib/challenge";
 import { db } from "@/lib/db";
+import { nextActivity } from "@/lib/learning/mastery";
+import { learnerRewards, loadCourseState, syncAchievements } from "@/lib/learning/progress";
+import { badgesFor } from "@/lib/learning/rewards";
 import { createOrRefreshLearningPlan } from "@/lib/personalization/plan";
 
 export const dynamic = "force-dynamic";
@@ -15,41 +18,88 @@ export const dynamic = "force-dynamic";
 export default async function DashboardPage() {
   const session = await auth();
   if (!session?.user.id) redirect("/login");
-  const enrollment = await db.enrollment.findFirst({
-    where: { userId: session.user.id, status: { in: ["ACTIVE", "COMPLETED"] } },
-    include: { course: { include: { modules: { include: { lessons: true } } } }, user: { include: { profile: true, streak: true, certificates: true } } },
-  });
-  if (!enrollment) return <div className="mx-auto max-w-4xl"><p className="eyebrow">Your learning home</p><h1 className="display mt-3 text-6xl text-[#00261d]">Ready when you are.</h1><div className="editorial-card mt-8 p-8"><h2 className="font-serif text-3xl font-semibold">Activate the Personal Agent Masterclass</h2><p className="my-4 max-w-xl leading-7 text-[#414845]">Complete checkout to activate 22 hands-on lessons, saved practice, capstone feedback and your certificate path.</p><Button asChild><Link href="/checkout">Choose your currency</Link></Button></div></div>;
+  const userId = session.user.id;
+  const enrollment = await db.enrollment.findFirst({ where: { userId, status: { in: ["ACTIVE", "COMPLETED"] } }, orderBy: { enrolledAt: "desc" }, include: { user: { include: { profile: true } } } });
+  if (!enrollment) return <div className="mx-auto max-w-3xl"><p className="eyebrow">Your learning home</p><h1 className="display mt-3 text-5xl text-[#0b1c30]">Ready when you are.</h1><div className="surface mt-8 p-8"><h2 className="font-display text-2xl font-bold">Start your first course</h2><p className="my-4 max-w-xl leading-7 text-[#4d5768]">Activate your course to unlock hands-on missions, knowledge checks, XP, badges and a verifiable certificate for every module you master.</p><Button asChild><Link href="/checkout">Get started</Link></Button></div></div>;
 
-  const timezone = enrollment.user.profile?.timezone ?? "Africa/Lagos";
-  const lessons = enrollment.course.modules.flatMap((module) => module.lessons).filter((lesson) => !lesson.isBonus).sort((a, b) => a.dayNumber - b.dayNumber);
-  const totalLessons = lessons.length;
-  const available = unlockedDay(enrollment.enrolledAt, new Date(), timezone, enrollment.previewOverride, totalLessons);
-  const nextLesson = lessons.find((lesson) => lesson.dayNumber <= available && !enrollment.completedDays.includes(lesson.dayNumber)) ?? lessons[Math.min(available - 1, lessons.length - 1)];
-  const completedCount = enrollment.completedDays.filter((day) => lessons.some((lesson) => lesson.dayNumber === day)).length;
-  const progress = totalLessons ? (completedCount / totalLessons) * 100 : 0;
+  // Also backfills XP, badges and certificates for progress made before gamification.
+  await syncAchievements(userId);
+  const [state, rewards, moduleCertificates, courseCertificates] = await Promise.all([
+    loadCourseState(userId, enrollment.courseId),
+    learnerRewards(userId),
+    db.moduleCertificate.findMany({ where: { userId, revokedAt: null }, orderBy: { issuedAt: "desc" } }),
+    db.certificate.findMany({ where: { userId }, include: { course: true } }),
+  ]);
+  if (!state) redirect("/checkout");
+
   const profile = enrollment.user.profile;
-  let plan = await db.learningPlan.findUnique({ where: { userId_courseId: { userId: session.user.id, courseId: enrollment.courseId } } });
-  if (!plan && profile) plan = await createOrRefreshLearningPlan(session.user.id, enrollment.courseId, { profession: profile.profession, industry: profile.industry ?? undefined, primaryGoal: profile.primaryGoal, country: profile.country, skillLevel: profile.skillLevel, weeklyMinutes: profile.weeklyMinutes, learningFormat: profile.learningFormat, preferredTools: profile.preferredTools });
-  const milestones = Array.isArray(plan?.milestones) ? plan.milestones.flatMap((item) => { if (!item || typeof item !== "object" || Array.isArray(item)) return []; const value = item as Record<string, unknown>; return typeof value.day === "number" && typeof value.title === "string" && typeof value.outcome === "string" ? [{ day: value.day, title: value.title, outcome: value.outcome }] : []; }) : [];
-  const currentModule = enrollment.course.modules.find((module) => module.lessons.some((lesson) => lesson.id === nextLesson?.id));
+  let plan = await db.learningPlan.findUnique({ where: { userId_courseId: { userId, courseId: enrollment.courseId } } });
+  if (!plan && profile) plan = await createOrRefreshLearningPlan(userId, enrollment.courseId, { profession: profile.profession, industry: profile.industry ?? undefined, primaryGoal: profile.primaryGoal, country: profile.country, skillLevel: profile.skillLevel, weeklyMinutes: profile.weeklyMinutes, learningFormat: profile.learningFormat, preferredTools: profile.preferredTools });
+
+  const lessons = state.modules.flatMap((m) => m.lessons).filter((l) => !l.isBonus);
+  const completed = lessons.filter((l) => l.completed).length;
+  const missionsSolved = lessons.reduce((sum, l) => sum + l.missions.filter((m) => m.solved).length + (l.advanced?.solved ? 1 : 0), 0);
+  const progress = lessons.length ? Math.round((completed / lessons.length) * 100) : 0;
+  const next = nextActivity(state.modules);
+  const currentModule = state.modules.find((m) => m.lessons.some((l) => l.id === next?.lesson.id)) ?? state.modules[0];
+  const firstName = (enrollment.user.name ?? "").split(" ")[0] || "there";
+  const allBadges = badgesFor([state.course.slug]);
+  const earned = new Set(rewards.badges.map((b) => b.badgeKey));
+  const level = rewards.level;
+  const certificateCount = moduleCertificates.length + courseCertificates.length;
 
   return <div className="mx-auto max-w-[1180px]">
-    <header className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center"><div><p className="text-sm font-bold uppercase tracking-[.16em] text-[#414845]">Welcome back</p><h1 className="display mt-3 text-5xl text-[#00261d] sm:text-6xl">Your Learning Journey</h1></div><div className="flex w-fit items-center gap-2 rounded-full border border-[#c0c8c4] bg-white px-5 py-3 font-bold"><Flame className="text-[#f0a31b]" fill="currentColor" size={19} />{enrollment.user.streak?.currentStreak ?? 0} Day Streak</div></header>
+    <header className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+      <div><p className="eyebrow">Welcome back</p><h1 className="display mt-2 text-4xl text-[#0b1c30] sm:text-5xl">Hello, {firstName}.</h1><p className="mt-3 max-w-xl leading-7 text-[#4d5768]">{completed === 0 ? "Your first mission is waiting. Ten minutes from now you'll have something real to show for it." : progress === 100 ? "You've completed the course. Replay missions any time to stay sharp." : `You're ${progress}% through ${state.course.title}. Keep the momentum going.`}</p></div>
+      <Link href="/achievements" className="surface flex min-w-[17rem] items-center gap-4 p-4 transition hover:-translate-y-0.5">
+        <span className="relative grid size-16 shrink-0 place-items-center rounded-full" style={{ background: `conic-gradient(#0058be ${level.progress * 3.6}deg, #e6edf6 0)` }}><span className="grid size-[3.25rem] place-items-center rounded-full bg-white font-display text-xl font-bold text-[#0b1c30]">{level.level}</span></span>
+        <span className="min-w-0"><span className="block text-xs font-bold uppercase tracking-[.12em] text-[#677284]">Level {level.level}</span><strong className="block font-display text-xl text-[#0b1c30]">{level.title}</strong><span className="text-sm text-[#4d5768]">{level.xp.toLocaleString()} XP{level.nextTitle ? ` · ${level.toNext} to ${level.nextTitle}` : ""}</span></span>
+      </Link>
+    </header>
 
-    <div className="mt-10 grid gap-6 xl:grid-cols-[1fr_23rem]">
-      <div>
-        <section className="editorial-card overflow-hidden p-5 sm:p-8"><div className="grid gap-7 sm:grid-cols-[13.5rem_1fr]"><div className="relative aspect-[4/3] overflow-hidden rounded-xl"><Image src="/images/nigerian-professionals-learning.jpg" alt="Nigerian professionals learning together" fill sizes="220px" className="object-cover" /></div><div className="flex min-w-0 flex-col"><div className="flex flex-wrap items-center gap-3 text-sm"><span className="rounded-full bg-[#e7ece8] px-3 py-1">Day {String(nextLesson?.dayNumber ?? 1).padStart(2, "0")}</span><span className="text-[#414845]">{Math.max(15, Math.round((profile?.weeklyMinutes ?? 140) / 7))} min</span></div><h2 className="mt-5 font-serif text-3xl font-semibold leading-tight text-[#00261d] sm:text-4xl">{nextLesson?.title ?? "Your next lesson"}</h2><p className="mt-3 line-clamp-2 leading-7 text-[#414845]">{nextLesson?.summary}</p><div className="mt-auto grid items-end gap-4 border-t border-[#e2e8f0] pt-5 sm:grid-cols-[1fr_auto]"><Progress value={progress} label="Progress" /><Button asChild><Link href={`/challenge/${nextLesson?.slug ?? "tracka-01"}`}>Resume <ArrowRight className="ml-2" size={17} /></Link></Button></div></div></div></section>
-
-        <h2 className="mt-10 font-serif text-3xl font-semibold text-[#00261d]">Recent Insights</h2>
-        <div className="mt-5 grid gap-5 md:grid-cols-2"><article className="editorial-card p-7"><span className="grid size-12 place-items-center rounded-full bg-[#fff1d2] text-[#7c5800]"><Lightbulb size={21} /></span><h3 className="mt-7 font-bold">Key Concept Mastered</h3><p className="mt-5 leading-7 text-[#414845]">You completed {completedCount} applied {completedCount === 1 ? "lesson" : "lessons"}. Revisit your strongest artefact to reinforce the decisions behind it.</p><Link href="/challenge" className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#00261d]">Review lessons <ArrowRight size={15} /></Link></article><article className="editorial-card p-7"><span className="grid size-12 place-items-center rounded-full bg-[#e7f6d4] text-[#00261d]"><BarChart3 size={21} /></span><h3 className="mt-7 font-bold">Literacy Score</h3><p className="mt-5 font-serif text-6xl font-semibold text-[#00261d]">{Math.round(progress)}<span className="ml-2 text-xl font-normal text-[#131b2e]">/100</span></p><p className="mt-5 leading-7 text-[#414845]">Your score grows as you complete lessons and submit evidence of careful AI use.</p></article></div>
+    <section className="surface-dark mt-8 overflow-hidden p-6 sm:p-8" aria-labelledby="continue-title">
+      <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
+        <div className="min-w-0">
+          <p className="eyebrow !text-[#ffd36b]">{next ? next.label : "Course complete"}</p>
+          <h2 id="continue-title" className="display mt-3 text-3xl leading-tight sm:text-4xl">{next ? next.lesson.title : "You've finished every stage."}</h2>
+          <p className="mt-3 text-white/70">{next ? `${next.moduleTitle} · ${next.lesson.isBonus ? "Bonus" : `Day ${next.lesson.dayNumber}`}` : "Download your certificates and share what you've achieved."}</p>
+          {currentModule && <div className="mt-6 max-w-md"><div className="flex justify-between text-xs font-bold text-white/70"><span>Level progress · {currentModule.title}</span><span>{currentModule.progress}%</span></div><div className="mt-2 h-2.5 overflow-hidden rounded-full bg-white/15"><div className="h-full rounded-full bg-[#f2b01e] transition-all" style={{ width: `${currentModule.progress}%` }} /></div></div>}
+        </div>
+        {next ? (next.reason === "next" ? <Link href="/challenge" className="tap inline-flex items-center justify-center gap-2 rounded-full bg-white/10 px-7 py-4 font-bold text-white">See your journey <ArrowRight size={18} /></Link>
+          : <Link href={`/challenge/${next.lesson.slug}${next.reason === "mission" ? "#practise" : next.reason === "check" ? "#challenge" : next.reason === "practical" ? "#master" : ""}`} className="tap inline-flex items-center justify-center gap-2 rounded-full bg-[#f2b01e] px-8 py-4 text-lg font-bold text-[#0b1c30] shadow-[0_10px_30px_-10px_rgba(242,176,30,.8)] transition hover:-translate-y-0.5 hover:bg-[#ffc23d]">Continue learning <ArrowRight size={20} /></Link>)
+          : <Link href="/certificates" className="tap inline-flex items-center justify-center gap-2 rounded-full bg-[#f2b01e] px-8 py-4 font-bold text-[#0b1c30]">My certificates <Award size={18} /></Link>}
       </div>
+    </section>
 
-      <aside className="editorial-card p-7 xl:min-h-[42rem]"><div className="flex items-center justify-between"><h2 className="font-serif text-3xl font-semibold text-[#00261d]">Roadmap</h2><Link href="/challenge" className="text-sm font-semibold">View All</Link></div><div className="relative mt-8 space-y-8 before:absolute before:bottom-2 before:left-4 before:top-3 before:w-px before:bg-[#dfe4e1]">{enrollment.course.modules.slice(0, 4).map((module, index) => { const isCurrent = module.id === currentModule?.id; const done = module.lessons.every((lesson) => lesson.isBonus || enrollment.completedDays.includes(lesson.dayNumber)); return <div key={module.id} className="relative grid grid-cols-[2rem_1fr] gap-4"><span className={`relative z-10 grid size-8 place-items-center rounded-full border ${done ? "border-[#7a958a] bg-[#7a958a] text-white" : isCurrent ? "border-2 border-[#00261d] bg-white text-[#00261d]" : "border-[#c6cfe9] bg-[#e2e7ff] text-[#9aa3bd]"}`}>{done ? <Check size={16} /> : isCurrent ? <span className="size-2 rounded-full bg-[#00261d]" /> : index + 1}</span><div className={isCurrent ? "rounded-xl bg-[#f2f3ff] p-4" : "pt-1"}><p className="text-sm text-[#717975]">Module {index + 1}</p><h3 className="mt-1 font-bold">{module.title}</h3>{isCurrent && <><div className="mt-3 h-2 overflow-hidden rounded-full bg-[#e2e7ff]"><div className="h-full bg-[#7ed321]" style={{ width: `${progress}%` }} /></div><p className="mt-2 text-xs">{completedCount} of {totalLessons} lessons complete</p></>}</div></div>; })}</div></aside>
+    <section className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-5" aria-label="Your progress">
+      {([[Sparkles, "XP earned", level.xp.toLocaleString(), "#f2b01e"], [Flag, "Stages complete", `${completed}/${lessons.length}`, "#0058be"], [Target, "Missions solved", missionsSolved, "#0058be"], [Trophy, "Badges", `${earned.size}/${allBadges.length}`, "#f2b01e"], [Award, "Certificates", certificateCount, "#214889"]] as const).map(([Icon, label, value, colour]) => <div key={label} className="surface p-4"><Icon size={18} style={{ color: colour }} /><strong className="mt-3 block font-display text-2xl text-[#0b1c30]">{value}</strong><span className="text-xs font-semibold text-[#677284]">{label}</span></div>)}
+    </section>
+
+    <div className="mt-8 grid gap-6 xl:grid-cols-[1fr_24rem]">
+      <section aria-labelledby="levels-title">
+        <div className="mb-4 flex items-end justify-between"><h2 id="levels-title" className="font-display text-2xl font-bold text-[#0b1c30]">Your levels</h2><Link href="/challenge" className="text-sm font-bold text-[#0058be]">Full journey</Link></div>
+        <JourneyMap modules={state.modules} compact />
+      </section>
+
+      <div className="grid content-start gap-6">
+        <section className="surface p-5 sm:p-6" aria-labelledby="badges-title">
+          <div className="flex items-center justify-between"><h2 id="badges-title" className="font-display text-xl font-bold text-[#0b1c30]">Badges</h2><Link href="/achievements" className="text-sm font-bold text-[#0058be]">All {allBadges.length}</Link></div>
+          <ul className="mt-4 grid grid-cols-4 gap-3">{[...allBadges].sort((a, b) => Number(earned.has(b.key)) - Number(earned.has(a.key))).slice(0, 8).map((badge) => { const has = earned.has(badge.key); return <li key={badge.key} title={`${badge.title}: ${has ? badge.description : badge.how}`} className="grid justify-items-center gap-1.5 text-center"><span className={`grid size-14 place-items-center rounded-2xl ${has ? (badge.tier === "gold" ? "bg-[#f2b01e] text-[#0b1c30]" : badge.tier === "silver" ? "bg-[#214889] text-white" : "bg-[#eaf2ff] text-[#0058be]") : "bg-[#edf1f6] text-[#97a3b6]"}`}><BadgeIcon icon={badge.icon} size={22} /></span><span className={`line-clamp-2 text-[11px] font-semibold leading-tight ${has ? "text-[#0b1c30]" : "text-[#97a3b6]"}`}>{badge.title}</span></li>; })}</ul>
+        </section>
+
+        <section id="certificates" className="surface scroll-mt-24 p-5 sm:p-6" aria-labelledby="certs-title">
+          <div className="flex items-center justify-between"><h2 id="certs-title" className="font-display text-xl font-bold text-[#0b1c30]">My certificates</h2><Link href="/certificates" className="text-sm font-bold text-[#0058be]">Gallery</Link></div>
+          {certificateCount ? <ul className="mt-4 grid gap-2">{moduleCertificates.slice(0, 3).map((c) => <li key={c.id}><Link href={`/verify/${c.credentialId}`} className="flex items-center gap-3 rounded-2xl border border-[#dfe5ee] p-3 hover:border-[#f2b01e]"><span className="grid size-10 place-items-center rounded-xl bg-[#fff4d6] text-[#8a5300]"><Award size={18} /></span><span className="min-w-0"><strong className="block truncate text-sm">{c.moduleTitle}</strong><span className="text-xs text-[#677284]">{c.credentialId}</span></span></Link></li>)}{courseCertificates.map((c) => <li key={c.id}><Link href={`/verify/${c.uniqueHash}`} className="flex items-center gap-3 rounded-2xl border border-[#dfe5ee] p-3 hover:border-[#f2b01e]"><span className="grid size-10 place-items-center rounded-xl bg-[#f2b01e] text-[#0b1c30]"><Trophy size={18} /></span><span className="min-w-0"><strong className="block truncate text-sm">{c.course.title}</strong><span className="text-xs text-[#677284]">Course certificate</span></span></Link></li>)}</ul>
+            : <div className="mt-4 rounded-2xl bg-[#f6f8fb] p-4 text-sm leading-6 text-[#4d5768]"><p className="font-semibold text-[#0b1c30]">Your first certificate: {currentModule?.title}</p><ul className="mt-2 grid gap-1.5">{currentModule?.requirements.map((r) => <li key={r.key} className="flex items-center gap-2">{r.met ? <CheckCircle2 size={15} className="text-[#146c43]" /> : <span className="size-[15px] rounded-full border border-[#cbd5e1]" />}{r.label}</li>)}</ul></div>}
+        </section>
+      </div>
     </div>
 
-    {plan && <section className="editorial-card mt-6 overflow-hidden"><div className="grid gap-5 bg-[#fffdf5] p-7 sm:p-9 md:grid-cols-[1fr_auto]"><div><p className="eyebrow flex items-center gap-2"><Compass size={15} />Your personalised certificate path</p><h2 className="display mt-3 text-4xl text-[#00261d]">{plan.title}</h2><p className="mt-4 max-w-3xl leading-7 text-[#414845]">{plan.outcomeSummary}</p></div><span className="h-fit rounded-full bg-[#e6efdf] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#123c31]">{plan.source === "DEEPSEEK" ? "AI-assisted" : "Curated locally"}</span></div><div className="grid gap-px bg-[#e2e8f0] md:grid-cols-3">{milestones.map((milestone) => <div key={milestone.day} className="bg-white p-6"><span className="text-xs font-bold uppercase tracking-wider text-[#123c31]">By Day {milestone.day}</span><h3 className="mt-2 font-bold">{milestone.title}</h3><p className="mt-2 text-sm leading-6 text-[#414845]">{milestone.outcome}</p></div>)}</div>{plan.recommendedTools.length > 0 && <div id="resources" className="flex flex-wrap items-center gap-2 border-t border-[#e2e8f0] px-7 py-5 text-sm"><Wrench size={16} /><strong>Suggested tools:</strong>{plan.recommendedTools.map((tool) => <span key={tool} className="rounded-full bg-[#f1f3ee] px-3 py-1 text-[#414845]">{tool}</span>)}</div>}</section>}
+    {plan && <section className="surface mt-8 overflow-hidden" aria-labelledby="plan-title">
+      <div className="grid gap-4 p-6 sm:p-8 md:grid-cols-[1fr_auto]"><div><p className="eyebrow flex items-center gap-2"><Compass size={15} />Your personalised path</p><h2 id="plan-title" className="display mt-2 text-3xl text-[#0b1c30]">{plan.title}</h2><p className="mt-3 max-w-3xl leading-7 text-[#4d5768]">{plan.outcomeSummary}</p></div><span className="chip h-fit bg-[#eaf2ff] text-[#214889]">{plan.source === "DEEPSEEK" ? "AI-assisted" : "Curated"}</span></div>
+      {plan.recommendedTools.length > 0 && <div id="resources" className="flex flex-wrap items-center gap-2 border-t border-[#dfe5ee] px-6 py-4 text-sm sm:px-8"><Wrench size={16} /><strong>Suggested tools:</strong>{plan.recommendedTools.map((tool) => <span key={tool} className="chip bg-[#edf1f6] text-[#4d5768]">{tool}</span>)}</div>}
+    </section>}
 
-    <section className="mt-6 grid gap-5 md:grid-cols-2"><div id="certificates" className="editorial-card p-7"><div className="flex items-center gap-3"><Award size={20} /><h2 className="font-serif text-2xl font-semibold">Evidence-based certificate</h2></div>{enrollment.user.certificates[0] ? <p className="mt-5"><Link className="font-bold text-[#123c31] underline" href={`/verify/${enrollment.user.certificates[0].uniqueHash}`}>View your verified credential</Link></p> : <ul className="mt-5 grid gap-2 text-sm text-[#414845]"><li className="flex gap-2"><Check size={17} />Complete all {totalLessons || 19} lessons</li><li className="flex gap-2"><Check size={17} />Submit your outcome-focused capstone</li><li className="flex gap-2"><Check size={17} />Score at least 70 on the practical rubric</li></ul>}</div><div id="settings"><NotificationSettings /></div></section>
+    <section id="settings" className="mt-8 grid scroll-mt-24 gap-5 md:grid-cols-2" aria-label="Settings"><LearningSettings name={enrollment.user.name ?? ""} /><NotificationSettings /></section>
   </div>;
 }

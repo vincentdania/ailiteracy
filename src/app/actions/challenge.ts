@@ -6,6 +6,8 @@ import { db } from "@/lib/db";
 import { canAccessLesson, isCapstoneLesson, nextStreak, unlockedDay } from "@/lib/challenge";
 import { certificateHash } from "@/lib/certificates";
 import { cache } from "@/lib/redis";
+import { lessonBlockers, lessonReadyToComplete } from "@/lib/learning/mastery";
+import { loadCourseState, syncAchievements } from "@/lib/learning/progress";
 
 export async function completeLessonAction(lessonId: string) {
   const session = await auth();
@@ -23,6 +25,10 @@ export async function completeLessonAction(lessonId: string) {
     if (!capstone?.score || capstone.score < 70) return { ok: false, message: "Submit the capstone and score at least 70 before marking this lesson complete." };
   }
   if (enrollment.completedDays.includes(lesson.dayNumber)) return { ok: true, message: "Already complete.", completed: enrollment.completedDays.length };
+  // Mastery, not clicks: the lesson's missions and knowledge check come first.
+  const state = await loadCourseState(session.user.id, lesson.module.courseId);
+  const mastery = state?.modules.flatMap((m) => m.lessons).find((l) => l.id === lesson.id);
+  if (mastery && !lessonReadyToComplete(mastery)) return { ok: false, message: `${lessonBlockers(mastery).join(" and ")} to complete this lesson.` };
   const completedDays = [...enrollment.completedDays, lesson.dayNumber].sort((a, b) => a - b);
   const courseComplete = requiredLessons.every((required) => completedDays.includes(required.dayNumber));
   const now = new Date();
@@ -44,7 +50,8 @@ export async function completeLessonAction(lessonId: string) {
     }
   });
   await cache().set(`activity:${session.user.id}:${now.toISOString().slice(0, 10)}`, "1", 60 * 60 * 48);
+  const celebration = await syncAchievements(session.user.id);
   revalidatePath("/dashboard");
   revalidatePath("/challenge");
-  return { ok: true, message: "Lesson complete!", completed: completedDays.length, streak: streak.current };
+  return { ok: true, message: "Lesson complete!", completed: completedDays.length, streak: streak.current, celebration };
 }

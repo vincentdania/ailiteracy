@@ -1,0 +1,128 @@
+{
+  "objectives": {
+    "understand": "Why a written Playbook outlasts any single AI tool, and how a weekly review makes it improve.",
+    "do": "Assemble the six Playbook sections from your week's real prompts and re-test two of them.",
+    "demonstrate": "Organise prompts into the right sections and choose the right improvement when a prompt underperforms.",
+    "apply": "Submit a Playbook that passes the capstone rubric (70 or more)."
+  },
+  "discover": {
+    "title": "Mission briefing: don't lose the week",
+    "scenario": "Six days of your best prompts are buried in chat history. Open a new chat and they're gone. Amaka, a bank officer in Lagos, rebuilt the same report prompt from memory three times last month. Today you build the one document that keeps every win: your Personal AI Playbook. It's the capstone, and it counts."
+  },
+  "keyIdeas": [
+    "Six sections: Reports, Emails & messages, Numbers, My-role documents, My privacy rules, My verification checklist.",
+    "Weekly ritual, ten minutes: keep what worked and fix one weak prompt.",
+    "Tools change; the moves don't. Test new tools against your Playbook, not against hype."
+  ],
+  "device": "phone",
+  "missions": [
+    {
+      "key": "assemble",
+      "type": "sort",
+      "title": "File the week's work",
+      "prompt": "Sort each item into the Playbook section where it belongs.",
+      "categories": [
+        "Reports",
+        "Emails & messages",
+        "Numbers",
+        "My privacy rules"
+      ],
+      "items": [
+        {
+          "text": "Meeting-notes-to-report template (Day 1)",
+          "category": 0,
+          "feedback": "Your Day 1 template belongs under Reports."
+        },
+        {
+          "text": "Decisions-summary prompt (Day 5)",
+          "category": 0,
+          "feedback": "Summaries of long documents sit with Reports."
+        },
+        {
+          "text": "Ask-in-two-lines email skeleton (Day 4)",
+          "category": 1,
+          "feedback": "The email skeleton belongs under Emails & messages."
+        },
+        {
+          "text": "Spreadsheet-builder prompt (Day 5)",
+          "category": 2,
+          "feedback": "This is your Numbers prompt."
+        },
+        {
+          "text": "'Never paste payroll, customer names or confidential documents'",
+          "category": 3,
+          "feedback": "This is your privacy card, in your own words."
+        }
+      ],
+      "hint": "Each prompt belongs with the kind of work it produces.",
+      "support": "Ask 'what does this help me make?' A report, a message, a spreadsheet, or a rule for keeping data safe?",
+      "explain": "Filed by the work it produces, every prompt is findable in seconds. That is what turns a week of chats into a toolkit you keep."
+    },
+    {
+      "key": "fix-prompt",
+      "type": "choice",
+      "title": "Run the weekly review",
+      "scenario": "During your Friday review you see your customer-reply prompt keeps promising delivery dates you haven't confirmed.",
+      "prompt": "What is the right fix?",
+      "options": [
+        {
+          "text": "Switch to a different AI tool.",
+          "feedback": "The problem is the instruction, not the tool. A new tool with the same prompt will do the same."
+        },
+        {
+          "text": "Add one sentence to the prompt: 'Never promise a delivery date I have not confirmed; ask me if one is needed.' Save it in the Playbook.",
+          "feedback": "Yes. Fix one weak prompt with one sentence of instruction, and save the corrected version."
+        },
+        {
+          "text": "Stop using AI for customer replies.",
+          "feedback": "That throws away a working prompt over one fixable issue."
+        },
+        {
+          "text": "Correct each reply by hand every time, and leave the prompt as it is.",
+          "feedback": "That works today, but the problem returns every time. The ritual fixes the prompt once."
+        }
+      ],
+      "correct": 1,
+      "hint": "The review ritual has three steps. The third is the one that matters here.",
+      "support": "Look at what went wrong (unconfirmed promises) and find the option that changes the instruction so it can't happen again.",
+      "explain": "Fixing one weak prompt per week with one sentence is the habit that compounds. The Playbook keeps the corrected version, not the first draft."
+    }
+  ],
+  "advanced": {
+    "key": "advanced",
+    "type": "multi",
+    "title": "Advanced: judge a trending tool",
+    "scenario": "Everyone in your office WhatsApp group is talking about a new AI app that 'writes perfect reports'.",
+    "prompt": "Which steps reflect today's advice? Select all that apply.",
+    "options": [
+      {
+        "text": "Test it with two of your own Playbook prompts on real (anonymised) material.",
+        "feedback": "Yes. Your Playbook is the benchmark."
+      },
+      {
+        "text": "Check its privacy terms before pasting any work material.",
+        "feedback": "Yes. Your privacy rules travel with you to every tool."
+      },
+      {
+        "text": "Run the 4-question check on its output, just as before.",
+        "feedback": "Yes. A new tool doesn't change the need to verify."
+      },
+      {
+        "text": "Drop your Playbook and learn the new tool's way of working.",
+        "feedback": "No. The moves (real material, role and format, verify) work in every tool."
+      },
+      {
+        "text": "Pay for it quickly before the offer ends.",
+        "feedback": "No. That is hype, not evidence. Test first."
+      }
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "hint": "New tools get tested against your Playbook, not the other way round.",
+    "support": "Your Playbook already contains your best prompts, your privacy rules and your checklist. Which options use them?",
+    "explain": "Every new tool runs on the same three moves. Testing it with your own prompts, privacy rules and checks tells you in ten minutes whether it is actually better."
+  }
+}
