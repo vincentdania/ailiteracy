@@ -53,8 +53,9 @@ export default function HomePage() {
         <section className="container-shell grid min-h-[calc(100svh-72px)] items-center gap-10 py-12 md:grid-cols-2 md:py-20">
           <div className="max-w-2xl">
             <p className="eyebrow mb-5">10 days · No code · Free tools · Phone or laptop</p>
-            <h1 className="display text-[clamp(3.25rem,6vw,5.5rem)] text-[#0b1c30]">
-              Put AI to work on your job in 10 days.
+            <h1 className="display text-[clamp(2.25rem,7vw,5.25rem)] text-[#0b1c30]">
+              Expand your capabilities.<br />
+              Make AI work for you.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-[#4d5768]">
               Use free AI tools to finish reports, emails, documents and decisions faster. You learn step by step on your phone, and nothing technical is assumed. By the end, you have finished work to show and your first working agent.
