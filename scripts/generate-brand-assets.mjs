@@ -44,13 +44,13 @@ const icon = (size, { maskable = false } = {}) => page(`<div style="width:${size
 const og = () => page(`<div style="width:1200px;height:630px;display:flex;background:#f6f8fb;color:${INK}">
   <div style="flex:1;display:flex;flex-direction:column;padding:72px 0 64px 80px">
     <div style="display:flex;align-items:center;gap:22px">${wordmark(wordmarkNavy, 52)}<span style="height:46px;width:3px;background:${NAVY}"></span><span class="display" style="font-size:34px;color:${INK}">AI Academy</span></div>
-    <h1 class="display" style="margin-top:70px;font-size:76px;line-height:1.02;color:${DEEP}">Develop your<br>AI capabilities.</h1>
+    <h1 class="display" style="margin-top:70px;font-size:58px;line-height:1.02;color:${DEEP}">Expand your capabilities.<br>Make AI work for you.</h1>
     <p style="margin-top:28px;font-size:28px;line-height:1.4;color:#4d5768;max-width:600px">Practical, mobile-first AI skills for work, with Nigerian examples throughout.</p>
     <div style="margin-top:auto;display:flex;gap:14px">${["No code", "Free AI tools", "Verified certificates"].map((t) => `<span style="padding:12px 22px;border-radius:999px;background:#eaf2ff;color:${ACCENT};font-size:22px;font-weight:700">${t}</span>`).join("")}</div>
   </div>
   <div style="width:390px;position:relative;overflow:hidden;background:linear-gradient(160deg,${NAVY},${DEEP});display:flex;flex-direction:column;justify-content:flex-end;padding:56px 48px">
     ${mark("#ffffff", "position:absolute;top:70px;left:58px;width:280px;height:auto;opacity:.95")}
-    <p class="eyebrow" style="font-size:16px;line-height:1.5;color:${SKY}">HYRAX —<br>The AI Enablement Company.</p>
+    <p class="eyebrow" style="font-size:16px;line-height:1.5;color:${SKY}">HYRAX<br>The AI Enablement Company.</p>
     <p style="margin-top:12px;font-size:28px;font-weight:700;color:#fff">learn.hyrax.ng</p>
   </div>
 </div>`, 1200, 630);
@@ -66,7 +66,7 @@ const cover = ({ course, label, module, title, summary }, width, height) => {
     ${summary ? `<p style="margin-top:${24 * s}px;font-size:${27 * s}px;line-height:1.45;color:#d6e3f7;max-width:${900 * s}px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">${escape(summary)}</p>` : ""}
     <div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:${24 * s}px">
       <div style="display:flex;align-items:center;gap:${14 * s}px"><span style="width:${56 * s}px;height:${6 * s}px;border-radius:9px;background:${ACCENT}"></span><span style="font-size:${20 * s}px;font-weight:600;color:#d6e3f7">${escape(module ?? "")}</span></div>
-      <span class="eyebrow" style="font-size:${15 * s}px;color:rgba(255,255,255,.55)">HYRAX — The AI Enablement Company.</span>
+      <span class="eyebrow" style="font-size:${15 * s}px;color:rgba(255,255,255,.55)">HYRAX · The AI Enablement Company.</span>
     </div>
   </div>`, width, height);
 };

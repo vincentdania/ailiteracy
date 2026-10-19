@@ -23,7 +23,7 @@ export async function submitPracticeAction(_: { ok: boolean; message: string; sc
   const lesson = await db.lesson.findUnique({ where: { id: result.data.lessonId }, include: { module: true } });
   if (!lesson) return { ok: false, message: "Lesson not found." };
   const enrollment = await db.enrollment.findUnique({ where: { userId_courseId: { userId: session.user.id, courseId: lesson.module.courseId } } });
-  if (!enrollment) return { ok: false, message: "Enrollment required." };
+  if (!enrollment) return { ok: false, message: "Enrolment required. Enrol in the course to continue." };
   const isCapstone = isCapstoneLesson(lesson);
   const assessment = assessSubmission(result.data.content, isCapstone);
   await db.$transaction([

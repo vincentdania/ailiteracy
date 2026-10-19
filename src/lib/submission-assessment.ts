@@ -8,16 +8,16 @@ export function assessSubmission(content: string, isCapstone: boolean) {
   const checks = [evidence, humanJudgment, outcome, safeguards, specificity];
   const score = isCapstone ? checks.filter(Boolean).length * 20 : 50 + checks.filter(Boolean).length * 10;
   const nextSteps = [
-    !evidence && "Add how you checked important claims, calculations or sources.",
-    !humanJudgment && "Explain one decision or improvement that came from you, not the tool.",
-    !outcome && "Name the result this artefact should improve and how you will measure it.",
-    !safeguards && "Identify one privacy, bias or failure risk and how you will handle it.",
-    !specificity && `Add a little more working detail${isCapstone ? " to make the capstone auditable" : ""}.`,
+    !evidence && "Say how you checked the important facts, figures or sources.",
+    !humanJudgment && "Describe one decision or change you made yourself, rather than the AI tool.",
+    !outcome && "Name the result this work should improve and how you will measure it.",
+    !safeguards && "Name one risk (privacy, bias or errors) and how you will handle it.",
+    !specificity && `Add more detail: write at least ${isCapstone ? 140 : 45} words.`,
   ].filter(Boolean);
   return {
     score,
     feedback: {
-      summary: score >= 80 ? "Strong evidence of applied learning." : score >= 70 ? "A useful submission with one clear improvement to make." : isCapstone ? "This capstone does not yet show enough evidence to pass. Address the points below and resubmit." : "The foundation is here; strengthen the evidence before treating it as complete.",
+      summary: score >= 80 ? "Strong work. It clearly shows how you applied the lesson." : score >= 70 ? "Passed. The points below would make it stronger." : isCapstone ? "Not passed yet. The capstone needs 70 or more. Add the points below and submit it again." : "Not passed yet. Add the points below and submit it again to reach 70.",
       nextSteps,
       rubric: { evidence, humanJudgment, outcome, safeguards, specificity },
       source: "curated-rubric-v2",

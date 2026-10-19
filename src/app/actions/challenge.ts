@@ -15,7 +15,7 @@ export async function completeLessonAction(lessonId: string) {
   const lesson = await db.lesson.findUnique({ where: { id: lessonId }, include: { module: true } });
   if (!lesson) return { ok: false, message: "Lesson not found." };
   const enrollment = await db.enrollment.findUnique({ where: { userId_courseId: { userId: session.user.id, courseId: lesson.module.courseId } }, include: { user: { include: { profile: true, streak: true } } } });
-  if (!enrollment) return { ok: false, message: "Enrollment required." };
+  if (!enrollment) return { ok: false, message: "Enrolment required. Enrol in the course to continue." };
   const timezone = enrollment.user.profile?.timezone ?? "Africa/Lagos";
   const requiredLessons = await db.lesson.findMany({ where: { module: { courseId: lesson.module.courseId }, isBonus: false }, select: { dayNumber: true } });
   const availableDay = unlockedDay(enrollment.enrolledAt, new Date(), timezone, enrollment.previewOverride, requiredLessons.length);
@@ -24,7 +24,7 @@ export async function completeLessonAction(lessonId: string) {
     const capstone = await db.projectSubmission.findUnique({ where: { userId_lessonId: { userId: session.user.id, lessonId } }, select: { score: true } });
     if (!capstone?.score || capstone.score < 70) return { ok: false, message: "Submit the capstone and score at least 70 before marking this lesson complete." };
   }
-  if (enrollment.completedDays.includes(lesson.dayNumber)) return { ok: true, message: "Already complete.", completed: enrollment.completedDays.length };
+  if (enrollment.completedDays.includes(lesson.dayNumber)) return { ok: true, message: "You have already completed this lesson.", completed: enrollment.completedDays.length };
   // Mastery, not clicks: the lesson's missions and knowledge check come first.
   const state = await loadCourseState(session.user.id, lesson.module.courseId);
   const mastery = state?.modules.flatMap((m) => m.lessons).find((l) => l.id === lesson.id);
@@ -53,5 +53,5 @@ export async function completeLessonAction(lessonId: string) {
   const celebration = await syncAchievements(session.user.id);
   revalidatePath("/dashboard");
   revalidatePath("/challenge");
-  return { ok: true, message: "Lesson complete!", completed: completedDays.length, streak: streak.current, celebration };
+  return { ok: true, message: "Lesson complete.", completed: completedDays.length, streak: streak.current, celebration };
 }
