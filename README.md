@@ -1,6 +1,6 @@
 # AI Literacy LMS
 
-A Next.js 15 learning platform for *Build Your Personal AI Agent and Make AI Work for You*. The 19-lesson course takes learners from a supported Hermes Agent installation to a tested, production-ready personal agent. The legacy Django source remains in the repository as migration reference; the production application is the Next.js app under `src/`.
+A Next.js 15 learning platform for the Hyrax AI Academy at learn.hyrax.ng. Its course, *AI for Your Work — in 10 Days* (`data/track_a_course`), teaches working people to use free AI tools on real work and ends with a working personal agent. The legacy Django source remains in the repository as migration reference; the production application is the Next.js app under `src/`.
 
 ## Local stack
 

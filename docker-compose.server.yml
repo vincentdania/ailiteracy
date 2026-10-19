@@ -3,6 +3,9 @@ services:
     environment:
       # No shared demo logins on the public site.
       SEED_DEMO_ACCOUNTS: "false"
+      # Delete the retired courses (21-day challenge, Hermes masterclass) if present.
+      RETIRE_LEGACY_21DAY: "1"
+      RETIRE_HERMES_COURSE: "1"
 
   app:
     networks:

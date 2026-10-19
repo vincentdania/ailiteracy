@@ -6,20 +6,17 @@ import path from "node:path";
 const prisma = new PrismaClient();
 
 /**
- * ARCHITECTURE NOTE (2026-08-28):
- * ailiteracy.ng now ships ONE flagship course: "Build Your Personal AI Agent and Make AI Work for You"
- * (`hermes-agent-masterclass`). The former "21-Day AI Challenge"
- * (`21-day-ai-challenge`) has been RETIRED. Seeding this file:
- *   - hard-deletes the legacy 21-day course and ALL of its data (modules/lessons,
- *     enrollments, learning plans, certificates, progress, submissions)
- *   - provisions the Hermes Agent Masterclass as the sole course
- * Running this on a fresh DB simply provisions the Hermes course; on an existing
- * DB it migrates the product from the 21-day course to the agent course.
+ * The academy ships one course: "AI for Your Work" (data/track_a_course).
+ * The former "21-Day AI Challenge" (`21-day-ai-challenge`) and the
+ * "Hermes Agent Masterclass" (`hermes-agent-masterclass`) are retired and no
+ * longer seeded. Deleting them is opt-in per environment (see retireCourse).
  */
 
-const MANIFEST_PATH = path.join(process.cwd(), "data", "hermes_agent_course", "manifest.json");
 const TRACK_A_MANIFEST_PATH = path.join(process.cwd(), "data", "track_a_course", "manifest.json");
-const LEGACY_SLUG = "21-day-ai-challenge";
+const RETIRED_COURSES = [
+  { slug: "21-day-ai-challenge", flag: "RETIRE_LEGACY_21DAY" },
+  { slug: "hermes-agent-masterclass", flag: "RETIRE_HERMES_COURSE" },
+];
 
 function titleFromMarkdown(content: string, lessonNo: number) {
   const heading = content.match(/^#\s+(.+)$/m)?.[1];
@@ -36,7 +33,7 @@ function parseLessonMarkdown(raw: string) {
   return { title: value("title"), subtitle: value("subtitle"), summary: value("summary"), content: frontmatter ? raw.slice(frontmatter[0].length).trim() : raw.trim() };
 }
 
-async function readLesson(day: number, opts: { dir: string; heroPrefix: string; freePreviewDay?: number; slugPrefix?: string } = { dir: "hermes_agent_course", heroPrefix: "hermes-", freePreviewDay: 1, slugPrefix: "hermes-" }) {
+async function readLesson(day: number, opts: { dir: string; heroPrefix: string; freePreviewDay?: number; slugPrefix: string }) {
   const dir = path.join(process.cwd(), "data", opts.dir, `day${String(day).padStart(2, "0")}`);
   const file = path.join(dir, "lesson.md");
   const raw = await readFile(file, "utf8");
@@ -57,7 +54,7 @@ async function readLesson(day: number, opts: { dir: string; heroPrefix: string; 
   return {
     dayNumber: day,
     title: parsed.title ?? titleFromMarkdown(parsed.content, day),
-    slug: `${opts.slugPrefix ?? "hermes-"}${String(day).padStart(2, "0")}`,
+    slug: `${opts.slugPrefix}${String(day).padStart(2, "0")}`,
     summary: parsed.subtitle ?? `A focused, practical skill for lesson ${day}.`,
     contentMarkdown: parsed.content.trim(),
     heroImage: `/lessons/${opts.heroPrefix}day${String(day).padStart(2, "0")}_hero.png`,
@@ -68,26 +65,25 @@ async function readLesson(day: number, opts: { dir: string; heroPrefix: string; 
   };
 }
 
-// Explicitly opt-in retirement of the legacy 21-day course.
-// Destructive on prod data (cascades enrollments/progress/certificates), so it
-// only runs when RETIRE_LEGACY_21DAY=1 is set in the deploy environment.
-// Default OFF: seeding MUST NOT delete any existing course.
-async function deleteLegacyTwentyDayCourse() {
-  if (process.env.RETIRE_LEGACY_21DAY !== "1") {
-    console.info("RETIRE_LEGACY_21DAY not set — legacy 21-day course left in place.");
+// Opt-in deletion of a retired course. Destructive on prod data (cascades
+// enrollments, progress and certificates), so it only runs when the course's
+// flag is set to 1 in the deploy environment. Default OFF.
+async function retireCourse({ slug, flag }: { slug: string; flag: string }) {
+  if (process.env[flag] !== "1") {
+    console.info(`${flag} not set; course "${slug}" left in place if present.`);
     return;
   }
-  const legacy = await prisma.course.findUnique({ where: { slug: LEGACY_SLUG } });
-  if (!legacy) {
-    console.info("No legacy 21-day course to remove (already clean).");
+  const course = await prisma.course.findUnique({ where: { slug } });
+  if (!course) {
+    console.info(`No "${slug}" course to remove (already clean).`);
     return;
   }
   // Transaction.courseId is onDelete.Restrict: clear it before deleting the course.
-  await prisma.transaction.deleteMany({ where: { courseId: legacy.id } });
+  await prisma.transaction.deleteMany({ where: { courseId: course.id } });
   // Course deletion cascades to modules/lessons, enrollments, learning plans,
   // personalized lessons, lesson progress, quiz attempts, submissions, certificates.
-  await prisma.course.delete({ where: { id: legacy.id } });
-  console.info(`Removed legacy course "${LEGACY_SLUG}" and all its data (${legacy.id}).`);
+  await prisma.course.delete({ where: { id: course.id } });
+  console.info(`Removed retired course "${slug}" and all its data (${course.id}).`);
 }
 
 async function seedCourseFromManifest(manifestPath: string, opts: { dir: string; heroPrefix: string; slugPrefix: string; freePreviewDay?: number }) {
@@ -128,44 +124,14 @@ async function seedCourseFromManifest(manifestPath: string, opts: { dir: string;
   return course;
 }
 
-async function seedHermesCourse() {
-  return seedCourseFromManifest(MANIFEST_PATH, { dir: "hermes_agent_course", heroPrefix: "hermes-", slugPrefix: "hermes-", freePreviewDay: 1 });
-}
-
-
-// Explicitly opt-in retirement of the technical Hermes Masterclass.
-// Destructive on prod data (cascades enrollments/progress), so it only runs
-// when RETIRE_HERMES_COURSE=1 is set in the deploy environment.
-async function retireHermesMasterclass() {
-  if (process.env.RETIRE_HERMES_COURSE !== "1") {
-    console.info("RETIRE_HERMES_COURSE not set — Hermes Agent Masterclass left in place.");
-    return;
-  }
-  const hermes = await prisma.course.findUnique({ where: { slug: "hermes-agent-masterclass" } });
-  if (!hermes) return;
-  await prisma.transaction.deleteMany({ where: { courseId: hermes.id } }); // Restrict FK first
-  await prisma.course.delete({ where: { id: hermes.id } }); // cascades the rest
-  console.info("Retired Hermes Agent Masterclass course and its data.");
-}
-
 async function seedTrackACourse() {
   return seedCourseFromManifest(TRACK_A_MANIFEST_PATH, { dir: "track_a_course", heroPrefix: "tracka-", slugPrefix: "tracka-", freePreviewDay: 1 });
 }
 
 async function seed() {
-  // 1) Retire the old 21-day course and its data.
-  await deleteLegacyTwentyDayCourse();
+  for (const retired of RETIRED_COURSES) await retireCourse(retired);
 
-  // 1b) Optional, opt-in retirement of the old technical course.
-  await retireHermesMasterclass();
-
-  // 2) Provision the Hermes Agent Masterclass as the flagship.
-  const course = await seedHermesCourse();
-
-  // 2b) Provision Track A ("AI for Your Work") as a second, published course.
-  // Flagship pointer (onboarding/enrollment/checkout hardcoded slug) is NOT
-  // repointed here — that swap is gated on Vincent's approval (course-hard-swap.md).
-  await seedTrackACourse();
+  const course = await seedTrackACourse();
 
   // Public deployments set SEED_DEMO_ACCOUNTS=false so the shared demo logins never exist there.
   if (process.env.SEED_DEMO_ACCOUNTS === "false") {

@@ -82,8 +82,6 @@ async function lessons() {
   const out = [];
   const courses = [
     { dir: "track_a_course", prefix: "tracka-", course: "AI for Your Work", label: (d) => `Day ${d}`, size: [960, 540] },
-    { dir: "hermes_agent_course", prefix: "hermes-", course: "Hermes Agent Masterclass", label: (d) => `Lesson ${d}`, size: [960, 540] },
-    { dir: "21day_challenge", prefix: "", course: "21-Day AI Challenge", label: (d) => `Day ${d}`, size: [1200, 675] },
   ];
   for (const c of courses) {
     let manifest = null;
