@@ -1,3 +1,4 @@
+import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { isCredentialId, verificationUrl } from "@/lib/certificates";
 
@@ -49,4 +50,21 @@ export function certificateTitle(record: Pick<CertificateRecord, "kind" | "modul
 
 export function credentialLabel(record: Pick<CertificateRecord, "kind" | "id">) {
   return record.kind === "module" ? record.id : `HYX-C-${record.id.slice(0, 12).toUpperCase()}`;
+}
+
+/** The certificate behind a download link, or the response to send instead. A learner who hides their name keeps their files to themselves. */
+export async function downloadableCertificate(id: string): Promise<{ record: CertificateRecord } | { error: Response }> {
+  const record = await findCertificate(id);
+  if (!record || record.revoked) return { error: new Response("Certificate not found", { status: 404 }) };
+  if (!record.showName) {
+    const session = await auth();
+    if (session?.user.id !== record.userId) return { error: new Response("This certificate's holder has chosen not to share it publicly.", { status: 403 }) };
+  }
+  return { record };
+}
+
+/** File name for a downloaded certificate, without the extension. */
+export function certificateFileName(record: CertificateRecord) {
+  const slug = (record.moduleTitle ?? record.courseTitle).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40);
+  return `hyrax-certificate-${slug}-${credentialLabel(record).toLowerCase()}`;
 }
