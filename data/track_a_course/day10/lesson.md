@@ -6,7 +6,7 @@ subtitle: A weekly routine, quality checks that hold up every week, and one real
 
 # Put Your Agent on a Routine and Pass It On
 
-**Read time: 10 minutes · Task: 10 minutes**
+**Read time: 6 minutes · Task: 20 minutes**
 
 An agent that ran once is a good day's work. An agent that runs every week is a working assistant. Today you set the routine, keep the quality high and show one real output to someone who can use it.
 
@@ -37,14 +37,14 @@ Over these ten days you have produced useful things, such as a clean report, a c
 
 1. Pick **one** output you are proud of.
 2. Show it to **one person who needs that skill**: a colleague buried in reports, a business owner whose customer messages are unclear, a teacher preparing for next term.
-3. Point them to Day 1 of this course, which is free and takes about 10 minutes. They finish with a report made from their own notes and a prompt they can reuse.
+3. Point them to Day 1 of this course, which is free and takes about 20 minutes. They finish with a report made from their own notes and a prompt they can reuse.
 4. In your Playbook, note whom you showed and what happened.
 
-That is the whole share step: one person, one real output, one honest demonstration. Details of the referral reward are on the course page. There are **no spam scripts or pressure tactics** here, on purpose. A pushy message looks like a scam and gets ignored. People pass on things that made them look competent, not things that made them feel sold to. A cleaner report in a colleague's hand gets asked about, and the answer is this course.
+That is the whole share step: one person, one real output, one honest demonstration. If you want to send them a link, your personal invite link is on the Refer a friend page. There are **no spam scripts or pressure tactics** here, on purpose. A pushy message looks like a scam and gets ignored. People pass on things that made them look competent, not things that made them feel sold to. A cleaner report in a colleague's hand gets asked about, and the answer is this course.
 
 ## Where this road leads
 
-Phone agents have a limit. The paste-the-persona method and the weekly run you start yourself are useful, but they wait for you. Agents that run on their own computer, on their own schedule and with full tools do exist. They are covered in Track B, a separate, more advanced course, for anyone who wants it later. Nothing in this course requires it.
+Phone agents have a limit. The paste-the-persona method and the weekly run you start yourself are useful, but they wait for you. Agents that run on their own computer, on their own schedule and with full tools do exist. They belong to a separate, more advanced course on computer-based agents, for anyone who wants it later. Nothing in this course requires it.
 
 ## Worked weekly run
 

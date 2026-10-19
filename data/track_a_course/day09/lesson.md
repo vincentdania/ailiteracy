@@ -6,7 +6,7 @@ subtitle: "Instructions, memory, tools and a trigger: one real recurring job in 
 
 # Build Your First Agent
 
-**Read time: 10 minutes · Task: 12 minutes**
+**Read time: 6 minutes · Task: 20 minutes**
 
 Yesterday your AI arrived briefed. Today you give it a standing job: one recurring piece of work in your week, done by an agent you built using only free features.
 

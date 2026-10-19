@@ -33,14 +33,14 @@
     "explanation": "Tools change every month, but the moves (give real material, specify role and format, verify the output) do not. You test new tools with your Playbook, not on the strength of hype."
   },
   {
-    "q": "What does the verified certificate attest to?",
+    "q": "You have a template-extraction prompt from Day 3. Under which Playbook heading does it belong?",
     "options": [
-      "Mastery of AI engineering and employment readiness",
-      "Course completion and a submitted Playbook, and nothing more",
-      "Accreditation equivalent to a university diploma",
-      "A guaranteed income from AI services"
+      "Reports",
+      "Numbers",
+      "My-role documents",
+      "My verification checklist"
     ],
-    "answer": 1,
-    "explanation": "The certificate is deliberately honest: it confirms that you completed the course and submitted the Playbook. It claims no other skills, no study hours and no accreditation."
+    "answer": 2,
+    "explanation": "The format-following and template-extraction prompts from Day 3 go under My-role documents, with your Day 6 work product. Filing each prompt under the job it does is what lets you find it again in a hurry."
   }
 ]

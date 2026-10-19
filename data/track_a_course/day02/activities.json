@@ -85,7 +85,7 @@
       "correct": 1,
       "hint": "Which of the four check questions is this about? Two of them deal with sources.",
       "support": "Suppose the Permanent Secretary asks, 'Where is this from?' The only good answer is the original document, which you have opened and read. The AI's word is not enough.",
-      "explain": "Rely on the structure, but verify the facts. A named source must exist and must say what the AI claims, for the stated year and definition. Then the figure can carry your name."
+      "explain": "Rely on the structure, but verify the facts. A named source must exist and must say what the AI claims, for the stated year and definition. Then the figure can carry your name. (The figure and report title in this mission were made up for practice, so do not quote them.)"
     }
   ],
   "advanced": {

@@ -12,7 +12,8 @@ const { Resend } = require("resend");
 
 const db = new PrismaClient();
 const COURSE_URL = process.env.NEXTAUTH_URL ?? "https://learn.hyrax.ng";
-const FROM = process.env.EMAIL_FROM ?? "Hyrax AI Academy <noreply@ailiteracy.ng>";
+const FROM = process.env.EMAIL_FROM ?? "Hyrax AI Academy <noreply@updates.hyrax.ng>";
+const REPLY_TO = process.env.SUPPORT_EMAIL ?? "team@hyrax.ng";
 
 function mockOrSend(message) {
   if (process.env.INTEGRATION_MODE === "mock" || !process.env.RESEND_API_KEY) {
@@ -20,7 +21,7 @@ function mockOrSend(message) {
     return Promise.resolve({ id: `mock-${Date.now()}` });
   }
   const resend = new Resend(process.env.RESEND_API_KEY);
-  return resend.emails.send({ from: FROM, ...message }).then((r) => {
+  return resend.emails.send({ from: FROM, replyTo: REPLY_TO, ...message }).then((r) => {
     if (r.error) throw new Error(r.error.message);
     return r.data;
   });

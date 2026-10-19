@@ -6,7 +6,7 @@ subtitle: Summarise a 30-page document in minutes, and build a working spreadshe
 
 # Long Documents and Numbers
 
-**Read time: 12–15 minutes · Task: 10 minutes**
+**Read time: 6 minutes · Task: 20–25 minutes**
 
 Two things bury professionals in work: documents too long to read in full, and spreadsheets too tedious to build. Today you practise a more structured way to handle both. You will summarise a long document in minutes, and get a working spreadsheet by describing what you want. The AI writes the formulas; you type none.
 

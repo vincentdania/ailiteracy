@@ -6,7 +6,7 @@ subtitle: Use free AI tools to turn your own rough notes into a clean, formatted
 
 # From Meeting Notes to a Finished Report in 10 Minutes
 
-**Read time: 10–12 minutes · Task: 10 minutes**
+**Read time: 8 minutes · Task: 10–15 minutes**
 
 This course is about your work, not AI theory. By the end of today you will have turned rough notes into a finished, formatted report: a useful draft that you then check against your notes.
 

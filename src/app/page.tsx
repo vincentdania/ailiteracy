@@ -20,20 +20,27 @@ import { MarketingNav } from "@/components/marketing/nav";
 import { PricingToggle } from "@/components/marketing/pricing-toggle";
 import { Syllabus } from "@/components/marketing/syllabus";
 import { CASE_STUDIES } from "@/lib/personalization/case-studies";
+import { getCourseOutline } from "@/lib/course-outline";
+import { paystackUsdEnabled } from "@/lib/payments/paystack";
 
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "Course",
-  name: "AI for Your Work in 10 Days",
-  description: "A step-by-step, no-code course. Use free AI tools on your phone to finish reports, emails, documents and decisions faster, then turn your Personal AI Playbook into a working agent. Built for Nigerian working people, with nothing technical assumed.",
-  provider: { "@type": "Organization", name: "Hyrax AI Academy" },
-  educationalLevel: "Beginner",
-  timeRequired: "P10D",
-  offers: [
-    { "@type": "Offer", price: "20000", priceCurrency: "NGN" },
-    { "@type": "Offer", price: "29", priceCurrency: "USD" },
-  ],
-};
+// Rendered per request so the USD price follows PAYSTACK_USD_ENABLED at runtime, as checkout does.
+export const dynamic = "force-dynamic";
+
+function courseSchema(showUsd: boolean) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: "AI for Your Work in 10 Days",
+    description: "A step-by-step, no-code course. Use free AI tools on your phone to finish reports, emails, documents and decisions faster, then turn your Personal AI Playbook into a working agent. Built for Nigerian working people, with nothing technical assumed.",
+    provider: { "@type": "Organization", name: "Hyrax AI Academy" },
+    educationalLevel: "Beginner",
+    timeRequired: "P10D",
+    offers: [
+      { "@type": "Offer", price: "20000", priceCurrency: "NGN" },
+      ...(showUsd ? [{ "@type": "Offer", price: "29", priceCurrency: "USD" }] : []),
+    ],
+  };
+}
 
 const tracks = [
   [BriefcaseBusiness, "Work", "Reports, briefs and follow-ups in minutes."],
@@ -45,6 +52,8 @@ const tracks = [
 ] as const;
 
 export default function HomePage() {
+  const showUsd = paystackUsdEnabled();
+  const schema = courseSchema(showUsd);
   return (
     <>
       <Script id="course-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
@@ -87,7 +96,7 @@ export default function HomePage() {
             <div className="max-w-xl">
               <p className="eyebrow">Free preview</p>
               <h2 className="display mt-2 text-3xl text-[#0b1c30] sm:text-4xl">Try Day 1 free</h2>
-              <p className="mt-3 leading-7 text-[#4d5768]">No account or payment needed. In 10 minutes, you turn rough meeting notes into a finished report, so you can see how the course works before you pay.</p>
+              <p className="mt-3 leading-7 text-[#4d5768]">No account or payment needed. In about 20 minutes, you turn rough meeting notes into a finished report, so you can see how the course works before you pay.</p>
             </div>
             <Link href="/challenge/tracka-01" className="inline-flex shrink-0 items-center rounded-full bg-[#10294f] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#214889]">Read Day 1 free <ArrowRight className="ml-2" size={16} /></Link>
           </div>
@@ -114,7 +123,7 @@ export default function HomePage() {
             </div>
             <div className="grid gap-px overflow-hidden rounded-2xl border border-[#e2e8f0] bg-[#e2e8f0] md:grid-cols-3">
               {[
-                ["01", "Start free", "On Day 1, you turn rough notes into a finished report in 10 minutes. It is free, and you don't need an account."],
+                ["01", "Start free", "On Day 1, you turn rough notes into a finished report. It takes about 20 minutes, it is free, and you don't need an account."],
                 ["02", "Seven days of real tasks", "Reports, emails, long documents and a month of posts. Each day, you use AI on one task from your own job."],
                 ["03", "Agents Week", "Over the last three days, you turn your Personal AI Playbook into a working agent with instructions, memory and a weekly routine. Finish the course to earn your certificate."],
               ].map(([number, title, copy]) => <article key={number} className="bg-white p-7"><span className="font-display text-4xl text-[#8fb0e0]">{number}</span><h3 className="mt-8 font-display text-2xl font-semibold text-[#0b1c30]">{title}</h3><p className="mt-3 text-sm leading-6 text-[#4d5768]">{copy}</p></article>)}
@@ -138,11 +147,11 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="syllabus" className="container-shell py-20 md:py-28"><div className="mx-auto mb-12 max-w-2xl text-center"><p className="eyebrow">Course outline</p><h2 className="display mt-4 text-5xl text-[#0b1c30]">Seven days on your own work. Three days to build your first agent.</h2></div><Syllabus /></section>
+        <section id="syllabus" className="container-shell py-20 md:py-28"><div className="mx-auto mb-12 max-w-2xl text-center"><p className="eyebrow">Course outline</p><h2 className="display mt-4 text-5xl text-[#0b1c30]">Seven days on your own work. Three days to build your first agent.</h2></div><Syllabus modules={getCourseOutline()} /></section>
 
-        <section id="pricing" className="border-t border-[#e2e8f0] bg-white py-20 md:py-28"><div className="container-shell"><div className="mb-12 text-center"><p className="eyebrow">Simple pricing</p><h2 className="display mt-4 text-5xl text-[#0b1c30]">One course. One payment.</h2></div><PricingToggle /></div></section>
+        <section id="pricing" className="border-t border-[#e2e8f0] bg-white py-20 md:py-28"><div className="container-shell"><div className="mb-12 text-center"><p className="eyebrow">Simple pricing</p><h2 className="display mt-4 text-5xl text-[#0b1c30]">One course. One payment.</h2></div><PricingToggle showUsd={showUsd} /></div></section>
       </main>
-      <footer className="safe-bottom bg-[#10294f] py-10 text-white"><div className="container-shell flex flex-col justify-between gap-5 text-sm sm:flex-row sm:items-center"><span className="grid gap-2"><span className="text-xl"><AcademyLockup inverse /></span><span className="text-xs font-bold uppercase tracking-[.18em] text-white/60">HYRAX · The AI Enablement Company.</span></span><nav aria-label="Footer" className="flex gap-5 text-white/70"><Link href="/login">Sign in</Link><a href="mailto:support@ailiteracy.africa">Support</a></nav></div></footer>
+      <footer className="safe-bottom bg-[#10294f] py-10 text-white"><div className="container-shell flex flex-col justify-between gap-5 text-sm sm:flex-row sm:items-center"><span className="grid gap-2"><span className="text-xl"><AcademyLockup inverse /></span><span className="text-xs font-bold uppercase tracking-[.18em] text-white/60">HYRAX · The AI Enablement Company.</span></span><nav aria-label="Footer" className="flex gap-5 text-white/70"><Link href="/login">Sign in</Link><a href="mailto:team@hyrax.ng">Support</a></nav></div></footer>
     </>
   );
 }

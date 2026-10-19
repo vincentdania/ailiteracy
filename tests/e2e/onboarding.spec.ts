@@ -27,7 +27,7 @@ test("new learner completes onboarding and reaches checkout without a redirect l
   await page.getByRole("button", { name: /Continue/ }).click();
   await page.getByRole("button", { name: "Build my learning plan" }).click();
   await expect(page).toHaveURL(/\/checkout$/);
-  await expect(page.getByRole("heading", { name: "Choose your checkout." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Get full access to the course." })).toBeVisible();
 
   await page.getByRole("button", { name: "Pay in NGN" }).click();
   await expect(page).toHaveURL(/\/dashboard\?checkout=success$/);

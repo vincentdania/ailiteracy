@@ -6,7 +6,7 @@ subtitle: Produce your job's most common document in the correct format, and tur
 
 # The Documents of Your Job
 
-**Read time: 12–15 minutes · Task: 10 minutes**
+**Read time: 6 minutes · Task: 20 minutes**
 
 Every job has three to five documents it produces again and again. These are not unusual documents. They are the ones you have written dozens of times and will write dozens more. Today you get AI to produce yours, in the correct format, in minutes.
 

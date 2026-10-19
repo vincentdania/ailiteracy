@@ -36,11 +36,11 @@
     "q": "What does the lesson say about where this road leads?",
     "options": [
       "Phone agents are the final destination of AI",
-      "Phone agents have a limit; fully autonomous agents are covered in Track B, if you want it later",
+      "Phone agents have a limit; fully autonomous agents belong to a separate advanced course, if you want it later",
       "Learners must upgrade immediately to keep their certificate",
       "Autonomous agents are a myth"
     ],
     "answer": 1,
-    "explanation": "The phone-based methods taught here wait for you to start them. Agents that run on their own computer are covered in Track B, a separate course for anyone who wants it later. Nothing in this course requires it."
+    "explanation": "The phone-based methods taught here wait for you to start them. Agents that run on their own computer belong to a separate, more advanced course on computer-based agents, for anyone who wants it later. Nothing in this course requires it."
   }
 ]

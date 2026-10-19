@@ -6,7 +6,7 @@ subtitle: Draft this week's emails and customer messages in one sitting, and see
 
 # Words That Move Money
 
-**Read time: 12–15 minutes · Task: 10–12 minutes**
+**Read time: 7 minutes · Task: 15–20 minutes**
 
 A lot of money moves because of a few well-chosen words: an email that gets answered, a price message that closes an order, an advert that brings a customer in. Today you draft a week's worth of these messages in one sitting, and look honestly at how this skill could become a service.
 
@@ -14,7 +14,7 @@ A lot of money moves because of a few well-chosen words: an email that gets answ
 
 Three rules do most of the work:
 
-1. **The subject line is the headline.** "Request for approval: training budget for 6 staff, Sept" beats "Important matter" every time.
+1. **The subject line is the headline.** "Request for approval by Friday: training budget for 6 staff" beats "Important matter" every time.
 2. **The ask is in the first two lines.** Busy readers decide in seconds whether to read on. Say what you want straight away and give the background after.
 3. **One email, one purpose.** An email that asks for three things usually gets one of them, or none.
 
@@ -25,8 +25,8 @@ Three rules do most of the work:
 **After (with the ask up front):**
 
 > Dear Mrs Okafor,
-> Please approve the attached training budget of ₦340,000 for six staff by Friday 20th, so we can confirm the venue before prices rise.
-> Background: the vendor's quotation expires on the 22nd and the training is scheduled for the first week of October.
+> Please approve the attached training budget of ₦340,000 for six staff by Friday, so we can confirm the venue before prices rise.
+> Background: the vendor's quotation expires on Monday, and the training starts in three weeks.
 
 Use this skeleton prompt. Replace everything in square brackets, then send it:
 

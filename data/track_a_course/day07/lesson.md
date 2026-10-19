@@ -6,7 +6,7 @@ subtitle: Gather, test and organise every prompt you have built into one reusabl
 
 # Your Personal AI Playbook
 
-**Read time: 10 minutes · Task: 10 minutes**
+**Read time: 6 minutes · Task: 20–25 minutes**
 
 Six days of work are sitting in your chat history, and they disappear from view the moment you open a new conversation. Today you gather them into one document that stays with you: your **Personal AI Playbook**.
 

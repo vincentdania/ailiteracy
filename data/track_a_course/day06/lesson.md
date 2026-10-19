@@ -6,7 +6,7 @@ subtitle: "One lesson, three tracks: jobseekers, NGO and programme staff, and te
 
 # Your Next Move
 
-**Read time: 8 minutes · Task: 12 minutes**
+**Read time: 6 minutes (your track only) · Task: 20 minutes**
 
 Everything you have learned this week (give real material, say who it is for, name the format, check the output) now goes towards one practical next step in your own situation. This lesson splits into three tracks. Read only the track that matches your work. The task is a real piece of work you owe someone, done faster.
 
@@ -29,7 +29,7 @@ Everything you have learned this week (give real material, say who it is for, na
 **5. Run the job-scam check before you apply.** AI can help you check, but these rules are fixed:
 
 - No genuine employer asks you to **pay a recruitment fee**, pay for "training materials", or buy airtime to "confirm interest". If any fee is requested, walk away.
-- Check that the company exists: search for its name with "CAC", and look for a real website and a real person you can call. Be suspicious of a Gmail address doing the hiring for a big company.
+- Check that the company is registered: search for its name on the Corporate Affairs Commission (CAC) public search at **search.cac.gov.ng**. If it does not appear, ask the recruiter for the registered name and check again before you share any documents. Then look for a real website and a real person you can call. Be suspicious of a Gmail address doing the hiring for a big company.
 - A salary far above the market rate for the role, with an easy interview, is the oldest bait there is.
 
 ## Track B: proposals and concept notes (NGO, programme and development staff)

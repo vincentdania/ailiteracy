@@ -6,7 +6,7 @@ subtitle: The four parts of a working assistant, and the move that turns your Pl
 
 # What an Agent Actually Is
 
-**Read time: 10 minutes · Task: 10 minutes**
+**Read time: 6 minutes · Task: 15 minutes**
 
 A chatbot answers. An **agent** works: on instructions, with memory, on a schedule. Today you learn the four parts of an agent, see the difference for yourself, and turn your Playbook into a standing assistant.
 

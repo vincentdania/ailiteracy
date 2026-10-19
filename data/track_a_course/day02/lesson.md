@@ -6,7 +6,7 @@ subtitle: The R-C-F prompt structure that gets far better answers, plus the 4-qu
 
 # Talk to AI Like a Capable Assistant, and Know When It Is Wrong
 
-**Read time: 12–15 minutes · Task: 10 minutes**
+**Read time: 6 minutes · Task: 20 minutes**
 
 Yesterday you met the three ideas: real material, audience and format. Today you turn them into a structure you can reuse every time. You will also see how AI can state something wrong with complete confidence, and learn what to do about it.
 
