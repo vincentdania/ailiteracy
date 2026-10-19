@@ -7,6 +7,8 @@ export type PaystackCharge = {
   status: string;
   reference: string;
   amount: number;
+  // What we asked for at initialize. `amount` also includes Paystack fees when the customer bears them.
+  requested_amount?: number;
   currency: string;
   metadata?: { userId?: string; courseId?: string } | string | null;
 };
@@ -65,6 +67,6 @@ export async function recordPaystackCharge(charge: PaystackCharge, rawPayload: u
   const { userId, courseId } = chargeMetadata(charge.metadata);
   const currency = charge.currency === "NGN" ? Currency.NGN : charge.currency === "USD" ? Currency.USD : null;
   if (charge.status !== "success" || !currency || !userId || !courseId) return false;
-  await processSuccessfulPayment({ userId, courseId, provider: PaymentProvider.PAYSTACK, referenceId: charge.reference, amount: charge.amount / 100, currency, rawPayload });
+  await processSuccessfulPayment({ userId, courseId, provider: PaymentProvider.PAYSTACK, referenceId: charge.reference, amount: (charge.requested_amount ?? charge.amount) / 100, currency, rawPayload });
   return true;
 }
