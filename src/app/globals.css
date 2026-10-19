@@ -1,13 +1,33 @@
 @import "tailwindcss";
 
+/* HYRAX design system, shared with hyrax.ng: brand navy #214889 (logo), action blue #0058be,
+   ink #0b1c30, Space Grotesk for display and Inter for text. Gold is reserved for achievements. */
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --color-brand: #214889;
+  --color-brand-deep: #10294f;
+  --color-accent: #0058be;
+  --color-accent-soft: #eaf2ff;
+  --color-ink: #0b1c30;
+  --color-muted: #4d5768;
+  --color-line: #dfe5ee;
+  --color-gold: #f2b01e;
+  --color-gold-soft: #fff4d6;
+  --color-success: #146c43;
+  --color-success-soft: #e6f4ec;
+  --color-danger: #b3261e;
+  --color-danger-soft: #fdeceb;
+}
+
 :root {
-  --ink: #131b2e;
-  --muted: #414845;
-  --paper: #f8f7f1;
+  --ink: #0b1c30;
+  --muted: #4d5768;
+  --paper: #f6f8fb;
   --card: #ffffff;
-  --forest: #00261d;
-  --forest-light: #123c31;
-  --lime: #ceee93;
+  --forest: #10294f;
+  --forest-light: #214889;
+  --lime: #bcd6ff;
   --amber: #fec24a;
   --line: #e2e8f0;
 }
@@ -18,7 +38,7 @@ body {
   margin: 0;
   color: var(--ink);
   background: var(--paper);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-sans);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
@@ -31,10 +51,10 @@ button, input, textarea, select { font: inherit; }
 .eyebrow { font-size: .75rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--forest-light); }
 .eyebrow-inverse { color: var(--lime); }
 .eyebrow-gold { color: var(--amber); }
-.display { font-family: "Source Serif 4", Georgia, "Times New Roman", serif; font-weight: 700; letter-spacing: -.035em; line-height: 1.02; }
+.display { font-family: var(--font-display); font-weight: 700; letter-spacing: -.03em; line-height: 1.04; }
 .glass { background: rgba(255,255,255,.78); backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,.8); }
-.card-shadow { box-shadow: 0 10px 35px rgba(0,38,29,.075); }
-.focus-ring:focus-visible { outline: 3px solid rgba(29,96,77,.35); outline-offset: 3px; }
+.card-shadow { box-shadow: 0 10px 35px rgba(16,41,79,.08); }
+.focus-ring:focus-visible { outline: 3px solid rgba(0,88,190,.35); outline-offset: 3px; }
 
 :where(input, textarea, select):focus-visible {
   border-color: var(--forest) !important;
@@ -43,10 +63,10 @@ button, input, textarea, select { font: inherit; }
 }
 
 .safe-bottom { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
-.editorial-card { background: #fff; border: 1px solid var(--line); border-radius: 1rem; box-shadow: 0 2px 8px rgba(0,38,29,.045); }
+.editorial-card { background: #fff; border: 1px solid var(--line); border-radius: 1rem; box-shadow: 0 2px 8px rgba(16,41,79,.05); }
 
-.lesson-prose { color: #2b3933; font-family: "Source Serif 4", Georgia, serif; font-size: 1.05rem; line-height: 1.82; }
-.lesson-prose h1, .lesson-prose h2, .lesson-prose h3 { color: var(--ink); font-family: Georgia, serif; line-height: 1.15; margin: 2.1rem 0 .8rem; }
+.lesson-prose { color: #26324a; font-size: 1.0625rem; line-height: 1.75; }
+.lesson-prose h1, .lesson-prose h2, .lesson-prose h3 { color: var(--ink); font-family: var(--font-display); letter-spacing: -.015em; line-height: 1.2; margin: 2.1rem 0 .8rem; }
 .lesson-prose h1 { font-size: 2.35rem; }
 .lesson-prose h2 { font-size: 1.65rem; }
 .lesson-prose h3 { font-size: 1.25rem; }
@@ -59,7 +79,7 @@ button, input, textarea, select { font: inherit; }
 
 /* Overflow safety for lesson content */
 .lesson-prose p, .lesson-prose li, .lesson-prose a { overflow-wrap: break-word; }
-.lesson-prose pre { max-width: 100%; overflow-x: auto; padding: 1rem 1.1rem; border-radius: .8rem; background: #0f1c18; color: #e8efe9; font-size: .9rem; line-height: 1.6; white-space: pre; }
+.lesson-prose pre { max-width: 100%; overflow-x: auto; padding: 1rem 1.1rem; border-radius: .8rem; background: #07121f; color: #e6edf6; font-size: .9rem; line-height: 1.6; white-space: pre; }
 .lesson-prose code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .9em; word-break: break-word; overflow-wrap: anywhere; }
 .lesson-prose pre code { word-break: normal; overflow-wrap: normal; white-space: pre; background: none; padding: 0; }
 .lesson-prose img { max-width: 100%; height: auto; border-radius: .8rem; display: block; margin: 1.5rem auto; }
@@ -74,4 +94,37 @@ button, input, textarea, select { font: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+/* ---------- Learning experience ---------- */
+.surface { background: #fff; border: 1px solid var(--color-line); border-radius: 1.25rem; box-shadow: 0 1px 2px rgba(11,28,48,.04), 0 10px 30px -18px rgba(11,28,48,.18); }
+.surface-dark { background: radial-gradient(120% 140% at 0% 0%, #214889 0%, #10294f 55%, #07121f 100%); color: #fff; border-radius: 1.5rem; }
+.chip { display: inline-flex; align-items: center; gap: .35rem; border-radius: 999px; padding: .3rem .7rem; font-size: .75rem; font-weight: 700; line-height: 1.2; }
+.tap { min-height: 44px; }
+.xp-bar { height: .6rem; border-radius: 999px; background: #e6edf6; overflow: hidden; }
+.xp-bar > span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #0058be, #4f8ff0); transition: width .8s cubic-bezier(.2,.7,.2,1); }
+.gold-bar > span { background: linear-gradient(90deg, #f2b01e, #ffd36b); }
+
+@keyframes pop-in { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.08); opacity: 1; } 100% { transform: scale(1); } }
+@keyframes rise { from { transform: translateY(12px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes shake { 0%, 100% { transform: none; } 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
+@keyframes confetti-fall { 0% { transform: translate3d(0, -10vh, 0) rotate(0); opacity: 1; } 100% { transform: translate3d(var(--drift, 0), 105vh, 0) rotate(720deg); opacity: .9; } }
+@keyframes glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(242,176,30,.0); } 50% { box-shadow: 0 0 0 10px rgba(242,176,30,.18); } }
+.anim-pop { animation: pop-in .5s cubic-bezier(.2,.8,.2,1) both; }
+.anim-rise { animation: rise .45s cubic-bezier(.2,.7,.2,1) both; }
+.anim-shake { animation: shake .4s ease-in-out; }
+.anim-glow { animation: glow 2.4s ease-in-out infinite; }
+.confetti-piece { position: fixed; top: 0; width: 9px; height: 14px; border-radius: 2px; pointer-events: none; z-index: 70; animation: confetti-fall var(--dur, 2.6s) cubic-bezier(.25,.6,.4,1) forwards; }
+
+/* Learners can switch off non-essential motion; the OS reduced-motion setting does the same. */
+html[data-effects="off"] *, html[data-effects="off"] *::before, html[data-effects="off"] *::after { animation: none !important; transition: none !important; }
+html[data-effects="off"] .confetti-piece { display: none; }
+
+.journey-line { position: absolute; left: 1.375rem; top: 2.75rem; bottom: -1.5rem; width: 3px; border-radius: 3px; background: repeating-linear-gradient(to bottom, #cbd5e1 0 6px, transparent 6px 12px); }
+.journey-line.done { background: #0058be; }
+
+@media print {
+  body { background: #fff !important; }
+  .no-print { display: none !important; }
+  .print-sheet { box-shadow: none !important; border: 0 !important; margin: 0 !important; width: 100% !important; }
 }

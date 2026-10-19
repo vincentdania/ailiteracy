@@ -38,6 +38,7 @@
     "next": "15.5.24",
     "next-auth": "5.0.0-beta.32",
     "posthog-js": "1.297.2",
+    "qrcode-generator": "1.4.4",
     "react": "19.1.1",
     "react-dom": "19.1.1",
     "react-markdown": "10.1.0",

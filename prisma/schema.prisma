@@ -98,6 +98,12 @@ model User {
   projectSubmissions ProjectSubmission[]
   aiUsageEvents      AiUsageEvent[]
   quizAttempts       QuizAttempt[]
+  xpEvents           XpEvent[]
+  badges             UserBadge[]
+  activityAttempts   ActivityAttempt[]
+  moduleCertificates ModuleCertificate[]
+  effectsEnabled     Boolean                  @default(true)
+  soundEnabled       Boolean                  @default(false)
   createdAt          DateTime                 @default(now())
   updatedAt          DateTime                 @updatedAt
 
@@ -125,31 +131,33 @@ model UserProfile {
 }
 
 model Course {
-  id            String         @id @default(cuid())
-  slug          String         @unique
-  title         String
-  description   String
-  priceNgn      Decimal        @db.Decimal(12, 2)
-  priceUsd      Decimal        @db.Decimal(10, 2)
-  isPublished   Boolean        @default(false)
-  modules       Module[]
-  enrollments   Enrollment[]
-  transactions  Transaction[]
-  certificates  Certificate[]
-  learningPlans LearningPlan[]
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  id                 String              @id @default(cuid())
+  slug               String              @unique
+  title              String
+  description        String
+  priceNgn           Decimal             @db.Decimal(12, 2)
+  priceUsd           Decimal             @db.Decimal(10, 2)
+  isPublished        Boolean             @default(false)
+  modules            Module[]
+  enrollments        Enrollment[]
+  transactions       Transaction[]
+  certificates       Certificate[]
+  learningPlans      LearningPlan[]
+  moduleCertificates ModuleCertificate[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
 
   @@index([isPublished])
 }
 
 model Module {
-  id         String   @id @default(cuid())
-  courseId   String
-  course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  title      String
-  orderIndex Int
-  lessons    Lesson[]
+  id           String              @id @default(cuid())
+  courseId     String
+  course       Course              @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title        String
+  orderIndex   Int
+  lessons      Lesson[]
+  certificates ModuleCertificate[]
 
   @@unique([courseId, orderIndex])
   @@index([courseId])
@@ -166,11 +174,13 @@ model Lesson {
   contentMarkdown     String
   heroImage           String?
   quizJson            Json?
+  activitiesJson      Json?
   isFreePreview       Boolean              @default(false)
   isBonus             Boolean              @default(false)
   personalizedLessons PersonalizedLesson[]
   projectSubmissions  ProjectSubmission[]
   quizAttempts        QuizAttempt[]
+  activityAttempts    ActivityAttempt[]
 
   @@unique([moduleId, slug])
   @@unique([moduleId, dayNumber])
@@ -179,16 +189,19 @@ model Lesson {
 }
 
 model QuizAttempt {
-  id        String   @id @default(cuid())
-  userId    String
-  lessonId  String
-  score     Int
-  total     Int
-  answers   Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  id           String    @id @default(cuid())
+  userId       String
+  lessonId     String
+  score        Int
+  total        Int
+  answers      Json
+  attemptCount Int       @default(1)
+  lastScore    Int?
+  passedAt     DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson       Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 
   @@unique([userId, lessonId])
   @@index([userId])
@@ -340,6 +353,7 @@ model Certificate {
   course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
   issueDate  DateTime @default(now())
   pdfUrl     String?
+  showName   Boolean  @default(true)
 
   @@unique([userId, courseId])
   @@index([issueDate])
@@ -379,4 +393,75 @@ model PushSubscription {
   createdAt DateTime @default(now())
 
   @@index([userId])
+}
+
+/// XP ledger. One row per genuine accomplishment; sourceKey makes every award idempotent.
+model XpEvent {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId  String?
+  lessonId  String?
+  kind      String
+  sourceKey String
+  label     String
+  xp        Int
+  createdAt DateTime @default(now())
+
+  @@unique([userId, sourceKey])
+  @@index([userId, createdAt])
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badgeKey  String
+  courseId  String?
+  awardedAt DateTime @default(now())
+
+  @@unique([userId, badgeKey])
+  @@index([userId])
+}
+
+/// A learner's attempts at one interactive mission inside a lesson.
+model ActivityAttempt {
+  id          String    @id @default(cuid())
+  userId      String
+  lessonId    String
+  activityKey String
+  attempts    Int       @default(0)
+  solved      Boolean   @default(false)
+  solvedAt    DateTime?
+  lastAnswer  Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson      Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId, activityKey])
+  @@index([userId])
+}
+
+/// Certificate of completion for one module. Names and titles are snapshotted at issue time.
+model ModuleCertificate {
+  id           String    @id @default(cuid())
+  credentialId String    @unique
+  userId       String
+  moduleId     String
+  courseId     String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  module       Module    @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  course       Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  learnerName  String
+  courseTitle  String
+  moduleTitle  String
+  moduleOrder  Int
+  evidence     Json
+  showName     Boolean   @default(true)
+  issuedAt     DateTime  @default(now())
+  revokedAt    DateTime?
+
+  @@unique([userId, moduleId])
+  @@index([courseId])
 }

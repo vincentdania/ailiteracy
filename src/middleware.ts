@@ -22,4 +22,4 @@ export default auth(async (request) => {
   return NextResponse.next();
 });
 
-export const config = { matcher: ["/dashboard/:path*", "/challenge/:path*", "/checkout", "/referrals/:path*", "/admin/:path*", "/onboarding"], runtime: "nodejs" };
+export const config = { matcher: ["/dashboard/:path*", "/challenge/:path*", "/achievements", "/certificates", "/checkout", "/referrals/:path*", "/admin/:path*", "/onboarding"], runtime: "nodejs" };

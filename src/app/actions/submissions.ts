@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { isCapstoneLesson } from "@/lib/challenge";
 import { assessSubmission } from "@/lib/submission-assessment";
+import { syncAchievements, type Celebration } from "@/lib/learning/progress";
 
 const schema = z.object({
   lessonId: z.string().min(1),
@@ -14,7 +15,7 @@ const schema = z.object({
   artifactUrl: z.union([z.literal(""), z.string().url()]).optional(),
 });
 
-export async function submitPracticeAction(_: { ok: boolean; message: string; score?: number }, formData: FormData) {
+export async function submitPracticeAction(_: { ok: boolean; message: string; score?: number; celebration?: Celebration | null; nextSteps?: string[] }, formData: FormData) {
   const session = await auth();
   if (!session?.user.id) return { ok: false, message: "Sign in required." };
   const result = schema.safeParse(Object.fromEntries(formData));
@@ -33,7 +34,8 @@ export async function submitPracticeAction(_: { ok: boolean; message: string; sc
     }),
     ...(isCapstone ? [db.enrollment.update({ where: { id: enrollment.id }, data: { capstonePassed: assessment.score >= 70, assessmentScore: assessment.score } })] : []),
   ]);
+  const celebration = await syncAchievements(session.user.id);
   revalidatePath(`/challenge/${lesson.slug}`);
   revalidatePath("/dashboard");
-  return { ok: true, message: assessment.feedback.summary, score: assessment.score };
+  return { ok: true, message: assessment.feedback.summary, score: assessment.score, celebration, nextSteps: assessment.feedback.nextSteps.filter((step): step is string => typeof step === "string") };
 }

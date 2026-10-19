@@ -16,9 +16,9 @@ test("new learner completes onboarding and reaches checkout without a redirect l
   await page.getByLabel("Email address").fill(email);
   await page.getByLabel("Password").fill(password);
   await page.getByRole("button", { name: "Sign in" }).click();
-  await expect(page).toHaveURL(/\/onboarding$/);
+  await expect(page.getByRole("heading", { name: "Tell us about your professional world." })).toBeVisible();
 
-  await page.getByLabel("What is your current profession?").fill("Product manager");
+  await page.getByLabel("What is your current profession?").selectOption({ label: "Consultant / Advisor" });
   await page.getByLabel(/Industry/).fill("Technology");
   await page.getByRole("button", { name: /Continue/ }).click();
   await page.getByLabel("What should AI help you achieve?").fill("Create reliable product research workflows with clear quality checks.");
@@ -31,6 +31,6 @@ test("new learner completes onboarding and reaches checkout without a redirect l
 
   await page.getByRole("button", { name: "Pay in NGN" }).click();
   await expect(page).toHaveURL(/\/dashboard\?checkout=success$/);
-  await expect(page.getByRole("heading", { name: /Welcome back, E2E/ })).toBeVisible();
-  await expect(page.getByText("Your personalized certificate path")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Hello, E2E." })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Continue learning/ })).toBeVisible();
 });

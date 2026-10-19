@@ -1,0 +1,102 @@
+{
+  "objectives": {
+    "understand": "What makes an email or customer message get a fast, clear response.",
+    "do": "Draft emails with the ask in the first two lines, and customer messages that answer the real question first.",
+    "demonstrate": "Repair a weak email, structure a customer reply, and plan a week of posts from one story.",
+    "apply": "Produce one lane of finished messages for your job or business, ready to send."
+  },
+  "discover": {
+    "title": "Mission briefing: the unanswered email",
+    "scenario": "Tunde sent his manager an email about the training budget two weeks ago. Subject: 'Important matter'. The ask was in paragraph three. No reply, and the vendor's quotation expires on Friday. Today you rewrite messages so the reader knows what you need in five seconds."
+  },
+  "keyIdeas": [
+    "The subject line is the headline: name the decision and the date.",
+    "Put the ask in the first two lines. Background comes after.",
+    "One email, one purpose. Customer replies answer the question first, then price, then how to order."
+  ],
+  "device": "phone",
+  "missions": [
+    {
+      "key": "fix-email",
+      "type": "choice",
+      "title": "Rescue Tunde's email",
+      "prompt": "Which opening is most likely to get a reply from his busy manager today?",
+      "options": [
+        {
+          "text": "Subject: Important matter. Dear Sir, I hope this email finds you well. I am writing to follow up on our previous discussions…",
+          "feedback": "This is the original problem: a vague subject and no ask in the first lines."
+        },
+        {
+          "text": "Subject: Approval needed by Friday: ₦340,000 training budget for 6 staff. Dear Mrs Okafor, please approve the attached budget by Friday so we can confirm the venue before the quote expires.",
+          "feedback": "Yes. The subject names the decision and the deadline, and the ask is in the first two lines."
+        },
+        {
+          "text": "Subject: Training, venue, new laptops and leave roster. Dear Mrs Okafor, there are a few things I need from you…",
+          "feedback": "Four purposes in one email usually gets one answer, or none. One email, one purpose."
+        },
+        {
+          "text": "Subject: URGENT!!! Please respond. Dear Ma, kindly treat as urgent.",
+          "feedback": "Urgency without content. She still doesn't know what decision you need or by when."
+        }
+      ],
+      "correct": 1,
+      "hint": "Apply the three rules: a headline subject, the ask in two lines, one purpose.",
+      "support": "Picture your manager reading only the subject line and the first sentence on her phone between meetings. Which option tells her exactly what to do?",
+      "explain": "A specific subject, an ask in the first two lines with the amount and the deadline, and a single purpose. The background (quotation expiry, schedule) can follow underneath."
+    },
+    {
+      "key": "customer-reply",
+      "type": "order",
+      "title": "Build a reply that closes the order",
+      "scenario": "A customer on WhatsApp asks Chidinma the tailor: 'How much for an ankara gown, and can I get it before Sunday?'",
+      "prompt": "Put the parts of her reply in the best order.",
+      "items": [
+        "Yes, I can have it ready by Saturday.",
+        "An ankara gown is ₦18,000 with your own fabric, ₦26,000 with mine.",
+        "That price includes fitting and one adjustment.",
+        "To start, send your measurements and a ₦5,000 deposit by Wednesday. Shall I reserve a Saturday pickup for you?"
+      ],
+      "hint": "Answer the actual question first, then price, then what's included, then how to order.",
+      "support": "The customer asked two things: price and timing. The lesson says answer their question in the first line, give a clear price, state what's included, and finish with one next step.",
+      "explain": "Answering the real question first keeps the customer reading, a clear price avoids back-and-forth, stating what's included prevents disputes, and one specific next step with a deadline closes the order."
+    }
+  ],
+  "advanced": {
+    "key": "advanced",
+    "type": "sort",
+    "title": "Advanced: plan the 8-post pack",
+    "scenario": "From one story (you delivered 200 branded notebooks to a school in Ibadan on time), the AI drafted posts. Sort each into the right slot of the 8-post pack.",
+    "prompt": "Sort each post into its type.",
+    "categories": [
+      "Offer",
+      "Proof",
+      "Tip",
+      "Behind the scenes"
+    ],
+    "items": [
+      {
+        "text": "Back-to-school special: branded notebooks from ₦650 each for orders over 100. DM to book.",
+        "category": 0,
+        "feedback": "A price and a call to action make this an offer."
+      },
+      {
+        "text": "200 notebooks with St. Anne's logo, delivered two days early. Thank you, St. Anne's!",
+        "category": 1,
+        "feedback": "A completed job and a happy customer: this is proof."
+      },
+      {
+        "text": "Ordering for a school? Send the logo as a PDF, not a WhatsApp photo, for sharper printing.",
+        "category": 2,
+        "feedback": "Useful advice for your customers is a tip."
+      },
+      {
+        "text": "4am at the print shop: checking every cover before the Ibadan delivery.",
+        "category": 3,
+        "feedback": "Showing the work behind the work is behind the scenes."
+      }
+    ],
+    "hint": "Offer = something to buy. Proof = completed work or results. Tip = useful advice. Behind the scenes = how you work.",
+    "support": "Ask what the reader gets from each post: a deal, evidence you deliver, something useful to know, or a look at your process.",
+    "explain": "The 8-post pack mixes 2 of each so your feed isn't just adverts. Proof and tips build trust, which makes the offers work."
+  }
+}

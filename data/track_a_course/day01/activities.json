@@ -1,0 +1,102 @@
+{
+  "objectives": {
+    "understand": "Why AI output depends on the real material, the audience and the format you give it.",
+    "do": "Turn rough notes into a clean, formatted report with one reusable prompt.",
+    "demonstrate": "Spot a weak prompt, choose the stronger one, and catch details the AI should not invent.",
+    "apply": "Produce a report from notes you actually took at work, class or a customer meeting."
+  },
+  "discover": {
+    "title": "Mission briefing: the 4pm report",
+    "scenario": "It is 3:15pm in Enugu. Your Head of Department wants a report of this morning's staff meeting by 4pm. All you have are rough notes in your phone: half sentences, initials, a figure of ₦380k. Writing it by hand takes an hour. Today you will do it in ten minutes, and you will know exactly why it worked."
+  },
+  "keyIdeas": [
+    "Give the AI your real material. A worker with empty hands does nothing.",
+    "Say who the output is for. The audience changes the words.",
+    "Name the format. If you don't, the AI guesses, and its guesses are generic."
+  ],
+  "device": "phone",
+  "missions": [
+    {
+      "key": "pick-prompt",
+      "type": "choice",
+      "title": "Choose the prompt that will work",
+      "scenario": "Ngozi runs a small catering business in Lagos. She has notes from a call with a client planning a 120-guest wedding and wants a summary to send back so nothing is forgotten.",
+      "prompt": "Which prompt will give her the most useful summary on the first try?",
+      "options": [
+        {
+          "text": "Summarise my call with a client.",
+          "feedback": "The AI has nothing to work with: no notes, no reader, no format. It will invent a generic summary."
+        },
+        {
+          "text": "You are an events coordinator. Turn my call notes below into a summary for the client: agreed menu, guest count, date, deposit and open questions as bullet points. Do not add anything not in the notes. NOTES: [pasted notes]",
+          "feedback": "Yes. Real material, a named reader and a clear format, plus a rule against invention."
+        },
+        {
+          "text": "Write a professional and detailed wedding catering summary for 120 guests, make it very good.",
+          "feedback": "Closer, but there are still no notes. 'Very good' is not a format, and the AI will invent menu items and prices."
+        },
+        {
+          "text": "Here are my notes: [pasted notes]",
+          "feedback": "The real material is there, which is the most important part. But without a reader or a format the AI will guess both."
+        }
+      ],
+      "correct": 1,
+      "hint": "Check each option for the three ideas: real material, who it is for, and the format.",
+      "support": "Think of briefing a new assistant on their first day. They need the actual notes, to know who will read the result, and what it should look like. Only one option gives all three.",
+      "explain": "The strong prompt carries all three ideas from today: the pasted notes (real material), the client as reader (audience) and bulleted headings (format). Adding 'do not add anything not in the notes' protects her from invented details."
+    },
+    {
+      "key": "catch-inventions",
+      "type": "multi",
+      "title": "Catch what the AI made up",
+      "scenario": "Your notes said: 'staff meeting 14 Aug, 9 present. Resumption 8am from Sept, Mrs Eze to circulate memo. Borehole repair quoted 380k, wait for 2nd quote.' The AI's report contains the lines below.",
+      "prompt": "Select every line that is NOT supported by your notes.",
+      "options": [
+        {
+          "text": "Resumption time changes to 8am from September.",
+          "feedback": "This one is supported: it is in your notes."
+        },
+        {
+          "text": "Mrs Eze will circulate the resumption memo.",
+          "feedback": "This one is supported: the notes name Mrs Eze for the memo."
+        },
+        {
+          "text": "Attendees: Mr Bala, Mrs Eze, Ada, Mr Okon, Mrs Uche and four others.",
+          "feedback": "Invented. The notes say nine people attended but never list them. The AI filled the gap with plausible names."
+        },
+        {
+          "text": "The borehole repair of ₦380,000 was approved.",
+          "feedback": "Invented. The notes say to wait for a second quote, which is the opposite of approval. This is the kind of error that embarrasses you in front of your boss."
+        },
+        {
+          "text": "A second quotation for the borehole is pending.",
+          "feedback": "This one is supported: 'wait for 2nd quote'."
+        }
+      ],
+      "correct": [
+        2,
+        3
+      ],
+      "hint": "Read each line against the original notes word for word. Is every fact actually in the notes?",
+      "support": "AI fills gaps with things that sound right. Look for two kinds of gap: details the notes leave out (who exactly attended?) and decisions the notes never record (was anything approved?).",
+      "explain": "Two lines were invented: the attendee names and the approval. Both sound reasonable, which is why they are dangerous. That is why the prompt says 'Do not invent anything', and why you still check the output against your notes."
+    }
+  ],
+  "advanced": {
+    "key": "advanced",
+    "type": "order",
+    "title": "Advanced: build the full report prompt",
+    "scenario": "You are writing a reusable prompt that turns any meeting notes into a report for your Head of Department.",
+    "prompt": "Put these prompt parts in the most effective order, from first to last.",
+    "items": [
+      "You are an experienced administrative officer.",
+      "Below are my rough notes from a staff meeting. Turn them into a clean report for my Head of Department.",
+      "Use this format: heading with the date, attendees, matters arising as numbered points, action points with owners.",
+      "Keep it under 200 words. Do not invent anything that is not in the notes.",
+      "NOTES: [paste your notes here]"
+    ],
+    "hint": "A good brief goes: who you are, what the job is, what it should look like, the limits, and finally the material.",
+    "support": "Imagine handing this to a colleague. You'd introduce their role, explain the task, show the shape you want, set the limits, then hand over the notes last so nothing gets lost after them.",
+    "explain": "Role first sets tone and judgement. Then the task and the reader, then the format, then the limits. The notes go last, so all instructions come before the material they apply to. This is the template you saved today."
+  }
+}
