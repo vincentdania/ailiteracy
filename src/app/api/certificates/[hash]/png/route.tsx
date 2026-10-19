@@ -50,7 +50,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ has
         <div style={{ display: "flex", marginTop: 44, fontSize: 32, color: MUTED }}>This certifies that</div>
         <div style={{ display: "flex", marginTop: 18, fontFamily: "Space Grotesk", fontSize: 104, fontWeight: 700, color: "#10294f", textAlign: "center" }}>{record.learnerName}</div>
         <div style={{ display: "flex", marginTop: 26, width: 620, height: 4, background: GOLD }} />
-        <div style={{ display: "flex", marginTop: 40, fontSize: 32, color: MUTED }}>{record.kind === "module" ? "has successfully completed and demonstrated the learning outcomes of" : "has successfully completed the course"}</div>
+        <div style={{ display: "flex", marginTop: 40, fontSize: 32, color: MUTED }}>{record.kind === "module" ? "has successfully completed the module" : "has successfully completed the course"}</div>
         <div style={{ display: "flex", marginTop: 22, fontFamily: "Space Grotesk", fontSize: 62, fontWeight: 700, textAlign: "center" }}>{heading}</div>
         {record.kind === "module" && <div style={{ display: "flex", marginTop: 14, fontSize: 32, color: MUTED }}>{`Module ${record.moduleOrder} of ${record.courseTitle}`}</div>}
         <div style={{ display: "flex", marginTop: "auto", width: "100%", justifyContent: "space-between", alignItems: "flex-end" }}>

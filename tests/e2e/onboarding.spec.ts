@@ -16,7 +16,7 @@ test("new learner completes onboarding and reaches checkout without a redirect l
   await page.getByLabel("Email address").fill(email);
   await page.getByLabel("Password").fill(password);
   await page.getByRole("button", { name: "Sign in" }).click();
-  await expect(page.getByRole("heading", { name: "Tell us about your professional world." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Tell us about your work." })).toBeVisible();
 
   await page.getByLabel("What is your current profession?").selectOption({ label: "Consultant / Advisor" });
   await page.getByLabel(/Industry/).fill("Technology");
@@ -27,7 +27,7 @@ test("new learner completes onboarding and reaches checkout without a redirect l
   await page.getByRole("button", { name: /Continue/ }).click();
   await page.getByRole("button", { name: "Build my learning plan" }).click();
   await expect(page).toHaveURL(/\/checkout$/);
-  await expect(page.getByRole("heading", { name: "Choose your checkout." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Get full access to the course." })).toBeVisible();
 
   await page.getByRole("button", { name: "Pay in NGN" }).click();
   await expect(page).toHaveURL(/\/dashboard\?checkout=success$/);

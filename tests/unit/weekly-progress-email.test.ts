@@ -7,15 +7,15 @@ const base = { name: "Ada", courseTitle: "AI at Work", total: 10, unlockedDay: 4
 describe("weekly progress email", () => {
   it("shows what is next while the course is in progress", () => {
     const { subject, text } = weeklyProgressEmail({ ...base, completed: 4 });
-    expect(subject).toBe("Your Hyrax AI Academy progress: 4/10 lessons complete");
+    expect(subject).toBe("Your weekly progress: 4 of 10 lessons complete");
     expect(text).toContain("Next up: Day 5");
     expect(text).toContain("Lessons remaining: 6");
   });
 
   it("congratulates finished learners and links their certificate instead of Next up", () => {
     const { subject, text } = weeklyProgressEmail({ ...base, completed: 10, unlockedDay: 10, certificateHash: "a".repeat(64) });
-    expect(subject).toBe("You finished AI at Work 🎉");
-    expect(text).toContain("Congratulations!");
+    expect(subject).toBe("You’ve finished AI at Work");
+    expect(text).toContain("Congratulations.");
     expect(text).toContain(`/verify/${"a".repeat(64)}`);
     expect(text).not.toMatch(/Next up|Lessons remaining|Continue where you left off|streak/);
     expect(text).not.toContain("—");

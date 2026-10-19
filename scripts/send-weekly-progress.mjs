@@ -10,7 +10,8 @@ import path from "node:path";
 
 const require = createRequire("/app/package.json");
 const COURSE_URL = process.env.NEXTAUTH_URL ?? "https://learn.hyrax.ng";
-const FROM = process.env.EMAIL_FROM ?? "Hyrax AI Academy <noreply@ailiteracy.ng>";
+const FROM = process.env.EMAIL_FROM ?? "Hyrax AI Academy <noreply@updates.hyrax.ng>";
+const REPLY_TO = process.env.SUPPORT_EMAIL ?? "team@hyrax.ng";
 
 function mockOrSend(message) {
   if (process.env.INTEGRATION_MODE === "mock" || !process.env.RESEND_API_KEY) {
@@ -19,7 +20,7 @@ function mockOrSend(message) {
   }
   const { Resend } = require("resend");
   const resend = new Resend(process.env.RESEND_API_KEY);
-  return resend.emails.send({ from: FROM, ...message }).then((r) => {
+  return resend.emails.send({ from: FROM, replyTo: REPLY_TO, ...message }).then((r) => {
     if (r.error) throw new Error(r.error.message);
     return r.data;
   });
@@ -36,16 +37,16 @@ export function weeklyProgressEmail({ name, courseTitle, completed, total, unloc
   const pct = Math.min(Math.round((completed / total) * 100), 100);
   const progressBar = "▓".repeat(Math.round(pct / 10)) + "░".repeat(10 - Math.round(pct / 10));
   const subject = completed === 0
-    ? "Your Hyrax AI Academy journey starts with Day 1"
+    ? `Day 1 of ${courseTitle} is ready for you`
     : finished
-      ? `You finished ${courseTitle} 🎉`
-      : `Your Hyrax AI Academy progress: ${completed}/${total} lessons complete`;
+      ? `You’ve finished ${courseTitle}`
+      : `Your weekly progress: ${completed} of ${total} lessons complete`;
 
   if (finished) {
     const certificateUrl = certificateHash ? `${COURSE_URL}/verify/${certificateHash}` : `${COURSE_URL}/certificates`;
     const text = `Hi ${name},
 
-Congratulations! You have completed all ${total} lessons of ${courseTitle}.
+Congratulations. You have completed all ${total} lessons of ${courseTitle}.
 
 Progress: ${progressBar} ${pct}%
 
@@ -72,9 +73,9 @@ Lessons remaining: ${remaining}
 Continue where you left off:
 ${COURSE_URL}/challenge
 
-Keep the streak alive — one focused lesson a day is enough.
+One lesson a day is enough to finish the course in ${total} days.
 
-— The Hyrax AI Academy team`;
+The Hyrax AI Academy team`;
   return { subject, text };
 }
 
