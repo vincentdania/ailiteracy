@@ -4,7 +4,7 @@ export const ISSUER = {
   name: "Hyrax Information Technology Solutions and Consultancy Ltd.",
   brand: "HYRAX",
   academy: "Hyrax AI Academy",
-  tagline: "HYRAX — The AI Enablement Company.",
+  tagline: "HYRAX · The AI Enablement Company.",
   signatory: "Vincent Dania",
   signatoryTitle: "Chief Executive Officer",
 } as const;

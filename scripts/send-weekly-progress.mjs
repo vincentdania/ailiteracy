@@ -12,7 +12,8 @@ const { Resend } = require("resend");
 
 const db = new PrismaClient();
 const COURSE_URL = process.env.NEXTAUTH_URL ?? "https://learn.hyrax.ng";
-const FROM = process.env.EMAIL_FROM ?? "Hyrax AI Academy <noreply@ailiteracy.ng>";
+const FROM = process.env.EMAIL_FROM ?? "Hyrax AI Academy <noreply@updates.hyrax.ng>";
+const REPLY_TO = process.env.SUPPORT_EMAIL ?? "team@hyrax.ng";
 
 function mockOrSend(message) {
   if (process.env.INTEGRATION_MODE === "mock" || !process.env.RESEND_API_KEY) {
@@ -20,7 +21,7 @@ function mockOrSend(message) {
     return Promise.resolve({ id: `mock-${Date.now()}` });
   }
   const resend = new Resend(process.env.RESEND_API_KEY);
-  return resend.emails.send({ from: FROM, ...message }).then((r) => {
+  return resend.emails.send({ from: FROM, replyTo: REPLY_TO, ...message }).then((r) => {
     if (r.error) throw new Error(r.error.message);
     return r.data;
   });
@@ -46,17 +47,17 @@ async function main() {
 
     const progressBar = "▓".repeat(Math.round(pct / 10)) + "░".repeat(10 - Math.round(pct / 10));
     const subject = completed === 0
-      ? "Your Hyrax AI Academy journey starts with Day 1"
+      ? `Day 1 of ${enrollment.course.title} is ready for you`
       : completed >= total
-        ? `You finished ${enrollment.course.title} 🎉`
-        : `Your Hyrax AI Academy progress: ${completed}/${total} lessons complete`;
+        ? `You’ve finished ${enrollment.course.title}`
+        : `Your weekly progress: ${completed} of ${total} lessons complete`;
 
     const text = `Hi ${name},
 
 ${completed === 0
   ? `Welcome to ${enrollment.course.title}. Your first lesson is waiting.`
   : completed >= total
-    ? `Congratulations — you have completed all ${total} lessons. Your certificate is ready in your dashboard.`
+    ? `Congratulations. You have completed all ${total} lessons. You can download your certificates from the Certificates page.`
     : `You have completed ${completed} of ${total} lessons.`}
 
 Progress: ${progressBar} ${pct}%
@@ -67,9 +68,9 @@ Lessons remaining: ${remaining}
 Continue where you left off:
 ${COURSE_URL}/challenge
 
-Keep the streak alive — one focused lesson a day is enough.
+One lesson a day is enough to finish the course in ${total} days.
 
-— The Hyrax AI Academy team`;
+The Hyrax AI Academy team`;
 
     try {
       await mockOrSend({ to: email, subject, text });

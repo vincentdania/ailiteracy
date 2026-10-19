@@ -40,12 +40,12 @@ export async function enhancePlanWithDeepSeek(input: PersonalizationInput, track
         messages: [
           {
             role: "system",
-            content: "You design concise, practical adult-learning plans. Return JSON only with title, outcomeSummary and milestoneOutcomes (exactly 3 strings). Never promise employment, income or guaranteed results. Preserve the learner's agency and African context without stereotypes.",
+            content: "You design concise, practical adult-learning plans. Return JSON only with title, outcomeSummary and milestoneOutcomes (exactly 3 strings). Never promise employment, income or guaranteed results. Preserve the learner's agency and African context without stereotypes. Use British English spelling, plain words and no em dashes.",
           },
           {
             role: "user",
             content: JSON.stringify({
-              instruction: "Personalize the wording of the course's 22-lesson plan. Make the outcome observable and specific. Do not invent personal facts.",
+              instruction: "Personalise the wording of the course's 10-lesson plan. Make the outcome observable and specific. Do not invent personal facts.",
               track: trackLabel,
               profession: input.profession,
               industry: input.industry,

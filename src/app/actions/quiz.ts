@@ -20,7 +20,7 @@ export async function gradeQuizAction(lessonId: string, answers: number[]): Prom
   const questions = parseQuiz(lesson?.quizJson);
   if (!lesson || !questions) return { ok: false, error: "This lesson has no knowledge check." };
   const enrollment = await db.enrollment.findUnique({ where: { userId_courseId: { userId, courseId: lesson.module.courseId } }, include: { user: { include: { profile: true } } } });
-  if (!enrollment) return { ok: false, error: "Enrollment required." };
+  if (!enrollment) return { ok: false, error: "Enrolment required. Enrol in the course to continue." };
   const total = await db.lesson.count({ where: { module: { courseId: lesson.module.courseId }, isBonus: false } });
   const available = unlockedDay(enrollment.enrolledAt, new Date(), enrollment.user.profile?.timezone ?? "Africa/Lagos", enrollment.previewOverride, total);
   if (!canAccessLesson({ dayNumber: lesson.dayNumber, isBonus: lesson.isBonus, bonusUnlocked: enrollment.bonusUnlocked, unlockedDay: available })) return { ok: false, error: "This lesson is still locked." };

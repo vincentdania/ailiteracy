@@ -16,7 +16,7 @@ export function CertificateArtwork({ record, displayName }: { record: Certificat
       <p className="mt-[2.2cqw] text-[1.6cqw] text-[#4d5768]">This certifies that</p>
       <p className="mt-[.8cqw] font-display text-[4.6cqw] font-bold leading-none tracking-[-.02em] text-[#10294f]">{displayName}</p>
       <div className="mt-[1.4cqw] h-[.18cqw] w-[30cqw] bg-gradient-to-r from-transparent via-[#f2b01e] to-transparent" />
-      <p className="mt-[1.6cqw] text-[1.6cqw] text-[#4d5768]">{record.kind === "module" ? "has successfully completed and demonstrated the learning outcomes of" : "has successfully completed the course"}</p>
+      <p className="mt-[1.6cqw] text-[1.6cqw] text-[#4d5768]">{record.kind === "module" ? "has successfully completed the module" : "has successfully completed the course"}</p>
       <p className="mt-[.8cqw] font-display text-[2.8cqw] font-bold leading-tight text-[#0b1c30]">{record.kind === "module" ? record.moduleTitle : record.courseTitle}</p>
       {record.kind === "module" && <p className="mt-[.6cqw] text-[1.6cqw] text-[#4d5768]">Module {record.moduleOrder} of <strong className="font-semibold text-[#0b1c30]">{record.courseTitle}</strong></p>}
       <div className="mt-auto grid w-full grid-cols-[1fr_auto_1fr] items-end gap-[3cqw] text-left">

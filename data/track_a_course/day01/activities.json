@@ -3,14 +3,14 @@
     "understand": "Why AI output depends on the real material, the audience and the format you give it.",
     "do": "Turn rough notes into a clean, formatted report with one reusable prompt.",
     "demonstrate": "Spot a weak prompt, choose the stronger one, and catch details the AI should not invent.",
-    "apply": "Produce a report from notes you actually took at work, class or a customer meeting."
+    "apply": "Produce a report from notes you took at work, in class or in a customer meeting."
   },
   "discover": {
     "title": "Mission briefing: the 4pm report",
-    "scenario": "It is 3:15pm in Enugu. Your Head of Department wants a report of this morning's staff meeting by 4pm. All you have are rough notes in your phone: half sentences, initials, a figure of ₦380k. Writing it by hand takes an hour. Today you will do it in ten minutes, and you will know exactly why it worked."
+    "scenario": "It is 3:15pm in Enugu. Your Head of Department wants a report of this morning's staff meeting by 4pm. All you have are rough notes in your phone: half sentences, initials, a figure of ₦380k. Writing it by hand takes an hour. Today you will do it in ten minutes and understand why it works."
   },
   "keyIdeas": [
-    "Give the AI your real material. A worker with empty hands does nothing.",
+    "Give the AI your real material. A worker with empty hands can do nothing.",
     "Say who the output is for. The audience changes the words.",
     "Name the format. If you don't, the AI guesses, and its guesses are generic."
   ],
@@ -33,7 +33,7 @@
         },
         {
           "text": "Write a professional and detailed wedding catering summary for 120 guests, make it very good.",
-          "feedback": "Closer, but there are still no notes. 'Very good' is not a format, and the AI will invent menu items and prices."
+          "feedback": "There are still no notes. 'Very good' is not a format, and the AI will invent menu items and prices."
         },
         {
           "text": "Here are my notes: [pasted notes]",
@@ -66,7 +66,7 @@
         },
         {
           "text": "The borehole repair of ₦380,000 was approved.",
-          "feedback": "Invented. The notes say to wait for a second quote, which is the opposite of approval. This is the kind of error that embarrasses you in front of your boss."
+          "feedback": "Invented. The notes say to wait for a second quote, which is the opposite of approval. An error like this could embarrass you in front of your boss."
         },
         {
           "text": "A second quotation for the borehole is pending.",
@@ -77,7 +77,7 @@
         2,
         3
       ],
-      "hint": "Read each line against the original notes word for word. Is every fact actually in the notes?",
+      "hint": "Read each line against the original notes, word for word. Is every fact in the notes?",
       "support": "AI fills gaps with things that sound right. Look for two kinds of gap: details the notes leave out (who exactly attended?) and decisions the notes never record (was anything approved?).",
       "explain": "Two lines were invented: the attendee names and the approval. Both sound reasonable, which is why they are dangerous. That is why the prompt says 'Do not invent anything', and why you still check the output against your notes."
     }
@@ -96,7 +96,7 @@
       "NOTES: [paste your notes here]"
     ],
     "hint": "A good brief goes: who you are, what the job is, what it should look like, the limits, and finally the material.",
-    "support": "Imagine handing this to a colleague. You'd introduce their role, explain the task, show the shape you want, set the limits, then hand over the notes last so nothing gets lost after them.",
-    "explain": "Role first sets tone and judgement. Then the task and the reader, then the format, then the limits. The notes go last, so all instructions come before the material they apply to. This is the template you saved today."
+    "support": "Think of handing this to a colleague. You would tell them their role, explain the task, show the shape you want and set the limits, then hand over the notes last so no instruction gets lost after them.",
+    "explain": "The role comes first and sets tone and judgement. Then come the task and the reader, the format and the limits. The notes go last, so every instruction comes before the material it applies to. This is the prompt you saved today."
   }
 }

@@ -1,7 +1,7 @@
 {
-  "name": "Hyrax AI Academy — Develop your AI capabilities",
+  "name": "Hyrax AI Academy · Develop your AI capabilities",
   "short_name": "Hyrax AI Academy",
-  "description": "No-code AI-for-work course: 20–30 focused minutes a day, free tools, phone or laptop, low bandwidth.",
+  "description": "A no-code course on using AI in your work: 20–30 minutes a day, free tools, on your phone or laptop. Built for slow connections.",
   "id": "/",
   "start_url": "/dashboard",
   "scope": "/",

@@ -29,7 +29,7 @@ export async function attemptMissionAction(lessonId: string, missionKey: string,
   if (!lesson || !mission) return { ok: false, error: "Mission not found." };
 
   const enrollment = await db.enrollment.findUnique({ where: { userId_courseId: { userId, courseId: lesson.module.courseId } }, include: { user: { include: { profile: true } } } });
-  if (!enrollment) return { ok: false, error: "Enrollment required." };
+  if (!enrollment) return { ok: false, error: "Enrolment required. Enrol in the course to continue." };
   const total = await db.lesson.count({ where: { module: { courseId: lesson.module.courseId }, isBonus: false } });
   const available = unlockedDay(enrollment.enrolledAt, new Date(), enrollment.user.profile?.timezone ?? "Africa/Lagos", enrollment.previewOverride, total);
   if (!canAccessLesson({ dayNumber: lesson.dayNumber, isBonus: lesson.isBonus, bonusUnlocked: enrollment.bonusUnlocked, unlockedDay: available })) return { ok: false, error: "This lesson is still locked." };
@@ -43,7 +43,7 @@ export async function attemptMissionAction(lessonId: string, missionKey: string,
     ]);
     const quiz = parseQuiz(lesson.quizJson);
     const firstTry = activities!.missions.every((m) => attempts.some((a) => a.activityKey === m.key && a.solved && a.attempts === 1));
-    if (!advancedUnlocked({ quizPerfect: !!quiz && quizAttempt?.score === quiz.length, missionsFirstTry: firstTry })) return { ok: false, error: "Advanced missions unlock when you ace this lesson's missions or its knowledge check." };
+    if (!advancedUnlocked({ quizPerfect: !!quiz && quizAttempt?.score === quiz.length, missionsFirstTry: firstTry })) return { ok: false, error: "Advanced missions open once you score full marks on this lesson's knowledge check or solve all its missions on the first try." };
   }
 
   // Replaying a solved mission is welcome practice, but it never changes the record.

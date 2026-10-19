@@ -18,6 +18,6 @@ export default async function Image({ params }: { params: Promise<{ certificateH
     <div style={{ display: "flex", marginTop: 20, fontSize: 68, fontWeight: 800, lineHeight: 1.05 }}>{who}</div>
     <div style={{ display: "flex", marginTop: 18, fontSize: 38, color: "#26324a", maxWidth: 1000 }}>{what}</div>
     {record?.kind === "module" && <div style={{ display: "flex", marginTop: 10, fontSize: 26, color: "#4d5768" }}>{record.courseTitle}</div>}
-    <div style={{ display: "flex", marginTop: "auto", justifyContent: "space-between", alignItems: "flex-end", fontSize: 24, color: "#4d5768" }}><div style={{ display: "flex" }}>{record ? formatIssueDate(record.issuedAt) : ""}</div><div style={{ display: "flex", color: "#214889", fontWeight: 700 }}>HYRAX — The AI Enablement Company</div></div>
+    <div style={{ display: "flex", marginTop: "auto", justifyContent: "space-between", alignItems: "flex-end", fontSize: 24, color: "#4d5768" }}><div style={{ display: "flex" }}>{record ? formatIssueDate(record.issuedAt) : ""}</div><div style={{ display: "flex", color: "#214889", fontWeight: 700 }}>HYRAX · The AI Enablement Company.</div></div>
   </div>, size);
 }
