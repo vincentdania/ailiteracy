@@ -46,6 +46,11 @@ describe("Paystack payments", () => {
     expect(processSuccessfulPayment.mock.calls.map(([payment]) => [payment.currency, payment.amount])).toEqual([["NGN", 20000], ["USD", 29]]);
   });
 
+  it("checks the requested price when the customer pays Paystack's fee on top", async () => {
+    expect(await recordPaystackCharge({ status: "success", reference: "fee", amount: 2_040_610, requested_amount: 2_000_000, currency: "NGN", metadata: { userId: "u1", courseId: "c1" } }, {})).toBe(true);
+    expect(processSuccessfulPayment.mock.calls[0]?.[0]).toMatchObject({ amount: 20000, currency: "NGN", referenceId: "fee" });
+  });
+
   it("ignores failed charges, other currencies and charges without course metadata", async () => {
     expect(await recordPaystackCharge({ status: "failed", reference: "f", amount: 2900, currency: "USD", metadata: { userId: "u1", courseId: "c1" } }, {})).toBe(false);
     expect(await recordPaystackCharge({ status: "success", reference: "g", amount: 2900, currency: "GHS", metadata: { userId: "u1", courseId: "c1" } }, {})).toBe(false);
