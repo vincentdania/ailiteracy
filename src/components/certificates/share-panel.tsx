@@ -9,13 +9,14 @@ type Props = {
   kind: "module" | "course";
   url: string;
   pdfHref: string;
+  pngHref: string;
   shareText: string;
   linkedInAdd: string;
   links: { linkedin: string; facebook: string; whatsapp: string };
   showName: boolean;
 };
 
-export function SharePanel({ id, kind, url, pdfHref, shareText, linkedInAdd, links, showName }: Props) {
+export function SharePanel({ id, kind, url, pdfHref, pngHref, shareText, linkedInAdd, links, showName }: Props) {
   const [copied, setCopied] = useState(false);
   const [visible, setVisible] = useState(showName);
   const [, startTransition] = useTransition();
@@ -45,9 +46,10 @@ export function SharePanel({ id, kind, url, pdfHref, shareText, linkedInAdd, lin
   const button = "tap inline-flex items-center justify-center gap-2 rounded-full px-5 text-sm font-bold transition";
   return <div className="no-print grid gap-4">
     <div className="grid gap-2 sm:grid-cols-2">
-      <a href={pdfHref} className={`${button} bg-[#0058be] py-3 text-white hover:bg-[#00479b]`}><Download size={17} />Download PDF</a>
+      <a href={pngHref} className={`${button} bg-[#0058be] py-3 text-white hover:bg-[#00479b]`}><Download size={17} />Download image (PNG)</a>
       <a href={linkedInAdd} target="_blank" rel="noreferrer" className={`${button} bg-[#0a66c2] py-3 text-white hover:bg-[#004182]`}><Linkedin size={17} />Add to LinkedIn profile</a>
     </div>
+    <a href={pdfHref} className="-mt-1 inline-flex items-center gap-1.5 text-sm font-bold text-[#0058be] hover:underline"><Download size={15} />Download PDF for printing</a>
     <p className="text-xs leading-5 text-[#677284]">“Add to LinkedIn profile” opens LinkedIn’s Licences &amp; Certifications form with the name, issuer, date, credential ID and verification URL filled in. You review and save it on LinkedIn.</p>
     <div>
       <p className="text-sm font-bold text-[#0b1c30]">Share</p>

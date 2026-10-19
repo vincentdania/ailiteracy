@@ -9,7 +9,7 @@ export const HYRAX_WORDMARK_PATHS = [
   "M617.28,1.66c-7.01,0-12.72,5.71-12.72,12.72s5.71,12.72,12.72,12.72,12.72-5.71,12.72-12.72-5.71-12.72-12.72-12.72ZM617.28,25.8c-6.3,0-11.42-5.12-11.42-11.42s5.12-11.42,11.42-11.42,11.42,5.12,11.42,11.42-5.12,11.42-11.42,11.42Z",
 ];
 export const HYRAX_WORDMARK_VIEWBOX = "0 0 632 154.5";
-export const HYRAX_MARK_PATH = "Place_your_logo_files_here";
+export const HYRAX_MARK_PATH = "M222.76,3.15H3.86v218.04l109.22,109.65h217.37V113.26L222.76,3.15ZM242.85,238.92h-27.91v-76.81h-95.76v76.81h-27.71V95.08h27.71v59.9h16.5q.2-.2.2-.41c1.63-3.06,3.46-5.91,5.7-8.56,2.04-2.65,4.69-5.09,7.95-6.93,3.06-1.83,7.33-2.65,12.63-2.65h52.77v-41.36h27.91v143.85Z";
 export const HYRAX_MARK_VIEWBOX = "0 0 334.31 334";
 
 export function HyraxWordmark({ className, title = "HYRAX" }: { className?: string; title?: string }) {
