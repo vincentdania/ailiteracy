@@ -1,4 +1,9 @@
 services:
+  migrate:
+    environment:
+      # No shared demo logins on the public site.
+      SEED_DEMO_ACCOUNTS: "false"
+
   app:
     networks:
       - default

@@ -167,6 +167,12 @@ async function seed() {
   // repointed here — that swap is gated on Vincent's approval (course-hard-swap.md).
   await seedTrackACourse();
 
+  // Public deployments set SEED_DEMO_ACCOUNTS=false so the shared demo logins never exist there.
+  if (process.env.SEED_DEMO_ACCOUNTS === "false") {
+    console.info(`Seeded ${course.title}; demo accounts skipped`);
+    return;
+  }
+
   const seedPassword = process.env.SEED_PASSWORD ?? "ChangeMe123!";
   if (seedPassword.length < 12) throw new Error("SEED_PASSWORD must be at least 12 characters");
   const passwordHash = await bcrypt.hash(seedPassword, 12);

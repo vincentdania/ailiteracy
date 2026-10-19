@@ -30,7 +30,7 @@ Demo accounts (password `ChangeMe123!`):
 
 Change all demo credentials and secrets before exposing an instance publicly.
 
-Set `SEED_PASSWORD` to a strong instance-specific value before a public deployment; rerunning the seed rotates both demo account passwords.
+Set `SEED_PASSWORD` to a strong instance-specific value before a public deployment; rerunning the seed rotates both demo account passwords. The server compose file (`docker-compose.server.yml`) sets `SEED_DEMO_ACCOUNTS=false`, so the public site never gets the demo accounts; give a real account the `ADMIN` role instead.
 
 ## Run without Docker
 
