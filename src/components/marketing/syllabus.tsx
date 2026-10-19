@@ -38,7 +38,7 @@ export function Syllabus({ modules }: { modules: OutlineModule[] }) {
                   <span className="font-mono text-xs text-[#8a94a6]">{String(lesson.day).padStart(2, "0")}</span>
                   <span className="flex-1 font-medium">{lesson.title}</span>
                   {lesson.day === 1 ? (
-                    <span className="flex items-center gap-1 rounded-full bg-[#bcd6ff] px-2 py-1 text-[10px] font-black uppercase text-[#214889]">
+                    <span className="flex items-center gap-1 rounded-full bg-[#bcd6ff] px-2 py-1 text-xs font-black uppercase text-[#214889]">
                       <Check size={11} strokeWidth={3} />Free
                     </span>
                   ) : (

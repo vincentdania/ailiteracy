@@ -47,7 +47,7 @@ export function LessonQuiz({ lessonId, quiz, bestScore, passMark }: { lessonId: 
             {question.options.map((option, oi) => {
               const chosen = answers[qi] === oi;
               const tone = graded && chosen ? (graded.correct ? "border-[#146c43] bg-[#e6f4ec]" : "border-[#b3261e] bg-[#fdeceb]") : chosen ? "border-[#0058be] bg-[#eaf2ff] ring-1 ring-[#0058be]" : "border-[#dfe5ee] hover:border-[#8fb0e0]";
-              return <label key={oi} className={`tap flex cursor-pointer items-start gap-3 rounded-xl border p-3.5 text-[15px] leading-6 transition ${tone} ${result ? "cursor-default" : ""}`}>
+              return <label key={oi} className={`tap flex cursor-pointer items-start gap-3 rounded-xl border p-3.5 text-base leading-6 transition ${tone} ${result ? "cursor-default" : ""}`}>
                 <input type="radio" name={`q${qi}`} value={oi} checked={chosen} disabled={!!result} onChange={() => { const next = [...answers]; next[qi] = oi; setAnswers(next); }} className="mt-1 size-4 accent-[#0058be]" />
                 <span className="flex-1">{option}</span>
                 {graded && chosen && (graded.correct ? <Check size={17} className="mt-1 text-[#146c43]" aria-label="Correct" /> : <X size={17} className="mt-1 text-[#b3261e]" aria-label="Incorrect" />)}

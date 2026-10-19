@@ -25,6 +25,6 @@ export function AcademyLockup({ className = "", inverse = false }: { className?:
   return <span className={`inline-flex items-center gap-2.5 ${inverse ? "text-white" : "text-[#214889]"} ${className}`}>
     <HyraxWordmark className="h-[1.15em] w-auto" />
     <span aria-hidden className={`h-[1.1em] w-px ${inverse ? "bg-white/35" : "bg-[#214889]/30"}`} />
-    <span className={`font-display text-[.82em] font-semibold tracking-[-.01em] ${inverse ? "text-white/90" : "text-[#0b1c30]"}`}>AI Academy</span>
+    <span className={`font-display whitespace-nowrap text-[.82em] font-semibold tracking-[-.01em] ${inverse ? "text-white/90" : "text-[#0b1c30]"}`}>AI Academy</span>
   </span>;
 }
