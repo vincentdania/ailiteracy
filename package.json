@@ -12,6 +12,7 @@
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "brand:assets": "node scripts/generate-brand-assets.mjs",
     "validate:content": "node scripts/validate-course-content.mjs",
     "test:watch": "vitest",
     "test:e2e": "playwright test",

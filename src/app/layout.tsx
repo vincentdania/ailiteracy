@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   appleWebApp: { capable: true, statusBarStyle: "default", title: "Hyrax AI Academy" },
   category: "education",
   formatDetection: { telephone: false },
-  icons: { icon: [{ url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" }], apple: [{ url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" }] },
+  icons: { icon: [{ url: "/icons/icon-source.svg", type: "image/svg+xml" }, { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" }], apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }] },
   alternates: { canonical: "./" },
   openGraph: { url: "./", title: "Hyrax AI Academy — Develop your AI capabilities", description: "A no-code, mobile-first AI-for-work course built for Nigerian working people — free tools, 10 days, real outputs.", type: "website", images: [{ url: "/og.png", width: 1200, height: 630, alt: "Hyrax AI Academy — Develop your AI capabilities" }] },
   twitter: { card: "summary_large_image", title: "Hyrax AI Academy — Develop your AI capabilities", description: "A no-code, mobile-first AI-for-work course built for Nigerian working people — free tools, 10 days, real outputs.", images: ["/og.png"] },
