@@ -1,76 +1,77 @@
 ---
 day: 10
-title: Put Your Agent on a Routine — and Pass It On
-subtitle: The weekly routine, quality control at scale, and one genuine output shown to one person who needs it.
+title: Put Your Agent on a Routine and Pass It On
+subtitle: A weekly routine, quality checks that hold up every week, and one real output shown to one person who needs it.
 ---
 
-# Put Your Agent on a Routine — and Pass It On
+# Put Your Agent on a Routine and Pass It On
 
 **Read time: 10 minutes · Task: 10 minutes**
 
-An agent that ran once is a good day. An agent that runs every week is a working assistant. Today you fix the routine, keep the quality high, and let one real output travel.
+An agent that ran once is a good day's work. An agent that runs every week is a working assistant. Today you set the routine, keep the quality high and show one real output to someone who can use it.
 
 ## The weekly routine
 
-Decide, now, in writing:
+Decide now, and write it down:
 
-- **Which day** — the day your recurring job actually comes due (Monday workplan? Friday weekly report? Sunday content pack?)
-- **Which time** — a time you are reliably free, even if only fifteen minutes.
-- **Which job** — your Day 9 agent's single recurring job.
+- **Which day:** the day your recurring job falls due (a Monday workplan, a Friday weekly report, a Sunday content pack).
+- **Which time:** a time you are reliably free, even if only for fifteen minutes.
+- **Which job:** the single recurring job your Day 9 agent does.
 
-Put it in your calendar or reminder app as a repeating reminder. This is free, works on phones with a reminder app, and needs no platform feature — the reminder is the trigger, and *you* are the one tap that runs the agent. That is the routine. It will feel almost too simple; the simplicity is why it survives.
+Set it as a repeating reminder in your phone's calendar or reminder app. This is free and needs no special AI feature: the reminder tells you it is time, and you run the agent by pasting the agent file and your material into a new chat. That is the whole routine. It may feel too simple, but simple routines are the ones people keep.
 
-## Quality control at scale
+## Quality checks every week
 
-The more often the agent runs, the more important the CHECKS section of your agent file becomes. Every run, before you use the output:
+The more often the agent runs, the more the CHECKS section of your agent file matters. On every run, before you use the output:
 
-1. Run the Day 2 four-question check: source named? source exists? numbers add up? would I put my name on it?
-2. Run the weekly Playbook review from Day 7 on agent output: what worked, what to fix, fix **one weak prompt** in the agent file.
+1. Run the Day 2 four-question check: Does it name a source? Does the source exist? Do the numbers add up? Would I put my name on it?
+2. Once a week, run the Day 7 Playbook review on the agent's output: keep what worked, and fix **one weak instruction** in the agent file.
 
-An agent's output improves only as fast as its instructions improve. Ten minutes a week on the file is what keeps it good.
+The agent's output improves only as fast as its instructions do. Ten minutes a week on the file keeps it good.
 
 ## The share challenge
 
-Here is the deliberate step, taught as a natural act: **show your work.**
+This step is deliberate: **show your work.**
 
-This week you have produced genuinely useful things — a clean report, a content pack, a tailored CV, a briefing. The challenge:
+Over these ten days you have produced useful things, such as a clean report, a content pack, a tailored CV or a briefing. The challenge:
 
 1. Pick **one** output you are proud of.
-2. Show it to **one person who needs that skill** — a colleague drowning in reports, a business owner whose messages are unclear, a teacher preparing next term.
-3. Show them the free Day 1 of this course, which is a complete 10-minute win on its own — they finish with a finished report and a template.
-4. Log, in your Playbook, whom you showed and what happened.
+2. Show it to **one person who needs that skill**: a colleague buried in reports, a business owner whose customer messages are unclear, a teacher preparing for next term.
+3. Point them to Day 1 of this course, which is free and takes about 10 minutes. They finish with a report made from their own notes and a prompt they can reuse.
+4. In your Playbook, note whom you showed and what happened.
 
-That is the whole share step. One person, one real output, one honest demonstration. The built-in referral reward is explained in one line on the course page. There are **no spam scripts and no pressure tactics** here — deliberately. A pushy share reads as scam and dies; people share what made them look competent, not what made them feel sold to. Your output travels on its own: a cleaner report in a colleague's hand gets asked about, and the answer is your course.
+That is the whole share step: one person, one real output, one honest demonstration. Details of the referral reward are on the course page. There are **no spam scripts or pressure tactics** here, on purpose. A pushy message looks like a scam and gets ignored. People pass on things that made them look competent, not things that made them feel sold to. A cleaner report in a colleague's hand gets asked about, and the answer is this course.
 
-## Where this road leads (honest)
+## Where this road leads
 
-Phone agents have a ceiling — the paste-the-persona method and one-tap runs are powerful, but they wait for you. Real autonomous agents that run on their own computer, on their own schedule, with full tools, exist — that is Track B of this programme, for those who want it later. One line. No pressure, and nothing in this course requires it.
+Phone agents have a limit. The paste-the-persona method and the weekly run you start yourself are useful, but they wait for you. Agents that run on their own computer, on their own schedule and with full tools do exist. They are covered in Track B, a separate, more advanced course, for anyone who wants it later. Nothing in this course requires it.
 
 ## Worked weekly run
 
-*Illustrative continuation of Day 9, not a real programme report.*
+*An illustrative continuation of the Day 9 example, not a real programme report.*
 
 **Input:** “Two visits completed. Transport receipts total ₦12,000. Third visit postponed; no new date. Amina to confirm venue.”
 
-**Prompt:** “Use my Day 9 assistant file. First extract facts and missing details, then draft the weekly update. Do not invent a deadline.”
+**Prompt:** “Use my Day 9 agent file. First extract the facts and any missing details, then draft the weekly update. Do not invent a deadline.”
 
 **Sample output:**
 
 - Completed work: Two visits completed; transport receipts total ₦12,000.
 - Unresolved issues: Third visit postponed; replacement date not agreed.
-- Next actions: Confirm the venue — Amina; deadline not recorded.
-- Checks: Verify the visit count and receipt total. Confirm the next visit date and action deadline.
+- Next actions: Amina to confirm the venue; deadline not recorded.
+- Checks: Verify the visit count and receipt total. Confirm the next visit date and the action deadline.
 
-**Your verification:** Compare the draft with notes and receipts. Correct any error, save the approved update, then decide whether to send it yourself. The AI has not sent it.
+**Your verification:** Compare the draft with your notes and receipts. Correct any errors, save the approved update, then decide whether to send it yourself. The AI has not sent anything.
 
-**Measure usefulness:** Record how long the task took before and after using this workflow, corrections needed and whether the recipient found it useful. One successful run is not evidence of guaranteed savings for everyone.
+**Measure usefulness:** Record how long the task took before and after using this workflow, how many corrections you needed and whether the person who received it found it useful. One good run does not prove the same time saving for everyone.
 
 ## 🎯 Task
 
-1. Run your agent once more on fresh material — this week's real notes, messages or figures.
-2. Submit the agent file together with your Playbook.
-3. Complete the share step: one output, one person who needs it, and log whom you showed.
+1. Run your agent once more on fresh material: this week's real notes, messages or figures. Check the output with the four questions.
+2. Set your weekly reminder for the day and time you chose.
+3. Submit your work in the "Show your real work" box at the end of this lesson. Describe your agent file, your Playbook and how you checked this week's run. If you keep them in Google Docs or Google Drive, add a view-only link.
+4. Complete the share step: show one output to one person who needs it, and note in your Playbook whom you showed.
 
 ## 📤 Output
 
-Your submitted Playbook and agent file, and a share step done honestly. Completion of all ten days plus these submissions is what your verified certificate attests to — exactly that, nothing more.
+Your submitted agent file and Playbook, a weekly reminder set, and a share step done honestly. Your certificate confirms that you completed all ten days and made these submissions. It does not claim anything more.

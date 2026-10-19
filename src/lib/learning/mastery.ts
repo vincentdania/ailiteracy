@@ -33,7 +33,7 @@ export function lessonBlockers(lesson: Pick<LessonMastery, "quiz" | "missions">)
   const blockers: string[] = [];
   const open = lesson.missions.filter((mission) => !mission.solved).length;
   if (open) blockers.push(`Solve ${open === 1 ? "the remaining mission" : `the ${open} remaining missions`}`);
-  if (lesson.quiz && !lesson.quiz.passed) blockers.push("Master the knowledge check (75% or better)");
+  if (lesson.quiz && !lesson.quiz.passed) blockers.push("Pass the knowledge check (75% or more)");
   return blockers;
 }
 
@@ -49,10 +49,10 @@ export function moduleRequirements(lessons: LessonMastery[]): Requirement[] {
   const requirements: Requirement[] = [
     { key: "lessons", label: `Complete all ${required.length} lessons`, met: required.every((l) => l.completed), done: required.filter((l) => l.completed).length, total: required.length },
   ];
-  if (withQuiz.length) requirements.push({ key: "checks", label: "Master every knowledge check (75%+)", met: withQuiz.every((l) => l.quiz!.passed), done: withQuiz.filter((l) => l.quiz!.passed).length, total: withQuiz.length });
+  if (withQuiz.length) requirements.push({ key: "checks", label: "Pass every knowledge check (75% or more)", met: withQuiz.every((l) => l.quiz!.passed), done: withQuiz.filter((l) => l.quiz!.passed).length, total: withQuiz.length });
   if (missions.length) requirements.push({ key: "missions", label: "Solve every mission", met: missions.every((m) => m.solved), done: missions.filter((m) => m.solved).length, total: missions.length });
   const practicals = required.filter((l) => l.practical.passed).length;
-  requirements.push({ key: "practical", label: `Pass at least one practical challenge (${PRACTICAL_PASS}+)`, met: practicals >= 1, done: Math.min(practicals, 1), total: 1 });
+  requirements.push({ key: "practical", label: `Pass at least one practical task (${PRACTICAL_PASS} or more)`, met: practicals >= 1, done: Math.min(practicals, 1), total: 1 });
   return requirements;
 }
 
@@ -77,12 +77,12 @@ export function nextActivity(modules: { title: string; lessons: LessonMastery[] 
         return { lesson, moduleTitle: courseModule.title, reason: started ? ("resume" as const) : ("start" as const), label: started ? "Pick up where you left off" : "Start your next lesson" };
       }
       const openMission = lesson.missions.find((m) => !m.solved);
-      if (openMission) return { lesson, moduleTitle: courseModule.title, reason: "mission" as const, label: `New mission: ${openMission.title}` };
-      if (lesson.quiz && !lesson.quiz.passed) return { lesson, moduleTitle: courseModule.title, reason: "check" as const, label: "Retake the knowledge check to reach mastery" };
+      if (openMission) return { lesson, moduleTitle: courseModule.title, reason: "mission" as const, label: `Mission to finish: ${openMission.title}` };
+      if (lesson.quiz && !lesson.quiz.passed) return { lesson, moduleTitle: courseModule.title, reason: "check" as const, label: "Retake the knowledge check to pass it" };
     }
     if (!courseModule.lessons.some((l) => l.practical.passed)) {
       const lesson = [...courseModule.lessons].reverse().find((l) => l.completed && !l.isBonus);
-      if (lesson && courseModule.lessons.filter((l) => !l.isBonus).every((l) => l.completed)) return { lesson, moduleTitle: courseModule.title, reason: "practical" as const, label: "Submit one practical challenge to earn this module's certificate" };
+      if (lesson && courseModule.lessons.filter((l) => !l.isBonus).every((l) => l.completed)) return { lesson, moduleTitle: courseModule.title, reason: "practical" as const, label: "Pass one practical task to earn this module’s certificate" };
     }
   }
   return null;

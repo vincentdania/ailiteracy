@@ -3,12 +3,12 @@
     "q": "Day 6 branches into three tracks. What decides which track a learner follows?",
     "options": [
       "Their favourite AI tool",
-      "Their own work situation — jobseekers, NGO/programme staff, or teachers",
+      "Their work: jobseeker, NGO/programme staff or teacher",
       "How much money they paid for the course",
       "Which day of the week they started"
     ],
     "answer": 1,
-    "explanation": "The lesson branches by role: Track A for jobseekers and professionals, Track B for NGO and programme staff, Track C for teachers and lecturers. Each learner follows the one that matches their real work."
+    "explanation": "The lesson branches by role: Track A for jobseekers and professionals, Track B for NGO and programme staff, Track C for teachers and lecturers. Each learner follows the one that matches their own work."
   },
   {
     "q": "In the job-scam check, which of these is a definite red flag?",
@@ -19,28 +19,28 @@
       "The job description asks for two years of experience"
     ],
     "answer": 1,
-    "explanation": "No genuine employer charges you to apply, pays for training materials, or collects any fee at all. Any recruitment fee means walk away — and verify the company registration separately."
+    "explanation": "No genuine employer charges you to apply, makes you pay for training materials, or collects any fee at all. If you are asked for a recruitment fee, walk away, and check the company's registration separately."
   },
   {
     "q": "What is the correct way to use AI when drafting a proposal section against a donor's call?",
     "options": [
       "Let the AI invent activities and figures to make the proposal look bigger",
-      "Paste the donor's language and rewrite your draft using it — without inventing activities or figures you do not have",
+      "Rewrite your draft in the donor's language, inventing nothing",
       "Copy another organisation's proposal and change the name",
-      "Ask the AI to write the whole proposal from its own imagination"
+      "Ask the AI to write the whole proposal without your input"
     ],
     "answer": 1,
-    "explanation": "AI should match your draft to the donor's own priority language — but every activity and figure must come from your real plan. AI proposes; you decide and verify."
+    "explanation": "AI should match your draft to the donor's own priority language, but every activity and figure must come from your real plan. The AI proposes; you decide and check."
   },
   {
     "q": "A teacher asks AI for revision questions with answers. What must happen before those answers are taught?",
     "options": [
-      "Nothing — AI answers are always correct for school topics",
-      "The teacher verifies each answer using the Day 2 four-question check",
+      "Nothing, because AI answers on school topics are always correct",
+      "The teacher checks each answer with the Day 2 4-question check",
       "The students check each other's answers",
       "The answers are printed as they are"
     ],
     "answer": 1,
-    "explanation": "The Day 2 verification check is not optional in a classroom. AI generates plausible-but-wrong answers often enough that every answer must be checked before it reaches students."
+    "explanation": "In a classroom, the Day 2 4-question check is not optional. AI produces answers that sound right but are wrong often enough that every answer must be checked before it reaches students."
   }
 ]

@@ -1,18 +1,18 @@
 {
   "objectives": {
-    "understand": "How Role, Context and Format (R-C-F) shape an answer, and why AI can state false things confidently.",
+    "understand": "How Role, Context and Format (R-C-F) shape an answer, and why AI can state wrong things confidently.",
     "do": "Rewrite a one-line request as an R-C-F prompt and run the 4-question check on an answer.",
     "demonstrate": "Diagnose weak prompts, classify what is safe to paste, and judge whether a claim is verified.",
     "apply": "Produce one R-C-F rewrite and one written verification record from your own field."
   },
   "discover": {
     "title": "Mission briefing: the confident number",
-    "scenario": "A colleague in Abuja pastes an AI answer into a draft for the Permanent Secretary: '68.4% of Nigerian adults are banked, according to the 2023 CBN Inclusion Report.' It sounds precise. Is the report real? Is the year right? Is 68.4% even the right definition of 'banked'? Today you learn to ask better questions and to catch a confident guess before it carries your name."
+    "scenario": "A colleague in Abuja pastes an AI answer into a draft for the Permanent Secretary: '68.4% of Nigerian adults are banked, according to the 2023 CBN Inclusion Report.' It sounds precise. Is the report real? Is the year right? And what does 'banked' mean in that report? Today you learn to write better prompts and to catch a confident guess before it goes out under your name."
   },
   "keyIdeas": [
     "R-C-F: give the AI a Role, the Context (your real material) and the Format you want.",
     "AI produces confident guesses. The more specific a number or citation, the more you must verify it.",
-    "Run the 4-question check: source named? source exists? numbers add up? would you sign it?"
+    "Run the 4-question check: Is a source named? Does it exist? Do the numbers add up? Would you sign it?"
   ],
   "device": "phone",
   "missions": [
@@ -56,7 +56,7 @@
       ],
       "hint": "Role = who the AI is. Context = the situation and the reader. Format = the shape of the answer.",
       "support": "Ask of each line: does it describe the writer (Role), the facts and the audience (Context), or what the finished letter should look like (Format)?",
-      "explain": "With all three in place the AI writes like a head teacher, uses the real dates and reasons, and produces a short, warm letter with the key fact up front. Missing any one of them is how you get a generic answer."
+      "explain": "With all three in place the AI writes like a head teacher, uses the real dates and reasons, and produces a short, warm letter with the key fact up front. Leave out any one of them and you are likely to get a generic answer."
     },
     {
       "key": "verify",
@@ -71,7 +71,7 @@
         },
         {
           "text": "Search for the report on the CBN or EFInA website. Only use the figure if you find it, with its year and definition, and cite the original publication.",
-          "feedback": "Correct. You check that the source exists, that it says what the AI claims, and what the figure actually measures."
+          "feedback": "Correct. You check that the source exists, that it says what the AI claims, and what the figure measures."
         },
         {
           "text": "Ask the AI 'Are you sure?' and use the figure if it says yes.",
@@ -84,8 +84,8 @@
       ],
       "correct": 1,
       "hint": "Which of the four check questions is this about? Two of them deal with sources.",
-      "support": "Imagine the Permanent Secretary asks 'where is this from?' The only good answer is the original document, opened and read by you. The AI's say-so isn't enough.",
-      "explain": "You trust the structure and verify the facts. A named source must exist and must say what the AI claims, for the stated year and definition. Then the figure can carry your name."
+      "support": "Suppose the Permanent Secretary asks, 'Where is this from?' The only good answer is the original document, which you have opened and read. The AI's word is not enough.",
+      "explain": "Rely on the structure, but verify the facts. A named source must exist and must say what the AI claims, for the stated year and definition. Then the figure can carry your name."
     }
   ],
   "advanced": {
@@ -132,7 +132,7 @@
       }
     ],
     "hint": "Ask: is it already public? Does it identify a person? Is it marked confidential or about pay?",
-    "support": "Picture pinning the text on a public notice board. If that's fine, paste it. If it would be fine once names were removed, anonymise it first. If it must never be seen, it never goes in.",
-    "explain": "You are sending text to another company's computers. Public material is fine, your own material needs anonymising, and payroll, confidential or unpublished documents never go in."
+    "support": "Picture pinning the text on a public notice board. If that would be fine, paste it. If it would be fine once names were removed, anonymise it first. If it must never be seen, it never goes in.",
+    "explain": "You are sending text to another company's computers. Public material is fine, your own notes and records with personal details need anonymising, and payroll, confidential or unpublished documents never go in."
   }
 }

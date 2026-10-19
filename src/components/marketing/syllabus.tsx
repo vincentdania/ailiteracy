@@ -6,10 +6,10 @@ import { Check } from "lucide-react";
 
 const modules = [
   {
-    title: "Start: Your First Win",
+    title: "Your First Win",
     days: "Days 1–2",
     start: 1,
-    lessons: ["Rough Notes to Finished Report", "Talking to AI — and Checking When It Lies"],
+    lessons: ["Rough Notes to Finished Report", "Talking to AI and Spotting When It Is Wrong"],
   },
   {
     title: "The Documents of Your Job",
@@ -21,13 +21,13 @@ const modules = [
     title: "Your Role, Your Playbook",
     days: "Days 6–7",
     start: 6,
-    lessons: ["Your Role Branch: Jobseeker, Programme Staff or Teacher", "Your Personal AI Playbook"],
+    lessons: ["Your Next Move: for Jobseekers, Programme Staff and Teachers", "Your Personal AI Playbook"],
   },
   {
     title: "Agents Week",
     days: "Days 8–10",
     start: 8,
-    lessons: ["What an Agent Actually Is — No Code", "Build Your First Agent: Instructions, Memory, Trigger", "Your Agent's Routine — and Pass It On"],
+    lessons: ["What an Agent Is, in Plain Language", "Build Your First Agent: Instructions, Memory, Trigger", "Put Your Agent on a Routine and Pass It On"],
   },
 ];
 

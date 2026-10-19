@@ -8,13 +8,13 @@ import { COUNTRIES, DEFAULT_COUNTRY } from "@/lib/countries";
 import { PROFESSIONS, PROFESSION_OTHER, OTHER_LABEL } from "@/lib/professions";
 
 const levelOptions = [
-  { value: "BEGINNER", label: "Beginner", copy: "I am starting from first principles." },
+  { value: "BEGINNER", label: "Beginner", copy: "I am new to AI tools." },
   { value: "EXPLORER", label: "Explorer", copy: "I have tried a few AI tools." },
-  { value: "PRACTITIONER", label: "Practitioner", copy: "I use AI and want a reliable system." },
+  { value: "PRACTITIONER", label: "Practitioner", copy: "I already use AI and want a reliable routine." },
 ] as const;
 
 const tools = ["ChatGPT", "DeepSeek", "Gemini", "Claude", "Canva", "Microsoft Copilot"];
-const stepTitles = ["Tell us about your professional world.", "What outcome matters most to you?", "Set a pace that works in real life.", "How do you learn best?"];
+const stepTitles = ["Tell us about your work.", "What do you most want help with?", "Your experience and your pace.", "How do you learn best?"];
 
 export function OnboardingForm() {
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
@@ -30,32 +30,32 @@ export function OnboardingForm() {
       <div className="mb-8 h-1.5 overflow-hidden rounded-full bg-[#e2e8f0]" aria-label={`Step ${step} of 4`}><div className="h-full rounded-full bg-[#bcd6ff] transition-all" style={{ width: `${step * 25}%` }} /></div>
       <p className="eyebrow">Step {step} of 4</p>
       <h1 className="display mt-4 max-w-2xl text-5xl text-[#0b1c30] sm:text-6xl">{stepTitles[step - 1]}</h1>
-      <p className="mt-5 max-w-2xl leading-7 text-[#4d5768]">Your answers shape the examples, practice briefs, African case studies and capstone—not the quality standard.</p>
+      <p className="mt-5 max-w-2xl leading-7 text-[#4d5768]">We use your answers to choose examples, practice tasks, case studies and a final project that fit your work. The pass mark is the same for everyone.</p>
     </div>
 
     <section className={step === 1 ? "grid gap-5" : "hidden"}>
-      <label className="grid gap-2 text-sm font-bold">What is your current profession?<select value={professionChoice} onChange={(event) => { const value = event.target.value; setProfessionChoice(value); setProfession(value === PROFESSION_OTHER ? "" : value); }} className="h-14 rounded-2xl border border-[#cbd5e1] bg-white px-4 font-normal" autoFocus><option value="" disabled>Select your profession</option>{PROFESSIONS.map((option) => <option key={option} value={option}>{option}</option>)}<option value={PROFESSION_OTHER}>{OTHER_LABEL}</option></select>{professionChoice === PROFESSION_OTHER && <input value={profession} onChange={(event) => setProfession(event.target.value)} className="h-14 rounded-2xl border border-[#cbd5e1] bg-white px-4 font-normal" placeholder="Type your profession" autoFocus />}<input type="hidden" name="profession" value={profession} required={step === 1} /></label>
+      <label className="grid gap-2 text-sm font-bold">What is your job or profession?<select value={professionChoice} onChange={(event) => { const value = event.target.value; setProfessionChoice(value); setProfession(value === PROFESSION_OTHER ? "" : value); }} className="h-14 rounded-2xl border border-[#cbd5e1] bg-white px-4 font-normal" autoFocus><option value="" disabled>Choose your profession</option>{PROFESSIONS.map((option) => <option key={option} value={option}>{option}</option>)}<option value={PROFESSION_OTHER}>{OTHER_LABEL}</option></select>{professionChoice === PROFESSION_OTHER && <input value={profession} onChange={(event) => setProfession(event.target.value)} className="h-14 rounded-2xl border border-[#cbd5e1] bg-white px-4 font-normal" placeholder="Type your profession" autoFocus />}<input type="hidden" name="profession" value={profession} required={step === 1} /></label>
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="grid gap-2 text-sm font-bold">Industry <span className="font-normal text-[#677284]">(optional)</span><input name="industry" className="h-14 rounded-2xl border border-[#cbd5e1] bg-white px-4 font-normal" placeholder="Professional services" /></label>
+        <label className="grid gap-2 text-sm font-bold">Industry <span className="font-normal text-[#677284]">(optional)</span><input name="industry" className="h-14 rounded-2xl border border-[#cbd5e1] bg-white px-4 font-normal" placeholder="For example, banking or healthcare" /></label>
         <label className="grid gap-2 text-sm font-bold">Country or region<select name="country" defaultValue={DEFAULT_COUNTRY} className="h-14 rounded-2xl border border-[#cbd5e1] bg-white px-4 font-normal">{COUNTRIES.map((country) => <option key={country} value={country}>{country}</option>)}</select></label>
       </div>
       <div className="mt-3 flex justify-end"><Button type="button" size="lg" disabled={profession.trim().length < 2} onClick={() => setStep(2)}>Continue <ArrowRight className="ml-2" size={18} /></Button></div>
     </section>
 
     <section className={step === 2 ? "grid gap-5" : "hidden"}>
-      <div className="flex items-start gap-3 rounded-2xl border border-[#d5e0ee] bg-[#eaf2ff] p-4"><Target className="mt-1 shrink-0 text-[#214889]" size={20} /><p className="text-sm leading-6 text-[#4d5768]">A strong answer names a task, audience or measurable change. Do not include confidential information.</p></div>
-      <label className="grid gap-2 text-sm font-bold">What should AI help you achieve?<textarea required={step === 2} name="primaryGoal" value={goal} onChange={(event) => setGoal(event.target.value)} rows={6} className="rounded-2xl border border-[#cbd5e1] bg-white p-4 font-normal" placeholder="I want to turn weekly customer feedback into a clear product decision brief in under one hour." autoFocus /></label>
+      <div className="flex items-start gap-3 rounded-2xl border border-[#d5e0ee] bg-[#eaf2ff] p-4"><Target className="mt-1 shrink-0 text-[#214889]" size={20} /><p className="text-sm leading-6 text-[#4d5768]">Name a real task, who the work is for, or what you want to change. Do not include confidential information.</p></div>
+      <label className="grid gap-2 text-sm font-bold">What should AI help you do?<textarea required={step === 2} name="primaryGoal" value={goal} onChange={(event) => setGoal(event.target.value)} rows={6} className="rounded-2xl border border-[#cbd5e1] bg-white p-4 font-normal" placeholder="I want to turn my weekly sales notes into a clear report for my manager in under an hour." autoFocus /></label>
       <div className="mt-3 grid gap-3 sm:grid-cols-[auto_1fr]"><Button type="button" variant="secondary" size="lg" onClick={() => setStep(1)}><ArrowLeft className="mr-2" size={18} />Back</Button><Button type="button" size="lg" disabled={goal.trim().length < 12} onClick={() => setStep(3)}>Continue <ArrowRight className="ml-2" size={18} /></Button></div>
     </section>
 
     <section className={step === 3 ? "grid gap-5" : "hidden"}>
       <fieldset className="grid gap-3"><legend className="mb-2 text-sm font-bold">How experienced are you with AI tools?</legend>{levelOptions.map((option) => <label key={option.value} className={`flex cursor-pointer gap-3 rounded-2xl border bg-white p-4 ${level === option.value ? "border-[#10294f] ring-1 ring-[#10294f]" : "border-[#e2e8f0]"}`}><input type="radio" name="skillLevel" value={option.value} checked={level === option.value} onChange={() => setLevel(option.value)} className="mt-1 accent-[#10294f]" /><span><strong className="block">{option.label}</strong><span className="text-sm text-[#4d5768]">{option.copy}</span></span></label>)}</fieldset>
-      <label className="grid gap-2 text-sm font-bold"><span className="flex items-center gap-2"><Clock3 size={16} />Time available each week</span><select name="weeklyMinutes" value={weeklyMinutes} onChange={(event) => setWeeklyMinutes(event.target.value)} className="h-14 rounded-2xl border border-[#cbd5e1] bg-white px-4 font-normal"><option value="70">About 10 minutes a day</option><option value="140">About 20 minutes a day</option><option value="210">About 30 minutes a day</option><option value="420">About 1 hour a day</option></select></label>
+      <label className="grid gap-2 text-sm font-bold"><span className="flex items-center gap-2"><Clock3 size={16} />Time you can give each day</span><select name="weeklyMinutes" value={weeklyMinutes} onChange={(event) => setWeeklyMinutes(event.target.value)} className="h-14 rounded-2xl border border-[#cbd5e1] bg-white px-4 font-normal"><option value="70">About 10 minutes a day</option><option value="140">About 20 minutes a day</option><option value="210">About 30 minutes a day</option><option value="420">About 1 hour a day</option></select></label>
       <div className="mt-3 grid gap-3 sm:grid-cols-[auto_1fr]"><Button type="button" variant="secondary" size="lg" onClick={() => setStep(2)}><ArrowLeft className="mr-2" size={18} />Back</Button><Button type="button" size="lg" onClick={() => setStep(4)}>Continue <ArrowRight className="ml-2" size={18} /></Button></div>
     </section>
 
     <section className={step === 4 ? "grid gap-5" : "hidden"}>
-      <div className="flex items-start gap-3 rounded-2xl bg-[#10294f] p-5 text-white"><Sparkles className="mt-1 shrink-0 text-[#bcd6ff]" size={20} /><p className="text-sm leading-6 text-white/75">We will create your track, three milestones, tailored daily practice and relevant African case studies.</p></div>
+      <div className="flex items-start gap-3 rounded-2xl bg-[#10294f] p-5 text-white"><Sparkles className="mt-1 shrink-0 text-[#bcd6ff]" size={20} /><p className="text-sm leading-6 text-white/75">Next, we build your plan: a learning track, three milestones, daily practice that fits your work, and African case studies from your field.</p></div>
       <label className="grid gap-2 text-sm font-bold">Preferred lesson style<select name="learningFormat" defaultValue="PRACTICAL" className="h-14 rounded-2xl border border-[#cbd5e1] bg-white px-4 font-normal"><option value="PRACTICAL">Hands-on first</option><option value="VISUAL">Visual examples</option><option value="READING">Detailed reading</option><option value="MIXED">A balanced mix</option></select></label>
       <fieldset><legend className="mb-3 text-sm font-bold">Tools you already use <span className="font-normal text-[#677284]">(optional)</span></legend><div className="grid grid-cols-2 gap-2 sm:grid-cols-3">{tools.map((tool) => <label key={tool} className="flex items-center gap-2 rounded-xl border border-[#e2e8f0] bg-white p-3 text-sm"><input type="checkbox" name="preferredTools" value={tool} className="accent-[#10294f]" />{tool}</label>)}</div></fieldset>
       <input type="hidden" name="timezone" value={timezone} />

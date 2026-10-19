@@ -3,12 +3,12 @@
     "q": "Why ask 'What does this require ME to do, by when, at what cost?' instead of 'summarise this'?",
     "options": [
       "It produces a shorter summary",
-      "A summary lists everything; a decisions-relevant summary extracts only what matters for action",
+      "It pulls out only what you must act on",
       "It stops the AI from making mistakes",
       "Longer prompts are always better"
     ],
     "answer": 1,
-    "explanation": "A generic summary reports the document. A decisions-relevant summary converts it into actions, deadlines and costs — the only part a busy professional needs."
+    "explanation": "A generic summary reports the document. A decisions-relevant summary turns it into actions, deadlines and costs, which is the part a busy professional needs."
   },
   {
     "q": "For a document too long to paste at once, the lesson says to:",
@@ -19,13 +19,13 @@
       "Only paste the last page"
     ],
     "answer": 1,
-    "explanation": "Paste section by section with the same four questions, then combine. The AI only knows what you paste — never let it guess the missing sections."
+    "explanation": "Paste section by section with the same four questions, then combine. The AI knows only what you paste, so never let it guess the missing sections."
   },
   {
     "q": "What does 'numbers without formulas' mean in practice?",
     "options": [
       "AI does arithmetic in chat only, no spreadsheet",
-      "You describe the table and what to calculate; AI writes the spreadsheet formulas and explains them",
+      "You describe the table; AI writes and explains the formulas",
       "You must memorise Excel formulas first",
       "Spreadsheets cannot be built without paid software"
     ],
@@ -35,7 +35,7 @@
   {
     "q": "A document you must summarise is confidential. What does the lesson say?",
     "options": [
-      "Paste it — confidentiality does not matter for summaries",
+      "Paste it anyway, since confidentiality does not matter for summaries",
       "Summarise a public policy document for practice instead",
       "Type the whole document from memory instead",
       "Ask the AI to promise confidentiality"
@@ -46,12 +46,12 @@
   {
     "q": "After the AI builds your spreadsheet totals, you should:",
     "options": [
-      "Trust it — spreadsheets are always accurate",
-      "Add one row by hand and compare against the AI's total",
+      "Trust it, because spreadsheets are always accurate",
+      "Check one row by hand against the AI's total",
       "Delete the formulas to be safe",
       "Rebuild it from scratch in Excel"
     ],
     "answer": 1,
-    "explanation": "AI arithmetic is usually right and occasionally confidently wrong. One hand-checked row catches that — the Day 2 verification habit applied to numbers."
+    "explanation": "AI arithmetic is usually right and occasionally confidently wrong. One hand-checked row catches that: it is the Day 2 checking habit applied to numbers."
   }
 ]

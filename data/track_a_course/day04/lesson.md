@@ -1,22 +1,22 @@
 ---
 day: 4
 title: Words That Move Money
-subtitle: Draft this week's emails and customer messages in one sitting — and see how this skill becomes a service others ask you for.
+subtitle: Draft this week's emails and customer messages in one sitting, and see how the same skill could be offered as a service.
 ---
 
 # Words That Move Money
 
 **Read time: 12–15 minutes · Task: 10–12 minutes**
 
-Money moves on words. The email that gets answered, the price message that closes the order, the advert that brings the customer in. Today you draft a whole week of them in one sitting — and you see, honestly, how this skill converts into a service.
+A lot of money moves because of a few well-chosen words: an email that gets answered, a price message that closes an order, an advert that brings a customer in. Today you draft a week's worth of these messages in one sitting, and look honestly at how this skill could become a service.
 
 ## Emails that get answered
 
-Three rules, and they carry most of the weight:
+Three rules do most of the work:
 
 1. **The subject line is the headline.** "Request for approval: training budget for 6 staff, Sept" beats "Important matter" every time.
-2. **The ask is in the first two lines.** Busy readers decide in seconds whether to read on. State what you want immediately; give the background after.
-3. **One email, one purpose.** An email asking for three things gets one thing — or nothing.
+2. **The ask is in the first two lines.** Busy readers decide in seconds whether to read on. Say what you want straight away and give the background after.
+3. **One email, one purpose.** An email that asks for three things usually gets one of them, or none.
 
 **Before (weak):**
 
@@ -28,7 +28,7 @@ Three rules, and they carry most of the weight:
 > Please approve the attached training budget of ₦340,000 for six staff by Friday 20th, so we can confirm the venue before prices rise.
 > Background: the vendor's quotation expires on the 22nd and the training is scheduled for the first week of October.
 
-Use this skeleton:
+Use this skeleton prompt. Replace everything in square brackets, then send it:
 
 ```
 ROLE: You are my assistant. I am a [role] writing to [recipient and
@@ -46,16 +46,32 @@ MY ROUGH POINTS:
 
 ## Customer messages for business owners
 
-The same skill, different forms:
+The same skill applies to customer messages:
 
-- **Enquiry replies:** answer the actual question in the first line, then price, then how to order.
-- **Price responses:** one clear list, no apologies, what is included stated plainly.
-- **Follow-ups:** short, specific, one reminder with a deadline. "The two dresses you asked about on Monday are ready — shall I reserve either for pickup by Saturday?"
-- **Adverts for WhatsApp status, Facebook and flyers:** one offer, one benefit, one clear next step, a price or a "DM for price".
+- **Enquiry replies:** answer the customer's actual question in the first line, then give the price, then explain how to order.
+- **Price responses:** one clear list, no apologies, and a plain statement of what is included.
+- **Follow-ups:** short and specific, with one reminder and a deadline. "The two dresses you asked about on Monday are ready. Shall I reserve either for pickup by Saturday?"
+- **Adverts for WhatsApp status, Facebook and flyers:** one offer, one benefit, one clear next step, and a price (or "DM for price").
+
+To draft a customer reply, paste the customer's message into this prompt:
+
+```
+I run a [type of business] in [town]. Write a reply to the customer
+message below. Answer their question in the first line, then give the
+price and what it includes, then tell them exactly how to order. Under
+60 words. Friendly, simple Nigerian English. Use only the details I
+give you; do not invent prices or dates.
+
+MY DETAILS (prices, delivery times, how to pay):
+[your details]
+
+CUSTOMER'S MESSAGE:
+[paste it]
+```
 
 ## A month of social posts in one sitting
 
-Take one real story from your business this month — a delivery, a happy customer, a lesson learned — and ask:
+Take one real story from your business this month (a delivery, a happy customer, a lesson learned) and use this prompt:
 
 ```
 From this one story about my business, write 8 social media posts for
@@ -67,27 +83,31 @@ MY STORY:
 [what happened]
 ```
 
-Then publish on a simple weekly rhythm: offer Monday, tip Wednesday, proof Friday. Two minutes per posting day.
+Check each post for anything the AI has made up, such as prices or claims you cannot back up. Then post two or three times a week on a simple rhythm, for example an offer on Monday, a tip on Wednesday, and proof or behind-the-scenes on Friday. Each posting day takes about two minutes.
 
-## The service framing — honest
+## The service, described honestly
 
-Look around you: small businesses everywhere need these messages weekly, and most owners do not do them well — replies come late, prices are confusing, adverts are noise. "Packaging this as a service" means, in practice: a monthly arrangement with one or two businesses where you produce their customer replies and content pack each week, using exactly the prompts you built today.
+Small businesses around you need these messages every week, and many owners struggle with them: replies come late, prices are confusing, and adverts get ignored. Offering this as a service would mean, in practice, a monthly arrangement with one or two businesses where you produce their customer replies and a content pack each week, using the prompts from today.
 
-That is a description of how to offer it, not an income promise. Whether anyone pays you depends on your market, your quality and your follow-through. Test demand locally: show a sample to a business owner and ask whether it solves a problem they would pay to fix.
+This describes how you could offer it. It is not a promise of income. Whether anyone pays you depends on your market, the quality of your work and your follow-through. Test demand locally first: show a sample to a business owner and ask whether it solves a problem they would pay to fix.
 
 ## An illustrative story
 
-*(Composite, illustrative — not a real named person.)* Chidinma, a tailor, used to handle order enquiries in long back-and-forth chats: price negotiated fresh each time, delivery dates vague. She turned her typical replies into clear price-and-delivery messages — fabric, style, price, pickup date, in four lines. The aim is to make the offer easier to understand. This scenario does not demonstrate increased orders or measured time savings.
+*(Composite and illustrative, not a real named person.)* Chidinma, a tailor, used to handle order enquiries in long back-and-forth chats, negotiating the price afresh each time and giving vague delivery dates. She turned her usual replies into clear four-line messages: fabric, style, price and pickup date. The aim was to make her offer easier to understand. This story does not show that her orders increased or that she saved a measured amount of time.
 
-## 🎯 Task — pick your lane
+## 🎯 Task: pick your lane
 
-- **(a) Professionals:** write this week's hardest email — the one you have been postponing — using the skeleton above. The ask in two lines, under 120 words.
-- **(b) Business owners:** draft three customer replies and one advert for your real business, using the customer-reply set.
-- **(c) Anyone exploring services:** draft a sample "monthly content pack" — 8 posts — for a real local business you know, as if you were already serving them.
+Choose ONE lane:
+
+- **(a) Professionals:** write this week's hardest email (the one you have been putting off) using the email skeleton prompt above. Put the ask in the first two lines and keep it under 120 words.
+- **(b) Business owners:** use the customer-reply prompt to draft three replies to real customer messages, and write one advert for your business (one offer, one benefit, one next step).
+- **(c) Anyone exploring services:** use the 8-post prompt to draft a sample monthly content pack for a real local business you know, as if you were already working for them.
+
+Read every draft before you use it and correct any wrong or invented details.
 
 ## 📤 Output
 
-One lane's worth of finished messages, ready to send or publish. Keep them — the 8-post pack and the email skeleton both go into your Playbook, and lane (c) is a portfolio piece you can show a real business.
+One lane's worth of finished messages, ready to send or publish. Save them in your phone's notes app. The email skeleton and the 8-post prompt both go into your Playbook (Day 7), and a lane (c) pack is a sample you can show a real business owner.
 
 ---
-**Optional tool:** Canva (free) turns one post into a flyer — paste your advert text, pick a template, export. Not required today.
+**Optional tool:** Canva (free) can turn one post into a flyer: paste your advert text, pick a template, then download it. You do not need it today.

@@ -50,7 +50,7 @@ export function SharePanel({ id, kind, url, pdfHref, pngHref, shareText, linkedI
       <a href={linkedInAdd} target="_blank" rel="noreferrer" className={`${button} bg-[#0a66c2] py-3 text-white hover:bg-[#004182]`}><Linkedin size={17} />Add to LinkedIn profile</a>
     </div>
     <a href={pdfHref} className="-mt-1 inline-flex items-center gap-1.5 text-sm font-bold text-[#0058be] hover:underline"><Download size={15} />Download PDF for printing</a>
-    <p className="text-xs leading-5 text-[#677284]">“Add to LinkedIn profile” opens LinkedIn’s Licences &amp; Certifications form with the name, issuer, date, credential ID and verification URL filled in. You review and save it on LinkedIn.</p>
+    <p className="text-xs leading-5 text-[#677284]">“Add to LinkedIn profile” opens the licences and certifications form on LinkedIn, with the name, issuer, date, credential ID and verification link filled in. Check the details, then save them on LinkedIn.</p>
     <div>
       <p className="text-sm font-bold text-[#0b1c30]">Share</p>
       <div className="mt-2 flex flex-wrap gap-2">
@@ -58,7 +58,7 @@ export function SharePanel({ id, kind, url, pdfHref, pngHref, shareText, linkedI
         <a href={links.facebook} target="_blank" rel="noreferrer" className={`${button} border border-[#cbd5e1] text-[#0b1c30] hover:bg-[#f6f8fb]`}>Facebook</a>
         <a href={links.whatsapp} target="_blank" rel="noreferrer" className={`${button} border border-[#cbd5e1] text-[#0b1c30] hover:bg-[#f6f8fb]`}>WhatsApp</a>
         <button type="button" onClick={copy} className={`${button} border border-[#cbd5e1] text-[#0b1c30] hover:bg-[#f6f8fb]`} aria-live="polite">{copied ? <><Check size={16} className="text-[#146c43]" />Link copied</> : <><Copy size={16} />Copy link</>}</button>
-        {canShare && <button type="button" onClick={nativeShare} className={`${button} border border-[#cbd5e1] text-[#0b1c30] hover:bg-[#f6f8fb]`}><Share2 size={16} />More…</button>}
+        {canShare && <button type="button" onClick={nativeShare} className={`${button} border border-[#cbd5e1] text-[#0b1c30] hover:bg-[#f6f8fb]`}><Share2 size={16} />More options</button>}
         <button type="button" onClick={() => window.print()} className={`${button} border border-[#cbd5e1] text-[#0b1c30] hover:bg-[#f6f8fb]`}><Printer size={16} />Print</button>
       </div>
     </div>
