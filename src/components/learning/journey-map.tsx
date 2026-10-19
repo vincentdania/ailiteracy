@@ -30,7 +30,7 @@ export function JourneyMap({ modules, compact = false }: { modules: Module[]; co
                 {i < lessons.length - 1 && <span aria-hidden className={`absolute left-[1.9rem] top-12 h-[calc(100%-1.5rem)] w-[3px] rounded ${lesson.completed ? "bg-[#0058be]" : "bg-[#dfe5ee]"}`} />}
                 <span className={`relative z-10 grid size-9 shrink-0 place-items-center rounded-full ${lesson.completed ? "bg-[#0058be] text-white" : isCurrent ? "bg-[#f2b01e] text-[#0b1c30]" : lesson.unlocked ? "border-2 border-[#0058be] bg-white text-[#0058be]" : "bg-[#edf1f6] text-[#97a3b6]"}`}>{lesson.completed ? <Check size={17} /> : lesson.unlocked ? <Play size={13} fill="currentColor" /> : <LockKeyhole size={14} />}</span>
                 <div className="min-w-0 flex-1">
-                  <p className={`text-[11px] font-bold uppercase tracking-[.12em] ${isCurrent ? "text-[#ffd36b]" : "text-[#677284]"}`}>{lesson.isBonus ? "Bonus" : `Day ${String(lesson.dayNumber).padStart(2, "0")}`}{lesson.isCapstone ? " · Capstone" : ""}{isCurrent ? " · Next up" : ""}</p>
+                  <p className={`text-xs font-bold uppercase tracking-[.12em] ${isCurrent ? "text-[#ffd36b]" : "text-[#677284]"}`}>{lesson.isBonus ? "Bonus" : `Day ${String(lesson.dayNumber).padStart(2, "0")}`}{lesson.isCapstone ? " · Capstone" : ""}{isCurrent ? " · Next up" : ""}</p>
                   <p className="truncate font-semibold">{lesson.title}</p>
                 </div>
                 <span className="hidden shrink-0 items-center gap-2 sm:flex">

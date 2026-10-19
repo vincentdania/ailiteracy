@@ -26,13 +26,13 @@ export function AppNav({ role, name }: { role: "USER" | "ADMIN"; name: string })
         <div className="hidden lg:block">
           <Link href="/dashboard#settings" className="mb-3 flex items-center gap-3.5 rounded-xl px-4 py-3 text-sm font-semibold text-[#4d5768] hover:bg-[#f6f8fb]"><Settings size={19} />Settings</Link>
           <div className="border-t border-[#dfe5ee] pt-5"><div className="flex items-center gap-3 px-2"><span className="grid size-10 place-items-center rounded-full bg-[#214889] text-sm font-bold text-white">{initials}</span><div className="min-w-0"><strong className="block truncate text-sm">{name}</strong><span className="text-xs text-[#677284]">Learner</span></div></div><form action={async () => { "use server"; await signOut({ redirectTo: "/" }); }}><button className="mt-3 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-[#677284] hover:bg-[#f6f8fb] hover:text-[#b3261e]"><LogOut size={17} />Sign out</button></form></div>
-          <p className="mt-4 flex items-center gap-2 px-2 text-[11px] font-semibold uppercase tracking-[.12em] text-[#97a3b6]"><HyraxMark className="size-3.5 text-[#214889]" />The AI Enablement Company</p>
+          <p className="mt-4 flex items-center gap-2 px-2 text-xs font-semibold uppercase tracking-[.12em] text-[#97a3b6]"><HyraxMark className="size-3.5 text-[#214889]" />The AI Enablement Company</p>
         </div>
         <Link href="/dashboard#settings" className="tap grid size-11 place-items-center rounded-full text-[#4d5768] lg:hidden" aria-label="Settings"><Settings size={20} /></Link>
       </div>
     </aside>
     <nav className="no-print safe-bottom fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-[#dfe5ee] bg-white/95 px-2 pt-1.5 backdrop-blur lg:hidden" aria-label="Mobile learning navigation">
-      {navItems.slice(0, 4).map(({ icon: Icon, label, href }) => <NavLink key={href} href={href} className="tap flex flex-col items-center justify-center gap-1 rounded-xl py-1.5 text-[11px] font-bold text-[#677284]" activeClassName="!text-[#0058be]"><Icon size={20} /><span>{label}</span></NavLink>)}
+      {navItems.slice(0, 4).map(({ icon: Icon, label, href }) => <NavLink key={href} href={href} className="tap flex flex-col items-center justify-center gap-1 rounded-xl py-1.5 text-xs font-bold text-[#677284]" activeClassName="!text-[#0058be]"><Icon size={20} /><span>{label}</span></NavLink>)}
     </nav>
   </>;
 }
