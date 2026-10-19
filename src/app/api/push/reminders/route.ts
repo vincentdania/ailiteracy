@@ -18,7 +18,7 @@ export async function POST(request: Request) {
   const results = await Promise.all(enrollments.map((enrollment) => {
     const totalLessons = enrollment.course.modules.reduce((sum, module) => sum + module.lessons.length, 0);
     const day = unlockedDay(enrollment.enrolledAt, new Date(), enrollment.user.profile?.timezone ?? "Africa/Lagos", enrollment.previewOverride, totalLessons);
-    return sendPushToUser(enrollment.userId, { title: `Your Day ${day} lesson is live!`, body: "Keep your streak alive 🔥", url: "/dashboard" });
+    return sendPushToUser(enrollment.userId, { title: `Your Day ${day} lesson is ready`, body: "Open the course to pick up where you left off.", url: "/dashboard" });
   }));
   return NextResponse.json({ ok: true, learners: enrollments.length, deliveries: results.reduce((sum, result) => sum + result.sent, 0) });
 }

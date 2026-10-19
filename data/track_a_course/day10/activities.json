@@ -2,16 +2,16 @@
   "objectives": {
     "understand": "Why a fixed weekly routine and built-in checks keep an agent useful over time.",
     "do": "Set a weekly trigger and run your agent on fresh material with the quality checks.",
-    "demonstrate": "Plan a realistic routine, apply quality control to agent output, and share work honestly.",
+    "demonstrate": "Plan a realistic routine, check agent output properly and share your work honestly.",
     "apply": "Submit your agent file and Playbook, and complete the share step with one person who needs it."
   },
   "discover": {
     "title": "Mission briefing: make it stick",
-    "scenario": "An agent that ran once is a good day. Kemi, an HR officer in Abeokuta, built hers on Tuesday, used it Wednesday, and forgot it by the next Monday. The fix wasn't a better tool. It was a reminder, a ten-minute review, and one colleague who saw what it could do. Today you make yours permanent."
+    "scenario": "An agent that ran once is a good day's work. Kemi, an HR officer in Abeokuta, built hers on Tuesday, used it on Wednesday and had forgotten it by the next Monday. What she needed was a reminder, a ten-minute weekly review and one colleague who saw what it could do. Today you set up yours to last."
   },
   "keyIdeas": [
-    "Routine = which day, which time, which job, set as a repeating reminder. You are the one tap.",
-    "Quality control every run: the 4-question check, then fix one weak instruction in the agent file.",
+    "A routine is which day, which time and which job, set as a repeating reminder. You start each run yourself.",
+    "Check every run with the four questions, and once a week fix one weak instruction in the agent file.",
     "Share honestly: one real output, one person who needs it, no pressure tactics."
   ],
   "device": "phone",
@@ -28,20 +28,20 @@
         },
         {
           "text": "A repeating Friday 3pm reminder to run the weekly staff-update agent, because that's when the update is due.",
-          "feedback": "Yes. Which day, which time, which job, tied to when the work actually comes due."
+          "feedback": "Yes. Which day, which time, which job, tied to when the work is due."
         },
         {
           "text": "Run it every hour so it never falls behind.",
-          "feedback": "More runs isn't better. Each run needs fresh material and your check."
+          "feedback": "More runs are not better. Each run needs fresh material and your check."
         },
         {
-          "text": "Wait until a paid platform can schedule it automatically.",
+          "text": "Wait until a paid app can schedule it automatically.",
           "feedback": "Not needed. The reminder is the trigger, and it is free."
         }
       ],
       "correct": 1,
       "hint": "The lesson asks you to decide three things in writing.",
-      "support": "A routine survives when it is attached to a moment that already exists in your week. When is Kemi's update actually due?",
+      "support": "A routine survives when it is attached to a moment that already exists in your week. When is Kemi's update due?",
       "explain": "A fixed reminder at the moment the job comes due, for one specific agent, is simple enough to keep, and that is why it works."
     },
     {
@@ -56,8 +56,8 @@
           "feedback": "Yes. One real output to one person who needs the skill."
         },
         {
-          "text": "Point them to the free Day 1 lesson, which is a complete 10-minute win.",
-          "feedback": "Yes. Let them experience it for themselves."
+          "text": "Point them to the free Day 1 lesson, which takes about 20 minutes.",
+          "feedback": "Yes. Let them try it for themselves."
         },
         {
           "text": "Log in her Playbook whom she showed and what happened.",
@@ -69,7 +69,7 @@
         },
         {
           "text": "Tell her colleague the course guarantees a promotion.",
-          "feedback": "No. The course makes no income or job promises. Honesty is the rule."
+          "feedback": "No. The course makes no promises about income or jobs."
         }
       ],
       "correct": [
@@ -79,7 +79,7 @@
       ],
       "hint": "One output, one person, one honest demonstration, and a log.",
       "support": "People share what made them look competent. Which options show the real work to someone who needs it, without pressure or promises?",
-      "explain": "A cleaner report in a colleague's hand speaks for itself. No scripts, no pressure and no promises is what keeps a recommendation trustworthy."
+      "explain": "A cleaner report in a colleague's hand speaks for itself. Leaving out scripts, pressure and promises keeps a recommendation trustworthy."
     }
   ],
   "advanced": {

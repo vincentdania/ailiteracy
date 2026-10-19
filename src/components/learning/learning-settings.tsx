@@ -26,11 +26,11 @@ export function LearningSettings({ name }: { name: string }) {
   return <div className="surface min-w-0 p-5 sm:p-6">
     <h2 className="font-display text-xl font-bold text-[#0b1c30]">Learning settings</h2>
     <div className="mt-3 grid gap-1">
-      <Toggle checked={prefs.effectsEnabled} onChange={(v) => update({ ...prefs, effectsEnabled: v })} label="Celebration effects" description="Confetti and motion when you earn something. Your device's reduce-motion setting is always respected." icon={<Sparkles size={18} />} />
-      <Toggle checked={prefs.soundEnabled} onChange={(v) => update({ ...prefs, soundEnabled: v })} label="Achievement sounds" description="A short chime when you solve a mission or earn a badge. Off by default." icon={<Volume2 size={18} />} />
+      <Toggle checked={prefs.effectsEnabled} onChange={(v) => update({ ...prefs, effectsEnabled: v })} label="Celebration effects" description="Confetti and animation when you earn a badge, a new level or a certificate. If your device is set to reduce motion, they stay off." icon={<Sparkles size={18} />} />
+      <Toggle checked={prefs.soundEnabled} onChange={(v) => update({ ...prefs, soundEnabled: v })} label="Achievement sounds" description="A short sound when you earn XP or a badge. Off by default." icon={<Volume2 size={18} />} />
     </div>
     <form action={action} className="mt-4 border-t border-[#dfe5ee] pt-4">
-      <label className="grid gap-2 text-sm font-bold text-[#0b1c30]"><span className="flex items-center gap-2"><UserRound size={16} className="text-[#0058be]" />Your full name, as it appears on certificates</span>
+      <label className="grid gap-2 text-sm font-bold text-[#0b1c30]"><span className="flex items-center gap-2"><UserRound size={16} className="text-[#0058be]" />Your full name, as it should appear on your certificates</span>
         <span className="flex flex-col gap-2 sm:flex-row"><input name="name" value={value} onChange={(e) => setValue(e.target.value)} required minLength={2} maxLength={80} autoComplete="name" className="tap w-full min-w-0 flex-1 rounded-xl border border-[#cbd5e1] bg-white px-4 font-normal" /><button disabled={pending || value.trim() === name} className="tap rounded-xl bg-[#0b1c30] px-5 text-sm font-bold text-white disabled:opacity-40">{pending ? "Saving…" : "Save name"}</button></span>
       </label>
       {state.message && <p role="status" className={`mt-2 text-sm ${state.ok ? "text-[#146c43]" : "text-[#b3261e]"}`}>{state.message}</p>}

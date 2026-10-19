@@ -10,7 +10,7 @@ const DAILY_OUTPUTS = [
   "your job's most common document, plus a template made from an old example",
   "this week's emails or customer messages, drafted and checked in one sitting",
   "a summary of a long document and a spreadsheet built by describing what you need",
-  "the next-move output for your branch: application, programme report or lesson material",
+  "the output for your Day 6 track: a job application, a programme report or teaching material",
   "your Personal AI Playbook with every prompt tested and organised",
   "a plain-language map of the four parts of the agent you will build",
   "a working agent for one recurring job, with instructions, memory, tools and a trigger",
@@ -22,16 +22,16 @@ function inputHash(value: unknown) {
 }
 
 function tailoredExample(track: LearningTrack, input: PersonalizationInput, day: number) {
-  const context = input.industry ? `${input.profession} working in ${input.industry}` : input.profession;
+  const context = input.industry ? `${input.profession}, ${input.industry}` : input.profession;
   const examples: Record<LearningTrack, string> = {
-    CAREER_PRODUCTIVITY: `Imagine a ${context} turning a recurring weekly task into a draft → verify → approve workflow, while keeping confidential details out of the model.`,
-    BUSINESS_GROWTH: `Imagine a ${context} grouping real customer questions, drafting a response asset and testing it against the original customer evidence before publishing.`,
-    CREATIVE_CONTENT: `Imagine a ${context} building a brief rooted in a specific Nigerian or African audience, then using AI for options while retaining final voice and taste.`,
-    DATA_DECISIONS: `Imagine a ${context} asking AI to structure evidence, recomputing every important number and clearly labelling assumptions before recommending an action.`,
-    ENTREPRENEURSHIP: `Imagine a ${context} testing a painful customer problem with a small AI-assisted service before investing in a full product.`,
-    EDUCATION_RESEARCH: `Imagine a ${context} using AI to generate questions or organise sources, then checking every citation and explaining the learning in their own words.`,
+    CAREER_PRODUCTIVITY: `Example (${context}): turn a task you do every week into three steps (AI drafts, you check, you approve) and keep confidential details out of the AI tool.`,
+    BUSINESS_GROWTH: `Example (${context}): group real customer questions, draft one standard reply and check it against what customers actually said before you use it.`,
+    CREATIVE_CONTENT: `Example (${context}): write a brief for a specific Nigerian or African audience, use AI to suggest options, and keep the final voice and choices your own.`,
+    DATA_DECISIONS: `Example (${context}): ask AI to organise the evidence, recalculate every important number yourself and label assumptions clearly before you recommend an action.`,
+    ENTREPRENEURSHIP: `Example (${context}): test a real customer problem with a small AI-assisted service before you spend money on a full product.`,
+    EDUCATION_RESEARCH: `Example (${context}): use AI to draft questions or organise sources, then check every citation and explain the ideas in your own words.`,
   };
-  return `${examples[track]} For Lesson ${day}, show what you configured, how you tested it and what you kept under human control.`;
+  return `${examples[track]} When you submit the Day ${day} task, say what you did, how you checked it and which decisions you kept for yourself.`;
 }
 
 function lessonOverlay(track: LearningTrack, input: PersonalizationInput, lesson: { id: string; dayNumber: number; title: string }, caseStudySlugs: string[]) {
@@ -40,13 +40,13 @@ function lessonOverlay(track: LearningTrack, input: PersonalizationInput, lesson
   const caseIndex = caseStudyDays.indexOf(lesson.dayNumber);
   return {
     lessonId: lesson.id,
-    whyItMatters: `Your goal is ${input.primaryGoal}. This lesson helps by ${definition.buildingBlock}.`,
+    whyItMatters: `Your goal: ${input.primaryGoal}. Each lesson moves you a step closer to ${definition.buildingBlock}.`,
     tailoredExample: tailoredExample(track, input, lesson.dayNumber),
-    practiceBrief: `Using a real but non-sensitive situation from your work, create ${DAILY_OUTPUTS[Math.min(lesson.dayNumber - 1, DAILY_OUTPUTS.length - 1)]}. Set aside about ${Math.max(15, Math.round(input.weeklyMinutes / 7))} minutes and keep enough evidence to repeat the setup.`,
+    practiceBrief: `Using a real but non-sensitive situation from your work, create ${DAILY_OUTPUTS[Math.min(lesson.dayNumber - 1, DAILY_OUTPUTS.length - 1)]}. Allow about ${Math.max(15, Math.round(input.weeklyMinutes / 7))} minutes, and note what you did so you can describe it when you submit.`,
     successCriteria: [
-      "The output addresses a real need connected to your stated goal.",
-      "Important facts, calculations or sources are checked independently.",
-      "Your final version shows a clear human decision or improvement.",
+      "It meets a real need linked to your goal.",
+      "You have checked the important facts, figures and sources yourself.",
+      "Your final version shows at least one decision or improvement you made yourself.",
     ],
     caseStudySlug: caseIndex >= 0 ? caseStudySlugs[caseIndex % caseStudySlugs.length] : null,
     inputHash: inputHash({ track, input, lesson: lesson.dayNumber, version: "overlay-v1" }),
@@ -64,7 +64,7 @@ export async function createOrRefreshLearningPlan(userId: string, courseId: stri
   let source: GenerationSource = "CURATED";
   let model: string | undefined;
   let title = definition.label;
-  let outcomeSummary = `${definition.promise} By the end of the course, you will have a tested Playbook and a working agent tied to this outcome: ${input.primaryGoal}`;
+  let outcomeSummary = `${definition.promise} By the end of the course, you will have a tested Personal AI Playbook and a working agent that supports your goal: ${input.primaryGoal}`;
   let milestones = definition.milestones;
 
   if (deepSeekEnabled()) {

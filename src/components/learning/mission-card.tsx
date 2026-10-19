@@ -17,7 +17,7 @@ type Props = {
 
 type Answer = string | string[] | Record<string, number> | null;
 
-const TYPE_LABEL: Record<PublicMission["type"], string> = { choice: "Choose the best answer", multi: "Select all that apply", order: "Put these in order", sort: "Sort each item" };
+const TYPE_LABEL: Record<PublicMission["type"], string> = { choice: "Choose the best answer", multi: "Select all that apply", order: "Put these in order", sort: "Put each item in the right group" };
 
 export function MissionCard({ lessonId, mission, index, advanced = false, locked = false, initial }: Props) {
   const { celebrate } = useCelebrate();
@@ -55,7 +55,7 @@ export function MissionCard({ lessonId, mission, index, advanced = false, locked
   }
 
   if (locked) return <section className="surface border-dashed p-5 sm:p-6" aria-label={`Advanced mission: ${mission.title}`}>
-    <div className="flex items-start gap-4"><span className="grid size-11 shrink-0 place-items-center rounded-xl bg-[#edf1f6] text-[#677284]"><LockKeyhole size={19} /></span><div><p className="eyebrow !text-[#677284]">Advanced mission · optional</p><h3 className="mt-1 font-display text-xl font-semibold text-[#0b1c30]">{mission.title}</h3><p className="mt-2 text-sm leading-6 text-[#4d5768]">Unlocks when you solve this lesson’s missions on the first try, or get full marks on the knowledge check. It isn’t required for your certificate.</p></div></div>
+    <div className="flex items-start gap-4"><span className="grid size-11 shrink-0 place-items-center rounded-xl bg-[#edf1f6] text-[#677284]"><LockKeyhole size={19} /></span><div><p className="eyebrow !text-[#677284]">Advanced mission · optional</p><h3 className="mt-1 font-display text-xl font-semibold text-[#0b1c30]">{mission.title}</h3><p className="mt-2 text-sm leading-6 text-[#4d5768]">Opens when you solve all of this lesson’s missions on the first try or get full marks on the knowledge check. You don’t need it for your certificate.</p></div></div>
   </section>;
 
   const disabled = lockedIn || pending;
@@ -69,7 +69,7 @@ export function MissionCard({ lessonId, mission, index, advanced = false, locked
       {solved && !replaying && <span className="chip bg-[#e6f4ec] text-[#146c43]"><CheckCircle2 size={14} />Solved</span>}
     </header>
 
-    {solved && !replaying && !result ? <div className="p-5 sm:p-6"><p className="text-sm leading-6 text-[#4d5768]">You solved this mission{attempts > 1 ? ` after ${attempts} attempts. Learning from the feedback is exactly the point` : " on the first try"}. Replay it any time for practice. Replays don’t change your record.</p><button type="button" onClick={() => setReplaying(true)} className="tap mt-4 inline-flex items-center gap-2 rounded-full border border-[#cbd5e1] px-5 py-2.5 text-sm font-bold text-[#0b1c30] hover:bg-[#f6f8fb]"><RotateCcw size={15} />Replay mission</button></div> : <div className="p-5 sm:p-6">
+    {solved && !replaying && !result ? <div className="p-5 sm:p-6"><p className="text-sm leading-6 text-[#4d5768]">You solved this mission{attempts > 1 ? ` after ${attempts} attempts` : " on the first try"}. You can replay it for practice. Replays don’t change your score or XP.</p><button type="button" onClick={() => setReplaying(true)} className="tap mt-4 inline-flex items-center gap-2 rounded-full border border-[#cbd5e1] px-5 py-2.5 text-sm font-bold text-[#0b1c30] hover:bg-[#f6f8fb]"><RotateCcw size={15} />Replay mission</button></div> : <div className="p-5 sm:p-6">
       {mission.scenario && <p className="rounded-2xl border-l-4 border-[#214889] bg-[#eef4fd] p-4 text-base leading-7 text-[#26324a]">{mission.scenario}</p>}
       <p className="mt-4 font-semibold leading-7 text-[#0b1c30]">{mission.prompt}</p>
 
@@ -95,7 +95,7 @@ export function MissionCard({ lessonId, mission, index, advanced = false, locked
         {error && <p className="mt-4 rounded-xl bg-[#fdeceb] p-3 text-sm text-[#b3261e]">{error}</p>}
         {showingResult && result!.correct && <div className="anim-rise mt-5 rounded-2xl bg-[#e6f4ec] p-5 text-base leading-7 text-[#0b3d26]"><p className="flex items-center gap-2 font-display text-lg font-bold text-[#146c43]"><CheckCircle2 size={20} />{replaying ? "Correct again." : attempts > 1 ? "Solved. You worked it out." : "Spot on, first try."}</p>{result!.feedback.length > 0 && <ul className="mt-2 grid gap-1.5">{result!.feedback.map((line) => <li key={line}>{line}</li>)}</ul>}<p className="mt-3 border-t border-[#146c43]/15 pt-3"><strong>Why it works: </strong>{result!.explain}</p></div>}
         {showingResult && !result!.correct && <div className="anim-rise mt-5 rounded-2xl border border-[#f1c6c2] bg-[#fdf6f5] p-5 text-base leading-7 text-[#4a1d19]">
-          <p className="flex items-center gap-2 font-display text-lg font-bold text-[#b3261e]"><X size={19} />Not yet. Mistakes are part of the mission.</p>
+          <p className="flex items-center gap-2 font-display text-lg font-bold text-[#b3261e]"><X size={19} />Not quite. Read the feedback and try again.</p>
           {result!.feedback.length > 0 && <ul className="mt-2 grid list-disc gap-1.5 pl-5">{result!.feedback.map((line) => <li key={line}>{line}</li>)}</ul>}
           {result!.hint && <p className="mt-3 flex gap-2 rounded-xl bg-white p-3 text-[#26324a]"><Lightbulb size={18} className="mt-1 shrink-0 text-[#f2b01e]" /><span><strong>Hint: </strong>{result!.hint}</span></p>}
           {result!.support && <p className="mt-3 rounded-xl bg-white p-3 text-[#26324a]"><strong>Another way to see it: </strong>{result!.support}</p>}

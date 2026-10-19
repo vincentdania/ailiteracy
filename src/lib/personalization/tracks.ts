@@ -63,7 +63,7 @@ export const TRACKS: Record<LearningTrack, TrackDefinition> = {
   },
   DATA_DECISIONS: {
     label: "AI for Data & Decisions",
-    promise: "Build a personal agent that gathers and structures evidence without pretending verification is automatic.",
+    promise: "Build a personal agent that gathers and organises evidence, while you still check it yourself.",
     buildingBlock: "automating evidence collection while keeping calculations, sources and decisions auditable",
     keywords: ["data", "analysis", "research", "decision", "finance", "forecast", "insight", "excel", "analytics"],
     tools: ["A free AI assistant such as ChatGPT, Gemini, Claude or Copilot", "Your phone or laptop", "Google Docs, Word or Sheets"],

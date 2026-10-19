@@ -7,10 +7,10 @@
   },
   "discover": {
     "title": "Mission briefing: the memo that came back",
-    "scenario": "Mr Adeyemi's memo came back from the Director's office with red ink: wrong heading block, no reference number, 'Dear Sir' where the ministry writes 'The Director'. The AI had written a fine memo, just not his ministry's memo. Today you teach AI your office's exact format, once, for good."
+    "scenario": "Mr Adeyemi's memo came back from the Director's office covered in red ink: wrong heading block, no reference number, and 'Dear Sir' where the ministry writes 'The Director'. The AI had written a good memo, but not in his ministry's format. Today you teach AI your office's exact format once, and reuse it."
   },
   "keyIdeas": [
-    "Don't ask for 'a memo'. Paste one old, accepted example and say 'follow this exact structure'.",
+    "Don't ask for 'a memo'. Paste one old, accepted example and tell the AI to follow its exact structure.",
     "The template-extraction prompt turns any good document into a fill-in template you reuse.",
     "One line switches the tone: more official, more concise or more warm."
   ],
@@ -29,20 +29,20 @@
         },
         {
           "text": "Last quarter's report, which your programme officer accepted without corrections.",
-          "feedback": "Yes. It carries your organisation's real headings, order and house style, and it is proven to be acceptable."
+          "feedback": "Yes. It carries your organisation's real headings, order and house style, and you know it was accepted."
         },
         {
-          "text": "Your draft from last week that is still waiting for review.",
+          "text": "Your draft from last week, which is still waiting for review.",
           "feedback": "It might still need corrections, so you could be teaching the AI your mistakes."
         },
         {
-          "text": "No example. Just describe the format in words.",
-          "feedback": "That works a little, but a real example carries far more detail than you can describe."
+          "text": "No example. Describe the format in words instead.",
+          "feedback": "That helps a little, but a real example carries far more detail than you can describe."
         }
       ],
       "correct": 1,
       "hint": "The lesson is specific about which old document to use.",
-      "support": "You want the AI to copy a document someone in authority already approved. Which option is the proven, accepted one from your own workplace?",
+      "support": "You want the AI to copy a document that someone in authority has already approved. Which option is the accepted one from your own workplace?",
       "explain": "One accepted example from your own workplace carries the format, vocabulary and house style that would take you paragraphs to describe. It is also known to be correct."
     },
     {
@@ -63,7 +63,7 @@
           "feedback": "Permanent secretaries get the official register: full phrases, no contractions."
         },
         {
-          "text": "A note to a busy colleague who just needs the decision",
+          "text": "A note to a busy colleague who only needs the decision",
           "category": 1,
           "feedback": "Busy colleagues get concise: short sentences with the ask up front."
         },
@@ -80,12 +80,12 @@
         {
           "text": "A thank-you message to a loyal customer",
           "category": 2,
-          "feedback": "Customers get warm language: 'we appreciate…'."
+          "feedback": "Customers get warm language, such as 'we appreciate…'."
         }
       ],
       "hint": "Official for authority, concise for colleagues, warm for customers and community.",
       "support": "Think about how you would speak to each person face to face: formally to a Permanent Secretary, briefly to a colleague at their desk, kindly to a parent.",
-      "explain": "Same content, different register. Adding one line such as 'Rewrite this more official, keeping the structure' changes the tone without breaking your format."
+      "explain": "Same content, different register. One extra line, such as 'Rewrite this in a more official tone, keeping the structure', changes the tone without breaking your format."
     }
   ],
   "advanced": {
@@ -105,11 +105,11 @@
       },
       {
         "text": "Do not invent anything.",
-        "feedback": "Yes. It stops the AI filling gaps with plausible details."
+        "feedback": "Yes. It stops the AI filling gaps with details that sound right but are made up."
       },
       {
         "text": "Make it longer and more detailed.",
-        "feedback": "No. Length has nothing to do with copied details, and it may add more invented ones."
+        "feedback": "No. Length has nothing to do with copied details, and a longer memo may contain more invented ones."
       },
       {
         "text": "Use American spelling.",
@@ -122,7 +122,7 @@
       2
     ],
     "hint": "The problem was old content leaking in. Which lines keep format and content apart?",
-    "support": "The old memo should give the shape only. Look for instructions that say 'structure from the old one, facts only from the new notes'.",
-    "explain": "The full prompt tells the AI to copy structure but not content, and never to invent. Those three lines are what make the old example safe to use."
+    "support": "The old memo should provide the shape only. Look for instructions that say: structure from the old memo, facts only from the new notes.",
+    "explain": "The full prompt tells the AI to copy the structure but not the content, and never to invent anything. Those three lines make the old example safe to use."
   }
 }

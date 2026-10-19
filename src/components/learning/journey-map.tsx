@@ -16,7 +16,7 @@ export function JourneyMap({ modules, compact = false }: { modules: Module[]; co
         <div className={`flex items-center gap-4 p-5 sm:p-6 ${status === "mastered" ? "bg-[#fff9e8]" : status === "current" ? "bg-[#eef4fd]" : "bg-[#f6f8fb]"}`}>
           <span className={`grid size-14 shrink-0 place-items-center rounded-2xl font-display text-xl font-bold ${status === "mastered" ? "bg-[#f2b01e] text-[#0b1c30]" : status === "locked" ? "bg-[#dfe5ee] text-[#677284]" : "bg-[#0b1c30] text-white"}`}>{status === "mastered" ? <Award size={26} /> : status === "locked" ? <LockKeyhole size={20} /> : moduleIndex + 1}</span>
           <div className="min-w-0 flex-1">
-            <p className="eyebrow">Level {moduleIndex + 1}{status === "mastered" ? " · Mastered" : status === "current" ? " · You are here" : status === "locked" ? " · Coming up" : ""}</p>
+            <p className="eyebrow">Module {moduleIndex + 1}{status === "mastered" ? " · Certificate earned" : status === "current" ? " · You are here" : status === "locked" ? " · Coming up" : ""}</p>
             <h3 className="mt-0.5 font-display text-xl font-bold leading-tight text-[#0b1c30] sm:text-2xl">{courseModule.title}</h3>
             <div className="mt-3 flex items-center gap-3"><div className={`xp-bar flex-1 ${status === "mastered" ? "gold-bar" : ""}`}><span style={{ width: `${courseModule.progress}%` }} /></div><span className="text-xs font-bold text-[#4d5768]">{courseModule.progress}%</span></div>
           </div>
@@ -35,7 +35,7 @@ export function JourneyMap({ modules, compact = false }: { modules: Module[]; co
                 </div>
                 <span className="hidden shrink-0 items-center gap-2 sm:flex">
                   {lesson.missions.length > 0 && <span className={`chip ${isCurrent ? "bg-white/10 text-white" : "bg-[#eaf2ff] text-[#0058be]"}`} title="Missions solved">{solved}/{lesson.missions.length} missions</span>}
-                  {lesson.quiz?.passed && <Star size={16} className={isCurrent ? "text-[#ffd36b]" : "text-[#f2b01e]"} fill="currentColor" aria-label="Knowledge check mastered" />}
+                  {lesson.quiz?.passed && <Star size={16} className={isCurrent ? "text-[#ffd36b]" : "text-[#f2b01e]"} fill="currentColor" aria-label="Knowledge check passed" />}
                   {lesson.advanced?.solved && <Sparkles size={16} className="text-[#f2b01e]" aria-label="Advanced mission solved" />}
                 </span>
               </div>;
@@ -43,7 +43,7 @@ export function JourneyMap({ modules, compact = false }: { modules: Module[]; co
             })}
           </ol>
           {courseModule.certificate ? <Link href={`/verify/${courseModule.certificate.credentialId}`} className="mt-3 flex items-center gap-3 rounded-2xl border border-[#f2b01e]/50 bg-[#fff9e8] p-3 text-sm font-bold text-[#8a5300]"><Award size={18} />Module certificate earned. View and share it.</Link>
-            : <details className="mt-3 rounded-2xl border border-dashed border-[#cbd5e1] p-3 text-sm"><summary className="cursor-pointer font-bold text-[#4d5768]">What this level’s certificate needs</summary><ul className="mt-3 grid gap-2">{courseModule.requirements.map((r) => <li key={r.key} className="flex items-center gap-2"><span className={`grid size-5 place-items-center rounded-full ${r.met ? "bg-[#146c43] text-white" : "border border-[#cbd5e1]"}`}>{r.met && <Check size={12} />}</span>{r.label}<span className="ml-auto text-xs text-[#677284]">{r.done}/{r.total}</span></li>)}</ul></details>}
+            : <details className="mt-3 rounded-2xl border border-dashed border-[#cbd5e1] p-3 text-sm"><summary className="cursor-pointer font-bold text-[#4d5768]">What this module’s certificate needs</summary><ul className="mt-3 grid gap-2">{courseModule.requirements.map((r) => <li key={r.key} className="flex items-center gap-2"><span className={`grid size-5 place-items-center rounded-full ${r.met ? "bg-[#146c43] text-white" : "border border-[#cbd5e1]"}`}>{r.met && <Check size={12} />}</span>{r.label}<span className="ml-auto text-xs text-[#677284]">{r.done}/{r.total}</span></li>)}</ul></details>}
         </div>}
       </li>;
     })}

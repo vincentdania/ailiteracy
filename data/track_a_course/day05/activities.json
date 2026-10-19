@@ -7,11 +7,11 @@
   },
   "discover": {
     "title": "Mission briefing: 40 pages before Monday",
-    "scenario": "Friday 5pm. Your director forwards a 40-page donor policy with one line: 'What does this mean for us? Meeting Monday 9am.' Meanwhile your sales notebook for the shop is two months behind. Today you answer the director in minutes, quote by quote, and get a spreadsheet that does the maths, which you then check."
+    "scenario": "Friday 5pm. Your director forwards a 40-page donor policy with one line: 'What does this mean for us? Meeting Monday 9am.' Meanwhile your sales notebook for the shop is two months behind. Today you answer the director in minutes, with a quote for every point, and get a spreadsheet that does the maths for you to check."
   },
   "keyIdeas": [
     "Ask what the document requires you to do, by when, at what cost, and what decisions are needed. Quote the section for each.",
-    "Describe the columns and calculations; the AI writes the formulas and explains each one.",
+    "Describe the columns and calculations, and the AI writes the formulas and explains each one.",
     "Check every total yourself. Revenue is not profit."
   ],
   "device": "phone",
@@ -37,7 +37,7 @@
         },
         {
           "text": "Make it sound impressive for the director.",
-          "feedback": "No. Style isn't the problem; decisions and evidence are."
+          "feedback": "No. The director needs decisions and evidence, not polish."
         },
         {
           "text": "Fill in anything missing with what such policies usually say.",
@@ -50,8 +50,8 @@
         2
       ],
       "hint": "The director needs actions, deadlines, costs and decisions, all traceable to the document.",
-      "support": "Imagine the director asks 'where does it say that?' Your prompt must make the AI answer the practical questions and point to the exact section, without guessing.",
-      "explain": "The decisions-relevant summary asks what, by when, at what cost and what decisions, with quotes. 'Not stated' is a valid and valuable answer, so the AI doesn't fill gaps."
+      "support": "Suppose the director asks, 'Where does it say that?' Your prompt must make the AI answer the practical questions and point to the exact section, without guessing.",
+      "explain": "The decisions-relevant summary asks what, by when, at what cost and what decisions, with quotes. 'Not stated' is a useful answer: it means the AI has not filled the gap with a guess."
     },
     {
       "key": "check-total",
@@ -80,7 +80,7 @@
       "correct": 1,
       "hint": "Read the cell ranges closely, and do the maths yourself.",
       "support": "The data sits in rows 2 and 3. Look at which rows the SUM formula covers. Then multiply each quantity by its price and add them on a calculator.",
-      "explain": "Small formula slips like an extra row in a range are common. A one-minute hand check (2 × 1,500 + 3 × 200 = 3,600) catches them, and remember the total is sales revenue, not profit."
+      "explain": "Small formula slips like an extra row in a range are common. A one-minute hand check (2 × 1,500 + 3 × 200 = 3,600) catches them, and remember that the total is sales revenue, not profit."
     }
   ],
   "advanced": {
@@ -97,7 +97,7 @@
       "Open the original and check two of the quotes against the document yourself."
     ],
     "hint": "Section by section, then combine, then verify.",
-    "support": "Break the big job into equal small jobs with the same questions each time. Combine only at the end, and finish with your own check.",
-    "explain": "Pasting in sections keeps each answer within limits. The same four questions make the parts combinable, and checking quotes against the original is your guarantee."
+    "support": "Break the big job into smaller jobs and ask the same questions each time. Combine only at the end, and finish with your own check.",
+    "explain": "Pasting in sections keeps each answer within limits. The same four questions make the parts combinable, and checking quotes against the original is how you know the summary is right."
   }
 }

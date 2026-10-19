@@ -34,8 +34,8 @@ export function LessonQuiz({ lessonId, quiz, bestScore, passMark }: { lessonId: 
   return <section className="surface overflow-hidden" aria-labelledby="knowledge-check-title">
     <header className="flex flex-wrap items-start gap-4 border-b border-[#dfe5ee] bg-[#f6f8fb] p-5 sm:p-6">
       <span className={`grid size-11 shrink-0 place-items-center rounded-xl ${mastered ? "bg-[#146c43]" : "bg-[#214889]"} text-white`}>{mastered ? <Check size={20} /> : <GraduationCap size={20} />}</span>
-      <div className="min-w-0 flex-1"><p className="eyebrow">Knowledge check · {quiz.length} questions</p><h3 id="knowledge-check-title" className="mt-1 font-display text-xl font-semibold text-[#0b1c30] sm:text-2xl">Show you’ve mastered it</h3><p className="mt-1 text-sm leading-6 text-[#4d5768]">Mastery is {passMark} of {quiz.length} or better. Retake it as often as you like; your best score counts.</p></div>
-      {best !== null && <span className={`chip ${mastered ? "bg-[#e6f4ec] text-[#146c43]" : "bg-[#fff4d6] text-[#8a5300]"}`}>Best {best}/{quiz.length}{mastered ? " · Mastered" : ""}</span>}
+      <div className="min-w-0 flex-1"><p className="eyebrow">Knowledge check · {quiz.length} questions</p><h3 id="knowledge-check-title" className="mt-1 font-display text-xl font-semibold text-[#0b1c30] sm:text-2xl">Check your understanding</h3><p className="mt-1 text-sm leading-6 text-[#4d5768]">You pass with {passMark} out of {quiz.length} or more. You can retake it as often as you like, and your best score counts.</p></div>
+      {best !== null && <span className={`chip ${mastered ? "bg-[#e6f4ec] text-[#146c43]" : "bg-[#fff4d6] text-[#8a5300]"}`}>Best {best}/{quiz.length}{mastered ? " · Passed" : ""}</span>}
     </header>
     <div className="grid gap-4 p-5 sm:p-6">
       {quiz.map((question, qi) => {
@@ -54,16 +54,16 @@ export function LessonQuiz({ lessonId, quiz, bestScore, passMark }: { lessonId: 
               </label>;
             })}
           </div>
-          {graded && <p className={`mt-3 rounded-xl p-3 text-sm leading-6 ${graded.correct ? "bg-[#e6f4ec] text-[#0b3d26]" : "bg-[#fdf6f5] text-[#4a1d19]"}`}><strong>{graded.correct ? "Correct. " : "Not quite. "}</strong>{graded.explanation ?? "Look back at the lesson section on this and try again. If you miss it twice, you'll see the full explanation."}</p>}
+          {graded && <p className={`mt-3 rounded-xl p-3 text-sm leading-6 ${graded.correct ? "bg-[#e6f4ec] text-[#0b3d26]" : "bg-[#fdf6f5] text-[#4a1d19]"}`}><strong>{graded.correct ? "Correct. " : "Not quite. "}</strong>{graded.explanation ?? "Look back at this part of the lesson and try again. From your next attempt, you’ll see an explanation for any question you miss."}</p>}
         </fieldset>;
       })}
       {error && <p className="rounded-xl bg-[#fdeceb] p-3 text-sm text-[#b3261e]">{error}</p>}
       <div id="knowledge-check-result" tabIndex={-1} aria-live="polite" className="outline-none">
         {result ? <div className={`flex flex-col gap-4 rounded-2xl p-5 sm:flex-row sm:items-center ${result.passed ? "bg-[#e6f4ec]" : "bg-[#fff4d6]"}`}>
-          <div className="flex-1"><p className="font-display text-2xl font-bold text-[#0b1c30]">{result.score}/{result.total}{result.passed ? " · Mastered" : ""}</p><p className="mt-1 text-sm leading-6 text-[#4d5768]">{result.score === result.total ? "Full marks. You clearly understand this." : result.passed ? "You've reached mastery. Retake it for full marks if you like." : `You need ${passMark} to reach mastery. Review the questions you missed and try again.`}</p></div>
+          <div className="flex-1"><p className="font-display text-2xl font-bold text-[#0b1c30]">{result.score}/{result.total}{result.passed ? " · Passed" : ""}</p><p className="mt-1 text-sm leading-6 text-[#4d5768]">{result.score === result.total ? "Full marks. Well done." : result.passed ? "You’ve passed. You can retake it to aim for full marks." : `You need ${passMark} to pass. Review the questions you missed and try again.`}</p></div>
           <button type="button" onClick={() => { setAnswers(Array(quiz.length).fill(null)); setResult(null); }} className="tap inline-flex items-center justify-center gap-2 rounded-full border border-[#cbd5e1] bg-white px-5 py-2.5 text-sm font-bold text-[#0b1c30] hover:bg-[#f6f8fb]"><RotateCcw size={15} />{result.passed ? "Retake" : "Try again"}</button>
         </div> : <button type="button" disabled={!allAnswered || pending} onClick={submit} className="tap inline-flex items-center justify-center rounded-full bg-[#0058be] px-6 py-3 font-bold text-white hover:bg-[#00479b] disabled:cursor-not-allowed disabled:opacity-50">{pending ? "Checking…" : allAnswered ? "Check my answers" : `Answer all ${quiz.length} questions`}</button>}
-        {mastered && !result && <p className="mt-3 flex items-center gap-2 text-sm font-semibold text-[#146c43]"><CheckCircle2 size={16} />Mastered. You can retake it for practice any time.</p>}
+        {mastered && !result && <p className="mt-3 flex items-center gap-2 text-sm font-semibold text-[#146c43]"><CheckCircle2 size={16} />Passed. You can retake it for practice at any time.</p>}
       </div>
     </div>
   </section>;
