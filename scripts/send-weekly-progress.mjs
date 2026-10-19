@@ -14,6 +14,16 @@ const db = new PrismaClient();
 const COURSE_URL = process.env.NEXTAUTH_URL ?? "https://learn.hyrax.ng";
 const FROM = process.env.EMAIL_FROM ?? "Hyrax AI Academy <noreply@ailiteracy.ng>";
 
+// Mirrors hasActiveAccess in src/lib/access.ts (this plain script cannot import TypeScript):
+// admins and lifetime learners always have access, everyone else until expiresAt.
+const DAY_MS = 24 * 60 * 60 * 1000;
+const ACCESS_DAYS = Number.isInteger(Number(process.env.ACCESS_DAYS)) && Number(process.env.ACCESS_DAYS) > 0 ? Number(process.env.ACCESS_DAYS) : 90;
+function hasActiveAccess(enrollment, now) {
+  if (enrollment.user.role === "ADMIN" || enrollment.lifetimeAccess) return true;
+  const endsAt = enrollment.expiresAt ?? new Date(enrollment.enrolledAt.getTime() + ACCESS_DAYS * DAY_MS);
+  return now.getTime() < endsAt.getTime();
+}
+
 function mockOrSend(message) {
   if (process.env.INTEGRATION_MODE === "mock" || !process.env.RESEND_API_KEY) {
     console.info(`[email:mock] to=${message.to} subject=${message.subject}`);
@@ -27,10 +37,13 @@ function mockOrSend(message) {
 }
 
 async function main() {
-  const enrollments = await db.enrollment.findMany({
+  const now = new Date();
+  const candidates = await db.enrollment.findMany({
     where: { status: "ACTIVE" },
-    include: { user: { select: { email: true, name: true } }, course: { select: { title: true, modules: { select: { _count: { select: { lessons: { where: { isBonus: false } } } } } } } } },
+    include: { user: { select: { email: true, name: true, role: true } }, course: { select: { title: true, modules: { select: { _count: { select: { lessons: { where: { isBonus: false } } } } } } } } },
   });
+  // No progress emails once a learner's access has ended.
+  const enrollments = candidates.filter((enrollment) => hasActiveAccess(enrollment, now));
 
   let sent = 0;
   let skipped = 0;
@@ -79,7 +92,7 @@ Keep the streak alive — one focused lesson a day is enough.
     }
   }
 
-  console.log(`Weekly progress email: ${sent} sent, ${skipped} skipped (no email), ${enrollments.length} active enrollments`);
+  console.log(`Weekly progress email: ${sent} sent, ${skipped} skipped (no email), ${enrollments.length} active enrollments (${candidates.length - enrollments.length} with ended access not emailed)`);
 }
 
 main()

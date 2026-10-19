@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { NotificationSettings } from "@/components/dashboard/notification-settings";
 import { Button } from "@/components/ui/button";
 import { BadgeIcon } from "@/components/learning/badge-icon";
+import { AccessChip, AccessEndedNotice } from "@/components/learning/access-notice";
 import { JourneyMap } from "@/components/learning/journey-map";
 import { LearningSettings } from "@/components/learning/learning-settings";
 import { auth } from "@/lib/auth";
@@ -47,17 +48,18 @@ export default async function DashboardPage() {
   const earned = new Set(rewards.badges.map((b) => b.badgeKey));
   const level = rewards.level;
   const certificateCount = moduleCertificates.length + courseCertificates.length;
+  const timeZone = profile?.timezone ?? "Africa/Lagos";
 
   return <div className="mx-auto max-w-[1180px]">
     <header className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
-      <div><p className="eyebrow">Welcome back</p><h1 className="display mt-2 text-4xl text-[#0b1c30] sm:text-5xl">Hello, {firstName}.</h1><p className="mt-3 max-w-xl leading-7 text-[#4d5768]">{completed === 0 ? "Your first mission is waiting. Ten minutes from now you'll have something real to show for it." : progress === 100 ? "You've completed the course. Replay missions any time to stay sharp." : `You're ${progress}% through ${state.course.title}. Keep the momentum going.`}</p></div>
+      <div><p className="eyebrow">Welcome back</p><h1 className="display mt-2 text-4xl text-[#0b1c30] sm:text-5xl">Hello, {firstName}.</h1><p className="mt-3 max-w-xl leading-7 text-[#4d5768]">{completed === 0 ? "Your first mission is waiting. Ten minutes from now you'll have something real to show for it." : progress === 100 ? "You've completed the course. Replay missions any time to stay sharp." : `You're ${progress}% through ${state.course.title}. Keep the momentum going.`}</p><div className="mt-3"><AccessChip access={state.access} timeZone={timeZone} /></div></div>
       <Link href="/achievements" className="surface flex min-w-[17rem] items-center gap-4 p-4 transition hover:-translate-y-0.5">
         <span className="relative grid size-16 shrink-0 place-items-center rounded-full" style={{ background: `conic-gradient(#0058be ${level.progress * 3.6}deg, #e6edf6 0)` }}><span className="grid size-[3.25rem] place-items-center rounded-full bg-white font-display text-xl font-bold text-[#0b1c30]">{level.level}</span></span>
         <span className="min-w-0"><span className="block text-xs font-bold uppercase tracking-[.12em] text-[#677284]">Level {level.level}</span><strong className="block font-display text-xl text-[#0b1c30]">{level.title}</strong><span className="text-sm text-[#4d5768]">{level.xp.toLocaleString()} XP{level.nextTitle ? ` · ${level.toNext} to ${level.nextTitle}` : ""}</span></span>
       </Link>
     </header>
 
-    <section className="surface-dark mt-8 overflow-hidden p-6 sm:p-8" aria-labelledby="continue-title">
+    {!state.access.active ? <div className="mt-8"><AccessEndedNotice endedAt={state.access.endsAt} timeZone={timeZone} /></div> : <section className="surface-dark mt-8 overflow-hidden p-6 sm:p-8" aria-labelledby="continue-title">
       <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
         <div className="min-w-0">
           <p className="eyebrow !text-[#ffd36b]">{next ? next.label : "Course complete"}</p>
@@ -69,7 +71,7 @@ export default async function DashboardPage() {
           : <Link href={`/challenge/${next.lesson.slug}${next.reason === "mission" ? "#practise" : next.reason === "check" ? "#challenge" : next.reason === "practical" ? "#master" : ""}`} className="tap inline-flex items-center justify-center gap-2 rounded-full bg-[#f2b01e] px-8 py-4 text-lg font-bold text-[#0b1c30] shadow-[0_10px_30px_-10px_rgba(242,176,30,.8)] transition hover:-translate-y-0.5 hover:bg-[#ffc23d]">Continue learning <ArrowRight size={20} /></Link>)
           : <Link href="/certificates" className="tap inline-flex items-center justify-center gap-2 rounded-full bg-[#f2b01e] px-8 py-4 font-bold text-[#0b1c30]">My certificates <Award size={18} /></Link>}
       </div>
-    </section>
+    </section>}
 
     <section className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-5" aria-label="Your progress">
       {([[Sparkles, "XP earned", level.xp.toLocaleString(), "#f2b01e"], [Flag, "Stages complete", `${completed}/${lessons.length}`, "#0058be"], [Target, "Missions solved", missionsSolved, "#0058be"], [Trophy, "Badges", `${earned.size}/${allBadges.length}`, "#f2b01e"], [Award, "Certificates", certificateCount, "#214889"]] as const).map(([Icon, label, value, colour]) => <div key={label} className="surface p-4"><Icon size={18} style={{ color: colour }} /><strong className="mt-3 block font-display text-2xl text-[#0b1c30]">{value}</strong><span className="text-xs font-semibold text-[#677284]">{label}</span></div>)}

@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { auth, updateSession } from "@/lib/auth";
+import { accessExpiryFrom } from "@/lib/access";
 import { db } from "@/lib/db";
 import { createOrRefreshLearningPlan } from "@/lib/personalization/plan";
 
@@ -33,7 +34,7 @@ export async function saveOnboardingAction(formData: FormData) {
   await updateSession({ user: { onboardingDone: true } });
   if (process.env.FREE_ENROLLMENT_ENABLED === "true") {
     await db.$transaction([
-      db.enrollment.upsert({ where: { userId_courseId: { userId: session.user.id, courseId: course.id } }, update: { status: "ACTIVE" }, create: { userId: session.user.id, courseId: course.id } }),
+      db.enrollment.upsert({ where: { userId_courseId: { userId: session.user.id, courseId: course.id } }, update: { status: "ACTIVE" }, create: { userId: session.user.id, courseId: course.id, expiresAt: accessExpiryFrom(new Date()) } }),
       db.streak.upsert({ where: { userId: session.user.id }, update: {}, create: { userId: session.user.id } }),
     ]);
     redirect("/dashboard");

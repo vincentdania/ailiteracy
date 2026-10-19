@@ -1,4 +1,5 @@
 import { Prisma } from "@prisma/client";
+import { accessStatus } from "@/lib/access";
 import { db } from "@/lib/db";
 import { isCapstoneLesson, unlockedDay } from "@/lib/challenge";
 import { newCredentialId } from "@/lib/certificates";
@@ -61,7 +62,9 @@ export async function loadCourseState(userId: string, courseId: string) {
     return { id: courseModule.id, title: courseModule.title, orderIndex: courseModule.orderIndex, lessons, requirements: moduleRequirements(lessons), eligible: moduleEligible(lessons), progress: moduleProgress(lessons), certificate };
   });
 
-  return { enrollment, course: enrollment.course, modules, available, totalLessons };
+  // Expired learners keep their progress and certificates; pages check `access` before teaching.
+  const access = accessStatus(enrollment, new Date(), enrollment.user.role);
+  return { enrollment, course: enrollment.course, modules, available, totalLessons, access };
 }
 
 export type CourseState = NonNullable<Awaited<ReturnType<typeof loadCourseState>>>;
