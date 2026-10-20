@@ -1,10 +1,10 @@
 ---
 day: 1
-title: From Meeting Notes to a Finished Report in 10 Minutes
+title: From Meeting Notes to a Finished Report in 20 Minutes
 subtitle: Use free AI tools to turn your own rough notes into a clean, formatted report.
 ---
 
-# From Meeting Notes to a Finished Report in 10 Minutes
+# From Meeting Notes to a Finished Report in 20 Minutes
 
 **Read time: 8 minutes · Task: 10–15 minutes**
 

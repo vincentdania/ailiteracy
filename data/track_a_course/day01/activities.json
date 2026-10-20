@@ -7,7 +7,7 @@
   },
   "discover": {
     "title": "Mission briefing: the 4pm report",
-    "scenario": "It is 3:15pm in Enugu. Your Head of Department wants a report of this morning's staff meeting by 4pm. All you have are rough notes in your phone: half sentences, initials, a figure of ₦380k. Writing it by hand takes an hour. Today you will do it in ten minutes and understand why it works."
+    "scenario": "It is 3:15pm in Enugu. Your Head of Department wants a report of this morning's staff meeting by 4pm. All you have are rough notes in your phone: half sentences, initials, a figure of ₦380k. Writing it by hand takes an hour. Today you will do it in about 20 minutes and understand why it works."
   },
   "keyIdeas": [
     "Give the AI your real material. A worker with empty hands can do nothing.",
