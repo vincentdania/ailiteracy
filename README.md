@@ -25,7 +25,7 @@ pnpm db:seed
 pnpm dev
 ```
 
-The seeder creates two tracks with placeholder lessons. Local mock mode never grants paid access. To exercise checkout, use Paystack **test** credentials and product codes only. Run `pnpm paystack:create-products:test` with a `sk_test_` key to create or find both test products, then add the printed codes to `.env` and rerun `pnpm db:seed`.
+The seeder creates two tracks with placeholder lessons. Local mock mode never grants paid access. To exercise checkout, use Paystack **test** credentials only. Each track's product code is defined in `src/lib/tracks.ts` and sent to Paystack as checkout metadata; no Paystack products are needed.
 
 ## Checks
 

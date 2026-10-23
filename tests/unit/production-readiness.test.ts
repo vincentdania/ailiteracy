@@ -12,8 +12,6 @@ const ready = {
   SHOW_DEMO_CREDENTIALS: "false",
   ADMIN_PREVIEW_ENABLED: "false",
   PAYSTACK_SECRET_KEY: "sk_live_configured",
-  PAYSTACK_SMALL_BUSINESS_PRODUCT_CODE: "PROD_SMALL",
-  PAYSTACK_PROFESSIONALS_PRODUCT_CODE: "PROD_PRO",
 };
 
 describe("production readiness", () => {
@@ -21,10 +19,8 @@ describe("production readiness", () => {
     expect(productionReadinessIssues(ready)).toEqual([]);
   });
 
-  it("requires Paystack and both product codes", () => {
+  it("requires Paystack", () => {
     expect(productionReadinessIssues({ ...ready, PAYSTACK_SECRET_KEY: "" })).toContain("PAYMENT_PROVIDER");
-    expect(productionReadinessIssues({ ...ready, PAYSTACK_SMALL_BUSINESS_PRODUCT_CODE: "" })).toContain("PAYSTACK_SMALL_BUSINESS_PRODUCT_CODE");
-    expect(productionReadinessIssues({ ...ready, PAYSTACK_PROFESSIONALS_PRODUCT_CODE: "" })).toContain("PAYSTACK_PROFESSIONALS_PRODUCT_CODE");
   });
 
   it("rejects mock and placeholder production settings", () => {

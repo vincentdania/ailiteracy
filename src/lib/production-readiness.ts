@@ -27,8 +27,6 @@ export function productionReadinessIssues(environment: Environment = process.env
   if (environment.ADMIN_PREVIEW_ENABLED === "true") issues.push("ADMIN_PREVIEW_ENABLED");
 
   if (!environment.PAYSTACK_SECRET_KEY) issues.push("PAYMENT_PROVIDER");
-  if (!environment.PAYSTACK_SMALL_BUSINESS_PRODUCT_CODE) issues.push("PAYSTACK_SMALL_BUSINESS_PRODUCT_CODE");
-  if (!environment.PAYSTACK_PROFESSIONALS_PRODUCT_CODE) issues.push("PAYSTACK_PROFESSIONALS_PRODUCT_CODE");
 
   return [...new Set(issues)];
 }

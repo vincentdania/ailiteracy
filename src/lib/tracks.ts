@@ -7,6 +7,8 @@ type TrackModule = { title: string; lessons: TrackLesson[] };
 
 export type Track = {
   slug: TrackSlug;
+  /** The site's own product code for this track, sent to Paystack as checkout metadata. */
+  productCode: string;
   audience: string;
   title: string;
   subline: string;
@@ -28,6 +30,7 @@ const foundations: TrackModule = {
 export const TRACKS: readonly Track[] = [
   {
     slug: "small-business",
+    productCode: "HYRAX-ACADEMY-SMALL-BUSINESS",
     audience: "Small business owners",
     title: "Build your own AI team: 5 assistants that handle customers, leads, and reports without writing code",
     subline: "Step-by-step, with copy-and-paste templates. Works with WhatsApp, Gmail, Google Sheets, and Telegram.",
@@ -67,6 +70,7 @@ export const TRACKS: readonly Track[] = [
   },
   {
     slug: "professionals",
+    productCode: "HYRAX-ACADEMY-PROFESSIONALS",
     audience: "Professionals",
     title: "Hire an AI assistant that knows your clients, drafts your proposals, and briefs you every morning",
     subline: "Private, approval-based, and built around your own way of working. Chat with it on WhatsApp or Telegram.",

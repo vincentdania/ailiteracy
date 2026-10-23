@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 
 async function seed() {
   for (const track of TRACKS) {
-    const productCode = process.env[track.slug === "small-business" ? "PAYSTACK_SMALL_BUSINESS_PRODUCT_CODE" : "PAYSTACK_PROFESSIONALS_PRODUCT_CODE"];
     const course = await prisma.course.upsert({
       where: { slug: track.slug },
       update: {
@@ -14,7 +13,7 @@ async function seed() {
         priceNgn: TRACK_PRICE_NGN,
         priceUsd: 0,
         isPublished: true,
-        ...(productCode ? { paystackProductCode: productCode } : {}),
+        paystackProductCode: track.productCode,
       },
       create: {
         slug: track.slug,
@@ -23,7 +22,7 @@ async function seed() {
         priceNgn: TRACK_PRICE_NGN,
         priceUsd: 0,
         isPublished: true,
-        paystackProductCode: productCode,
+        paystackProductCode: track.productCode,
       },
     });
     let dayNumber = 0;

@@ -21,7 +21,7 @@ The live Next.js site already has `PAYSTACK_SECRET_KEY`, `PAYSTACK_PUBLIC_KEY`, 
 - Keep the existing checkout callback URL: `https://learn.hyrax.ng/api/payments/paystack/callback`.
 - Webhook signatures continue to use `PAYSTACK_SECRET_KEY` and the `x-paystack-signature` header. There is no separate Paystack webhook secret to generate or rotate.
 - The callback is now a status redirect. Only a signed webhook followed by server-side Paystack transaction verification grants or renews access. A matching existing webhook registration in the **Paystack live dashboard** is therefore required. Server files and a reachable endpoint do not reveal the URL saved in Paystack's dashboard; check that exact URL there before release. Do not make a live charge to test it.
-- Existing Paystack keys and webhook routing serve both tracks. The only new Paystack configuration is one distinct ₦20,000 product code for each track (`PAYSTACK_SMALL_BUSINESS_PRODUCT_CODE` and `PAYSTACK_PROFESSIONALS_PRODUCT_CODE`).
+- Existing Paystack keys and webhook routing serve both tracks with no new Paystack configuration. Each track's product code is defined on the site in `src/lib/tracks.ts` and sent to Paystack as checkout metadata.
 
 ## Keep Google sign-in and sign-up
 
@@ -31,10 +31,9 @@ The live `.env` has both `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET` configured, a
 
 1. Fill all placeholder lessons and copy-and-paste templates in the seeded tracks. The seed keeps existing lesson Markdown on reruns.
 2. Confirm Support is ready to honour the published policy: a buyer who emails within 24 hours of purchase receives a 100% refund of the track price. Issue refunds through the existing Paystack account and absorb the original transaction charge so the buyer receives the full track price.
-3. In a Paystack **test** account, run `PAYSTACK_SECRET_KEY=sk_test_... pnpm paystack:create-products:test`. Add the two printed product codes to a test `.env` as `PAYSTACK_SMALL_BUSINESS_PRODUCT_CODE` and `PAYSTACK_PROFESSIONALS_PRODUCT_CODE`.
-4. Test each track checkout with test keys, signed webhook delivery to `/api/webhooks/paystack`, duplicate delivery, renewal, and expiry. Never use a live key for these tests.
-5. Confirm the existing live Paystack dashboard webhook registration points to `https://learn.hyrax.ng/api/webhooks/paystack`. Create two matching ₦20,000 products in that same Paystack account for launch, then set their live product codes in the server `.env`. The setup script intentionally blocks live keys.
-6. Keep existing auth, Paystack keys, callback domain, support, branding and other environment values. Set `INTEGRATION_MODE=live`, `ALLOW_MOCK_CHECKOUT=false`, `FREE_ENROLLMENT_ENABLED=false`, `SHOW_DEMO_CREDENTIALS=false`, and `ADMIN_PREVIEW_ENABLED=false`. Both new product code variables are required.
+3. Test each track checkout with test keys, signed webhook delivery to `/api/webhooks/paystack`, duplicate delivery, renewal, and expiry. Never use a live key for these tests.
+4. Confirm the existing live Paystack dashboard webhook registration points to `https://learn.hyrax.ng/api/webhooks/paystack`.
+5. Keep existing auth, Paystack keys, callback domain, support, branding and other environment values. Set `INTEGRATION_MODE=live`, `ALLOW_MOCK_CHECKOUT=false`, `FREE_ENROLLMENT_ENABLED=false`, `SHOW_DEMO_CREDENTIALS=false`, and `ADMIN_PREVIEW_ENABLED=false`.
 
 ## Deploy
 
