@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Script from "next/script";
-import { ArrowRight, Check, LockKeyhole } from "lucide-react";
+import { ArrowDown, ArrowRight, Check, LockKeyhole } from "lucide-react";
 import { AcademyLockup } from "@/components/brand/hyrax-logo";
 import { AcademyPhoto, AssistantExample } from "@/components/marketing/academy-images";
 import { MarketingNav } from "@/components/marketing/nav";
@@ -59,8 +59,9 @@ export default function HomePage() {
           <div>
             <p className="eyebrow text-[#8b4c1d]">Hyrax AI Academy</p>
             <h1 className="display mt-5 max-w-3xl text-[clamp(2.125rem,4vw,3.5rem)] text-[#10294f]">Put AI to work in your business or job.</h1>
-            <p className="mt-6 max-w-2xl text-[17px] leading-[1.6] text-[#394b63]">Build useful assistants around your business and the work you already do, with guided setup, lessons, ready-made templates and stay in control. Pick your track</p>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <p className="mt-6 max-w-2xl text-[17px] leading-[1.6] text-[#394b63]">Build useful assistants around your business and the work you already do, with guided setup, lessons, ready-made templates and stay in control.</p>
+            <p className="mt-7 flex items-center gap-2 text-lg font-semibold text-[#10294f]"><strong>Pick your track</strong><ArrowDown aria-hidden="true" className="text-[#c8742b]" size={20} /></p>
+            <div className="mt-3 flex flex-col gap-3 sm:flex-row">
               <a href="#small-business" className="focus-ring tap inline-flex items-center justify-center bg-[#10294f] px-6 py-3.5 text-base font-semibold text-white hover:bg-[#1c3a65]">For business owners <ArrowRight className="ml-2" size={18} /></a>
               <a href="#professionals" className="focus-ring tap inline-flex items-center justify-center border border-[#10294f] px-6 py-3.5 text-base font-semibold text-[#10294f] hover:bg-[#f6e7d8]">For professionals <ArrowRight className="ml-2" size={18} /></a>
             </div>
