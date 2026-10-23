@@ -1,0 +1,19 @@
+/* Shared look for lesson figures. Each figure is one .fig element, rendered to PNG by scripts/render-lesson-figures.mjs. */
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Public+Sans:wght@400;600&display=swap");
+:root { --navy: #10294f; --amber: #c8742b; --amber-soft: #f6e7d8; --paper: #faf7f2; --line: #e5ded4; --muted: #4d5768; --green: #146c43; --green-soft: #e6f4ec; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #fff; font-family: "Public Sans", Arial, sans-serif; color: var(--navy); }
+.fig { width: 600px; background: var(--paper); padding: 36px 32px; }
+.eyebrow { font-size: 14px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--amber); }
+h1 { font-family: "Fraunces", Georgia, serif; font-weight: 700; font-size: 32px; line-height: 1.12; letter-spacing: -.02em; margin-top: 8px; }
+h2 { font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 24px; line-height: 1.2; }
+p, li { font-size: 19px; line-height: 1.45; }
+strong { font-weight: 600; }
+.muted { color: var(--muted); }
+.card { background: #fff; border: 1.5px solid var(--line); border-radius: 18px; }
+.num { display: inline-flex; flex: none; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: var(--amber); color: #fff; font-weight: 600; font-size: 18px; }
+.icon { flex: none; width: 56px; height: 56px; border-radius: 14px; background: var(--navy); display: flex; align-items: center; justify-content: center; }
+.icon svg { width: 30px; height: 30px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.arrow { display: flex; justify-content: center; height: 34px; }
+.arrow svg { width: 24px; height: 34px; stroke: var(--amber); stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.label-note { font-size: 13px; color: var(--muted); text-align: right; margin-top: 18px; }

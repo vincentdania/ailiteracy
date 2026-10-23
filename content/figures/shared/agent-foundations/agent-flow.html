@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../../figure.css">
+<style>
+.flow { margin-top: 26px; }
+.step { display: flex; gap: 16px; align-items: flex-start; padding: 16px 20px; }
+.step .tag { font-size: 14px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--amber); }
+.step p.main { font-size: 19px; margin-top: 2px; }
+.bubble { margin-top: 8px; display: inline-block; padding: 8px 12px; border-radius: 12px 12px 12px 4px; background: #eef2f8; font-size: 17px; line-height: 1.4; }
+.bubble.out { border-radius: 12px 12px 4px 12px; background: var(--green-soft); }
+.gate { background: var(--navy); border-color: var(--navy); color: #fff; }
+.gate .tag { color: var(--amber-soft); }
+.buttons { display: flex; gap: 8px; margin-top: 10px; }
+.buttons span { padding: 6px 14px; border-radius: 999px; font-size: 15px; font-weight: 600; border: 1.5px solid rgba(255,255,255,.5); }
+.buttons span.yes { background: #fff; color: var(--navy); border-color: #fff; }
+.side { margin: 8px 0 0 52px; font-size: 16px; color: var(--muted); }
+.done { background: var(--green-soft); border-color: #b9dcc8; }
+.done .tag { color: var(--green); }
+</style></head><body>
+<div class="fig">
+  <p class="eyebrow">Example · Sunrise Bakery</p>
+  <h1>How the five parts work together</h1>
+  <div class="flow">
+    <div class="card step"><span class="num">1</span><div><p class="tag">Trigger</p><p class="main">A customer sends a WhatsApp message.</p><p class="bubble">Hi, do you deliver on Sundays?</p></div></div>
+    <div class="arrow"><svg viewBox="0 0 24 34"><path d="M12 2v28M5 23l7 7 7-7"/></svg></div>
+    <div class="card step"><span class="num">2</span><div><p class="tag">Role + memory</p><p class="main">It reads its job description and the bakery's delivery days.</p></div></div>
+    <div class="arrow"><svg viewBox="0 0 24 34"><path d="M12 2v28M5 23l7 7 7-7"/></svg></div>
+    <div class="card step"><span class="num">3</span><div><p class="tag">Tools</p><p class="main">It checks the delivery sheet in Google Sheets. Read only.</p></div></div>
+    <div class="arrow"><svg viewBox="0 0 24 34"><path d="M12 2v28M5 23l7 7 7-7"/></svg></div>
+    <div class="card step"><span class="num">4</span><div><p class="tag">Draft</p><p class="main">It writes a reply, but does not send it.</p><p class="bubble out">Hi Tunde, yes! We deliver on Sundays from 10am to 2pm.</p></div></div>
+    <div class="arrow"><svg viewBox="0 0 24 34"><path d="M12 2v28M5 23l7 7 7-7"/></svg></div>
+    <div class="card step gate"><span class="num">5</span><div><p class="tag">Approval</p><p class="main">Amaka, the owner, reads the draft on her phone.</p><div class="buttons"><span class="yes">Approve</span><span>Edit</span><span>Reject</span></div></div></div>
+    <p class="side">Edit or Reject: nothing is sent. Amaka fixes it or answers herself.</p>
+    <div class="arrow"><svg viewBox="0 0 24 34"><path d="M12 2v28M5 23l7 7 7-7"/></svg></div>
+    <div class="card step done"><span class="num">6</span><div><p class="tag">Sent</p><p class="main">Only after Approve does the customer get the reply.</p></div></div>
+  </div>
+</div></body></html>
