@@ -58,7 +58,7 @@ export default function HomePage() {
         <div className="container-shell grid gap-10 py-12 sm:py-16 lg:grid-cols-[1.05fr_.95fr] lg:items-center lg:gap-16 lg:py-20">
           <div>
             <p className="eyebrow text-[#8b4c1d]">Hyrax AI Academy</p>
-            <h1 className="display mt-5 max-w-3xl text-[clamp(2.125rem,4vw,3.5rem)] text-[#10294f]">Pick your track. Put AI to work in your business or practice.</h1>
+            <h1 className="display mt-5 max-w-3xl text-[clamp(2.125rem,4vw,3.5rem)] text-[#10294f]">Put AI to work in your business or job.</h1>
             <p className="mt-6 max-w-2xl text-[17px] leading-[1.6] text-[#394b63]">Build assistants for everyday work. Follow guided lessons, use ready-made templates, and stay in control.</p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <a href="#small-business" className="focus-ring tap inline-flex items-center justify-center bg-[#10294f] px-6 py-3.5 text-base font-semibold text-white hover:bg-[#1c3a65]">For business owners <ArrowRight className="ml-2" size={18} /></a>
