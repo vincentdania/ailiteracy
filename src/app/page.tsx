@@ -32,7 +32,7 @@ const faqs = [
   ["Can I take both tracks?", "Yes. Each track is a separate ₦20,000 purchase. Both will appear in your dashboard if you buy both."],
   ["How does three-month access work?", "Access starts when your payment is confirmed and ends three calendar months after the purchase date. You can renew a track after access ends."],
   ["What if I get stuck?", "Use the Support link below. Guided setup lessons are included, and a done-with-you setup is available on request."],
-  ["What is the refund policy?", "TODO: Hyrax must publish its refund policy before launch. Contact Support with any payment concern."],
+  ["What is the refund policy?", "Email Support within 24 hours of purchase for a 100% refund of the track price. Use the email address you used at checkout."],
   ["Is WhatsApp automation allowed?", "Yes, when you use supported WhatsApp Business methods and follow its messaging rules. Get the right customer consent, use approved templates when required, and keep a clear route to a person. The guided setup covers these checks."],
 ] as const;
 

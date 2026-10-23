@@ -62,7 +62,7 @@ export default async function TrackPage({ params }: Props) {
       ["Can I take both tracks?", "Yes. Each track is purchased separately for ₦20,000."],
       ["When does access end?", "Three calendar months after your purchase date. You can renew after it expires."],
       ["What if I need setup help?", "Contact Support for help or request a done-with-you setup."],
-      ["What is the refund policy?", "TODO: Hyrax must publish its refund policy before launch."],
+      ["What is the refund policy?", "Email Support within 24 hours of purchase for a 100% refund of the track price. Use the email address you used at checkout."],
     ].map(([question, answer]) => <details key={question} className="group py-5"><summary className="focus-ring flex cursor-pointer list-none justify-between gap-4 font-display text-xl font-semibold text-[#10294f]">{question}<span aria-hidden="true" className="text-2xl text-[#c8742b] group-open:rotate-45">+</span></summary><p className="mt-4 text-base leading-[1.6] text-[#394b63]">{answer}</p></details>)}</div></div></section>
 
     <section className="border-t-4 border-[#c8742b] bg-[#faf7f2] py-16 sm:py-24"><div className="container-shell"><p className="eyebrow text-[#8b4c1d]">Your next step</p><h2 className={heading + " mt-4 max-w-3xl"}>Start building your {track.slug === "small-business" ? "AI team" : "professional assistant"}.</h2><p className="mt-6 text-base font-semibold text-[#10294f]">₦20,000 · 3 months access</p><Link href={checkout} className="focus-ring tap mt-7 inline-flex items-center bg-[#10294f] px-7 py-3.5 font-semibold text-white hover:bg-[#1c3a65]">Enrol now <ArrowRight className="ml-2" size={18} /></Link></div></section>
