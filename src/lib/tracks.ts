@@ -92,6 +92,7 @@ export const TRACKS: readonly Track[] = [
       "Morning briefing",
       "Meeting notes to action items and follow-up emails",
       "Proposal and client-update drafting",
+      "Virtual mentor board for brainstorming",
     ],
     modules: [
       foundations,
@@ -102,7 +103,8 @@ export const TRACKS: readonly Track[] = [
       { title: "Module 2 · Morning briefings", lessons: [{ slug: "morning-briefing", title: "Build a scheduled morning briefing" }] },
       { title: "Module 3 · Meeting follow-ups", lessons: [{ slug: "meeting-follow-ups", title: "Turn meeting notes into actions and follow-up emails" }] },
       { title: "Module 4 · Proposals and client updates", lessons: [{ slug: "proposal-client-updates", title: "Draft proposals and client updates" }] },
-      { title: "Module 5 · Confidentiality and approvals", lessons: [{ slug: "confidentiality-approvals", title: "Protect client information and approve every action" }] },
+      { title: "Module 5 · Virtual mentors", lessons: [{ slug: "virtual-mentor-board", title: "Build a virtual mentor board to brainstorm ideas" }] },
+      { title: "Module 6 · Confidentiality and approvals", lessons: [{ slug: "confidentiality-approvals", title: "Protect client information and approve every action" }] },
       { title: "Capstone · Launch your assistant", lessons: [{ slug: "professional-capstone", title: "Review, test and launch your assistant" }] },
     ],
   },
