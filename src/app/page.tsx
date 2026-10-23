@@ -59,7 +59,7 @@ export default function HomePage() {
           <div>
             <p className="eyebrow text-[#8b4c1d]">Hyrax AI Academy</p>
             <h1 className="display mt-5 max-w-3xl text-[clamp(2.125rem,4vw,3.5rem)] text-[#10294f]">Put AI to work in your business or job.</h1>
-            <p className="mt-6 max-w-2xl text-[17px] leading-[1.6] text-[#394b63]">Build assistants for everyday work. Follow guided lessons, use ready-made templates, and stay in control.</p>
+            <p className="mt-6 max-w-2xl text-[17px] leading-[1.6] text-[#394b63]">Build useful assistants around your business and the work you already do, with guided setup, lessons, ready-made templates and stay in control. Pick your track</p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <a href="#small-business" className="focus-ring tap inline-flex items-center justify-center bg-[#10294f] px-6 py-3.5 text-base font-semibold text-white hover:bg-[#1c3a65]">For business owners <ArrowRight className="ml-2" size={18} /></a>
               <a href="#professionals" className="focus-ring tap inline-flex items-center justify-center border border-[#10294f] px-6 py-3.5 text-base font-semibold text-[#10294f] hover:bg-[#f6e7d8]">For professionals <ArrowRight className="ml-2" size={18} /></a>
