@@ -2,7 +2,7 @@ import Link from "next/link";
 import Script from "next/script";
 import { ArrowRight, Check, LockKeyhole } from "lucide-react";
 import { AcademyLockup } from "@/components/brand/hyrax-logo";
-import { ImageSlot } from "@/components/marketing/image-slot";
+import { AcademyPhoto, AssistantExample } from "@/components/marketing/academy-images";
 import { MarketingNav } from "@/components/marketing/nav";
 import { ProofPlaceholder } from "@/components/marketing/proof-placeholder";
 import { Button } from "@/components/ui/button";
@@ -59,7 +59,7 @@ export default function HomePage() {
             </div>
             <p className="mt-7 border-l-2 border-[#c8742b] pl-4 text-sm font-semibold leading-6 text-[#394b63]">No coding. Phone or laptop. Pay once, learn for 3 months.</p>
           </div>
-          <ImageSlot kind="photo" brief="Replace with an authentic Academy photo of a Nigerian owner or professional working in their own space." className="min-h-[21rem] lg:min-h-[31rem]" />
+          <AcademyPhoto person="owner" />
         </div>
       </section>
 
@@ -93,7 +93,10 @@ export default function HomePage() {
             </div>)}
           </div>
         </div>
-        <ImageSlot kind="screenshot" brief="Replace with a real, permission-safe capture of an assistant briefing, reply approval, or report. Hide client and customer details." className="mt-12 min-h-[17rem] sm:min-h-[22rem]" />
+        <div className="mt-12 grid gap-6 lg:grid-cols-2">
+          <AssistantExample track="small-business" />
+          <AssistantExample track="professionals" />
+        </div>
       </section>
 
       <section className="bg-[#10294f] py-16 text-white sm:py-24">

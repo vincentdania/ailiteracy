@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, Check } from "lucide-react";
 import { AcademyLockup } from "@/components/brand/hyrax-logo";
-import { ImageSlot } from "@/components/marketing/image-slot";
+import { AssistantExample } from "@/components/marketing/academy-images";
 import { MarketingNav } from "@/components/marketing/nav";
 import { getTrack, TRACKS } from "@/lib/tracks";
 
@@ -45,7 +45,7 @@ export default async function TrackPage({ params }: Props) {
         <div><p className="eyebrow text-[#8b4c1d]">Does this sound familiar?</p><h2 className={heading + " mt-4"}>Your time is caught in repeat work.</h2><ul className="mt-8 divide-y divide-[#e5ded4] border-t border-[#e5ded4]">{track.problems.map((problem) => <li key={problem} className="py-4 text-base leading-[1.6] text-[#394b63]">{problem}</li>)}</ul></div>
         <div><p className="eyebrow text-[#8b4c1d]">What you will build</p><h2 className={heading + " mt-4"}>Assistants you can use in your own setting.</h2><ul className="mt-8 grid gap-4">{track.builds.map((item) => <li key={item} className="flex gap-3 text-base leading-[1.6] text-[#10294f]"><Check className="mt-1 shrink-0 text-[#c8742b]" size={18} />{item}</li>)}</ul></div>
       </div>
-      <ImageSlot kind="screenshot" brief={track.slug === "small-business" ? "Replace with a real capture of a customer reply approval or weekly report. Remove all customer details." : "Replace with a real capture of the morning brief or a proposal draft. Remove all client details."} className="mt-14 min-h-[18rem] sm:min-h-[23rem]" />
+      <AssistantExample track={track.slug === "small-business" ? "small-business" : "professionals"} className="mt-14" />
     </section>
 
     <section className="border-y border-[#e5ded4] bg-[#f2ece4] py-16 sm:py-24">
