@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
+import { Fraunces, Public_Sans } from "next/font/google";
 import "./globals.css";
 import { InstallPrompt } from "@/components/pwa/install-prompt";
 
-// Self-hosted variable fonts (SIL OFL), matching hyrax.ng without a build-time fetch.
-const inter = localFont({ src: "../fonts/inter-latin-wght.woff2", variable: "--font-inter", display: "swap", weight: "100 900" });
-const spaceGrotesk = localFont({ src: "../fonts/space-grotesk-latin-wght.woff2", variable: "--font-space-grotesk", display: "swap", weight: "300 700" });
+const fraunces = Fraunces({ subsets: ["latin"], weight: ["600", "700"], variable: "--font-fraunces", display: "swap" });
+const publicSans = Public_Sans({ subsets: ["latin"], weight: ["400", "600"], variable: "--font-public-sans", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXTAUTH_URL ?? "http://localhost:3000"),
@@ -26,5 +25,5 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#10294f", colorScheme: "light", width: "device-width", initialScale: 1, viewportFit: "cover" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}><body>{children}<InstallPrompt /></body></html>;
+  return <html lang="en" className={`${fraunces.variable} ${publicSans.variable}`}><body>{children}<InstallPrompt /></body></html>;
 }

@@ -1,19 +1,21 @@
 @import "tailwindcss";
 
-/* HYRAX design system, shared with hyrax.ng: brand navy #214889 (logo), action blue #0058be,
-   ink #0b1c30, Space Grotesk for display and Inter for text. Gold is reserved for achievements. */
+/* Academy typography and palette: warm paper, navy ink, and a single amber accent. */
 @theme {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-display: var(--font-space-grotesk), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --color-brand: #214889;
+  --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-weight-bold: 600;
+  --font-weight-extrabold: 600;
+  --font-weight-black: 600;
+  --color-brand: #10294f;
   --color-brand-deep: #10294f;
-  --color-accent: #0058be;
-  --color-accent-soft: #eaf2ff;
-  --color-ink: #0b1c30;
+  --color-accent: #c8742b;
+  --color-accent-soft: #f6e7d8;
+  --color-ink: #10294f;
   --color-muted: #4d5768;
-  --color-line: #dfe5ee;
-  --color-gold: #f2b01e;
-  --color-gold-soft: #fff4d6;
+  --color-line: #e5ded4;
+  --color-gold: #c8742b;
+  --color-gold-soft: #f6e7d8;
   --color-success: #146c43;
   --color-success-soft: #e6f4ec;
   --color-danger: #b3261e;
@@ -32,15 +34,15 @@
 }
 
 :root {
-  --ink: #0b1c30;
+  --ink: #10294f;
   --muted: #4d5768;
-  --paper: #f6f8fb;
+  --paper: #faf7f2;
   --card: #ffffff;
   --forest: #10294f;
-  --forest-light: #214889;
-  --lime: #bcd6ff;
-  --amber: #fec24a;
-  --line: #e2e8f0;
+  --forest-light: #10294f;
+  --lime: #f6e7d8;
+  --amber: #c8742b;
+  --line: #e5ded4;
 }
 
 * { box-sizing: border-box; }
@@ -51,7 +53,7 @@ body {
   background: var(--paper);
   font-family: var(--font-sans);
   font-size: 1.125rem;
-  line-height: 1.65;
+  line-height: 1.6;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
@@ -61,13 +63,12 @@ a { text-decoration: none; }
 button, input, textarea, select { font: inherit; }
 
 .container-shell { width: min(1280px, calc(100% - 2rem)); margin-inline: auto; }
-.eyebrow { font-size: .8125rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--forest-light); }
-.eyebrow-inverse { color: var(--lime); }
+.eyebrow { font-size: .8125rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--forest-light); }
+.eyebrow-inverse { color: #f6e7d8; }
 .eyebrow-gold { color: var(--amber); }
-.display { font-family: var(--font-display); font-weight: 700; letter-spacing: -.03em; line-height: 1.04; }
-.glass { background: rgba(255,255,255,.78); backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,.8); }
+.display { font-family: var(--font-display); font-weight: 700; letter-spacing: -.025em; line-height: 1.1; }
 .card-shadow { box-shadow: 0 10px 35px rgba(16,41,79,.08); }
-.focus-ring:focus-visible { outline: 3px solid rgba(0,88,190,.35); outline-offset: 3px; }
+.focus-ring:focus-visible { outline: 3px solid #c8742b; outline-offset: 3px; }
 
 :where(input, textarea, select):focus-visible {
   border-color: var(--forest) !important;
@@ -110,31 +111,29 @@ button, input, textarea, select { font: inherit; }
 }
 
 /* ---------- Learning experience ---------- */
-.surface { background: #fff; border: 1px solid var(--color-line); border-radius: 1.25rem; box-shadow: 0 1px 2px rgba(11,28,48,.04), 0 10px 30px -18px rgba(11,28,48,.18); }
-.surface-dark { background: radial-gradient(120% 140% at 0% 0%, #214889 0%, #10294f 55%, #07121f 100%); color: #fff; border-radius: 1.5rem; }
+.surface { background: #fff; border: 1px solid var(--color-line); border-radius: 1.25rem; }
+.surface-dark { background: #10294f; color: #fff; border-radius: 1.5rem; }
 .chip { display: inline-flex; align-items: center; gap: .35rem; border-radius: 999px; padding: .3rem .7rem; font-size: .8125rem; font-weight: 700; line-height: 1.2; }
 .tap { min-height: 44px; }
 .xp-bar { height: .6rem; border-radius: 999px; background: #e6edf6; overflow: hidden; }
-.xp-bar > span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #0058be, #4f8ff0); transition: width .8s cubic-bezier(.2,.7,.2,1); }
-.gold-bar > span { background: linear-gradient(90deg, #f2b01e, #ffd36b); }
+.xp-bar > span { display: block; height: 100%; border-radius: inherit; background: #c8742b; transition: width .8s cubic-bezier(.2,.7,.2,1); }
+.gold-bar > span { background: #c8742b; }
 
 @keyframes pop-in { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.08); opacity: 1; } 100% { transform: scale(1); } }
 @keyframes rise { from { transform: translateY(12px); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes shake { 0%, 100% { transform: none; } 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
 @keyframes confetti-fall { 0% { transform: translate3d(0, -10vh, 0) rotate(0); opacity: 1; } 100% { transform: translate3d(var(--drift, 0), 105vh, 0) rotate(720deg); opacity: .9; } }
-@keyframes glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(242,176,30,.0); } 50% { box-shadow: 0 0 0 10px rgba(242,176,30,.18); } }
 .anim-pop { animation: pop-in .5s cubic-bezier(.2,.8,.2,1) both; }
 .anim-rise { animation: rise .45s cubic-bezier(.2,.7,.2,1) both; }
 .anim-shake { animation: shake .4s ease-in-out; }
-.anim-glow { animation: glow 2.4s ease-in-out infinite; }
 .confetti-piece { position: fixed; top: 0; width: 9px; height: 14px; border-radius: 2px; pointer-events: none; z-index: 70; animation: confetti-fall var(--dur, 2.6s) cubic-bezier(.25,.6,.4,1) forwards; }
 
 /* Learners can switch off non-essential motion; the OS reduced-motion setting does the same. */
 html[data-effects="off"] *, html[data-effects="off"] *::before, html[data-effects="off"] *::after { animation: none !important; transition: none !important; }
 html[data-effects="off"] .confetti-piece { display: none; }
 
-.journey-line { position: absolute; left: 1.375rem; top: 2.75rem; bottom: -1.5rem; width: 3px; border-radius: 3px; background: repeating-linear-gradient(to bottom, #cbd5e1 0 6px, transparent 6px 12px); }
-.journey-line.done { background: #0058be; }
+.journey-line { position: absolute; left: 1.375rem; top: 2.75rem; bottom: -1.5rem; width: 3px; border-radius: 3px; background: #e5ded4; }
+.journey-line.done { background: #c8742b; }
 
 @media print {
   body { background: #fff !important; }

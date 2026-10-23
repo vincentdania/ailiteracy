@@ -11,11 +11,11 @@ export const dynamic = "force-dynamic";
 // A4 landscape at about 200 dpi: sharp enough to print and light enough to share.
 const WIDTH = 2339;
 const HEIGHT = 1654;
-const NAVY = "#214889";
-const INK = "#0b1c30";
+const NAVY = "#10294f";
+const INK = "#10294f";
 const MUTED = "#4d5768";
-const GOLD = "#f2b01e";
-const BLUE = "#0058be";
+const GOLD = "#c8742b";
+const BLUE = "#10294f";
 
 let fonts: Promise<{ name: string; data: Buffer; weight: 400 | 600 | 700; style: "normal" | "italic" }[]> | undefined;
 function loadFonts() {

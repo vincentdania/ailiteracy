@@ -46,25 +46,25 @@ export function SharePanel({ id, kind, url, pdfHref, pngHref, shareText, linkedI
   const button = "tap inline-flex items-center justify-center gap-2 rounded-full px-5 text-sm font-bold transition";
   return <div className="no-print grid gap-4">
     <div className="grid gap-2 sm:grid-cols-2">
-      <a href={pngHref} className={`${button} bg-[#0058be] py-3 text-white hover:bg-[#00479b]`}><Download size={17} />Download image (PNG)</a>
+      <a href={pngHref} className={`${button} bg-[#10294f] py-3 text-white hover:bg-[#00479b]`}><Download size={17} />Download image (PNG)</a>
       <a href={linkedInAdd} target="_blank" rel="noreferrer" className={`${button} bg-[#0a66c2] py-3 text-white hover:bg-[#004182]`}><Linkedin size={17} />Add to LinkedIn profile</a>
     </div>
-    <a href={pdfHref} className="-mt-1 inline-flex items-center gap-1.5 text-sm font-bold text-[#0058be] hover:underline"><Download size={15} />Download PDF for printing</a>
+    <a href={pdfHref} className="-mt-1 inline-flex items-center gap-1.5 text-sm font-bold text-[#10294f] hover:underline"><Download size={15} />Download PDF for printing</a>
     <p className="text-xs leading-5 text-[#677284]">“Add to LinkedIn profile” opens the licences and certifications form on LinkedIn, with the name, issuer, date, credential ID and verification link filled in. Check the details, then save them on LinkedIn.</p>
     <div>
-      <p className="text-sm font-bold text-[#0b1c30]">Share</p>
+      <p className="text-sm font-bold text-[#10294f]">Share</p>
       <div className="mt-2 flex flex-wrap gap-2">
-        <a href={links.linkedin} target="_blank" rel="noreferrer" className={`${button} border border-[#cbd5e1] text-[#0b1c30] hover:bg-[#f6f8fb]`}>LinkedIn post</a>
-        <a href={links.facebook} target="_blank" rel="noreferrer" className={`${button} border border-[#cbd5e1] text-[#0b1c30] hover:bg-[#f6f8fb]`}>Facebook</a>
-        <a href={links.whatsapp} target="_blank" rel="noreferrer" className={`${button} border border-[#cbd5e1] text-[#0b1c30] hover:bg-[#f6f8fb]`}>WhatsApp</a>
-        <button type="button" onClick={copy} className={`${button} border border-[#cbd5e1] text-[#0b1c30] hover:bg-[#f6f8fb]`} aria-live="polite">{copied ? <><Check size={16} className="text-[#146c43]" />Link copied</> : <><Copy size={16} />Copy link</>}</button>
-        {canShare && <button type="button" onClick={nativeShare} className={`${button} border border-[#cbd5e1] text-[#0b1c30] hover:bg-[#f6f8fb]`}><Share2 size={16} />More options</button>}
-        <button type="button" onClick={() => window.print()} className={`${button} border border-[#cbd5e1] text-[#0b1c30] hover:bg-[#f6f8fb]`}><Printer size={16} />Print</button>
+        <a href={links.linkedin} target="_blank" rel="noreferrer" className={`${button} border border-[#cbd5e1] text-[#10294f] hover:bg-[#faf7f2]`}>LinkedIn post</a>
+        <a href={links.facebook} target="_blank" rel="noreferrer" className={`${button} border border-[#cbd5e1] text-[#10294f] hover:bg-[#faf7f2]`}>Facebook</a>
+        <a href={links.whatsapp} target="_blank" rel="noreferrer" className={`${button} border border-[#cbd5e1] text-[#10294f] hover:bg-[#faf7f2]`}>WhatsApp</a>
+        <button type="button" onClick={copy} className={`${button} border border-[#cbd5e1] text-[#10294f] hover:bg-[#faf7f2]`} aria-live="polite">{copied ? <><Check size={16} className="text-[#146c43]" />Link copied</> : <><Copy size={16} />Copy link</>}</button>
+        {canShare && <button type="button" onClick={nativeShare} className={`${button} border border-[#cbd5e1] text-[#10294f] hover:bg-[#faf7f2]`}><Share2 size={16} />More options</button>}
+        <button type="button" onClick={() => window.print()} className={`${button} border border-[#cbd5e1] text-[#10294f] hover:bg-[#faf7f2]`}><Printer size={16} />Print</button>
       </div>
     </div>
     <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-[#dfe5ee] p-4">
-      <input type="checkbox" checked={visible} onChange={(e) => { const next = e.target.checked; setVisible(next); startTransition(async () => { await setCertificateVisibilityAction({ id, kind, showName: next }); }); }} className="mt-1 size-4 accent-[#0058be]" />
-      <span className="text-sm leading-6"><strong className="flex items-center gap-2 text-[#0b1c30]">{visible ? <Eye size={15} /> : <EyeOff size={15} />}Show my name on the public verification page</strong><span className="text-[#4d5768]">When this is off, anyone with the link can still confirm the certificate is genuine, but your name is hidden. Your email address is never shown.</span></span>
+      <input type="checkbox" checked={visible} onChange={(e) => { const next = e.target.checked; setVisible(next); startTransition(async () => { await setCertificateVisibilityAction({ id, kind, showName: next }); }); }} className="mt-1 size-4 accent-[#10294f]" />
+      <span className="text-sm leading-6"><strong className="flex items-center gap-2 text-[#10294f]">{visible ? <Eye size={15} /> : <EyeOff size={15} />}Show my name on the public verification page</strong><span className="text-[#4d5768]">When this is off, anyone with the link can still confirm the certificate is genuine, but your name is hidden. Your email address is never shown.</span></span>
     </label>
   </div>;
 }

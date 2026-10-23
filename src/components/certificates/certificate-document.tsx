@@ -3,11 +3,11 @@ import { HYRAX_MARK_PATH, HYRAX_MARK_VIEWBOX, HYRAX_WORDMARK_PATHS, HYRAX_WORDMA
 import { formatIssueDate, ISSUER } from "@/lib/certificates";
 import { qrPath } from "@/lib/qr";
 
-const NAVY = "#214889";
-const INK = "#0b1c30";
+const NAVY = "#10294f";
+const INK = "#10294f";
 const MUTED = "#4d5768";
-const GOLD = "#f2b01e";
-const BLUE = "#0058be";
+const GOLD = "#c8742b";
+const BLUE = "#10294f";
 
 const styles = StyleSheet.create({
   page: { backgroundColor: "#ffffff", color: INK, fontFamily: "Helvetica", padding: 26 },

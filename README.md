@@ -10,6 +10,10 @@ Next.js 15, React 19 and Prisma learning platform for [learn.hyrax.ng](https://l
 - Resend email, optional Google sign-in, reCAPTCHA, PostHog and Web Push
 - Server-gated lessons and public certificate verification
 
+## Typography and visual design
+
+The Academy design rules for future contributors and agents are in [AGENTS.md](AGENTS.md). Fonts are configured in `src/app/layout.tsx` with `next/font/google`: Fraunces 600/700 for headings and Public Sans 400/600 for body and UI, both with `display: "swap"`. The shared palette and type scale live in `src/app/globals.css`. Real photography and product screenshots should replace the labelled `ImageSlot` placeholders only when approved assets are available.
+
 ## Local development
 
 ```bash
