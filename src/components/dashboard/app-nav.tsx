@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Award, LayoutDashboard, Map, Settings, Trophy, Users } from "lucide-react";
+import { Award, LayoutDashboard, Map, Settings } from "lucide-react";
 import { signOut } from "@/lib/auth";
 import { AcademyLockup, HyraxMark } from "@/components/brand/hyrax-logo";
 import { NavLink } from "@/components/dashboard/nav-link";
@@ -8,9 +8,7 @@ import { SignOutButton } from "@/components/dashboard/sign-out-button";
 const navItems = [
   { icon: LayoutDashboard, label: "Home", href: "/dashboard" },
   { icon: Map, label: "Lessons", href: "/challenge" },
-  { icon: Trophy, label: "Achievements", href: "/achievements" },
   { icon: Award, label: "Certificates", href: "/certificates" },
-  { icon: Users, label: "Refer a friend", href: "/referrals" },
 ] as const;
 
 export function AppNav({ role, name }: { role: "USER" | "ADMIN"; name: string }) {
@@ -32,8 +30,8 @@ export function AppNav({ role, name }: { role: "USER" | "ADMIN"; name: string })
         <Link href="/dashboard#settings" className="tap grid size-11 place-items-center rounded-full text-[#4d5768] lg:hidden" aria-label="Settings"><Settings size={20} /></Link>
       </div>
     </aside>
-    <nav className="no-print safe-bottom fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-[#dfe5ee] bg-white/95 px-2 pt-1.5 backdrop-blur lg:hidden" aria-label="Mobile learning navigation">
-      {navItems.slice(0, 4).map(({ icon: Icon, label, href }) => <NavLink key={href} href={href} className="tap flex flex-col items-center justify-center gap-1 rounded-xl py-1.5 text-xs font-bold text-[#677284]" activeClassName="!text-[#0058be]"><Icon size={20} /><span>{label}</span></NavLink>)}
+    <nav className="no-print safe-bottom fixed inset-x-0 bottom-0 z-40 grid grid-cols-3 border-t border-[#dfe5ee] bg-white/95 px-2 pt-1.5 backdrop-blur lg:hidden" aria-label="Mobile learning navigation">
+      {navItems.map(({ icon: Icon, label, href }) => <NavLink key={href} href={href} className="tap flex flex-col items-center justify-center gap-1 rounded-xl py-1.5 text-xs font-bold text-[#677284]" activeClassName="!text-[#0058be]"><Icon size={20} /><span>{label}</span></NavLink>)}
     </nav>
   </>;
 }

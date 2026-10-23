@@ -11,17 +11,20 @@ const ready = {
   ALLOW_MOCK_CHECKOUT: "false",
   SHOW_DEMO_CREDENTIALS: "false",
   ADMIN_PREVIEW_ENABLED: "false",
-  FREE_ENROLLMENT_ENABLED: "true",
+  PAYSTACK_SECRET_KEY: "sk_live_configured",
+  PAYSTACK_SMALL_BUSINESS_PRODUCT_CODE: "PROD_SMALL",
+  PAYSTACK_PROFESSIONALS_PRODUCT_CODE: "PROD_PRO",
 };
 
 describe("production readiness", () => {
-  it("accepts a secure free-enrollment launch", () => {
+  it("accepts the configured two-track payment setup", () => {
     expect(productionReadinessIssues(ready)).toEqual([]);
   });
 
-  it("requires a complete payment path when free enrollment is off", () => {
-    expect(productionReadinessIssues({ ...ready, FREE_ENROLLMENT_ENABLED: "false" })).toContain("PAYMENT_PROVIDER");
-    expect(productionReadinessIssues({ ...ready, FREE_ENROLLMENT_ENABLED: "false", PAYSTACK_SECRET_KEY: "sk_live_configured" })).not.toContain("PAYMENT_PROVIDER");
+  it("requires Paystack and both product codes", () => {
+    expect(productionReadinessIssues({ ...ready, PAYSTACK_SECRET_KEY: "" })).toContain("PAYMENT_PROVIDER");
+    expect(productionReadinessIssues({ ...ready, PAYSTACK_SMALL_BUSINESS_PRODUCT_CODE: "" })).toContain("PAYSTACK_SMALL_BUSINESS_PRODUCT_CODE");
+    expect(productionReadinessIssues({ ...ready, PAYSTACK_PROFESSIONALS_PRODUCT_CODE: "" })).toContain("PAYSTACK_PROFESSIONALS_PRODUCT_CODE");
   });
 
   it("rejects mock and placeholder production settings", () => {

@@ -13,7 +13,6 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "brand:assets": "node scripts/generate-brand-assets.mjs",
-    "validate:content": "node scripts/validate-course-content.mjs",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
@@ -21,7 +20,8 @@
     "db:migrate": "prisma migrate deploy",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "paystack:create-products:test": "tsx scripts/create-paystack-products.ts"
   },
   "dependencies": {
     "@prisma/client": "6.19.3",

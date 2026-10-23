@@ -1,28 +1,38 @@
+import Link from "next/link";
+import { redirect } from "next/navigation";
 import { ShieldCheck } from "lucide-react";
 import { createCheckoutAction } from "@/app/actions/checkout";
-import { activateFreeEnrollmentAction } from "@/app/actions/enrollment";
 import { Button } from "@/components/ui/button";
-import { accessDays, accessStatus, formatAccessDate } from "@/lib/access";
+import { accessStatus, formatAccessDate } from "@/lib/access";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { paystackUsdEnabled } from "@/lib/payments/paystack";
+import { getTrack, TRACKS } from "@/lib/tracks";
 
-const PAYMENT_NOTICES: Record<string, string> = {
-  failed: "We could not confirm your payment. If money left your account, the course will open as soon as Paystack confirms it. If not, please try again.",
-  unavailable: "That payment option is not available right now. Please try again in a few minutes.",
+const notices: Record<string, string> = {
+  unavailable: "Checkout is temporarily unavailable. Please contact support if you need help.",
+  failed: "Payment could not be confirmed. If you were charged, access will open when Paystack confirms it.",
 };
 
-export default async function CheckoutPage({ searchParams }: { searchParams: Promise<{ payment?: string }> }) {
-  const notice = PAYMENT_NOTICES[(await searchParams).payment ?? ""];
+export default async function CheckoutPage({ searchParams }: { searchParams: Promise<{ course?: string; payment?: string }> }) {
   const session = await auth();
-  const previous = session?.user.id ? await db.enrollment.findFirst({ where: { userId: session.user.id, course: { slug: "ai-for-your-work" } }, include: { user: { select: { role: true, profile: { select: { timezone: true } } } } } }) : null;
-  const previousAccess = previous ? accessStatus(previous, new Date(), previous.user.role) : null;
-  const renewal = previousAccess?.kind === "expired" ? `Your ${accessDays()} days of access ended on ${formatAccessDate(previousAccess.endsAt, previous?.user.profile?.timezone)}. Paying again gives you another ${accessDays()} days from today, and your progress and certificates are kept.` : null;
-  const freeEnrollment = process.env.FREE_ENROLLMENT_ENABLED === "true";
-  const mockEnabled = process.env.INTEGRATION_MODE === "mock" && process.env.ALLOW_MOCK_CHECKOUT === "true";
-  const options = [
-    { currency: "NGN", price: "₦20,000", provider: "Paystack", copy: "Pay with a Nigerian card, bank transfer or USSD.", ready: mockEnabled || Boolean(process.env.PAYSTACK_SECRET_KEY) },
-    { currency: "USD", price: "$29", provider: "Paystack", copy: "Pay with a Visa or Mastercard card issued outside Nigeria.", ready: mockEnabled || paystackUsdEnabled() },
-  ].filter((option) => option.ready);
-  return <div className="mx-auto max-w-3xl"><p className="eyebrow">Enrol</p><h1 className="display mt-3 text-6xl">Get full access to the course.</h1><p className="mt-5 max-w-xl text-lg leading-8 text-[#4d5768]">Enrolment opens all 10 days: seven days on your own work, then Agents Week. It also includes the quizzes and a verified certificate when you finish. Your enrolment gives you 90 days of access.</p>{renewal && <p className="mt-6 rounded-xl bg-[#eaf2ff] px-4 py-3 text-sm leading-6 text-[#214889]" data-testid="renewal-note">{renewal}</p>}{notice && <p role="alert" className="mt-6 rounded-xl bg-[#fff4e5] px-4 py-3 text-sm text-[#7a4b00]">{notice}</p>}{freeEnrollment ? <form action={activateFreeEnrollmentAction} className="mt-9 rounded-3xl bg-[#214889] p-8 text-white card-shadow"><p className="eyebrow eyebrow-inverse">Free while we test</p><h2 className="mt-4 font-display text-3xl font-semibold">Start learning for free.</h2><p className="mt-3 text-white/75">You don&apos;t need to enter any payment details.</p><Button size="lg" className="mt-7 w-full bg-[#bcd6ff] text-[#214889] hover:bg-white">Activate free access</Button></form> : options.length > 0 ? <div className={`mt-9 grid gap-5 ${options.length > 1 ? "sm:grid-cols-2" : "mx-auto max-w-sm"}`}>{options.map((option) => <form key={option.currency} action={createCheckoutAction} className="rounded-3xl bg-white p-7 card-shadow"><input type="hidden" name="currency" value={option.currency} /><p className="eyebrow">{option.provider}</p><strong className="mt-4 block text-5xl tracking-tight">{option.price}</strong><p className="my-6 min-h-12 text-sm leading-6 text-[#4d5768]">{option.copy}</p><Button size="lg" className="w-full">Pay in {option.currency}</Button></form>)}</div> : <div className="mt-9 rounded-3xl border border-[#dfe5ee] bg-white p-8 card-shadow"><span className="grid size-12 place-items-center rounded-2xl bg-[#eaf2ff] text-[#214889]"><ShieldCheck /></span><h2 className="mt-5 text-2xl font-black">Payments are not open yet.</h2><p className="mt-3 max-w-xl leading-7 text-[#4d5768]">Your learning plan is saved. Please check back soon to enrol.</p></div>}{mockEnabled && !freeEnrollment && <p className="mt-5 rounded-xl bg-[#eaf2ff] px-4 py-3 text-sm text-[#214889]">Test checkout is on. No payment provider will be contacted and no money will be taken.</p>}</div>;
+  if (!session?.user.id) redirect("/login?next=/checkout");
+  const params = await searchParams;
+  const track = getTrack(params.course ?? "");
+  if (!track) return <div className="mx-auto max-w-4xl"><p className="eyebrow">Choose a track</p><h1 className="display mt-3 text-4xl text-[#10294f]">What would you like to build?</h1><div className="mt-8 grid gap-5 md:grid-cols-2">{TRACKS.map((item) => <article key={item.slug} className="surface p-6"><p className="eyebrow">{item.audience}</p><h2 className="mt-3 font-display text-2xl font-bold">{item.title}</h2><p className="mt-3 text-[#4d5768]">₦20,000 · 3 months access</p><Button asChild className="mt-5"><Link href={`/checkout?course=${item.slug}`}>Choose this track</Link></Button></article>)}</div></div>;
+
+  const [course, previous] = await Promise.all([
+    db.course.findUnique({ where: { slug: track.slug } }),
+    db.enrollment.findFirst({ where: { userId: session.user.id, course: { slug: track.slug } } }),
+  ]);
+  const access = previous ? accessStatus(previous) : null;
+  const ready = Boolean(course?.isPublished && course.paystackProductCode && process.env.PAYSTACK_SECRET_KEY && process.env.INTEGRATION_MODE !== "mock");
+  return <div className="mx-auto max-w-3xl">
+    <Link href={`/tracks/${track.slug}`} className="text-sm font-semibold text-[#214889] underline">Back to track details</Link>
+    <p className="eyebrow mt-8">{track.audience}</p>
+    <h1 className="display mt-3 text-4xl text-[#10294f] sm:text-5xl">{track.title}</h1>
+    <p className="mt-4 text-lg leading-8 text-[#4d5768]">{track.subline}</p>
+    {params.payment && notices[params.payment] && <p role="alert" className="mt-6 rounded-xl bg-[#fff4e5] px-4 py-3 text-sm text-[#7a4b00]">{notices[params.payment]}</p>}
+    {access?.active ? <div className="surface mt-8 p-6"><h2 className="font-display text-2xl font-bold">You have access to this track.</h2><p className="mt-2 text-[#4d5768]">Your lessons are open until {formatAccessDate(access.endsAt)}.</p><Button asChild className="mt-5"><Link href={`/challenge?course=${track.slug}`}>Go to lessons</Link></Button></div>
+      : <div className="surface mt-8 p-6 sm:p-8"><div className="flex items-center gap-3"><ShieldCheck className="text-[#214889]" /><p className="font-semibold">Secure checkout with Paystack</p></div><strong className="mt-5 block font-display text-4xl text-[#10294f]">₦20,000</strong><p className="mt-2 text-sm text-[#4d5768]">One track · 3 months access from purchase · Tool and message costs are paid separately to providers.</p>{previous && <p className="mt-4 text-sm text-[#4d5768]">Your earlier access ended on {formatAccessDate(access!.endsAt)}. Renewing keeps your progress and certificates.</p>}{ready ? <form action={createCheckoutAction} className="mt-6"><input type="hidden" name="course" value={track.slug} /><Button size="lg" className="w-full">Pay ₦20,000 and enrol</Button></form> : <p className="mt-6 rounded-xl bg-[#eaf2ff] p-4 text-sm text-[#214889]">Checkout is being prepared. Contact <a className="font-bold underline" href={`mailto:${process.env.SUPPORT_EMAIL ?? "team@hyrax.ng"}`}>support</a> for an update.</p>}</div>}
+  </div>;
 }

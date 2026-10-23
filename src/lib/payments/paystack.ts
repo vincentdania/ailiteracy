@@ -1,7 +1,6 @@
 import { Currency, PaymentProvider } from "@prisma/client";
+import { db } from "@/lib/db";
 import { processSuccessfulPayment } from "@/lib/payments/process";
-
-export type PaystackCurrency = "NGN" | "USD";
 
 export type PaystackCharge = {
   status: string;
@@ -10,13 +9,9 @@ export type PaystackCharge = {
   // What we asked for at initialize. `amount` also includes Paystack fees when the customer bears them.
   requested_amount?: number;
   currency: string;
+  paid_at?: string | null;
   metadata?: { userId?: string; courseId?: string } | string | null;
 };
-
-// USD needs international payments and a USD settlement account approved on the Paystack dashboard.
-export function paystackUsdEnabled(environment: Record<string, string | undefined> = process.env) {
-  return Boolean(environment.PAYSTACK_SECRET_KEY) && environment.PAYSTACK_USD_ENABLED === "true";
-}
 
 function secretKey() {
   const secret = process.env.PAYSTACK_SECRET_KEY;
@@ -24,7 +19,7 @@ function secretKey() {
   return secret;
 }
 
-export async function initializePaystack(input: { email: string; amount: number; currency: PaystackCurrency; userId: string; courseId: string }) {
+export async function initializePaystack(input: { email: string; amount: number; userId: string; courseId: string; productCode: string }) {
   const response = await fetch("https://api.paystack.co/transaction/initialize", {
     method: "POST",
     headers: { authorization: `Bearer ${secretKey()}`, "content-type": "application/json" },
@@ -32,8 +27,8 @@ export async function initializePaystack(input: { email: string; amount: number;
       email: input.email,
       // Paystack takes the amount in the currency's subunit: kobo for NGN, cents for USD.
       amount: Math.round(input.amount * 100),
-      currency: input.currency,
-      metadata: { userId: input.userId, courseId: input.courseId },
+      currency: "NGN",
+      metadata: { userId: input.userId, courseId: input.courseId, productCode: input.productCode },
       callback_url: `${process.env.NEXTAUTH_URL}/api/payments/paystack/callback`,
     }),
   });
@@ -61,12 +56,25 @@ function chargeMetadata(metadata: PaystackCharge["metadata"]) {
   return metadata;
 }
 
-// Turns a successful Paystack charge (from the webhook or a verify call) into a recorded payment and enrollment.
-// Returns false when the charge is not a successful course payment.
+// Only the signed webhook calls this after a server-to-server verification.
+// A pending order is required; charge metadata alone cannot choose an enrollment.
 export async function recordPaystackCharge(charge: PaystackCharge, rawPayload: unknown) {
-  const { userId, courseId } = chargeMetadata(charge.metadata);
-  const currency = charge.currency === "NGN" ? Currency.NGN : charge.currency === "USD" ? Currency.USD : null;
-  if (charge.status !== "success" || !currency || !userId || !courseId) return false;
-  await processSuccessfulPayment({ userId, courseId, provider: PaymentProvider.PAYSTACK, referenceId: charge.reference, amount: (charge.requested_amount ?? charge.amount) / 100, currency, rawPayload });
+  if (charge.status !== "success" || charge.currency !== "NGN" || !charge.reference) return false;
+  const pending = await db.transaction.findUnique({ where: { referenceId: charge.reference } });
+  if (!pending || pending.provider !== PaymentProvider.PAYSTACK) return false;
+  const metadata = chargeMetadata(charge.metadata);
+  if ((metadata.userId && metadata.userId !== pending.userId) || (metadata.courseId && metadata.courseId !== pending.courseId)) return false;
+  const paidAt = charge.paid_at ? new Date(charge.paid_at) : new Date();
+  if (Number.isNaN(paidAt.getTime())) return false;
+  await processSuccessfulPayment({
+    userId: pending.userId,
+    courseId: pending.courseId,
+    provider: PaymentProvider.PAYSTACK,
+    referenceId: charge.reference,
+    amount: (charge.requested_amount ?? charge.amount) / 100,
+    currency: Currency.NGN,
+    purchasedAt: paidAt,
+    rawPayload,
+  });
   return true;
 }

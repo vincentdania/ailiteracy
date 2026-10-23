@@ -1,157 +1,64 @@
-import Image from "next/image";
 import Link from "next/link";
-import { AcademyLockup } from "@/components/brand/hyrax-logo";
 import Script from "next/script";
-import {
-  ArrowRight,
-  BarChart3,
-  BookOpenCheck,
-  BriefcaseBusiness,
-  Clock3,
-  GraduationCap,
-  Lightbulb,
-  MapPin,
-  Palette,
-  ShieldCheck,
-  Store,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowRight, Check, LockKeyhole, ShieldCheck, Smartphone } from "lucide-react";
+import { AcademyLockup } from "@/components/brand/hyrax-logo";
 import { MarketingNav } from "@/components/marketing/nav";
-import { PricingToggle } from "@/components/marketing/pricing-toggle";
-import { Syllabus } from "@/components/marketing/syllabus";
-import { CASE_STUDIES } from "@/lib/personalization/case-studies";
-import { getCourseOutline } from "@/lib/course-outline";
-import { paystackUsdEnabled } from "@/lib/payments/paystack";
+import { ProofPlaceholder } from "@/components/marketing/proof-placeholder";
+import { Button } from "@/components/ui/button";
+import { TRACKS, TRACK_PRICE_NGN, type Track } from "@/lib/tracks";
 
-// Rendered per request so the USD price follows PAYSTACK_USD_ENABLED at runtime, as checkout does.
-export const dynamic = "force-dynamic";
+const support = `mailto:${process.env.SUPPORT_EMAIL ?? "team@hyrax.ng"}?subject=${encodeURIComponent("Done-with-you AI setup")}`;
 
-function courseSchema(showUsd: boolean) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Course",
-    name: "AI for Your Work in 10 Days",
-    description: "A step-by-step, no-code course. Use free AI tools on your phone to finish reports, emails, documents and decisions faster, then turn your Personal AI Playbook into a working agent. Built for Nigerian working people, with nothing technical assumed.",
-    provider: { "@type": "Organization", name: "Hyrax AI Academy" },
-    educationalLevel: "Beginner",
-    timeRequired: "P10D",
-    offers: [
-      { "@type": "Offer", price: "20000", priceCurrency: "NGN" },
-      ...(showUsd ? [{ "@type": "Offer", price: "29", priceCurrency: "USD" }] : []),
-    ],
-  };
+function TrackCard({ track }: { track: Track }) {
+  return <article id={track.slug} className="scroll-mt-28 rounded-[2rem] border border-[#d5e0ee] bg-white p-6 shadow-[0_18px_50px_-30px_rgba(16,41,79,.22)] sm:p-8">
+    <p className="eyebrow">{track.audience}</p>
+    <h3 className="mt-4 font-display text-[clamp(1.7rem,3vw,2.35rem)] font-bold leading-tight tracking-[-.03em] text-[#10294f]">{track.title}</h3>
+    <p className="mt-4 leading-7 text-[#4d5768]">{track.subline}</p>
+    <ul className="mt-6 grid gap-3">{track.outcomes.map((outcome) => <li key={outcome} className="flex gap-3 text-sm leading-6 text-[#26324a]"><Check aria-hidden="true" className="mt-1 shrink-0 text-[#146c43]" size={17} />{outcome}</li>)}</ul>
+    <div className="mt-7 border-t border-[#e2e8f0] pt-6"><div className="flex flex-wrap items-end justify-between gap-3"><strong className="font-display text-4xl text-[#10294f]">₦{TRACK_PRICE_NGN.toLocaleString("en-NG")}</strong><span className="rounded-full bg-[#eaf2ff] px-3 py-1.5 text-xs font-bold text-[#214889]">3 months access</span></div><Button asChild size="lg" className="mt-5 w-full"><Link href={`/checkout?course=${track.slug}`}>Enrol now <ArrowRight className="ml-2" size={17} /></Link></Button><Link href={`/tracks/${track.slug}`} className="mt-4 block text-center text-sm font-bold text-[#214889] underline underline-offset-4">See the full track</Link></div>
+  </article>;
 }
 
-const tracks = [
-  [BriefcaseBusiness, "Work", "Reports, briefs and follow-ups in minutes."],
-  [Store, "Business", "Customer replies, quotes and adverts whenever you need them."],
-  [Palette, "Creativity", "Draft, revise and post content in your own voice."],
-  [BarChart3, "Numbers", "Build a spreadsheet by describing what you need. No formulas."],
-  [Lightbulb, "Entrepreneurship", "A month of posts and your key business documents in one sitting."],
-  [GraduationCap, "Education", "Lesson plans, marking feedback and research."],
+const faqs = [
+  ["Do I need to know how to code?", "No. The lessons use guided, no-code setup and copy-and-paste templates. You follow the build along on a phone or laptop."],
+  ["Which tools will I use, and what do they cost?", "The owners track uses n8n with WhatsApp, Gmail, Google Sheets and Telegram. The professionals track uses Hermes with WhatsApp or Telegram. Both involve a guided hosting step. Tool, hosting and message costs vary and are paid separately to the providers."],
+  ["Can I take both tracks?", "Yes. Each track is a separate ₦20,000 purchase. Both will appear in your dashboard if you buy both."],
+  ["How does three-month access work?", "Access starts when your payment is confirmed and ends three calendar months after the purchase date. You can renew a track after access ends."],
+  ["What if I get stuck?", "Use the Support link below. Guided setup lessons are included, and a done-with-you setup is available on request."],
+  ["What is the refund policy?", "TODO: Hyrax must publish its refund policy before launch. Contact Support with any payment concern."],
+  ["Is WhatsApp automation allowed?", "Yes, when you use supported WhatsApp Business methods and follow its messaging rules. Get the right customer consent, use approved templates when required, and keep a clear route to a person. The guided setup covers these checks."],
 ] as const;
 
 export default function HomePage() {
-  const showUsd = paystackUsdEnabled();
-  const schema = courseSchema(showUsd);
-  return (
-    <>
-      <Script id="course-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <MarketingNav />
-      <main>
-        <section className="container-shell grid min-h-[calc(100svh-72px)] items-center gap-10 py-12 md:grid-cols-2 md:py-20">
-          <div className="max-w-2xl">
-            <p className="eyebrow mb-5">10 days · No code · Free tools · Phone or laptop</p>
-            <h1 className="display text-[clamp(2.25rem,7vw,5.25rem)] text-[#0b1c30]">
-              Expand your capabilities.<br />
-              Make AI work for you.
-            </h1>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-[#4d5768]">
-              Use free AI tools to finish reports, emails, documents and decisions faster. You learn step by step on your phone, and nothing technical is assumed. By the end, you have finished work to show and your first working agent.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button asChild size="lg"><Link href="/signup">Start learning <ArrowRight className="ml-2" size={18} /></Link></Button>
-              <Button asChild size="lg" variant="secondary"><a href="#how-it-works">See how it works</a></Button>
-            </div>
-          </div>
+  const schemas = TRACKS.map((track) => ({
+    "@context": "https://schema.org", "@type": "Course", name: track.title, description: track.subline,
+    provider: { "@type": "Organization", name: "Hyrax AI Academy" },
+    offers: { "@type": "Offer", price: String(TRACK_PRICE_NGN), priceCurrency: "NGN", url: `https://learn.hyrax.ng/tracks/${track.slug}` },
+  }));
+  return <>
+    <Script id="track-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
+    <MarketingNav />
+    <main>
+      <section className="overflow-hidden bg-[#10294f] text-white"><div className="container-shell grid gap-10 py-16 sm:py-20 lg:grid-cols-[1.25fr_.75fr] lg:items-center lg:py-28"><div><p className="eyebrow eyebrow-inverse">Hyrax AI Academy</p><h1 className="display mt-5 max-w-4xl text-[clamp(2.7rem,6vw,5.7rem)] leading-[1.03]">Pick your track. Put AI to work in your business or practice.</h1><p className="mt-6 max-w-2xl text-lg leading-8 text-white/80">Build useful assistants around the work you already do, with guided setup, practical templates and your approval at every step.</p><div className="mt-8 flex flex-col gap-3 sm:flex-row"><a href="#small-business" className="tap inline-flex items-center justify-center rounded-full bg-[#f2b01e] px-6 py-3.5 font-bold text-[#10294f]">For business owners <ArrowRight className="ml-2" size={18} /></a><a href="#professionals" className="tap inline-flex items-center justify-center rounded-full border border-white/50 px-6 py-3.5 font-bold text-white">For professionals <ArrowRight className="ml-2" size={18} /></a></div><p className="mt-7 flex items-center gap-2 text-sm font-semibold text-white/75"><Smartphone size={17} />No coding. Phone or laptop. Pay once, learn for 3 months.</p></div><div className="rounded-[2rem] border border-white/15 bg-white/8 p-6 sm:p-8"><p className="text-sm font-bold uppercase tracking-[.16em] text-[#bcd6ff]">Choose the work you want help with</p><div className="mt-6 grid gap-4">{TRACKS.map((track, index) => <a key={track.slug} href={`#${track.slug}`} className="group rounded-2xl border border-white/15 bg-white/10 p-5 transition hover:bg-white/15"><span className="text-xs font-bold text-[#ffd36b]">0{index + 1} · {track.audience}</span><strong className="mt-2 block font-display text-xl leading-7">{track.tool}</strong><span className="mt-3 inline-flex items-center gap-2 text-sm text-white/75">Explore track <ArrowRight size={15} /></span></a>)}</div></div></div></section>
 
-          <div className="relative min-h-[28rem] overflow-hidden rounded-2xl border border-[#cbd5e1]/50 bg-white shadow-sm md:min-h-[35rem]">
-            <Image
-              src="/images/nigerian-professionals-learning.jpg"
-              alt="Two Nigerian professionals learning together in a Lagos workspace"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-x-4 bottom-4 rounded-xl bg-[#10294f]/92 p-4 text-white backdrop-blur sm:inset-x-6 sm:bottom-6 sm:p-5">
-              <p className="text-xs font-bold uppercase tracking-[.16em] text-[#bcd6ff]">Built for Africa</p>
-              <p className="mt-2 font-display text-lg leading-6">Local examples. Real tasks from your job.</p>
-            </div>
-          </div>
-        </section>
+      <section aria-labelledby="tracks-title" className="container-shell py-16 sm:py-20"><div className="max-w-2xl"><p className="eyebrow">Two practical tracks</p><h2 id="tracks-title" className="display mt-3 text-4xl text-[#10294f] sm:text-5xl">Choose the assistant you need first.</h2><p className="mt-4 leading-7 text-[#4d5768]">Start with one track or take both. Each purchase covers that track for three months.</p></div><div className="mt-9 grid gap-6 lg:grid-cols-2">{TRACKS.map((track) => <TrackCard key={track.slug} track={track} />)}</div></section>
 
-        <section aria-label="Free preview" className="container-shell py-10 md:py-12">
-          <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-[#d5e0ee] bg-[#eaf2ff] p-6 sm:flex-row sm:items-center sm:p-8">
-            <div className="max-w-xl">
-              <p className="eyebrow">Free preview</p>
-              <h2 className="display mt-2 text-3xl text-[#0b1c30] sm:text-4xl">Try Day 1 free</h2>
-              <p className="mt-3 leading-7 text-[#4d5768]">No account or payment needed. In about 20 minutes, you turn rough meeting notes into a finished report, so you can see how the course works before you pay.</p>
-            </div>
-            <Link href="/challenge/tracka-01" className="inline-flex shrink-0 items-center rounded-full bg-[#10294f] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#214889]">Read Day 1 free <ArrowRight className="ml-2" size={16} /></Link>
-          </div>
-        </section>
+      <section className="bg-[#eef3fb] py-16 sm:py-20"><div className="container-shell"><p className="eyebrow">Does this sound familiar?</p><h2 className="display mt-3 text-4xl text-[#10294f] sm:text-5xl">The work keeps coming. Your day does not get longer.</h2><div className="mt-9 grid gap-5 md:grid-cols-2">{TRACKS.map((track) => <article key={track.slug} className="rounded-3xl bg-white p-6 sm:p-8"><h3 className="font-display text-2xl font-bold text-[#10294f]">{track.audience}</h3><ul className="mt-5 grid gap-4">{track.problems.map((problem) => <li key={problem} className="border-l-4 border-[#f2b01e] pl-4 leading-7 text-[#4d5768]">{problem}</li>)}</ul></article>)}</div></div></section>
 
-        <section aria-label="Programme benefits" className="border-y border-[#cbd5e1]/45 bg-white/60">
-          <div className="container-shell grid gap-6 py-9 sm:grid-cols-3">
-            {[
-              [Clock3, "20–30 minutes a day", "Fits around your work"],
-              [BookOpenCheck, "Learn by doing", "One real task each day"],
-              [ShieldCheck, "Verified certificate", "Anyone can check it online"],
-            ].map(([Icon, title, copy]) => {
-              const ItemIcon = Icon as typeof Clock3;
-              return <div key={String(title)} className="flex items-center gap-4"><span className="grid size-12 shrink-0 place-items-center rounded-full bg-[#edf1f6] text-[#0b1c30]"><ItemIcon size={20} strokeWidth={1.7} /></span><div><h2 className="font-bold text-[#0b1c30]">{String(title)}</h2><p className="mt-1 text-xs text-[#677284]">{String(copy)}</p></div></div>;
-            })}
-          </div>
-        </section>
+      <section className="container-shell py-16 sm:py-20"><p className="eyebrow">What you will build</p><h2 className="display mt-3 text-4xl text-[#10294f] sm:text-5xl">Working assistants, built around real tasks.</h2><div className="mt-9 grid gap-6 lg:grid-cols-2">{TRACKS.map((track) => <article key={track.slug} className="surface p-6 sm:p-8"><h3 className="font-display text-2xl font-bold text-[#10294f]">{track.audience}</h3><p className="mt-2 text-sm font-semibold text-[#214889]">{track.tool}</p><ol className="mt-5 grid gap-3">{track.builds.map((item, index) => <li key={item} className="flex gap-4 border-t border-[#e2e8f0] pt-3 text-[#26324a]"><span className="font-display font-bold text-[#8fb0e0]">{String(index + 1).padStart(2, "0")}</span>{item}</li>)}</ol></article>)}</div></section>
 
-        <section id="how-it-works" className="container-shell py-20 md:py-28">
-          <div className="grid gap-12 lg:grid-cols-[.78fr_1.22fr]">
-            <div>
-              <p className="eyebrow">How it works</p>
-              <h2 className="display mt-4 text-5xl text-[#0b1c30]">Your own work, one step at a time.</h2>
-            </div>
-            <div className="grid gap-px overflow-hidden rounded-2xl border border-[#e2e8f0] bg-[#e2e8f0] md:grid-cols-3">
-              {[
-                ["01", "Start free", "On Day 1, you turn rough notes into a finished report. It takes about 20 minutes, it is free, and you don't need an account."],
-                ["02", "Seven days of real tasks", "Reports, emails, long documents and a month of posts. Each day, you use AI on one task from your own job."],
-                ["03", "Agents Week", "Over the last three days, you turn your Personal AI Playbook into a working agent with instructions, memory and a weekly routine. Finish the course to earn your certificate."],
-              ].map(([number, title, copy]) => <article key={number} className="bg-white p-7"><span className="font-display text-4xl text-[#8fb0e0]">{number}</span><h3 className="mt-8 font-display text-2xl font-semibold text-[#0b1c30]">{title}</h3><p className="mt-3 text-sm leading-6 text-[#4d5768]">{copy}</p></article>)}
-            </div>
-          </div>
-        </section>
+      <section className="bg-[#10294f] py-16 text-white sm:py-20"><div className="container-shell grid gap-8 md:grid-cols-[auto_1fr] md:items-start"><span className="grid size-14 place-items-center rounded-2xl bg-white/10"><ShieldCheck size={29} /></span><div><p className="eyebrow eyebrow-inverse">Safety and trust</p><h2 className="display mt-3 max-w-3xl text-4xl sm:text-5xl">Your assistant works with you in charge.</h2><div className="mt-6 grid gap-4 text-white/80 sm:grid-cols-3"><p>Every workflow has a human approval step.</p><p>Nothing is sent without your say-so.</p><p>You control what your assistant can access.</p></div><p className="mt-6 max-w-3xl text-sm leading-7 text-white/70">Professionals also learn how to handle client confidentiality, limit access and review drafts before anything leaves their workspace.</p></div></div></section>
 
-        <section id="outcomes" className="bg-[#f2f3ff] py-20 md:py-28">
-          <div className="container-shell">
-            <div className="max-w-2xl"><p className="eyebrow">Where you&apos;ll use it</p><h2 className="display mt-4 text-5xl text-[#0b1c30]">Use it in the work you already do.</h2></div>
-            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {tracks.map(([Icon, title, copy]) => <article key={title} className="editorial-card p-6 transition hover:-translate-y-0.5 hover:shadow-md"><span className="grid size-10 place-items-center rounded-lg bg-[#f2f3ff] text-[#0b1c30]"><Icon size={19} strokeWidth={1.7} /></span><h3 className="mt-5 font-display text-2xl font-semibold text-[#0b1c30]">{title}</h3><p className="mt-2 text-sm leading-6 text-[#4d5768]">{copy}</p></article>)}
-            </div>
-          </div>
-        </section>
+      <section id="how-it-works" className="container-shell scroll-mt-24 py-16 sm:py-20"><p className="eyebrow">How it works</p><h2 className="display mt-3 text-4xl text-[#10294f] sm:text-5xl">From first lesson to your first assistant.</h2><div className="mt-9 grid gap-4 md:grid-cols-3">{[["01", "Pick your track", "Choose the business or professional path. Buy one or both."], ["02", "Build along", "Follow guided lessons and copy-and-paste templates, including the hosting setup."], ["03", "Launch your assistant", "Test each workflow, approve its actions and put it to work in your own setting."]].map(([number, title, copy]) => <article key={number} className="surface p-6"><span className="font-display text-4xl font-bold text-[#8fb0e0]">{number}</span><h3 className="mt-6 font-display text-2xl font-bold text-[#10294f]">{title}</h3><p className="mt-3 leading-7 text-[#4d5768]">{copy}</p></article>)}</div></section>
 
-        <section className="bg-[#10294f] py-20 text-white md:py-24">
-          <div className="container-shell grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
-            <div><p className="eyebrow eyebrow-inverse">African case studies</p><h2 className="display mt-4 text-5xl">See how African organisations use AI.</h2></div>
-            <div className="grid gap-4 sm:grid-cols-2">{CASE_STUDIES.slice(0, 4).map((item) => <a key={item.slug} href={item.sourceUrl} target="_blank" rel="noreferrer" className="rounded-2xl border border-white/12 bg-white/6 p-6 transition hover:bg-white/10"><p className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#bcd6ff]"><MapPin size={13} />{item.region} · {item.sector}</p><h3 className="mt-3 font-display text-xl font-semibold">{item.name}</h3></a>)}</div>
-          </div>
-        </section>
+      <section className="bg-[#eef3fb] py-16 sm:py-20"><div className="container-shell grid gap-8 lg:grid-cols-[.85fr_1.15fr]"><div><p className="eyebrow">What is included</p><h2 className="display mt-3 text-4xl text-[#10294f] sm:text-5xl">The guidance to build it yourself.</h2><p className="mt-4 leading-7 text-[#4d5768]">n8n and Hermes each involve a guided hosting step. If you would rather set it up together, a done-with-you setup is available on request.</p><a href={support} className="mt-5 inline-flex items-center gap-2 font-bold text-[#214889] underline underline-offset-4">Request done-with-you setup <ArrowRight size={17} /></a></div><ul className="grid gap-3 sm:grid-cols-2">{["Copy-and-paste templates", "Step-by-step build-alongs", "Guided n8n and Hermes setup", "Guided WhatsApp Business setup for owners", "Certificate of completion", "3 months access per track"].map((item) => <li key={item} className="flex gap-3 rounded-2xl bg-white p-5 font-semibold text-[#10294f]"><Check className="shrink-0 text-[#146c43]" size={19} />{item}</li>)}</ul></div></section>
 
-        <section id="syllabus" className="container-shell py-20 md:py-28"><div className="mx-auto mb-12 max-w-2xl text-center"><p className="eyebrow">Course outline</p><h2 className="display mt-4 text-5xl text-[#0b1c30]">Seven days on your own work. Three days to build your first agent.</h2></div><Syllabus modules={getCourseOutline()} /></section>
+      <section className="container-shell py-16 sm:py-20"><div className="grid gap-6 md:grid-cols-2"><article className="surface p-6 sm:p-8"><h2 className="font-display text-3xl font-bold text-[#10294f]">Who it is for</h2><p className="mt-4 leading-7 text-[#4d5768]">Owners and professionals ready to work through guided setup, test their own workflows and decide what an assistant may do.</p></article><article className="surface p-6 sm:p-8"><h2 className="font-display text-3xl font-bold text-[#10294f]">Who it is not for</h2><p className="mt-4 leading-7 text-[#4d5768]">Anyone expecting a ready-made assistant without setup, or wanting messages to go out without reviewing and approving them.</p></article></div><ProofPlaceholder /></section>
 
-        <section id="pricing" className="border-t border-[#e2e8f0] bg-white py-20 md:py-28"><div className="container-shell"><div className="mb-12 text-center"><p className="eyebrow">Simple pricing</p><h2 className="display mt-4 text-5xl text-[#0b1c30]">One course. One payment.</h2></div><PricingToggle showUsd={showUsd} /></div></section>
-      </main>
-      <footer className="safe-bottom bg-[#10294f] py-10 text-white"><div className="container-shell flex flex-col justify-between gap-5 text-sm sm:flex-row sm:items-center"><span className="grid gap-2"><span className="text-xl"><AcademyLockup inverse /></span><span className="text-xs font-bold uppercase tracking-[.18em] text-white/60">HYRAX · The AI Enablement Company.</span></span><nav aria-label="Footer" className="flex gap-5 text-white/70"><Link href="/login">Sign in</Link><a href="mailto:team@hyrax.ng">Support</a></nav></div></footer>
-    </>
-  );
+      <section className="bg-white py-16 sm:py-20"><div className="container-shell max-w-4xl"><p className="eyebrow">FAQ</p><h2 className="display mt-3 text-4xl text-[#10294f] sm:text-5xl">Good questions before you begin.</h2><div className="mt-8 divide-y divide-[#dfe5ee] border-y border-[#dfe5ee]">{faqs.map(([question, answer]) => <details key={question} className="group py-5"><summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-lg font-bold text-[#10294f] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#214889]">{question}<span aria-hidden="true" className="text-2xl text-[#214889] group-open:rotate-45">+</span></summary><p className="mt-3 max-w-3xl leading-7 text-[#4d5768]">{answer}</p></details>)}</div><p className="mt-4 text-xs text-[#677284]">WhatsApp rules can change. Check the <a href="https://business.whatsapp.com/policy/" target="_blank" rel="noreferrer" className="underline">current WhatsApp Business Messaging Policy</a> before launch.</p></div></section>
+
+      <section className="bg-[#10294f] py-16 text-white sm:py-20"><div className="container-shell"><p className="eyebrow eyebrow-inverse">Ready to begin?</p><h2 className="display mt-3 max-w-3xl text-4xl sm:text-5xl">Choose the work you want your assistant to handle.</h2><div className="mt-8 grid gap-4 md:grid-cols-2">{TRACKS.map((track) => <div key={track.slug} className="rounded-3xl border border-white/20 bg-white/10 p-6"><p className="text-sm font-bold text-[#bcd6ff]">{track.audience}</p><h3 className="mt-3 font-display text-2xl font-bold">{track.title}</h3><p className="mt-4 text-lg font-bold">₦20,000 · 3 months access</p><Link href={`/checkout?course=${track.slug}`} className="tap mt-5 inline-flex items-center rounded-full bg-[#f2b01e] px-6 py-3 font-bold text-[#10294f]">Enrol now <ArrowRight className="ml-2" size={17} /></Link></div>)}</div><p className="mt-7 flex items-center gap-2 text-sm text-white/70"><LockKeyhole size={15} />Lessons open after your payment is confirmed.</p></div></section>
+    </main>
+    <footer className="safe-bottom bg-[#10294f] py-10 text-white"><div className="container-shell flex flex-col justify-between gap-5 border-t border-white/15 pt-8 text-sm sm:flex-row sm:items-center"><span className="grid gap-2"><span className="text-xl"><AcademyLockup inverse /></span><span className="text-xs font-bold uppercase tracking-[.18em] text-white/60">HYRAX · The AI Enablement Company.</span></span><nav aria-label="Footer" className="flex gap-5 text-white/70"><Link href="/login">Sign in</Link><a href={`mailto:${process.env.SUPPORT_EMAIL ?? "team@hyrax.ng"}`}>Support</a></nav></div></footer>
+  </>;
 }
