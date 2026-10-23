@@ -30,7 +30,8 @@ FROM base AS migrator
 COPY --from=deps /app/node_modules ./node_modules
 COPY package.json pnpm-workspace.yaml tsconfig.json ./
 COPY prisma ./prisma
-COPY data ./data
+# The seed reads the track definitions.
+COPY src/lib/tracks.ts ./src/lib/tracks.ts
 
 FROM node:22-alpine AS runner
 ENV NODE_ENV=production
@@ -42,7 +43,6 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
-COPY --from=builder --chown=nextjs:nodejs /app/data ./data
 COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
 USER nextjs
 EXPOSE 3000

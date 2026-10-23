@@ -5,14 +5,6 @@ import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 
-export async function setEffectsAction(input: { effectsEnabled: boolean; soundEnabled: boolean }) {
-  const session = await auth();
-  if (!session?.user.id) return { ok: false };
-  await db.user.update({ where: { id: session.user.id }, data: { effectsEnabled: !!input.effectsEnabled, soundEnabled: !!input.soundEnabled } });
-  revalidatePath("/dashboard");
-  return { ok: true };
-}
-
 const nameSchema = z.string().trim().min(2, "Enter your full name.").max(80, "Keep it under 80 characters.").regex(/^[\p{L}\p{M}' .-]+$/u, "Use letters, spaces, hyphens and apostrophes only.");
 
 /** The full name printed on certificates. Updating it also corrects certificates already issued. */

@@ -44,6 +44,9 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 2592000,
     remotePatterns: [],
   },
+  async redirects() {
+    return ["/join", "/hermes-agent", "/onboarding", "/referrals", "/achievements"].map((source) => ({ source, destination: "/", statusCode: 301 }));
+  },
   async headers() {
     return [{
       source: "/:path*",

@@ -137,6 +137,7 @@ model Course {
   description        String
   priceNgn           Decimal             @db.Decimal(12, 2)
   priceUsd           Decimal             @db.Decimal(10, 2)
+  paystackProductCode String?             @unique
   isPublished        Boolean             @default(false)
   modules            Module[]
   enrollments        Enrollment[]
@@ -214,6 +215,7 @@ model Enrollment {
   user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   course            Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
   enrolledAt        DateTime         @default(now())
+  purchasedAt       DateTime         @default(now())
   status            EnrollmentStatus @default(ACTIVE)
   unlockedDay       Int              @default(1)
   completedDays     Int[]            @default([])
@@ -222,7 +224,7 @@ model Enrollment {
   completedAt       DateTime?
   capstonePassed    Boolean          @default(false)
   assessmentScore   Int?
-  /// When paid access ends. Set to the payment (or enrolment) date plus ACCESS_DAYS.
+  /// When paid access ends. Set to purchasedAt plus ACCESS_MONTHS calendar months.
   expiresAt         DateTime?
   /// Granted by an admin: access never ends while this is true.
   lifetimeAccess    Boolean          @default(false)

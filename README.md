@@ -1,80 +1,39 @@
-# AI Literacy LMS
+# Hyrax AI Academy
 
-A Next.js 15 learning platform for the Hyrax AI Academy at learn.hyrax.ng. Its course, *AI for Your Work — in 10 Days* (`data/track_a_course`), teaches working people to use free AI tools on real work and ends with a working personal agent. The legacy Django source remains in the repository as migration reference; the production application is the Next.js app under `src/`.
+Next.js 15, React 19 and Prisma learning platform for [learn.hyrax.ng](https://learn.hyrax.ng). Learners choose between the Small business owners track (n8n) and Professionals track (Hermes). Each costs ₦20,000 and requires its own verified Paystack payment. Access lasts three calendar months from purchase.
 
-## Local stack
+## Stack
 
-- Next.js 15 App Router, React 19, strict TypeScript and Tailwind CSS 4
-- PostgreSQL 16 with Prisma ORM
-- Redis 7 for streak activity and rate limits, with an in-memory test fallback
-- Auth.js v5 credentials and optional Google OAuth, JWT sessions and USER/ADMIN RBAC
-- Paystack checkout in NGN and USD, confirmed by a signed, idempotent webhook and a verify call when the learner returns
-- Resend, PostHog and Web Push behind environment flags or local mock adapters
-- Serwist PWA caching and server-rendered PDF certificates
+- Next.js App Router, TypeScript, Tailwind CSS, Auth.js
+- PostgreSQL 16 and Prisma; Redis for rate limits and push infrastructure
+- Paystack NGN checkout and a signed, server-verified, idempotent webhook
+- Resend email, optional Google sign-in, reCAPTCHA, PostHog and Web Push
+- Server-gated lessons and public certificate verification
 
-## Run locally with Docker
+## Typography and visual design
 
-Docker Compose starts PostgreSQL and Redis, bootstraps the schema, imports all 19 Markdown lessons, creates demo users, then starts the app.
+The Academy design rules for future contributors and agents are in [AGENTS.md](AGENTS.md). Fonts are configured in `src/app/layout.tsx` with `next/font/google`: Fraunces 600/700 for headings and Public Sans 400/600 for body and UI, both with `display: "swap"`. The shared palette and type scale live in `src/app/globals.css`. The images in `public/images/academy/` are generated visual examples; do not present them as actual Academy learners or live product captures.
+
+## Local development
 
 ```bash
 cp .env.example .env
-docker compose up --build
-```
-
-Open [http://localhost:3000](http://localhost:3000). No cloud keys are required while `INTEGRATION_MODE=mock`.
-
-Demo accounts (password `ChangeMe123!`):
-
-- `learner@ailiteracy.local`
-- `admin@ailiteracy.local`
-
-Change all demo credentials and secrets before exposing an instance publicly.
-
-Set `SEED_PASSWORD` to a strong instance-specific value before a public deployment; rerunning the seed rotates both demo account passwords. The server compose file (`docker-compose.server.yml`) sets `SEED_DEMO_ACCOUNTS=false`, so the public site never gets the demo accounts; give a real account the `ADMIN` role instead.
-
-## Run without Docker
-
-Start PostgreSQL 16 and Redis 7, copy `.env.example` to `.env`, then:
-
-```bash
 pnpm install
+# Start PostgreSQL and Redis, then:
 pnpm prisma migrate deploy
 pnpm db:seed
 pnpm dev
 ```
 
-## Quality checks
+The seeder creates two tracks with placeholder lessons. Local mock mode never grants paid access. To exercise checkout, use Paystack **test** credentials only. Each track's product code is defined in `src/lib/tracks.ts` and sent to Paystack as checkout metadata; no Paystack products are needed.
+
+## Checks
 
 ```bash
 pnpm lint
 pnpm typecheck
 pnpm test
 pnpm build
-pnpm test:e2e
 ```
 
-The unit suite does not connect to PostgreSQL, Redis, payment providers, email providers, or analytics services.
-
-## Production configuration
-
-Set strong values for `AUTH_SECRET`, `POSTGRES_PASSWORD`, and `ADMIN_TRIGGER_SECRET`. Set `NEXTAUTH_URL` to the public HTTPS origin. Add provider keys only for the integrations you enable, then change `INTEGRATION_MODE` from `mock` to `live`.
-
-Production launch gates:
-
-- Use a DNS hostname with HTTPS; do not use the direct HTTP IP address for a live payment deployment.
-- Keep PostgreSQL and Redis bound to loopback or a private container network.
-- Configure Resend before launch. Configure at least one payment provider unless free enrollment is explicitly enabled. Google OAuth, reCAPTCHA and VAPID remain optional, but each must have its complete key pair before it is enabled.
-- Register the exact HTTPS webhook URLs below and verify provider test events before accepting payments.
-- Run `pnpm audit --prod`, `pnpm check`, and the full-flow Playwright test before each release.
-- Back up the `postgres_data` volume and test restoration before launch.
-
-The protected reminder endpoint is `POST /api/push/reminders` with `x-admin-key: $ADMIN_TRIGGER_SECRET`. Payment webhooks are:
-
-- `POST /api/webhooks/paystack`
-
-For the existing Hetzner Traefik network, use both Compose files with a unique project name and unused host ports:
-
-```bash
-APP_HOST=learn.example.com APP_PORT=3100 POSTGRES_PORT=5434 REDIS_PORT=6381 \
-docker compose -p ailiteracy-next -f docker-compose.yml -f docker-compose.server.yml up -d --build
-```
+See [two-track deployment and rollback](docs/academy-two-tracks-deploy.md) for production steps, required manual content, and the verified backup location. The old Django source is retained as a separate historical application; the live Academy is the Next.js app in `src/`.

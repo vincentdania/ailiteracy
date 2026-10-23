@@ -26,9 +26,7 @@ export function productionReadinessIssues(environment: Environment = process.env
   if (environment.SHOW_DEMO_CREDENTIALS === "true") issues.push("SHOW_DEMO_CREDENTIALS");
   if (environment.ADMIN_PREVIEW_ENABLED === "true") issues.push("ADMIN_PREVIEW_ENABLED");
 
-  if (environment.FREE_ENROLLMENT_ENABLED !== "true") {
-    if (!environment.PAYSTACK_SECRET_KEY) issues.push("PAYMENT_PROVIDER");
-  }
+  if (!environment.PAYSTACK_SECRET_KEY) issues.push("PAYMENT_PROVIDER");
 
   return [...new Set(issues)];
 }

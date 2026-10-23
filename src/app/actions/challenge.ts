@@ -3,57 +3,43 @@
 import { revalidatePath } from "next/cache";
 import { ACCESS_ENDED_MESSAGE, hasActiveAccess } from "@/lib/access";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
-import { canAccessLesson, isCapstoneLesson, nextStreak, unlockedDay } from "@/lib/challenge";
 import { certificateHash } from "@/lib/certificates";
-import { cache } from "@/lib/redis";
-import { lessonBlockers, lessonReadyToComplete } from "@/lib/learning/mastery";
-import { loadCourseState, syncAchievements } from "@/lib/learning/progress";
+import { db } from "@/lib/db";
+import { isTrackSlug } from "@/lib/tracks";
 
 export async function completeLessonAction(lessonId: string) {
   const session = await auth();
   if (!session?.user.id) return { ok: false, message: "Sign in required." };
-  const lesson = await db.lesson.findUnique({ where: { id: lessonId }, include: { module: true } });
-  if (!lesson) return { ok: false, message: "Lesson not found." };
-  const enrollment = await db.enrollment.findUnique({ where: { userId_courseId: { userId: session.user.id, courseId: lesson.module.courseId } }, include: { user: { include: { profile: true, streak: true } } } });
-  if (!enrollment) return { ok: false, message: "Enrolment required. Enrol in the course to continue." };
-  if (!hasActiveAccess(enrollment, new Date(), enrollment.user.role)) return { ok: false, message: ACCESS_ENDED_MESSAGE };
-  const timezone = enrollment.user.profile?.timezone ?? "Africa/Lagos";
-  const requiredLessons = await db.lesson.findMany({ where: { module: { courseId: lesson.module.courseId }, isBonus: false }, select: { dayNumber: true } });
-  const availableDay = unlockedDay(enrollment.enrolledAt, new Date(), timezone, enrollment.previewOverride, requiredLessons.length);
-  if (!canAccessLesson({ dayNumber: lesson.dayNumber, isBonus: lesson.isBonus, bonusUnlocked: enrollment.bonusUnlocked, unlockedDay: availableDay })) return { ok: false, message: "This lesson is still locked." };
-  if (isCapstoneLesson(lesson)) {
-    const capstone = await db.projectSubmission.findUnique({ where: { userId_lessonId: { userId: session.user.id, lessonId } }, select: { score: true } });
-    if (!capstone?.score || capstone.score < 70) return { ok: false, message: "Submit the capstone and score at least 70 before marking this lesson complete." };
-  }
-  if (enrollment.completedDays.includes(lesson.dayNumber)) return { ok: true, message: "You have already completed this lesson.", completed: enrollment.completedDays.length };
-  // Mastery, not clicks: the lesson's missions and knowledge check come first.
-  const state = await loadCourseState(session.user.id, lesson.module.courseId);
-  const mastery = state?.modules.flatMap((m) => m.lessons).find((l) => l.id === lesson.id);
-  if (mastery && !lessonReadyToComplete(mastery)) return { ok: false, message: `${lessonBlockers(mastery).join(" and ")} to complete this lesson.` };
-  const completedDays = [...enrollment.completedDays, lesson.dayNumber].sort((a, b) => a - b);
-  const courseComplete = requiredLessons.every((required) => completedDays.includes(required.dayNumber));
-  const now = new Date();
-  const streak = nextStreak({ current: enrollment.user.streak?.currentStreak ?? 0, longest: enrollment.user.streak?.longestStreak ?? 0, lastActive: enrollment.user.streak?.lastActiveDate ?? null, now, timezone, freezeAvailable: enrollment.user.streak?.freezeAvailable ?? true });
-  await db.$transaction(async (tx) => {
-    await tx.enrollment.update({
-      where: { id: enrollment.id },
-      data: { completedDays, unlockedDay: Math.max(enrollment.unlockedDay, availableDay), ...(courseComplete ? { status: "COMPLETED", completedAt: now } : {}) },
+  const lesson = await db.lesson.findUnique({ where: { id: lessonId }, include: { module: { include: { course: true } } } });
+  if (!lesson || !isTrackSlug(lesson.module.course.slug)) return { ok: false, message: "Lesson not found." };
+
+  const result = await db.$transaction(async (tx) => {
+    // Lock this one learner/track row so two tabs cannot lose a completion.
+    await tx.$queryRaw`SELECT id FROM "Enrollment" WHERE "userId" = ${session.user.id} AND "courseId" = ${lesson.module.courseId} FOR UPDATE`;
+    const enrollment = await tx.enrollment.findUnique({ where: { userId_courseId: { userId: session.user.id, courseId: lesson.module.courseId } } });
+    if (!enrollment) return { ok: false, message: "Enrol in this track to continue." };
+    if (!hasActiveAccess(enrollment)) return { ok: false, message: ACCESS_ENDED_MESSAGE };
+    if (enrollment.completedDays.includes(lesson.dayNumber)) return { ok: true, message: "Lesson already complete.", completed: enrollment.completedDays.length };
+
+    const completedDays = [...enrollment.completedDays, lesson.dayNumber].sort((a, b) => a - b);
+    const lessonCount = await tx.lesson.count({ where: { module: { courseId: lesson.module.courseId }, isBonus: false } });
+    const courseComplete = completedDays.length === lessonCount;
+    const now = new Date();
+    await tx.enrollment.update({ where: { id: enrollment.id }, data: {
+      completedDays,
+      ...(courseComplete ? { status: "COMPLETED", completedAt: now } : {}),
+    } });
+    if (courseComplete) await tx.certificate.upsert({
+      where: { userId_courseId: { userId: session.user.id, courseId: lesson.module.courseId } },
+      update: {},
+      create: { userId: session.user.id, courseId: lesson.module.courseId, uniqueHash: certificateHash(session.user.id, lesson.module.courseId, now) },
     });
-    await tx.streak.upsert({ where: { userId: session.user.id }, update: { currentStreak: streak.current, longestStreak: streak.longest, lastActiveDate: now, freezeAvailable: streak.freezeAvailable }, create: { userId: session.user.id, currentStreak: streak.current, longestStreak: streak.longest, lastActiveDate: now, freezeAvailable: streak.freezeAvailable } });
-    // courseComplete already implies the capstone gate passed: a capstone lesson
-    // cannot be marked complete without a submission scoring >= 70 (see above).
-    if (courseComplete) {
-      await tx.certificate.upsert({
-        where: { userId_courseId: { userId: session.user.id, courseId: lesson.module.courseId } },
-        update: {},
-        create: { userId: session.user.id, courseId: lesson.module.courseId, uniqueHash: certificateHash(session.user.id, lesson.module.courseId, now) },
-      });
-    }
+    return { ok: true, message: courseComplete ? "Track complete. Your certificate is ready." : "Lesson complete.", completed: completedDays.length };
   });
-  await cache().set(`activity:${session.user.id}:${now.toISOString().slice(0, 10)}`, "1", 60 * 60 * 48);
-  const celebration = await syncAchievements(session.user.id);
-  revalidatePath("/dashboard");
-  revalidatePath("/challenge");
-  return { ok: true, message: "Lesson complete.", completed: completedDays.length, streak: streak.current, celebration };
+  if (result.ok) {
+    revalidatePath("/dashboard");
+    revalidatePath("/challenge");
+    revalidatePath("/certificates");
+  }
+  return result;
 }

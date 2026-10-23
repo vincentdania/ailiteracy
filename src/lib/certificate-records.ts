@@ -36,12 +36,12 @@ export async function findCertificate(id: string): Promise<CertificateRecord | n
   if (isCredentialId(id)) {
     const c = await db.moduleCertificate.findUnique({ where: { credentialId: id }, include: { course: { select: { slug: true } }, module: { include: { lessons: { orderBy: { dayNumber: "asc" }, take: 1, select: { slug: true } } } } } });
     if (!c) return null;
-    return { kind: "module", id: c.credentialId, userId: c.userId, learnerName: c.learnerName, showName: c.showName, courseTitle: c.courseTitle, courseSlug: c.course.slug, moduleTitle: c.moduleTitle, moduleOrder: c.moduleOrder, issuedAt: c.issuedAt, revoked: !!c.revokedAt, url: verificationUrl(c.credentialId), evidence: evidenceLines(c.evidence), reviewHref: c.module.lessons[0] ? `/challenge/${c.module.lessons[0].slug}` : "/challenge" };
+    return { kind: "module", id: c.credentialId, userId: c.userId, learnerName: c.learnerName, showName: c.showName, courseTitle: c.courseTitle, courseSlug: c.course.slug, moduleTitle: c.moduleTitle, moduleOrder: c.moduleOrder, issuedAt: c.issuedAt, revoked: !!c.revokedAt, url: verificationUrl(c.credentialId), evidence: evidenceLines(c.evidence), reviewHref: c.module.lessons[0] ? `/challenge/${c.course.slug}/${c.module.lessons[0].slug}` : "/challenge" };
   }
   if (!/^[a-f0-9]{64}$/.test(id)) return null;
   const c = await db.certificate.findUnique({ where: { uniqueHash: id }, include: { user: { select: { name: true } }, course: { select: { title: true, slug: true } } } });
   if (!c) return null;
-  return { kind: "course", id: c.uniqueHash, userId: c.userId, learnerName: c.user.name?.trim() || "Hyrax AI Academy learner", showName: c.showName, courseTitle: c.course.title, courseSlug: c.course.slug, moduleTitle: null, moduleOrder: null, issuedAt: c.issueDate, revoked: false, url: verificationUrl(c.uniqueHash), evidence: ["Completed every lesson in the course", "Passed the capstone assessment (70 or more)"], reviewHref: `/challenge?course=${c.course.slug}` };
+  return { kind: "course", id: c.uniqueHash, userId: c.userId, learnerName: c.user.name?.trim() || "Hyrax AI Academy learner", showName: c.showName, courseTitle: c.course.title, courseSlug: c.course.slug, moduleTitle: null, moduleOrder: null, issuedAt: c.issueDate, revoked: false, url: verificationUrl(c.uniqueHash), evidence: ["Completed every lesson in the course", "Completed the final capstone lesson"], reviewHref: `/challenge?course=${c.course.slug}` };
 }
 
 export function certificateTitle(record: Pick<CertificateRecord, "kind" | "moduleTitle" | "courseTitle">) {

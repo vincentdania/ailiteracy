@@ -3,11 +3,11 @@ import { HYRAX_MARK_PATH, HYRAX_MARK_VIEWBOX, HYRAX_WORDMARK_PATHS, HYRAX_WORDMA
 import { formatIssueDate, ISSUER } from "@/lib/certificates";
 import { qrPath } from "@/lib/qr";
 
-const NAVY = "#214889";
-const INK = "#0b1c30";
+const NAVY = "#10294f";
+const INK = "#10294f";
 const MUTED = "#4d5768";
-const GOLD = "#f2b01e";
-const BLUE = "#0058be";
+const GOLD = "#c8742b";
+const BLUE = "#10294f";
 
 const styles = StyleSheet.create({
   page: { backgroundColor: "#ffffff", color: INK, fontFamily: "Helvetica", padding: 26 },
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   copy: { color: MUTED, fontSize: 11.5, marginTop: 16 },
   name: { color: "#10294f", fontFamily: "Helvetica-Bold", fontSize: 34, marginTop: 8, textAlign: "center" },
   rule: { width: 220, height: 1.2, backgroundColor: GOLD, marginTop: 10 },
-  title: { fontFamily: "Helvetica-Bold", fontSize: 21, marginTop: 8, textAlign: "center", color: INK },
+  title: { fontFamily: "Helvetica-Bold", fontSize: 16, marginTop: 8, textAlign: "center", color: INK },
   sub: { color: MUTED, fontSize: 11.5, marginTop: 5, textAlign: "center" },
   footer: { position: "absolute", left: 54, right: 54, bottom: 40, flexDirection: "row", justifyContent: "space-between", alignItems: "flex-end" },
   sigName: { fontFamily: "Times-Italic", fontSize: 22, color: "#10294f" },

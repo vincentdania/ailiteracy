@@ -1,66 +1,51 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { Currency, PaymentProvider, TransactionStatus } from "@prisma/client";
 
-const processSuccessfulPayment = vi.fn();
-vi.mock("@/lib/payments/process", () => ({ processSuccessfulPayment: (...args: unknown[]) => processSuccessfulPayment(...args) }));
+const state = vi.hoisted(() => ({
+  userFind: vi.fn(), courseFind: vi.fn(), orderFind: vi.fn(), orderUpdate: vi.fn(), enrollmentFind: vi.fn(), enrollmentCreate: vi.fn(), enrollmentUpdate: vi.fn(), streakUpsert: vi.fn(), capture: vi.fn(),
+}));
+vi.mock("@/lib/db", () => ({ db: {
+  user: { findUnique: state.userFind }, course: { findUnique: state.courseFind },
+  transaction: { findUnique: state.orderFind },
+  $transaction: async (fn: (tx: unknown) => Promise<unknown>) => fn({
+    transaction: { findUnique: state.orderFind, updateMany: state.orderUpdate },
+    enrollment: { findUnique: state.enrollmentFind, create: state.enrollmentCreate, update: state.enrollmentUpdate },
+    streak: { upsert: state.streakUpsert },
+  }),
+} }));
+vi.mock("@/lib/analytics", () => ({ captureServerEvent: state.capture }));
+const { processSuccessfulPayment } = await import("@/lib/payments/process");
 
-const { initializePaystack, paystackUsdEnabled, recordPaystackCharge, verifyPaystackTransaction } = await import("@/lib/payments/paystack");
+const payment = { userId: "user1", courseId: "course1", provider: PaymentProvider.PAYSTACK, referenceId: "ref1", amount: 20_000, currency: Currency.NGN, rawPayload: {}, purchasedAt: new Date("2026-10-22T12:00:00Z") };
 
-describe("Paystack payments", () => {
+describe("verified payment processing", () => {
   beforeEach(() => {
-    processSuccessfulPayment.mockReset();
-    vi.stubEnv("PAYSTACK_SECRET_KEY", "sk_test_secret");
-    vi.stubEnv("NEXTAUTH_URL", "https://learn.example.com");
-  });
-  afterEach(() => {
-    vi.unstubAllEnvs();
-    vi.unstubAllGlobals();
-  });
-
-  it("charges USD in cents and returns learners to the verify callback", async () => {
-    const fetchMock = vi.fn().mockResolvedValue(Response.json({ status: true, data: { authorization_url: "https://checkout.paystack.com/abc", reference: "ref" } }));
-    vi.stubGlobal("fetch", fetchMock);
-    const result = await initializePaystack({ email: "a@b.co", amount: 29, currency: "USD", userId: "u1", courseId: "c1" });
-    expect(result.authorization_url).toBe("https://checkout.paystack.com/abc");
-    const body = JSON.parse((fetchMock.mock.calls[0]?.[1] as RequestInit).body as string);
-    expect(body).toMatchObject({ amount: 2900, currency: "USD", metadata: { userId: "u1", courseId: "c1" }, callback_url: "https://learn.example.com/api/payments/paystack/callback" });
+    for (const fn of Object.values(state)) fn.mockReset();
+    state.userFind.mockResolvedValue({ id: "user1" });
+    state.courseFind.mockResolvedValue({ slug: "small-business", isPublished: true, priceNgn: 20_000, priceUsd: 0 });
+    state.orderFind.mockResolvedValue({ userId: "user1", courseId: "course1", provider: PaymentProvider.PAYSTACK, referenceId: "ref1", amount: 20_000, currency: Currency.NGN, status: TransactionStatus.PENDING });
+    state.orderUpdate.mockResolvedValue({ count: 1 });
+    state.enrollmentFind.mockResolvedValue(null);
+    state.enrollmentCreate.mockResolvedValue({ id: "enrollment1" });
+    state.streakUpsert.mockResolvedValue({});
   });
 
-  it("surfaces Paystack's refusal, e.g. when USD is not enabled for the business", async () => {
-    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(Response.json({ status: false, message: "Currency not supported by merchant" }, { status: 403 })));
-    await expect(initializePaystack({ email: "a@b.co", amount: 29, currency: "USD", userId: "u1", courseId: "c1" })).rejects.toThrow("Currency not supported by merchant");
+  it("grants only the purchased track and sets its calendar expiry", async () => {
+    expect(await processSuccessfulPayment(payment)).toMatchObject({ created: true });
+    expect(state.enrollmentCreate).toHaveBeenCalledWith({ data: { userId: "user1", courseId: "course1", purchasedAt: payment.purchasedAt, expiresAt: new Date("2027-01-22T12:00:00Z") } });
   });
 
-  it("verifies a returning learner's reference with Paystack", async () => {
-    const charge = { status: "success", reference: "ref/1", amount: 2900, currency: "USD", metadata: { userId: "u1", courseId: "c1" } };
-    const fetchMock = vi.fn().mockResolvedValue(Response.json({ status: true, data: charge }));
-    vi.stubGlobal("fetch", fetchMock);
-    expect(await verifyPaystackTransaction("ref/1")).toEqual(charge);
-    expect(fetchMock.mock.calls[0]?.[0]).toBe("https://api.paystack.co/transaction/verify/ref%2F1");
-    fetchMock.mockResolvedValue(Response.json({ status: false, message: "Transaction reference not found" }, { status: 400 }));
-    expect(await verifyPaystackTransaction("missing")).toBeNull();
+  it("does not renew on duplicate or concurrent webhook delivery", async () => {
+    await processSuccessfulPayment(payment);
+    state.orderUpdate.mockResolvedValueOnce({ count: 0 });
+    expect(await processSuccessfulPayment(payment)).toMatchObject({ created: false });
+    expect(state.enrollmentCreate).toHaveBeenCalledOnce();
   });
 
-  it("records successful NGN and USD charges in major units", async () => {
-    expect(await recordPaystackCharge({ status: "success", reference: "n1", amount: 2_000_000, currency: "NGN", metadata: { userId: "u1", courseId: "c1" } }, {})).toBe(true);
-    expect(await recordPaystackCharge({ status: "success", reference: "d1", amount: 2900, currency: "USD", metadata: JSON.stringify({ userId: "u1", courseId: "c1" }) }, {})).toBe(true);
-    expect(processSuccessfulPayment.mock.calls.map(([payment]) => [payment.currency, payment.amount])).toEqual([["NGN", 20000], ["USD", 29]]);
-  });
-
-  it("checks the requested price when the customer pays Paystack's fee on top", async () => {
-    expect(await recordPaystackCharge({ status: "success", reference: "fee", amount: 2_040_610, requested_amount: 2_000_000, currency: "NGN", metadata: { userId: "u1", courseId: "c1" } }, {})).toBe(true);
-    expect(processSuccessfulPayment.mock.calls[0]?.[0]).toMatchObject({ amount: 20000, currency: "NGN", referenceId: "fee" });
-  });
-
-  it("ignores failed charges, other currencies and charges without course metadata", async () => {
-    expect(await recordPaystackCharge({ status: "failed", reference: "f", amount: 2900, currency: "USD", metadata: { userId: "u1", courseId: "c1" } }, {})).toBe(false);
-    expect(await recordPaystackCharge({ status: "success", reference: "g", amount: 2900, currency: "GHS", metadata: { userId: "u1", courseId: "c1" } }, {})).toBe(false);
-    expect(await recordPaystackCharge({ status: "success", reference: "h", amount: 2900, currency: "USD", metadata: null }, {})).toBe(false);
-    expect(processSuccessfulPayment).not.toHaveBeenCalled();
-  });
-
-  it("offers USD only when it is switched on", () => {
-    expect(paystackUsdEnabled({ PAYSTACK_SECRET_KEY: "sk" })).toBe(false);
-    expect(paystackUsdEnabled({ PAYSTACK_SECRET_KEY: "sk", PAYSTACK_USD_ENABLED: "true" })).toBe(true);
-    expect(paystackUsdEnabled({ PAYSTACK_USD_ENABLED: "true" })).toBe(false);
+  it("rejects mismatched amount and an unknown order", async () => {
+    await expect(processSuccessfulPayment({ ...payment, amount: 100 })).rejects.toThrow(/amount/);
+    state.orderFind.mockResolvedValue(null);
+    await expect(processSuccessfulPayment(payment)).rejects.toThrow(/pending order/);
+    expect(state.enrollmentCreate).not.toHaveBeenCalled();
   });
 });

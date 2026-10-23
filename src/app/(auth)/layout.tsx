@@ -1,7 +1,10 @@
 import Link from "next/link";
-import Image from "next/image";
 import { AcademyLockup } from "@/components/brand/hyrax-logo";
+import { AcademyPhoto } from "@/components/marketing/academy-images";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
-  return <main className="grid min-h-screen lg:grid-cols-[.9fr_1.1fr]"><section className="flex items-center justify-center bg-[#f6f8fb] p-5 py-12"><div className="w-full max-w-md"><Link href="/" className="mb-10 inline-block text-xl" aria-label="Hyrax AI Academy home"><AcademyLockup /></Link>{children}</div></section><aside className="relative hidden min-h-screen overflow-hidden bg-[#10294f] text-white lg:flex lg:flex-col lg:justify-end"><Image src="/images/nigerian-professionals-learning.jpg" alt="Nigerian professionals collaborating" fill sizes="55vw" className="object-cover" /><div className="absolute inset-0 bg-gradient-to-t from-[#10294f] via-[#10294f]/45 to-transparent" /><div className="relative max-w-2xl p-16"><p className="eyebrow eyebrow-inverse">Built for working people</p><p className="display mt-5 text-6xl">Use AI on your real work, one day at a time.</p><p className="mt-7 text-white/70">Short daily lessons, free AI tools and a certificate anyone can verify.</p><p className="mt-10 text-xs font-bold uppercase tracking-[.2em] text-white/60">HYRAX · The AI Enablement Company.</p></div></aside></main>;
+  return <main className="grid min-h-screen bg-[#faf7f2] lg:grid-cols-[.9fr_1.1fr]">
+    <section className="flex items-center justify-center p-5 py-12 sm:p-10"><div className="w-full max-w-md"><Link href="/" className="mb-10 inline-block text-xl" aria-label="Hyrax AI Academy home"><AcademyLockup /></Link>{children}</div></section>
+    <aside className="hidden border-l border-[#e5ded4] bg-[#f2ece4] p-12 text-[#10294f] lg:flex lg:flex-col lg:justify-center"><div className="mx-auto w-full max-w-xl"><p className="eyebrow text-[#8b4c1d]">Built for working people</p><h2 className="display mt-5 text-5xl">Pick your track. Put AI to work.</h2><p className="mt-6 text-base leading-[1.6] text-[#394b63]">Build along with guided lessons and templates. Learn on your phone or laptop, with three months of access from purchase.</p><AcademyPhoto person="professional" className="mt-10" /></div></aside>
+  </main>;
 }
