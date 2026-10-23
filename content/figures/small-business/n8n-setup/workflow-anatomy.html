@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../../figure.css">
+<style>
+.chain { margin-top: 26px; display: grid; gap: 0; }
+.node { display: flex; gap: 16px; align-items: center; padding: 14px 18px; }
+.node .icon { width: 50px; height: 50px; }
+.node .icon svg { width: 26px; height: 26px; }
+.node h2 { font-size: 21px; }
+.node p { font-size: 16px; color: var(--muted); }
+.trigger .icon { background: var(--amber); }
+.words { margin-top: 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.word { padding: 14px 16px; }
+.word strong { display: block; font-family: "Fraunces", Georgia, serif; font-size: 20px; }
+.word span { font-size: 16px; color: var(--muted); line-height: 1.4; display: block; margin-top: 2px; }
+.word.wide { grid-column: span 2; }
+</style></head><body>
+<div class="fig">
+  <p class="eyebrow">Module 1 · n8n basics</p>
+  <h1>A workflow is a row of steps</h1>
+  <div class="chain">
+    <div class="card node trigger"><div class="icon"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></div><div><h2>Trigger</h2><p>A WhatsApp message arrives</p></div></div>
+    <div class="arrow"><svg viewBox="0 0 24 34"><path d="M12 2v28M5 23l7 7 7-7"/></svg></div>
+    <div class="card node"><div class="icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg></div><div><h2>Step</h2><p>Look up the price list</p></div></div>
+    <div class="arrow"><svg viewBox="0 0 24 34"><path d="M12 2v28M5 23l7 7 7-7"/></svg></div>
+    <div class="card node"><div class="icon"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/></svg></div><div><h2>Step</h2><p>AI writes a draft reply</p></div></div>
+    <div class="arrow"><svg viewBox="0 0 24 34"><path d="M12 2v28M5 23l7 7 7-7"/></svg></div>
+    <div class="card node"><div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16 9.5"/></svg></div><div><h2>Step</h2><p>Wait for your approval, then send</p></div></div>
+  </div>
+  <div class="words">
+    <div class="card word"><strong>Workflow</strong><span>The whole recipe, from start to finish.</span></div>
+    <div class="card word"><strong>Node</strong><span>One box, one step. n8n calls steps nodes.</span></div>
+    <div class="card word wide"><strong>Execute</strong><span>Run it now. You'll press Execute to test every workflow you build.</span></div>
+  </div>
+</div></body></html>

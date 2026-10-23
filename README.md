@@ -27,6 +27,17 @@ pnpm dev
 
 The seeder creates two tracks with placeholder lessons. Local mock mode never grants paid access. To exercise checkout, use Paystack **test** credentials only. Each track's product code is defined in `src/lib/tracks.ts` and sent to Paystack as checkout metadata; no Paystack products are needed.
 
+## Writing lessons
+
+Each written lesson is a Markdown file at `content/lessons/<track>/<slug>.md`, or `content/lessons/shared/<slug>.md` for the Module 0 lessons that both tracks use. Frontmatter holds the `summary` and an optional three-question `quiz`. `pnpm db:seed` loads these files and overwrites the database copy. Lessons without a file keep their placeholder.
+
+- Each `##` heading is one part in the step-by-step reader.
+- Blockquotes that open with **You should now see:**, **If it didn't work:**, **Stay safe:**, **New word:** or **Try it:** are shown as styled boxes.
+- Code blocks get a Copy button. Use them for every template the learner pastes.
+- An image's title text becomes its caption: `![alt](/lessons/... "caption")`.
+
+Figures are HTML files in `content/figures/` that use the shared `figure.css`. Render them to PNG in `public/lessons/` with `node scripts/render-lesson-figures.mjs [filter]`.
+
 ## Checks
 
 ```bash

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../../figure.css">
+<style>
+.chain { margin-top: 24px; }
+.node { display: flex; gap: 16px; align-items: center; padding: 14px 18px; }
+.node .icon { width: 50px; height: 50px; } .node .icon svg { width: 26px; height: 26px; }
+.node h2 { font-size: 21px; } .node p { font-size: 16px; color: var(--muted); }
+.amber .icon { background: var(--amber); }
+.keys { margin-top: 20px; padding: 16px 20px; border-radius: 14px; background: var(--navy); color: #fff; font-size: 17px; line-height: 1.45; }
+.keys strong { color: var(--amber-soft); }
+</style></head><body>
+<div class="fig">
+  <p class="eyebrow">Module 1 · WhatsApp setup</p>
+  <h1>How WhatsApp reaches n8n</h1>
+  <div class="chain">
+    <div class="card node amber"><div class="icon"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div><div><h2>Your customer's phone</h2><p>They send a WhatsApp message to your business number</p></div></div>
+    <div class="arrow"><svg viewBox="0 0 24 34"><path d="M12 2v28M5 23l7 7 7-7"/></svg></div>
+    <div class="card node"><div class="icon"><svg viewBox="0 0 24 24"><path d="M4 20l1.5-4.5A8 8 0 1 1 8.5 19z"/></svg></div><div><h2>WhatsApp Business Platform</h2><p>Run by Meta. Receives the message for your number</p></div></div>
+    <div class="arrow"><svg viewBox="0 0 24 34"><path d="M12 2v28M5 23l7 7 7-7"/></svg></div>
+    <div class="card node"><div class="icon"><svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3M14 9l2 2"/></svg></div><div><h2>Your Meta app</h2><p>Your private connection, protected by secret keys</p></div></div>
+    <div class="arrow"><svg viewBox="0 0 24 34"><path d="M12 2v28M5 23l7 7 7-7"/></svg></div>
+    <div class="card node"><div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="9" width="6" height="6" rx="1"/><rect x="15" y="9" width="6" height="6" rx="1"/><path d="M9 12h6"/></svg></div><div><h2>Your n8n workflow</h2><p>The WhatsApp Trigger starts, and your assistant gets to work</p></div></div>
+  </div>
+  <p class="keys">In this lesson you build the middle part: a <strong>Meta app</strong>, its <strong>keys</strong>, and the <strong>connection</strong> into n8n.</p>
+</div></body></html>

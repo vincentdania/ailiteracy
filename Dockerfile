@@ -32,6 +32,7 @@ COPY package.json pnpm-workspace.yaml tsconfig.json ./
 COPY prisma ./prisma
 # The seed reads the track definitions.
 COPY src/lib/tracks.ts ./src/lib/tracks.ts
+COPY content ./content
 
 FROM node:22-alpine AS runner
 ENV NODE_ENV=production

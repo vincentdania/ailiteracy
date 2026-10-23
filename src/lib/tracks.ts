@@ -59,6 +59,7 @@ export const TRACKS: readonly Track[] = [
       { title: "Module 1 · Customer replies", lessons: [
         { slug: "n8n-setup", title: "Guided n8n hosting and setup" },
         { slug: "whatsapp-business-setup", title: "Guided WhatsApp Business setup" },
+        { slug: "telegram-setup", title: "Guided Telegram setup" },
         { slug: "customer-reply-assistant", title: "Build a customer reply assistant" },
       ] },
       { title: "Module 2 · Lead follow-up", lessons: [{ slug: "lead-follow-up-assistant", title: "Build a lead follow-up assistant" }] },
@@ -98,6 +99,7 @@ export const TRACKS: readonly Track[] = [
       foundations,
       { title: "Module 1 · Inbox triage", lessons: [
         { slug: "hermes-setup", title: "Guided Hermes hosting and setup" },
+        { slug: "telegram-setup", title: "Guided Telegram setup" },
         { slug: "inbox-triage-assistant", title: "Build an inbox triage assistant" },
       ] },
       { title: "Module 2 · Morning briefings", lessons: [{ slug: "morning-briefing", title: "Build a scheduled morning briefing" }] },

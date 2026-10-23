@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../../figure.css">
+<style>
+.chain { margin-top: 26px; display: grid; }
+.node { display: flex; gap: 16px; align-items: center; padding: 14px 18px; }
+.node .icon { width: 50px; height: 50px; } .node .icon svg { width: 26px; height: 26px; }
+.node h2 { font-size: 21px; } .node p { font-size: 16px; color: var(--muted); }
+.mid .icon { background: #5b8bd6; } .end .icon { background: var(--amber); }
+.note { margin-top: 22px; padding: 14px 18px; font-size: 17px; line-height: 1.45; }
+.note strong { color: var(--navy); }
+</style></head><body>
+<div class="fig">
+  <p class="eyebrow">How it connects</p>
+  <h1>n8n messages you on Telegram</h1>
+  <div class="chain">
+    <div class="card node"><div class="icon"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div><div><h2>You, in Telegram</h2><p>Get updates and tap Approve or Decline</p></div></div>
+    <div class="arrow"><svg viewBox="0 0 24 34"><path d="M12 2v28M5 23l7 7 7-7"/></svg></div>
+    <div class="card node mid"><div class="icon"><svg viewBox="0 0 24 24"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"/><path d="M9 13l9-6"/></svg></div><div><h2>Your bot</h2><p>A private Telegram chat you create with BotFather</p></div></div>
+    <div class="arrow"><svg viewBox="0 0 24 34"><path d="M12 2v28M5 23l7 7 7-7"/></svg></div>
+    <div class="card node end"><div class="icon"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 18z"/></svg></div><div><h2>n8n Cloud</h2><p>Your workflows send messages and wait for your tap</p></div></div>
+  </div>
+  <div class="card note"><strong>Two keys:</strong> the bot token lets n8n send as your bot, and your Telegram ID tells n8n where to send and who may approve.</div>
+</div></body></html>

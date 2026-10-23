@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../../figure.css">
+<style>
+.group { margin-top: 20px; padding: 16px 18px; }
+.group h2 { font-size: 21px; } .group .sub { font-size: 15px; color: var(--muted); margin-top: 2px; }
+.pair { display: grid; grid-template-columns: 1fr 26px 1fr; gap: 8px; align-items: center; margin-top: 12px; }
+.from, .to { padding: 9px 12px; border-radius: 10px; font-size: 16px; line-height: 1.35; }
+.from { background: #eef1f6; } .to { background: var(--amber-soft); font-weight: 600; }
+.from small, .to small { display: block; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.pair svg { width: 26px; height: 18px; stroke: var(--amber); stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.secret { margin-top: 18px; padding: 14px 18px; border-radius: 14px; background: var(--navy); color: #fff; font-size: 17px; line-height: 1.45; }
+.secret strong { color: var(--amber-soft); }
+</style></head><body>
+<div class="fig">
+  <p class="eyebrow">Copy from Meta, paste into n8n</p>
+  <h1>Four values, two credentials</h1>
+  <div class="card group"><h2>Credential 1 · WhatsApp API</h2><p class="sub">Lets n8n send messages</p>
+    <div class="pair"><div class="from"><small>From Meta</small>Permanent access token</div><svg viewBox="0 0 26 18"><path d="M2 9h21M17 3l6 6-6 6"/></svg><div class="to"><small>In n8n</small>Access Token</div></div>
+    <div class="pair"><div class="from"><small>From Meta</small>WhatsApp Business Account ID</div><svg viewBox="0 0 26 18"><path d="M2 9h21M17 3l6 6-6 6"/></svg><div class="to"><small>In n8n</small>Business Account ID</div></div>
+  </div>
+  <div class="card group"><h2>Credential 2 · WhatsApp OAuth API</h2><p class="sub">Lets n8n hear new messages</p>
+    <div class="pair"><div class="from"><small>From Meta</small>App ID</div><svg viewBox="0 0 26 18"><path d="M2 9h21M17 3l6 6-6 6"/></svg><div class="to"><small>In n8n</small>Client ID</div></div>
+    <div class="pair"><div class="from"><small>From Meta</small>App secret</div><svg viewBox="0 0 26 18"><path d="M2 9h21M17 3l6 6-6 6"/></svg><div class="to"><small>In n8n</small>Client Secret</div></div>
+  </div>
+  <p class="secret">The <strong>access token</strong> and <strong>app secret</strong> are like passwords. Paste them only into n8n. Never send them in a chat or email.</p>
+</div></body></html>
