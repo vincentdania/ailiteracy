@@ -23,6 +23,10 @@ The live Next.js site already has `PAYSTACK_SECRET_KEY`, `PAYSTACK_PUBLIC_KEY`, 
 - The callback is now a status redirect. Only a signed webhook followed by server-side Paystack transaction verification grants or renews access. A matching existing webhook registration in the **Paystack live dashboard** is therefore required. Server files and a reachable endpoint do not reveal the URL saved in Paystack's dashboard; check that exact URL there before release. Do not make a live charge to test it.
 - Existing Paystack keys and webhook routing serve both tracks. The only new Paystack configuration is one distinct ₦20,000 product code for each track (`PAYSTACK_SMALL_BUSINESS_PRODUCT_CODE` and `PAYSTACK_PROFESSIONALS_PRODUCT_CODE`).
 
+## Keep Google sign-in and sign-up
+
+The live `.env` has both `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET` configured, and the Compose app passes them through unchanged. On 23 October 2026, the live `/api/auth/providers` endpoint listed `google` with callback `https://learn.hyrax.ng/api/auth/callback/google`. Keep the same Google OAuth client, callback registration, `AUTH_SECRET`, `AUTH_TRUST_HOST`, and `NEXTAUTH_URL` when releasing the new tracks. The `/login` and `/signup` pages both keep their Google buttons; successful sign-in uses the existing user record when its email matches and then opens the new dashboard. User and admin accounts are not removed by the retirement SQL.
+
 ## Before launch
 
 1. Fill all placeholder lessons and copy-and-paste templates in the seeded tracks. The seed keeps existing lesson Markdown on reruns.
@@ -50,7 +54,7 @@ docker compose -p ailiteracy-next -f docker-compose.yml -f docker-compose.server
 docker compose -p ailiteracy-next -f docker-compose.yml -f docker-compose.server.yml up -d app
 ```
 
-Check `https://learn.hyrax.ng/`, both `/tracks/...` pages, `/dashboard` for signed-in users, `/api/health`, and the sitemap. `/challenge/tracka-01` should return 301 to `/`. Unpaid and expired users must see a paywall with no lesson Markdown. Verify a new track certificate page after completing the course in a test environment. Make no live charge for QA.
+Check `https://learn.hyrax.ng/`, both `/tracks/...` pages, `/dashboard` for signed-in users, `/api/health`, and the sitemap. Confirm Google still appears on `/login` and `/signup`, `/api/auth/providers` still lists `google`, and a test-account Google sign-in returns to `/dashboard`. `/challenge/tracka-01` should return 301 to `/`. Unpaid and expired users must see a paywall with no lesson Markdown. Verify a new track certificate page after completing the course in a test environment. Make no live charge for QA.
 
 ## Roll back
 
