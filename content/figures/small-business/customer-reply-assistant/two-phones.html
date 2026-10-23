@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../../figure.css">
+<style>
+.fig { width: 640px; }
+.pair { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.cap { font-size: 14px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-align: center; margin-bottom: 8px; }
+.phone { border: 8px solid var(--navy); border-radius: 30px; overflow: hidden; }
+.top { padding: 10px 12px; display: flex; gap: 8px; align-items: center; border-bottom: 1px solid var(--line); background: #fff; }
+.av { width: 28px; height: 28px; border-radius: 50%; color: #fff; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex: none; }
+.top b { font-size: 14px; display: block; } .top span { font-size: 11px; color: var(--muted); }
+.chat { padding: 12px 10px 14px; display: grid; gap: 8px; align-content: start; min-height: 360px; }
+.wa .chat { background: #efe9e1; } .tg .chat { background: #e9edf2; }
+.msg { position: relative; max-width: 90%; padding: 8px 10px; border-radius: 10px; background: #fff; font-size: 13px; line-height: 1.4; }
+.msg.me { justify-self: end; background: #dcf3d8; }
+.msg small { display: block; color: var(--muted); font-size: 11px; margin-top: 4px; }
+.btns { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; max-width: 90%; }
+.btns span { position: relative; background: #f6f8fb; border: 1.5px solid #cfd6e1; border-radius: 8px; text-align: center; padding: 5px; font-size: 13px; font-weight: 600; color: #2a5ea8; }
+.btns span.hl { outline: 3px solid var(--amber); outline-offset: 2px; }
+.ok { font-size: 12px; color: #2f7d4f; font-weight: 600; margin-top: 6px; }
+.pin { position: absolute; left: -12px; top: -12px; width: 26px; height: 26px; font-size: 14px; border-radius: 50%; background: var(--amber); color: #fff; font-weight: 600; display: flex; align-items: center; justify-content: center; border: 2.5px solid #fff; box-shadow: 0 2px 6px rgba(16,41,79,.3); }
+.msg.me .pin { left: auto; right: -12px; }
+.legend { margin-top: 18px; display: grid; gap: 8px; }
+.legend li { list-style: none; display: flex; gap: 10px; align-items: flex-start; font-size: 17px; line-height: 1.4; }
+.legend .num { width: 28px; height: 28px; font-size: 15px; }
+.note { margin-top: 14px; font-size: 14px; color: var(--muted); }
+</style></head><body>
+<div class="fig">
+  <p class="eyebrow">What happens, start to finish</p>
+  <h1>Your customer asks. You tap. It's sent.</h1>
+  <div class="pair">
+    <div><p class="cap">Customer's WhatsApp</p><div class="phone wa">
+      <div class="top"><div class="av" style="background:#2f7d4f">SB</div><div><b>Sunrise Bakery</b><span>Business account</span></div></div>
+      <div class="chat">
+        <div class="msg me"><span class="pin">1</span>Hello, how much is a chocolate cake for 10 people? Do you deliver to Lekki on Saturday?</div>
+        <div class="msg"><span class="pin">4</span>Hi Tunde! Our chocolate cake for 10 people is ₦15,000. Yes, we deliver to Lekki on Saturdays, and delivery is ₦2,500. Would you like me to book one for you? (Sunrise Bakery's assistant)</div>
+      </div></div></div>
+    <div><p class="cap">Your Telegram</p><div class="phone tg">
+      <div class="top"><div class="av" style="background:#5b8bd6">SA</div><div><b>Sunrise Assistant</b><span>bot</span></div></div>
+      <div class="chat">
+        <div class="msg"><span class="pin">2</span>New WhatsApp message from Tunde:<br>Hello, how much is a chocolate cake for 10 people? Do you deliver to Lekki on Saturday?<br><br>Draft reply:<br>Hi Tunde! Our chocolate cake for 10 people is ₦15,000. Yes, we deliver to Lekki on Saturdays…<br><br>Send this reply?</div>
+        <div class="btns"><span class="hl">✅ Approve<i class="pin" style="font-style:normal">3</i></span><span>❌ Decline</span></div>
+      </div></div></div>
+  </div>
+  <ol class="legend">
+    <li><span class="num">1</span><span>A customer sends your business a WhatsApp message</span></li>
+    <li><span class="num">2</span><span>n8n writes a draft and sends it to you on Telegram</span></li>
+    <li><span class="num">3</span><span>You tap <strong>Approve</strong>. Or <strong>Decline</strong>, and reply yourself</span></li>
+    <li><span class="num">4</span><span>Only then does the reply go to your customer</span></li>
+  </ol>
+  <p class="note">Simplified illustration of WhatsApp and Telegram.</p>
+</div></body></html>
