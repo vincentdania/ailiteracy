@@ -10,7 +10,7 @@ export type Track = {
   audience: string;
   title: string;
   subline: string;
-  tool: string;
+  promise: string;
   outcomes: readonly string[];
   problems: readonly string[];
   builds: readonly string[];
@@ -31,7 +31,7 @@ export const TRACKS: readonly Track[] = [
     audience: "Small business owners",
     title: "Build your own AI team: 5 assistants that handle customers, leads, and reports without writing code",
     subline: "Step-by-step, with copy-and-paste templates. Works with WhatsApp, Gmail, Google Sheets, and Telegram.",
-    tool: "n8n no-code workflows",
+    promise: "Keep customer replies moving, follow up with leads, and get your weekly report ready.",
     outcomes: [
       "Reply to common customer questions with your approval",
       "Follow up with leads before they go cold",
@@ -70,7 +70,7 @@ export const TRACKS: readonly Track[] = [
     audience: "Professionals",
     title: "Hire an AI assistant that knows your clients, drafts your proposals, and briefs you every morning",
     subline: "Private, approval-based, and built around your own way of working. Chat with it on WhatsApp or Telegram.",
-    tool: "Hermes agent with memory and scheduled tasks",
+    promise: "Start each day briefed, keep your inbox organised, and review first drafts sooner.",
     outcomes: [
       "Triage your inbox before the day begins",
       "Receive a morning briefing shaped around your work",
