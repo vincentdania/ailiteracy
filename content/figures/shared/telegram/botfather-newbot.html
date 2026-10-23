@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../../figure.css"><style>
+.phone { margin-top: 16px; border: 1.5px solid #cfd6e1; border-radius: 22px; overflow: hidden; background: #fff; }
+.tg-bar { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #eef1f6; border-bottom: 1.5px solid #cfd6e1; }
+.tg-av { width: 34px; height: 34px; border-radius: 50%; background: #5b8bd6; color: #fff; font-weight: 600; display: flex; align-items: center; justify-content: center; font-size: 15px; flex: none; }
+.tg-bar b { font-size: 16px; display: block; } .tg-bar small { font-size: 13px; color: var(--muted); }
+.tg-chat { background: #e9edf2; padding: 14px 12px; display: grid; gap: 8px; }
+.b { position: relative; max-width: 82%; padding: 8px 12px; border-radius: 14px; font-size: 15px; line-height: 1.4; background: #fff; justify-self: start; }
+.b.me { justify-self: end; background: #dcf1d2; }
+.b code { font-family: ui-monospace, Menlo, monospace; font-size: 13.5px; background: #f1f3f6; padding: 1px 4px; border-radius: 4px; word-break: break-all; }
+.b.hl { outline: 3px solid var(--amber); outline-offset: 2px; }
+.btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; max-width: 82%; position: relative; }
+.btns span { background: #f6f8fb; border: 1.5px solid #cfd6e1; border-radius: 10px; text-align: center; padding: 7px; font-size: 15px; font-weight: 600; color: #2a5ea8; }
+.btns span.hl { outline: 3px solid var(--amber); outline-offset: 2px; }
+.tg-input { display: flex; gap: 8px; align-items: center; padding: 10px 12px; border-top: 1.5px solid #e3e7ee; font-size: 15px; color: #98a2b3; }
+.tg-input span { flex: 1; border: 1.5px solid #e3e7ee; border-radius: 18px; padding: 7px 12px; }
+.tg-start { margin: 0 12px 12px; padding: 10px; text-align: center; background: #2a8be0; color: #fff; border-radius: 10px; font-weight: 600; position: relative; }
+.b.me .pin { right: auto; left: -16px; }
+.btns span { position: relative; }
+.tg-start.hl { outline: 3px solid var(--amber); outline-offset: 3px; }
+</style></head><body>
+<div class="fig screen-fig">
+  <div class="shot-head"><p class="eyebrow">In Telegram</p><p class="tag">Simplified illustration</p></div>
+  <div class="phone"><div class="tg-bar"><div class="tg-av">BF</div><div><b>BotFather</b><small>bot</small></div></div>
+  <div class="tg-chat"><div class="b me hl">/newbot<span class="pin">1</span></div><div class="b">Alright, a new bot. How are we going to call it? Please choose a name for your bot.</div><div class="b me hl">My Assistant<span class="pin">2</span></div><div class="b">Good. Now let's choose a username for your bot. It must end in <code>bot</code>.</div><div class="b me hl">priya_assistant_bot<span class="pin">3</span></div><div class="b hl">Done! Congratulations on your new bot. Use this token to access the HTTP API:<br><code>7123456789:AAHk3xQzP0sVb8NmW2yLc5RtUe9JdFgHi4o</code><br>Keep your token secure.<span class="pin">4</span></div></div><div class="tg-input"><span>Message</span></div></div>
+  <ol class="steps"><li><span class="num">1</span><span>Send <strong>/newbot</strong></span></li><li><span class="num">2</span><span>Type a name. Anything you like</span></li><li><span class="num">3</span><span>Type a username that ends in <strong>bot</strong></span></li><li><span class="num">4</span><span>Copy the <strong>token</strong>. This is your bot's secret key</span></li></ol>
+</div></body></html>

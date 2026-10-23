@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../../figure.css">
+<style>
+.chain { margin-top: 26px; display: grid; }
+.node { display: flex; gap: 16px; align-items: center; padding: 14px 18px; }
+.node .icon { width: 50px; height: 50px; } .node .icon svg { width: 26px; height: 26px; }
+.node h2 { font-size: 21px; } .node p { font-size: 16px; color: var(--muted); }
+.mid .icon { background: #5b8bd6; } .end .icon { background: var(--amber); }
+.note { margin-top: 22px; padding: 14px 18px; font-size: 17px; line-height: 1.45; }
+.note strong { color: var(--navy); }
+</style></head><body>
+<div class="fig">
+  <p class="eyebrow">How it connects</p>
+  <h1>Talk to Hermes from your phone</h1>
+  <div class="chain">
+    <div class="card node"><div class="icon"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div><div><h2>You, in Telegram</h2><p>Send a message or /pause from anywhere</p></div></div>
+    <div class="arrow"><svg viewBox="0 0 24 34"><path d="M12 2v28M5 23l7 7 7-7"/></svg></div>
+    <div class="card node mid"><div class="icon"><svg viewBox="0 0 24 24"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"/><path d="M9 13l9-6"/></svg></div><div><h2>Your bot</h2><p>A private Telegram chat you create with BotFather</p></div></div>
+    <div class="arrow"><svg viewBox="0 0 24 34"><path d="M12 2v28M5 23l7 7 7-7"/></svg></div>
+    <div class="card node end"><div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div><div><h2>Hermes on your computer</h2><p>Reads your message, does the work, replies</p></div></div>
+  </div>
+  <div class="card note"><strong>Two keys lock the door:</strong> the bot token connects Hermes to your bot, and your Telegram ID makes sure only you can talk to it.</div>
+</div></body></html>

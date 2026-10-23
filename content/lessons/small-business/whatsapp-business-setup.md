@@ -267,6 +267,6 @@ You've done the hardest setup in the whole course:
 4. **Two n8n credentials**, one for sending and one for hearing.
 5. **A working trigger** that brings WhatsApp messages into n8n.
 
-**Next lesson:** Build a customer reply assistant. You'll turn your **WhatsApp test** workflow into an assistant that reads each customer question, checks your price list, drafts a friendly answer and waits for your approval before sending.
+**Next lesson:** Guided Telegram setup. You'll connect Telegram to n8n, so your assistants can send you private updates and ask for your approval with one tap on your phone.
 
 Take the quick check below, then mark this lesson complete.
