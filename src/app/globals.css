@@ -88,6 +88,8 @@ button, input, textarea, select { font: inherit; }
 .lesson-prose ul, .lesson-prose ol { padding-left: 1.4rem; }
 .lesson-prose ul { list-style: disc; }
 .lesson-prose ol { list-style: decimal; }
+.lesson-prose li.task-list-item { list-style: none; margin-left: -1.4rem; }
+.lesson-prose li.task-list-item input { width: 1.1rem; height: 1.1rem; margin-right: .6rem; vertical-align: -.15rem; accent-color: var(--ink); }
 .lesson-prose li { margin: .45rem 0; }
 .lesson-prose strong { color: var(--forest); }
 .lesson-prose blockquote { margin: 1.5rem 0; border-left: 4px solid var(--amber); padding: .4rem 0 .4rem 1.2rem; color: var(--muted); }
@@ -123,6 +125,10 @@ button, input, textarea, select { font: inherit; }
 .lesson-prose .copy-button:focus-visible { outline: 3px solid #c8742b; outline-offset: 2px; }
 .lesson-prose .lesson-figure { display: block; margin: 1.75rem 0; }
 .lesson-prose .lesson-figure img { margin: 0 auto; border: 1px solid var(--line); background: #fff; }
+.lesson-prose a:not(.lesson-zoom) { color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--amber); }
+@media (max-width: 640px) { .lesson-prose table { font-size: 1rem; line-height: 1.45; } }
+.lesson-prose .lesson-zoom { display: block; cursor: zoom-in; }
+.lesson-prose .lesson-zoom-hint { white-space: nowrap; color: #6b7487; }
 .lesson-prose .lesson-caption { display: block; margin-top: .6rem; font-size: .95rem; line-height: 1.5; color: var(--muted); text-align: center; }
 .lesson-prose ol > li::marker { color: var(--amber); font-weight: 600; }
 

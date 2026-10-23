@@ -17,3 +17,15 @@ strong { font-weight: 600; }
 .arrow { display: flex; justify-content: center; height: 34px; }
 .arrow svg { width: 24px; height: 34px; stroke: var(--amber); stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .label-note { font-size: 13px; color: var(--muted); text-align: right; margin-top: 18px; }
+
+/* Annotated screenshots: .screen crops a 1280x800 capture; .mark and .box use that capture's CSS-pixel coordinates (see screen.js). */
+.screen { position: relative; overflow: hidden; margin-top: 18px; border-radius: 12px; border: 1.5px solid var(--line); background: #fff; }
+.screen > img { position: absolute; max-width: none; }
+.screen .box { position: absolute; border: 3px solid var(--amber); border-radius: 8px; box-shadow: 0 0 0 4px rgba(200,116,43,.18); }
+.screen .mark { position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%; background: var(--amber); color: #fff; font-weight: 600; font-size: 18px; display: flex; align-items: center; justify-content: center; border: 3px solid #fff; box-shadow: 0 2px 6px rgba(16,41,79,.3); }
+.shot-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.shot-head .tag { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.fig.screen-fig { width: 440px; padding: 20px 18px 22px; }
+.steps { margin-top: 14px; display: grid; gap: 8px; }
+.steps li { list-style: none; display: flex; gap: 10px; align-items: flex-start; font-size: 18px; line-height: 1.4; }
+.steps .num { width: 28px; height: 28px; font-size: 15px; }

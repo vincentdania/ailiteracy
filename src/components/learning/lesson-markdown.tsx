@@ -43,7 +43,9 @@ const components: Components = {
     if (typeof src !== "string") return null;
     // eslint-disable-next-line @next/next/no-img-element -- lesson images are static SVG/PNG files of known size
     const image = <img src={src} alt={alt ?? ""} loading="lazy" />;
-    return title ? <span className="lesson-figure">{image}<span className="lesson-caption">{title}</span></span> : image;
+    // Figures open full size in a new tab so screenshots can be zoomed on a phone.
+    const zoomable = <a href={src} target="_blank" rel="noreferrer" className="lesson-zoom">{image}</a>;
+    return title ? <span className="lesson-figure">{zoomable}<span className="lesson-caption">{title} <span className="lesson-zoom-hint">Open full size.</span></span></span> : zoomable;
   },
   a({ href, children }) {
     const external = typeof href === "string" && /^https?:/.test(href);
