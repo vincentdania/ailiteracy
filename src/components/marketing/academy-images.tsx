@@ -18,7 +18,7 @@ const examples = {
 
 export function AcademyPhoto({ person, className }: { person: "owner" | "professional"; className?: string }) {
   const owner = person === "owner";
-  return <figure className={cn("overflow-hidden border border-[#e5ded4] bg-[#f2ece4]", className)}>
+  return <div className={cn("overflow-hidden border border-[#e5ded4] bg-[#f2ece4]", className)}>
     <div className="relative aspect-[3/2] w-full lg:aspect-[4/3]">
       <Image
         src={owner ? "/images/academy/business-owner.png" : "/images/academy/professional.png"}
@@ -29,8 +29,7 @@ export function AcademyPhoto({ person, className }: { person: "owner" | "profess
         className="object-cover"
       />
     </div>
-    <figcaption className="px-4 py-2 text-xs leading-5 text-[#394b63]">AI-generated illustrative photo</figcaption>
-  </figure>;
+  </div>;
 }
 
 export function AssistantExample({ track, className }: { track: Track; className?: string }) {
@@ -39,7 +38,6 @@ export function AssistantExample({ track, className }: { track: Track; className
     <Image src={example.src} alt={example.alt} width={1586} height={992} sizes="(max-width: 1024px) 100vw, 50vw" className="h-auto w-full" />
     <figcaption className="border-t border-[#e5ded4] px-4 py-4 sm:px-6">
       <span className="block font-display text-lg font-semibold text-[#10294f]">{example.title}</span>
-      <span className="mt-1 block text-sm leading-6 text-[#394b63]">Illustrative example of an assistant you could build; this is not a live product screen.</span>
     </figcaption>
   </figure>;
 }

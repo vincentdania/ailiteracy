@@ -12,7 +12,7 @@ These rules apply to the Next.js Academy in `src/`.
 
 - Page background: `#FAF7F2`; primary text and buttons: navy `#10294F`; warm accent: amber `#C8742B`, only for highlights and secondary emphasis. Preserve the official Hyrax wordmark paths.
 - No gradients, glass or blur treatments, glowing effects, stock robot/brain/circuit imagery, emoji bullets, or sparkle icons. Vary section layouts instead of repeating rows of three identical cards.
-- Use the generated Academy photos and assistant concept screens in `public/images/academy/` with visible illustrative captions. These are examples, not actual learners or live product captures. Replace them with approved real photos and permission-safe product captures when available. Never use fabricated proof or student results.
+- The generated Academy photos and assistant concept screens in `public/images/academy/` are visual examples, not actual learners or live product captures. Do not add AI warning captions to these images. Replace them with approved real photos and permission-safe product captures when available. Never claim these images show actual Academy learners, product screens, student results, or testimonials.
 - Apply this design to new public, auth, dashboard, and certificate UI. Follow existing accessibility patterns, including focus states, readable contrast, and mobile layouts.
 
 ## Next.js

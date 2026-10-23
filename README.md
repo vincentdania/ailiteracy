@@ -12,7 +12,7 @@ Next.js 15, React 19 and Prisma learning platform for [learn.hyrax.ng](https://l
 
 ## Typography and visual design
 
-The Academy design rules for future contributors and agents are in [AGENTS.md](AGENTS.md). Fonts are configured in `src/app/layout.tsx` with `next/font/google`: Fraunces 600/700 for headings and Public Sans 400/600 for body and UI, both with `display: "swap"`. The shared palette and type scale live in `src/app/globals.css`. The images in `public/images/academy/` are generated illustrations and must retain their illustrative captions until approved real photography and permission-safe product captures replace them.
+The Academy design rules for future contributors and agents are in [AGENTS.md](AGENTS.md). Fonts are configured in `src/app/layout.tsx` with `next/font/google`: Fraunces 600/700 for headings and Public Sans 400/600 for body and UI, both with `display: "swap"`. The shared palette and type scale live in `src/app/globals.css`. The images in `public/images/academy/` are generated visual examples; do not present them as actual Academy learners or live product captures.
 
 ## Local development
 
