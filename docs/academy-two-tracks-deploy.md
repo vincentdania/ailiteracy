@@ -13,14 +13,24 @@ The dump was verified with `pg_restore --list`, and the media archive was listed
 
 Take another full backup immediately before deploying if the database has changed. The old-course retirement SQL deletes the old course, modules, lessons, attempts, submissions, plans, progress, enrollments, certificates, and associated orders. It preserves every user and admin account. Deleted records can be restored only from a database backup. The schema migration has `down.sql` for the new columns, but Prisma does not execute down migrations automatically.
 
+## Reuse the current Paystack integration
+
+The live Next.js site already has `PAYSTACK_SECRET_KEY`, `PAYSTACK_PUBLIC_KEY`, and `NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY` configured. Keep their existing server `.env` values; do not copy keys into the repository or replace them for this release. The live `NEXTAUTH_URL` is `https://learn.hyrax.ng` and `APP_HOST` is `learn.hyrax.ng`. The existing Traefik host rule forwards all paths to the Next.js app. On 23 October 2026, `GET https://learn.hyrax.ng/api/webhooks/paystack` returned 405 (the route only accepts POST), confirming the public endpoint is reachable.
+
+- Keep the existing application webhook endpoint: `https://learn.hyrax.ng/api/webhooks/paystack`.
+- Keep the existing checkout callback URL: `https://learn.hyrax.ng/api/payments/paystack/callback`.
+- Webhook signatures continue to use `PAYSTACK_SECRET_KEY` and the `x-paystack-signature` header. There is no separate Paystack webhook secret to generate or rotate.
+- The callback is now a status redirect. Only a signed webhook followed by server-side Paystack transaction verification grants or renews access. A matching existing webhook registration in the **Paystack live dashboard** is therefore required. Server files and a reachable endpoint do not reveal the URL saved in Paystack's dashboard; check that exact URL there before release. Do not make a live charge to test it.
+- Existing Paystack keys and webhook routing serve both tracks. The only new Paystack configuration is one distinct ₦20,000 product code for each track (`PAYSTACK_SMALL_BUSINESS_PRODUCT_CODE` and `PAYSTACK_PROFESSIONALS_PRODUCT_CODE`).
+
 ## Before launch
 
 1. Fill all placeholder lessons and copy-and-paste templates in the seeded tracks. The seed keeps existing lesson Markdown on reruns.
 2. Publish a refund policy and replace the marked TODO in both sales pages.
 3. In a Paystack **test** account, run `PAYSTACK_SECRET_KEY=sk_test_... pnpm paystack:create-products:test`. Add the two printed product codes to a test `.env` as `PAYSTACK_SMALL_BUSINESS_PRODUCT_CODE` and `PAYSTACK_PROFESSIONALS_PRODUCT_CODE`.
 4. Test each track checkout with test keys, signed webhook delivery to `/api/webhooks/paystack`, duplicate delivery, renewal, and expiry. Never use a live key for these tests.
-5. Create two matching ₦20,000 products in the Paystack live dashboard for the actual launch, then set their live product codes in the server `.env`. The setup script intentionally blocks live keys.
-6. Keep existing auth, Paystack, support, branding and other environment values. Set `INTEGRATION_MODE=live`, `ALLOW_MOCK_CHECKOUT=false`, `FREE_ENROLLMENT_ENABLED=false`, `SHOW_DEMO_CREDENTIALS=false`, and `ADMIN_PREVIEW_ENABLED=false`. Both new product code variables are required.
+5. Confirm the existing live Paystack dashboard webhook registration points to `https://learn.hyrax.ng/api/webhooks/paystack`. Create two matching ₦20,000 products in that same Paystack account for launch, then set their live product codes in the server `.env`. The setup script intentionally blocks live keys.
+6. Keep existing auth, Paystack keys, callback domain, support, branding and other environment values. Set `INTEGRATION_MODE=live`, `ALLOW_MOCK_CHECKOUT=false`, `FREE_ENROLLMENT_ENABLED=false`, `SHOW_DEMO_CREDENTIALS=false`, and `ADMIN_PREVIEW_ENABLED=false`. Both new product code variables are required.
 
 ## Deploy
 
