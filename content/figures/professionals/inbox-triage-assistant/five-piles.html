@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../../figure.css">
+<style>
+.piles { margin-top: 22px; display: grid; gap: 12px; }
+.pile { padding: 14px 18px; border-left-width: 8px; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: baseline; }
+.pile h2 { font-size: 20px; } .pile p { grid-column: 1 / -1; font-size: 16px; color: var(--muted); line-height: 1.4; }
+.pile .you { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+.p1 { border-left-color: #b8432f; } .p1 .you { color: #b8432f; }
+.p2 { border-left-color: var(--amber); } .p2 .you { color: #a35a1c; }
+.p3 { border-left-color: var(--navy); } .p3 .you { color: var(--navy); }
+.p4 { border-left-color: #6b7f99; } .p4 .you { color: #6b7f99; }
+.p5 { border-left-color: #b9c2cf; } .p5 .you { color: var(--muted); }
+</style></head><body>
+<div class="fig">
+  <p class="eyebrow">How Hermes sorts your inbox</p>
+  <h1>Five piles, one decision each</h1>
+  <div class="piles">
+    <div class="card pile p1"><h2>1 · Needs attention now</h2><span class="you">Today</span><p>Deadlines, money, security and important clients.</p></div>
+    <div class="card pile p2"><h2>2 · Replies to approve</h2><span class="you">You check</span><p>Hermes drafts the answer. You read it, then send it from Gmail.</p></div>
+    <div class="card pile p3"><h2>3 · Actions without a reply</h2><span class="you">Your to-do</span><p>Pay, review, book or file something.</p></div>
+    <div class="card pile p4"><h2>4 · Waiting on others</h2><span class="you">Chase later</span><p>You already replied. Someone else owes you.</p></div>
+    <div class="card pile p5"><h2>5 · Reference and noise</h2><span class="you">Skip</span><p>Newsletters, receipts and notifications.</p></div>
+  </div>
+</div></body></html>
