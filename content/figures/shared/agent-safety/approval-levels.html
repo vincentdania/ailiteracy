@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../../figure.css">
+<style>
+.levels { margin-top: 24px; display: grid; gap: 14px; }
+.level { display: grid; grid-template-columns: 64px 1fr; gap: 18px; padding: 18px 20px; align-items: start; border-left-width: 8px; }
+.dot { width: 56px; height: 56px; border-radius: 50%; }
+.level h2 { font-size: 23px; }
+.level .rule { margin-top: 2px; font-weight: 600; }
+.level ul { margin-top: 8px; padding-left: 20px; }
+.level li { font-size: 17px; color: var(--muted); line-height: 1.5; }
+.green { border-left-color: #146c43; } .green .dot { background: #146c43; } .green h2 span { color: #146c43; }
+.amber { border-left-color: #c8742b; } .amber .dot { background: #c8742b; } .amber h2 span { color: #a35a1c; }
+.red { border-left-color: #b3261e; } .red .dot { background: #b3261e; } .red h2 span { color: #b3261e; }
+.start { margin-top: 10px; display: inline-block; padding: 4px 12px; border-radius: 999px; background: var(--navy); color: #fff; font-size: 14px; font-weight: 600; letter-spacing: .04em; }
+</style></head><body>
+<div class="fig">
+  <p class="eyebrow">Rule 2 · A person approves</p>
+  <h1>Three levels of approval</h1>
+  <div class="levels">
+    <div class="card level green"><div class="dot"></div><div><h2><span>Green</span> · it may act alone</h2><p class="rule">Low risk, stays with you, easy to undo.</p><ul><li>Sort emails into folders</li><li>Summarise notes or a report only you read</li></ul></div></div>
+    <div class="card level amber"><div class="dot"></div><div><h2><span>Amber</span> · you approve each one</h2><p class="rule">Anything that reaches another person.</p><ul><li>Customer replies and follow-ups</li><li>Reminders and client updates</li></ul><span class="start">Every new assistant starts here</span></div></div>
+    <div class="card level red"><div class="dot"></div><div><h2><span>Red</span> · a person always decides</h2><p class="rule">It may prepare the facts, never the decision.</p><ul><li>Money, refunds and discounts</li><li>Legal, medical or job decisions</li><li>Anything that cannot be undone</li></ul></div></div>
+  </div>
+</div></body></html>
