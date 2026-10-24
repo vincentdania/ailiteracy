@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../../figure.css">
+<style>
+.levels { margin-top: 24px; display: grid; gap: 14px; }
+.level { display: grid; grid-template-columns: 64px 1fr; gap: 18px; padding: 18px 20px; align-items: start; border-left-width: 8px; }
+.dot { width: 56px; height: 56px; border-radius: 50%; }
+.level h2 { font-size: 23px; }
+.level .rule { margin-top: 2px; font-weight: 600; }
+.level ul { margin-top: 8px; padding-left: 20px; }
+.level li { font-size: 17px; color: var(--muted); line-height: 1.5; }
+.green { border-left-color: #146c43; } .green .dot { background: #146c43; } .green h2 span { color: #146c43; }
+.amber { border-left-color: #c8742b; } .amber .dot { background: #c8742b; } .amber h2 span { color: #a35a1c; }
+.red { border-left-color: #b3261e; } .red .dot { background: #b3261e; } .red h2 span { color: #b3261e; }
+</style></head><body>
+<div class="fig">
+  <p class="eyebrow">Before you paste anything</p>
+  <h1>What can Hermes see?</h1>
+  <div class="levels">
+    <div class="card level green"><div class="dot"></div><div><h2><span>Green</span> · share freely</h2><p class="rule">It's yours, or it's already public.</p><ul><li>Your own notes, drafts and ideas</li><li>A client's public website or brochure</li><li>General questions about your work</li></ul></div></div>
+    <div class="card level amber"><div class="dot"></div><div><h2><span>Amber</span> · share with care</h2><p class="rule">Use roles, not names. Only what the task needs.</p><ul><li>Client names, projects and prices</li><li>Meeting notes and email threads</li><li>Check the client's contract allows it</li></ul></div></div>
+    <div class="card level red"><div class="dot"></div><div><h2><span>Red</span> · never paste it</h2><p class="rule">If it leaked, someone could be harmed.</p><ul><li>Passwords, PINs and bank or card details</li><li>ID numbers, like NIN or BVN</li><li>Health records, and anything under an NDA</li></ul></div></div>
+  </div>
+</div></body></html>
