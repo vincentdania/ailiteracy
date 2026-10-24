@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../../figure.css">
+<style>
+.fig { width: 640px; }
+.pair { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.cap { font-size: 14px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-align: center; margin-bottom: 8px; }
+.phone { border: 8px solid var(--navy); border-radius: 30px; overflow: hidden; }
+.top { padding: 10px 12px; display: flex; gap: 8px; align-items: center; border-bottom: 1px solid var(--line); background: #fff; }
+.av { width: 28px; height: 28px; border-radius: 50%; color: #fff; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex: none; }
+.top b { font-size: 14px; display: block; } .top span { font-size: 11px; color: var(--muted); }
+.chat { padding: 12px 10px 14px; display: grid; gap: 8px; align-content: start; min-height: 360px; }
+.wa .chat { background: #efe9e1; } .tg .chat { background: #e9edf2; }
+.msg { position: relative; max-width: 90%; padding: 8px 10px; border-radius: 10px; background: #fff; font-size: 13px; line-height: 1.4; }
+.msg.me { justify-self: end; background: #dcf3d8; }
+.msg small { display: block; color: var(--muted); font-size: 11px; margin-top: 4px; }
+.btns { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; max-width: 90%; }
+.btns span { position: relative; background: #f6f8fb; border: 1.5px solid #cfd6e1; border-radius: 8px; text-align: center; padding: 5px; font-size: 13px; font-weight: 600; color: #2a5ea8; }
+.btns span.hl { outline: 3px solid var(--amber); outline-offset: 2px; }
+.ok { font-size: 12px; color: #2f7d4f; font-weight: 600; margin-top: 6px; }
+.pin { position: absolute; left: -12px; top: -12px; width: 26px; height: 26px; font-size: 14px; border-radius: 50%; background: var(--amber); color: #fff; font-weight: 600; display: flex; align-items: center; justify-content: center; border: 2.5px solid #fff; box-shadow: 0 2px 6px rgba(16,41,79,.3); }
+.msg.me .pin { left: auto; right: -12px; }
+.legend { margin-top: 18px; display: grid; gap: 8px; }
+.legend li { list-style: none; display: flex; gap: 10px; align-items: flex-start; font-size: 17px; line-height: 1.4; }
+.legend .num { width: 28px; height: 28px; font-size: 15px; }
+.note { margin-top: 14px; font-size: 14px; color: var(--muted); }
+
+.btn1 { position: relative; max-width: 90%; background: #f6f8fb; border: 1.5px solid #cfd6e1; border-radius: 8px; text-align: center; padding: 6px; font-size: 13px; font-weight: 600; color: #2a5ea8; outline: 3px solid var(--amber); outline-offset: 2px; }
+.wa .chat { min-height: 300px; }
+.empty { font-size: 12px; color: var(--muted); text-align: center; background: #fff8; border-radius: 8px; padding: 6px; }
+.compose { display: flex; gap: 8px; align-items: flex-end; padding: 8px; background: #efe9e1; border-top: 1px solid var(--line); }
+.compose .box { position: relative; flex: 1; background: #fff; border-radius: 14px; padding: 8px 10px; font-size: 13px; line-height: 1.4; outline: 3px solid var(--amber); outline-offset: 1px; }
+.send { position: relative; width: 34px; height: 34px; border-radius: 50%; background: #2f7d4f; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 15px; flex: none; }
+.send .pin { left: auto; right: -12px; }
+</style></head><body>
+<div class="fig">
+  <p class="eyebrow">What happens every morning</p>
+  <h1>n8n writes it. You check it. You send it.</h1>
+  <div class="pair">
+    <div><p class="cap">Your Telegram</p><div class="phone tg">
+      <div class="top"><div class="av" style="background:#5b8bd6">SA</div><div><b>Sunrise Assistant</b><span>bot</span></div></div>
+      <div class="chat">
+        <div class="msg"><span class="pin">1</span>Time to follow up with Chioma Okafor.<br>They wanted: Wedding cake for 150 guests<br><br>Suggested message:<br>Hi Chioma, it's Amaka from Sunrise Bakery. I hope the wedding plans are going well! I'd love to help with your cake for 150 guests on 14 December. Would you like to come in for a free tasting this week, so we can agree the design and price?</div>
+        <div class="btn1">Open in WhatsApp ↗<i class="pin" style="font-style:normal">2</i></div>
+      </div></div></div>
+    <div><p class="cap">Your WhatsApp</p><div class="phone wa">
+      <div class="top"><div class="av" style="background:#c0712b">CO</div><div><b>Chioma Okafor</b><span>+234 802 123 4567</span></div></div>
+      <div class="chat"><div class="empty">Your earlier chats with Chioma appear here</div></div>
+      <div class="compose"><div class="box"><span class="pin">3</span>Hi Chioma, it's Amaka from Sunrise Bakery. I hope the wedding plans are going well! I'd love to help with your cake for 150 guests on 14 December. Would you like to come in for a free tasting this week…</div><div class="send">➤<span class="pin">4</span></div></div>
+    </div></div>
+  </div>
+  <ol class="legend">
+    <li><span class="num">1</span><span>At 9am, n8n sends you each lead that's due, with a message ready</span></li>
+    <li><span class="num">2</span><span>Tap <strong>Open in WhatsApp</strong></span></li>
+    <li><span class="num">3</span><span>WhatsApp opens your chat with the lead, with the message already typed. Edit it if you like</span></li>
+    <li><span class="num">4</span><span>Press send. The message comes from you, so nothing goes out without you</span></li>
+  </ol>
+  <p class="note">Simplified illustration of Telegram and WhatsApp.</p>
+</div></body></html>
