@@ -158,7 +158,7 @@ You don't need your laptop. Send your notes to your Hermes bot in Telegram, whil
 
 ## Tip: never miss an update
 
-Combine this with what you learned in the morning briefing lesson. In **Scheduled jobs** (**Ctrl+K** or **Cmd+K**, type `cron`), create a job for **Fridays at 3pm** with this prompt:
+Combine this with what you learned in the morning briefing lesson. In **Scheduled jobs** (**Ctrl+K** or **Cmd+K**, type `cron`), create a **Custom** job with the schedule `every friday at 3pm` and this prompt:
 
 ```text
 Remind me to send this week's client updates. List my active clients from my memory. Do not send anything.
