@@ -2,12 +2,13 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { Prisma, PrismaClient } from "@prisma/client";
 import matter from "gray-matter";
+import { PATHWAYS } from "../src/lib/pathways";
 import { TRACK_PRICE_NGN, TRACKS } from "../src/lib/tracks";
 
 const prisma = new PrismaClient();
 const CONTENT_DIR = path.join(__dirname, "..", "content", "lessons");
 
-/** A written lesson lives in content/lessons/<track>/<slug>.md, or content/lessons/shared/ when both tracks use it. */
+/** A written lesson lives in content/lessons/<course>/<slug>.md, or content/lessons/shared/ when several courses use it. */
 function lessonFile(trackSlug: string, lessonSlug: string) {
   for (const folder of [trackSlug, "shared"]) {
     const file = path.join(CONTENT_DIR, folder, `${lessonSlug}.md`);
@@ -22,27 +23,37 @@ function lessonFile(trackSlug: string, lessonSlug: string) {
   return null;
 }
 
+type CourseDefinition = {
+  slug: string;
+  title: string;
+  description: string;
+  priceNgn: number;
+  isPublished: boolean;
+  productCode: string;
+  modules: readonly { title: string; lessons: readonly { slug: string; title: string }[] }[];
+};
+
+const COURSES: CourseDefinition[] = [
+  ...TRACKS.map((track) => ({ slug: track.slug, title: track.title, description: track.subline, priceNgn: TRACK_PRICE_NGN, isPublished: true, productCode: track.productCode, modules: track.modules })),
+  // Competence pathways stay unpublished and unpriced until a cohort is launched.
+  ...PATHWAYS.map((pathway) => ({ slug: pathway.slug, title: pathway.title, description: pathway.purpose, priceNgn: 0, isPublished: false, productCode: pathway.productCode, modules: pathway.modules })),
+];
+
 async function seed() {
-  for (const track of TRACKS) {
+  for (const track of COURSES) {
+    const details = {
+      title: track.title,
+      description: track.description,
+      priceNgn: track.priceNgn,
+      priceUsd: 0,
+      isPublished: track.isPublished,
+      paystackProductCode: track.productCode,
+    };
     const course = await prisma.course.upsert({
       where: { slug: track.slug },
-      update: {
-        title: track.title,
-        description: track.subline,
-        priceNgn: TRACK_PRICE_NGN,
-        priceUsd: 0,
-        isPublished: true,
-        paystackProductCode: track.productCode,
-      },
-      create: {
-        slug: track.slug,
-        title: track.title,
-        description: track.subline,
-        priceNgn: TRACK_PRICE_NGN,
-        priceUsd: 0,
-        isPublished: true,
-        paystackProductCode: track.productCode,
-      },
+      // Never unpublish or reprice a course from the seed once it has been launched by hand.
+      update: track.isPublished ? details : { title: details.title, description: details.description, paystackProductCode: details.paystackProductCode },
+      create: { slug: track.slug, ...details },
     });
     let dayNumber = 0;
     for (const [orderIndex, definition] of track.modules.entries()) {
@@ -78,7 +89,7 @@ async function seed() {
     }
     const placed = await prisma.lesson.findMany({ where: { module: { courseId: course.id }, dayNumber: { lt: 0 } }, select: { id: true, dayNumber: true } });
     for (const lesson of placed) await prisma.lesson.update({ where: { id: lesson.id }, data: { dayNumber: -lesson.dayNumber } });
-    console.info(`Seeded track ${track.slug} with ${dayNumber} lessons.`);
+    console.info(`Seeded ${track.isPublished ? "track" : "draft course"} ${track.slug} with ${dayNumber} lessons.`);
   }
 }
 
