@@ -25,3 +25,17 @@ A few sentences on what to do.
 Every numbered item under **What to submit** becomes its own box on the submission form, labelled with the bold words and the rest as the hint. The site's checks use these: every box must be filled in before the deadline, and a scan blocks anything that looks like an API key, a bot token or a phone number.
 
 Apply assignments have a single box, 250 to 400 words.
+
+## Competence pathways
+
+The four competence pathways (`ai-business-growth`, `ai-business-automation`, `ai-meal-data-analysis`, `ai-project-delivery`) use the same folder layout and `### What to submit` format, with these differences from the handbook they follow (see `docs/pathways/README.md`):
+
+```
+content/assignments/<pathway>/baseline.md    # week 0: diagnostic baseline, not scored
+content/assignments/<pathway>/week-<n>.md    # weeks 1 to 7: evidence + revision; week 8: independent assessment
+content/assignments/<pathway>/portfolio.md   # graduate portfolio, submitted in week 8
+```
+
+- Frontmatter uses `pathway:` instead of `track:`, and weekly briefs add `evidence:`, the handbook's required practical evidence for that week.
+- Each week has an **Evidence** section and a **Revision** section (after written mentor feedback) instead of build and apply.
+- Pathway work **is** assessed: mentors score weekly evidence against the rubric, and an independent assessor makes the week 8 decision (80% overall plus mandatory passes). The no-grading rule above applies only to the two self-paced tracks.
